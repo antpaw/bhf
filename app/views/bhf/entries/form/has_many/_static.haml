@@ -1,0 +1,7 @@
+.node
+  .label
+    %p= reflection.name
+  .input
+    %ul
+      - f.object.send(reflection.name).each do |obj|
+        %li= link_to obj, edit_entry_path(obj)

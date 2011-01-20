@@ -1,0 +1,5 @@
+.node
+  .label
+    %p= reflection.name
+  .input
+    = link_to f.object, edit_entry_path(f.object.send(reflection.name))

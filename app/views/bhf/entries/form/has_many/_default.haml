@@ -1,0 +1,9 @@
+.node
+  .label
+    %p= reflection.name
+  .input
+    %ul
+      - reflection.name.to_s.singularize.camelize.constantize.all.each do |obj|
+        %li
+          = check_box_tag "has_many[#{obj.class.to_s.pluralize.underscore}][#{obj.id}]", obj
+          = label_tag "has_many_#{obj.class.to_s.pluralize.underscore}_#{obj.id}", obj

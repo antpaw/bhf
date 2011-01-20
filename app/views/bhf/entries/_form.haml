@@ -1,0 +1,11 @@
+= form_for @object, :url => @form_url do |f|
+  - @model.reflections.each_pair do |name, reflection|
+    = render :partial => "bhf/entries/form/#{reflection.macro}/default", :locals => {:f => f, :reflection => reflection}
+  
+  - @model.columns_hash.each_pair do |name, column|
+    -# TODO: fallback for missing partials
+    - type = [:integer, :float, :boolean, :text, :datetime].include?(column.type) ? column.type : 'default'
+    = render :partial => "bhf/entries/form/column/#{type}", :locals => {:f => f, :column => column}
+
+  .node
+    .input= f.submit
