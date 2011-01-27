@@ -1,0 +1,7 @@
+.node
+  .label
+    %p= field.reflection.klass.to_bhf_s
+  .input
+    %ul
+      - field.reflection.klass.all.each do |obj|
+        %li= f.many_to_many_check_box obj, field.reflection.name, params

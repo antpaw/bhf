@@ -1,7 +1,7 @@
 .node
   .label
-    %p= reflection.name
+    %p= field.reflection.name
   .input
     %ul
-      - f.object.send(reflection.name).each do |obj|
-        %li= link_to obj, edit_entry_path(obj)
+      - f.object.send(field.reflection.name).each do |obj|
+        %li= obj.to_bhf_s

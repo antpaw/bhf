@@ -2,7 +2,7 @@ module Bhf
   class Engine < Rails::Engine
 
     config.mount_at = '/bhf'
-    config.widget_factory_name = 'Factory Name'
+    config.page_title = 'Bahhof Admin'
         
   end
 end

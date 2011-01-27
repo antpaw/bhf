@@ -1,5 +1,4 @@
 module Bhf
-
   module BhfHelper
 
     def node(f, column, &block)
@@ -7,6 +6,4 @@ module Bhf
     end
 
   end
-  
 end
-

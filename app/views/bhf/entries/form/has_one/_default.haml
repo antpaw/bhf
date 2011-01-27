@@ -1,9 +1,0 @@
-.node
-  .label
-    %p= reflection.name
-  .input
-    %ul
-      - reflection.name.to_s.singularize.camelize.constantize.all.each do |obj|
-        %li
-          = radio_button_tag "#{f.object.class.to_s.singularize.underscore}[#{obj.class.to_s.underscore}][]", 1, false, :id => "#{f.object.class.to_s.singularize.underscore}_#{obj.class.to_s.underscore}_#{obj.id}"
-          = f.label "#{obj.class.to_s.underscore}_#{obj.id}", obj

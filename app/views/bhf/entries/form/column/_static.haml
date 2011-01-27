@@ -1,2 +1,4 @@
-= node f, column do
-  = f.object.send column.name
+- value = f.object.send field.name
+- if value
+  = node f, field do
+    = value

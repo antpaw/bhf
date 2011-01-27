@@ -1,0 +1,24 @@
+%h2 Content
+- @platforms.each do |platform|
+  .platform
+    %h4= platform.title
+    %p= link_to 'create new', new_entry_path(platform.name)
+    
+    %table
+      %thead
+        %tr
+          - platform.columns.each do |column|
+            -# TODO: +i18n -humanize
+            %th{:class => column.name}= column.name.to_s.humanize
+          %th edit
+      %tfoot
+        %tr
+          %td{:colspan => platform.columns.count+1}
+            foot
+      %tbody
+        - platform.objects.each do |object|
+          %tr
+            - platform.columns.each do |column|
+              %td= render :partial => "bhf/pages/macro/#{column.macro}", :locals => {:column => column, :object => object, :platform => platform}
+
+            %td= link_to 'edit', edit_entry_path(platform.name, object)

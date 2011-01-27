@@ -1,5 +1,5 @@
 class Bhf::EntriesController < Bhf::BhfController
-  before_filter :load_model
+  before_filter :load_platform, :load_model
   before_filter :load_object, :except => [:create, :new]
   
   def show
@@ -8,12 +8,12 @@ class Bhf::EntriesController < Bhf::BhfController
   
   def new
     @object = @model.new
-    @form_url = new_entry_path(@object)
+    @form_url = entries_path(@platform.name, @model)
     split_object
   end
   
   def edit
-    @form_url = entry_path(@object)
+    @form_url = entry_path(@platform.name, @object)
     split_object
   end
   
@@ -21,32 +21,26 @@ class Bhf::EntriesController < Bhf::BhfController
     @object = @model.new(params[@model_sym])
     
     if @object.save
-      redirect_to(entry_path(@object), :notice => 'yay')
+      manage_many_to_many
+      
+      redirect_to(entry_path(@platform.name, @object), :notice => 'yay')
     else
-      render :action => 'new'
+      @form_url = entries_path(@platform.name, @model)
+      split_object
+      render :new
     end
   end
 
   def update
-    if params[:belongs_to]
-      params[:belongs_to].each_pair do |relation, id|
-        params[@model_sym][relation] = id
-      end
-    end
-    
+
     if @object.update_attributes(params[@model_sym])
-      if params[:has_and_belongs_to_many]
-        params[:has_and_belongs_to_many].each_pair do |relation, ids|
-          @object.send(relation).delete_all
-          relation.singularize.camelize.constantize.find(ids.values).each do |relation_obj|
-            @object.send(relation) << relation_obj
-          end
-        end
-      end
-      
-      redirect_to(entry_path(@object), :notice => 'yaea')
+      manage_many_to_many
+
+      redirect_to(entry_path(@platform.name, @object), :notice => 'yaea')
     else
-      render :action => 'edit'
+      @form_url = entry_path(@platform.name, @object)
+      split_object
+      render :edit
     end
   end
   
@@ -56,9 +50,13 @@ class Bhf::EntriesController < Bhf::BhfController
   end
 
 private
+  def load_platform
+    @platform = @config.find_platform(params[:platform])
+  end
+  
   def load_model
-    @model = params[:source].camelize.constantize
-    @model_sym = @model.to_s.singularize.underscore.to_sym
+    @model = @platform.model
+    @model_sym = @model.to_s.underscore.to_sym
   end
   
   def load_object
@@ -66,12 +64,24 @@ private
   end
   
   def split_object
-    @collection = {}
-    @model.columns_hash.each_pair do |name, props|
-      #@collection[name.to_sym] = 
+    @collection = @platform.collection
+  end
+  
+  def manage_many_to_many
+    return unless params[:has_and_belongs_to_many]
+    params[:has_and_belongs_to_many].each_pair do |relation, ids|
+      reflection = @model.reflections[relation.to_sym]
+      
+      @object.send(reflection.name).delete_all
+      
+      ids = ids.values.reject(&:blank?)
+      
+      return if ids.blank?
+      
+      reflection.klass.find(ids).each do |relation_obj|
+        @object.send(relation) << relation_obj
+      end
     end
-    #@model.reflections.each_pair do |name, props|
   end
   
 end
-

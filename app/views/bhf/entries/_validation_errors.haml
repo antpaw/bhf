@@ -1,0 +1,5 @@
+.node.errors
+  %h5= t('a')
+  %ul
+    - f.object.errors.each_pair do |name, message|
+      %li= f.error_label name, message

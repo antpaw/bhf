@@ -3,35 +3,35 @@ Rails.application.routes.draw do
   namespace :bhf, :path => Bhf::Engine.config.mount_at do
     root :to => 'bhf#index'
     
-    get 'page/:slug', :to => 'pages#show', :as => :page
+    get 'page/:page', :to => 'pages#show', :as => :page
     
-    scope ':source' do
+    scope ':platform' do
       resources :entries, :except => [:index]
     end
     
     # resources :entries do
     #   collection do
-    #     get  ':source', :action => 'index'
+    #     get  ':platform', :action => 'index'
     #   end
     # end
     
     # resource :entry, :only => [] do
-    #   get  ':source/new', :action => 'new',    :as => :new
-    #   post ':source',     :action => 'create'
+    #   get  ':platform/new', :action => 'new',    :as => :new
+    #   post ':platform',     :action => 'create'
     #   member do
-    #     get    ':source/:id/edit', :action => 'edit',  :as => :edit
-    #     get    ':source/:id',      :action => 'show',  :as => ''
-    #     put    ':source/:id',      :action => 'update'
-    #     delete ':source/:id',      :action => 'destroy'
+    #     get    ':platform/:id/edit', :action => 'edit',  :as => :edit
+    #     get    ':platform/:id',      :action => 'show',  :as => ''
+    #     put    ':platform/:id',      :action => 'update'
+    #     delete ':platform/:id',      :action => 'destroy'
     #   end
     # end
     
-    # get     'crud/:source',           :to => 'crud#index',   :as => :list_entries
-    # post    'crud/:source',           :to => 'crud#create',  :as => :create_entry
-    # get     'crud/:source/:id',       :to => 'crud#show',    :as => :show_entry
-    # get     'crud/:source/:id/edit',  :to => 'crud#edit',    :as => :edit
-    # put     'crud/:source/:id',       :to => 'crud#update',  :as => :edit_entry
-    # delete  'crud/:source/:id',       :to => 'crud#delete',  :as => :delete_entry
+    # get     'crud/:platform',           :to => 'crud#index',   :as => :list_entries
+    # post    'crud/:platform',           :to => 'crud#create',  :as => :create_entry
+    # get     'crud/:platform/:id',       :to => 'crud#show',    :as => :show_entry
+    # get     'crud/:platform/:id/edit',  :to => 'crud#edit',    :as => :edit
+    # put     'crud/:platform/:id',       :to => 'crud#update',  :as => :edit_entry
+    # delete  'crud/:platform/:id',       :to => 'crud#delete',  :as => :delete_entry
   end
 
 end

@@ -1,5 +1,6 @@
+- obj = f.object.send(field.reflection.name)
 .node
   .label
-    %p= reflection.name
+    %p= field.reflection.name
   .input
-    = link_to f.object, edit_entry_path(f.object.send(reflection.name))
+    = obj.to_bhf_s

@@ -1,5 +1,13 @@
+- ref_object = f.object.send(field.reflection.name)
 .node
   .label
-    %p= reflection.name
+    %p
+      - if ref_object
+        = ref_object.to_bhf_s
+      - else
+        = field.reflection.klass.to_bhf_s
   .input
-    = link_to f.object, edit_entry_path(f.object.send(reflection.name))
+    - if ref_object
+      = ref_object.to_bhf_s
+    - else
+      empty

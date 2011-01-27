@@ -21,9 +21,6 @@ body {
 ol, ul {
   list-style: none; }
 
-:focus {
-  outline: 0; }
-
 ins {
   text-decoration: none; }
 
@@ -39,8 +36,29 @@ body {
   font-size: 14px;
   padding: 40px; }
 
-form ul,
-form p {
-  padding: 10px 0px; }
-form p {
+header {
+  display: block;
+  overflow: hidden;
+  clear: both;
+  margin-bottom: 40px; }
+  header li {
+    float: left;
+    margin-right: 20px;
+    font-size: 20px; }
+    header li.active a {
+      color: green; }
+
+form .node {
+  padding: 10px 0px;
   border-top: 1px solid #cccccc; }
+
+form .errors label {
+  color: red;
+  cursor: pointer;
+  display: block; }
+  form .errors label:hover {
+    color: #ff9900; }
+form .label .field_with_errors {
+  color: red; }
+form .input .field_with_errors input {
+  border-color: red; }
