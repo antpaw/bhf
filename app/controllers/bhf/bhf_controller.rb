@@ -1,8 +1,10 @@
 class Bhf::BhfController < ActionController::Base
+  
+  protect_from_forgery
+  
+  before_filter :check_admin_account, :load_config
 
-  before_filter :load_config
-
-  helper_method :entry_path, :edit_entry_path, :new_entry_path
+  helper_method :entry_path, :new_entry_path, :entries_path, :edit_entry_path
   layout 'bhf'
 
   def index
@@ -11,6 +13,16 @@ class Bhf::BhfController < ActionController::Base
 
 
 private
+
+  def check_admin_account
+    auth_logic = Bhf::Engine.config.auth_logic_from.constantize.new
+    
+    if auth_logic.respond_to?(:current_admin_account) && auth_logic.current_admin_account
+      return true
+    else
+      redirect_to(root_url) and return false
+    end
+  end
 
   def load_config
     @config = Bhf::Settings::Pages.new(
