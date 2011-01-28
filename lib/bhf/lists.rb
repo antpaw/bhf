@@ -2,11 +2,14 @@ module Bhf
   module Lists
     
     class Column
-      attr_accessor :name, :macro
-      def initialize(name, macro)
+      
+      attr_accessor :name, :field
+      
+      def initialize(name, field)
         @name = name
-        @macro = macro
+        @field = field
       end
+      
     end
     
     class Platform
@@ -35,7 +38,7 @@ module Bhf
       def columns
         collection_content = {}
         collection.each do |field|
-          collection_content[field.name] = field.macro
+          collection_content[field.name] = field
         end
         
         if table && table['columns']

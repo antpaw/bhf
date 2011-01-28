@@ -23,8 +23,7 @@ def load_schema
   ActiveRecord::Base.establish_connection( config['mysql'] )
   ActiveRecord::Base.connection()
   
-  load(File.dirname(__FILE__) + "/../" +
-    "lib/rails/generators/bhf/templates/schema.rb")
+  load(File.dirname(__FILE__) + "/../lib/rails/generators/bhf/templates/schema.rb")
 
   @@fixtures = {}
   

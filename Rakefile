@@ -7,13 +7,13 @@ end
 
 
 begin
-  require "jeweler"
+  require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name = "bhf"
-    gem.summary = "Agnostic rails backend"
+    gem.name = 'bhf'
+    gem.summary = 'Agnostic rails backend'
     gem.description = 'Gets you there in time'
-    gem.email = "anton.pawlik@gmail.com"
-    gem.authors = ["Anton Pawlik"]
+    gem.email = 'anton.pawlik@gmail.com'
+    gem.authors = ['Anton Pawlik']
     gem.files = Dir["{lib}/**/*", "{app}/**/*", "{public}/**/*", "{config}/**/*"]
     gem.homepage = 'http://github.com/antpaw/bahnhof'
     gem.rubyforge_project = 'nowarning'
@@ -22,5 +22,5 @@ begin
   end
   Jeweler::GemcutterTasks.new
 rescue
-  puts "Jeweler or dependency not available."
+  puts 'Jeweler or dependency not available.'
 end

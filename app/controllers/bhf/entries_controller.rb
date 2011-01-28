@@ -32,7 +32,6 @@ class Bhf::EntriesController < Bhf::BhfController
   end
 
   def update
-
     if @object.update_attributes(params[@model_sym])
       manage_many_to_many
 
@@ -56,7 +55,7 @@ private
   
   def load_model
     @model = @platform.model
-    @model_sym = @model.to_s.underscore.to_sym
+    @model_sym = ActiveModel::Naming.singular(@model).to_sym
   end
   
   def load_object
