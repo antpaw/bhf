@@ -1,10 +1,11 @@
 = form_for @object, :url => @form_url, :builder => Bhf::Form::Builder do |f|
   
-  - unless f.object.errors.blank?
+  - if f.object.errors.any?
     = render :partial => 'validation_errors', :locals => {:f => f}
   
   - @collection.each do |field|
-    = render :partial => "bhf/entries/form/#{field.macro}/#{field.form_type}", :locals => {:f => f, :field => field}
+    - unless field.form_type === :hidden
+      = render :partial => "bhf/entries/form/#{field.macro}/#{field.form_type}", :locals => {:f => f, :field => field}
 
   .node
     .input= f.submit

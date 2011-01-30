@@ -2,9 +2,7 @@
 - @platforms.each do |platform|
   .platform
     %h4= platform.title
-    
     %p= link_to new_t(platform), new_entry_path(platform.name)
-    
     %table
       %thead
         %tr

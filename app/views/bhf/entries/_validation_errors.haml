@@ -1,6 +1,6 @@
 .node.errors
-  - # TODO: how does errors header i18n work?
-  %h5= t('a')
+  -# TODO: i18n this
+  %h5= "#{pluralize(f.object.errors.count, 'error')} prohibited this #{f.object.class.to_bhf_s} from being saved:"
   %ul
     - f.object.errors.each_pair do |name, message|
       %li= f.error_label name, message

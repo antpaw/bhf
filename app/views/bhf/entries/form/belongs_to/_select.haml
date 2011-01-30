@@ -1,9 +1,7 @@
 - fk = field.reflection.association_foreign_key
-- select_opts = options_from_collection_for_select(field.reflection.klass.all, :id, :to_bhf_s, f.object.send(fk))
 
 .node
   .label= f.label fk
   .input
-    = f.select fk, select_opts
+    = f.select fk, options_from_collection_for_select(field.reflection.klass.all, :id, :to_bhf_s, f.object.send(fk))
     = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => fk}
-    

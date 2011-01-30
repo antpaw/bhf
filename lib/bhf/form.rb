@@ -62,8 +62,6 @@ module Bhf
       end
 
       def display_type
-        return @overwrite_type if @overwrite_type && @overwrite_type != :static
-
         if name === @primary_key
           :primary_key
         elsif name === 'updated_at' || name === 'created_at'
@@ -126,8 +124,6 @@ module Bhf
       end
 
       def display_type
-        return @overwrite_type if @overwrite_type
-
         :default
       end
       

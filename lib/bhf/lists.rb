@@ -18,14 +18,13 @@ module Bhf
       
       def initialize(settings)
         @name = settings.keys[0]
-        @title = I18n.t("bhf.platforms.#{settings.keys[0]}.title", :page => settings.keys[0].humanize, :default => I18n.t('bhf.platforms.title'))
+        @title = I18n.t("bhf.platforms.#{@name}.title", :page => @name.humanize, :default => I18n.t('bhf.platforms.title'))
         @data = settings.values[0]
       end
       
       def objects
         if table
           if table['source']
-            # TODO: arguments for method with array
             return model.send table['source']
           elsif table['sql']
             return model.find_by_sql table['sql']
@@ -45,11 +44,11 @@ module Bhf
         else
           cols_array = []
           
-          cols_array << 'id' if collection_content['id']
+          cols_array << model.primary_key if collection_content[model.primary_key]
           
           i = 0
           collection.each do |field|
-            unless ['id', 'updated_at', 'created_at'].include?(field.name) or i > 4
+            unless [model.primary_key, 'updated_at', 'created_at'].include?(field.name) or i > 4
               cols_array << field.name
               i += 1
             end
@@ -112,20 +111,24 @@ module Bhf
         id + output.sort_by(&:name) + static_dates
       end
       
+      def table
+        @data['table']
+      end
+    
+      def form
+        @data['form']
+      end
+      
+      def hooks(method)
+        @data['hooks'][method.to_s] if @data['hooks']
+      end
+      
       private
       
         def overwrite_type(attribute)
-          if form && form['types'] && form['types'][attribute]
+          if form && form['types']
             return form['types'][attribute]
           end
-        end
-      
-        def table
-          @data['table']
-        end
-      
-        def form
-          @data['form']
         end
       
     end

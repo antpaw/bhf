@@ -12,17 +12,22 @@ en:
         empty: Empty
       entries:
         empty: Empty
+      login:
+        success: "Login was successful"
+        error: "Can't login"
+      activated:
+        success: "%{model} was activated successfuly"
+        error: "%{model} error"
 
   activerecord:
     notices:
       messages:
-        success:
-          create: "%{model} was created successfuly"
-          activated: "%{model} was activated successfuly"
-          update: "%{model} was updated successfuly"
-          destory: "%{model} was deleted successfuly"
-        error:
-          create: "%{model} "
-          destory: "%{model} "
-          not_found: "%{model} "
-          exists: "%{model} "
+        create:
+          success: "%{model} was created successfuly"
+          error: "%{model} error"
+        update:
+          success: "%{model} was updated successfuly"
+          error: "%{model} error"
+        destory:
+          success: "%{model} was deleted successfuly"
+          error: "%{model} error"
