@@ -1,34 +1,34 @@
-system 'sass --update public/stylesheets/sass:public/stylesheets --style compressed'
-
-
-require 'yui/compressor'
-compressor = YUI::JavaScriptCompressor.new
-
-output = ''
-[
-'public/javascripts/mootools-core-1.3-full-nocompat-yc.js'
-].each do |js_path|
-
-  output << File.open(js_path, 'r').read
-
+task :compile_css
+  system 'sass --update public/stylesheets/sass/bhf.sass:public/stylesheets/bhf.css --style compressed'
 end
 
-[
-'public/javascripts/mootools_rails_driver-0.4.1.js',
-'public/javascripts/class/BrowserUpdate.js', 
-'public/javascripts/class/Ajaxify.js',
-'public/javascripts/bhf_application.js'
-].each do |js_path|
+task :compile_js do
+  require 'yui/compressor'
+  compressor = YUI::JavaScriptCompressor.new
 
-  output << compressor.compress(File.open(js_path, "r").read)
+  output = ''
+  [
+  'public/javascripts/mootools-core-1.3-full-nocompat-yc.js'
+  ].each do |js_path|
+    output << File.open(js_path, 'r').read
+  end
 
+  [
+  'public/javascripts/mootools_rails_driver-0.4.1.js',
+  'public/javascripts/class/BrowserUpdate.js', 
+  'public/javascripts/class/Ajaxify.js',
+  'public/javascripts/bhf_application.js'
+  ].each do |js_path|
+    output << compressor.compress(File.open(js_path, "r").read)
+  end
+
+  # TODO: Zlib::GzipWriter.open('public/javascripts/bhf.js', 'w')
+  File.open('public/javascripts/bhf.js', 'w') do |file|
+    file.write(output)
+  end
 end
-
-# TODO: Zlib::GzipWriter.open('public/javascripts/bhf.js', 'w')
-File.open('public/javascripts/bhf.js', 'w') do |file|
-  file.write(output)
-end
-
+# Rake::Task[:compile_js].invoke
+# Rake::Task[:compile_css].invoke
 
 
 require 'rake/testtask'

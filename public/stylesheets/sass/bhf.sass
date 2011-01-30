@@ -1,5 +1,191 @@
-// sass --watch public/stylesheets/sass:public/stylesheets
+// sass --watch public/stylesheets/sass/bhf.sass:public/stylesheets/bhf.css --style compressed
 
 @import reset
+@import typo
 @import functions
-@import layout
+
+html
+  background-color: #767A80
+
+body
+  color: #424856
+  +text-shadow(#fff)
+
+a
+  color: #333333
+  text-decoration: none
+
+header
+  display: block
+  overflow: hidden
+  clear: both
+  padding: 10px 20px
+  background-color: #414756
+  border-bottom: 1px solid #8C8C8C
+  +box-shadow(0, 0, 3)
+  li
+    float: left
+    font-weight: bold
+    margin-right: 30px
+    &.active
+      a
+        +text-shadow(#fff, -1)
+        +bg-gradient(#D5D5D5, #FFFFFF)
+        +box-shadow(0, 1, 4)
+        +border-radius(2)
+        color: #414756
+        &:hover
+          +bg-gradient(#FFFFFF, #D5D5D5)
+          border-color: #FFFFFF
+          +text-shadow(#fff)
+          +box-inner-shadow(0, 0, 3, #fff)
+    a
+      display: block
+      padding: 5px 20px
+      +border-radius(5)
+      border: 1px solid transparent
+      color: #D8D8D8
+      +text-shadow(#000, -1)
+      &:hover
+        border-color: #2B303C
+        +box-inner-shadow(0, 0, 35, #2B303C)
+      
+#content
+  padding: 40px
+
+#content
+  background: #EAEAEA
+  border: 1px solid #FFFFFF
+  padding: 10px 20px
+  margin: 20px
+  +border-radius(5)
+  +box-shadow(0, 1, 4, rgba(0, 0, 0, 0.5))
+  
+
+.platform
+  padding: 20px 0
+  
+  table
+    width: 100%
+    caption
+      height: 30px
+      padding: 10px 15px 8px 10px
+      border: 1px solid #C6C6C6
+      +bg-gradient(#D4D4D4, #C6C6C6)
+      +border-top-radius(3)
+      h4
+        float: left
+      p
+        float: right
+    thead
+      th
+        padding: 4px 0
+        text-align: left
+        border-top: 1px solid #FFFFFF
+        border-bottom: 1px solid #C6C6C6
+        &.primary_key
+          text-transform: uppercase
+    tbody
+      tr
+        td
+          border-top: 1px solid #FFFFFF
+          border-bottom: 1px solid #C6C6C6
+          a
+            display: block
+            padding: 4px 0
+        &:hover td
+          background-color: #D9D9D9
+            
+    tfoot
+      td
+        border-top: 1px solid #FFFFFF
+    .primary_key,
+    .number
+      padding-right: 10px
+      text-align: right
+    .primary_key
+      width: 50px
+    .edit
+      width: 150px
+    
+form
+  .node
+    display: table-row
+    &:hover
+      .label
+        color: inherit
+      .input
+        input[type="password"],
+        input[type="text"],
+        textarea
+    .input,
+    .label
+      padding-top: 10px
+      vertical-align: top
+      display: table-cell
+    &.string,
+    &.text,
+    &.password
+      .input,
+      .label
+        padding-top: 5px
+      .label
+        label
+          padding-top: 5px
+    .label
+      label
+        display: block
+      width: 200px
+      .field_with_errors
+        color: red
+    &.primary_key
+      .label
+        text-transform: uppercase
+    .input
+      input[type="password"],
+      input[type="text"],
+      textarea
+        border: 1px solid #BBBBBB
+        background: #FFF
+        font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
+        +border-radius(2)
+        padding: 3px 5px 1px 5px
+        width: 300px
+        &:focus
+          +box-shadow(0, 1, 4, rgba(0, 0, 0, 0.5))
+          outline: 0
+      textarea
+        width: 500px
+        height: 200px
+      .errors
+        color: red
+      .field_with_errors
+        input
+          border-color: red
+  .error_explanation
+    label
+      color: red
+      cursor: pointer
+      display: block
+      &:hover
+        color: #ff9900
+
+input[type="submit"],
+.button
+  cursor: pointer
+  display: block
+  text-transform: uppercase
+  +bg-gradient(#FFFFFF, #D5D5D5)
+  +text-shadow(#fff, 1)
+  +box-shadow(0, 1, 2, rgba(0, 0, 0, 0.5))
+  color: #414756
+  border: 1px solid #FFFFFF
+  padding: 5px 20px 3px 20px
+  +border-radius(2)
+  font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-weight: bold
+  font-size: 12px
+  &:hover
+    +text-shadow(#fff, -1)
+    +bg-gradient(#D5D5D5, #FFFFFF)
+    

@@ -13,11 +13,11 @@
     %header
       %ul
         - @config.pages.each do |page|
-          %li{:class => ('active' if params[:page] == page)}
+          %li{:class => ('active' if @page == page)}
             = link_to page, bhf_page_path(page)
 
-    = render :partial => 'bhf/helper/flash', :locals => {:flash => flash}
+    #content
+      = render :partial => 'bhf/helper/flash', :locals => {:flash => flash}
+      = yield
 
-    #content= yield
-    
     %footer

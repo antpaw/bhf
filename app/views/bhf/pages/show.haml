@@ -1,14 +1,16 @@
 %h2= t('bhf.pages.headline')
 - @platforms.each do |platform|
   .platform
-    %h4= platform.title
-    %p= link_to new_t(platform), new_entry_path(platform.name)
     %table
+      %caption
+        %h4= platform.title
+        %p= link_to new_t(platform), new_entry_path(platform.name), :class => 'button'
       %thead
         %tr
           - platform.columns.each do |column|
-            %th{:class => column.field.macro}= platform.model.human_attribute_name(column.name)
-          %th= edit_t(platform)
+            %th{:class => "#{column.field.macro} #{column.field.display_type}"}
+              = platform.model.human_attribute_name(column.name)
+          %th.edit= edit_t(platform)
       %tfoot
         %tr
           %td{:colspan => platform.columns.count+1}
@@ -17,8 +19,8 @@
         - platform.objects.each do |object|
           %tr
             - platform.columns.each do |column|
-              %td
+              %td{:class => "#{column.field.macro} #{column.field.display_type}"}
                 - unless column.field.macro == :column && object.send(column.name).blank?
                   - locals = {:column => column, :object => object, :platform => platform}
                   = render :partial => "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", :locals => locals
-            %td= link_to edit_t(platform), edit_entry_path(platform.name, object)
+            %td.edit= link_to edit_t(platform), edit_entry_path(platform.name, object)

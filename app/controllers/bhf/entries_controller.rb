@@ -1,5 +1,5 @@
 class Bhf::EntriesController < Bhf::BhfController
-  before_filter :load_platform, :load_model
+  before_filter :load_platform, :load_model, :set_page
   before_filter :load_object, :except => [:create, :new]
   
   def new
@@ -93,11 +93,15 @@ class Bhf::EntriesController < Bhf::BhfController
     end
     
     def before_save
-      @object.send(@platform.hooks(:before_save)) if @platform.hooks(:before_save)
+      @object.send(@platform.hooks(:before_save), params) if @platform.hooks(:before_save)
     end
     
     def after_save
-      @object.send(@platform.hooks(:after_save)) if @platform.hooks(:after_save)
+      @object.send(@platform.hooks(:after_save), params) if @platform.hooks(:after_save)
     end
     
+    def set_page
+      @page = @platform.page_name
+    end
+
 end

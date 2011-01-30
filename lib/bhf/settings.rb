@@ -24,7 +24,7 @@ module Bhf
       def find_platform(platform_name)
         pages.each do |page|
           content_for_page(page).each do |platform|
-            bhf_platform = Bhf::Lists::Platform.new(platform)
+            bhf_platform = Bhf::Lists::Platform.new(platform, page)
             return bhf_platform if bhf_platform.name == platform_name
           end
         end

@@ -14,12 +14,13 @@ module Bhf
     
     class Platform
       
-      attr_accessor :name, :title, :data
+      attr_accessor :name, :title, :data, :page_name
       
-      def initialize(settings)
+      def initialize(settings, page_name)
         @name = settings.keys[0]
         @title = I18n.t("bhf.platforms.#{@name}.title", :page => @name.humanize, :default => I18n.t('bhf.platforms.title'))
         @data = settings.values[0]
+        @page_name = page_name
       end
       
       def objects
