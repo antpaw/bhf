@@ -1,6 +1,9 @@
-- obj = f.object.send(field.reflection.name)
+- ref_object = f.object.send(field.reflection.name)
 .node
   .label
-    %p= field.reflection.name
+    %p= f.object.class.human_attribute_name(field.reflection.name)
   .input
-    = obj.to_bhf_s
+    - if ref_object.blank?
+      = t 'bhf.helpers.entry.empty'
+    - else
+      = ref_object.to_bhf_s

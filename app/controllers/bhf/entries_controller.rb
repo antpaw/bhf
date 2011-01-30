@@ -23,7 +23,7 @@ class Bhf::EntriesController < Bhf::BhfController
     if @object.save
       manage_many_to_many
       
-      redirect_to(entry_path(@platform.name, @object), :notice => 'yay')
+      redirect_to(entry_path(@platform.name, @object), :notice => set_message('success.create', @model))
     else
       @form_url = entries_path(@platform.name, @model)
       split_object
@@ -35,7 +35,7 @@ class Bhf::EntriesController < Bhf::BhfController
     if @object.update_attributes(params[@model_sym])
       manage_many_to_many
 
-      redirect_to(entry_path(@platform.name, @object), :notice => 'yaea')
+      redirect_to(entry_path(@platform.name, @object), :notice => set_message('success.update', @model))
     else
       @form_url = entry_path(@platform.name, @object)
       split_object
@@ -45,42 +45,43 @@ class Bhf::EntriesController < Bhf::BhfController
   
   def destroy
     @object.destroy
-    redirect_to(bhf_root)
+    redirect_to(bhf_root, :notice => set_message('success.destory', @model))
   end
 
-private
-  def load_platform
-    @platform = @config.find_platform(params[:platform])
-  end
-  
-  def load_model
-    @model = @platform.model
-    @model_sym = ActiveModel::Naming.singular(@model).to_sym
-  end
-  
-  def load_object
-    @object = @model.find(params[:id])
-  end
-  
-  def split_object
-    @collection = @platform.collection
-  end
-  
-  def manage_many_to_many
-    return unless params[:has_and_belongs_to_many]
-    params[:has_and_belongs_to_many].each_pair do |relation, ids|
-      reflection = @model.reflections[relation.to_sym]
-      
-      @object.send(reflection.name).delete_all
-      
-      ids = ids.values.reject(&:blank?)
-      
-      return if ids.blank?
-      
-      reflection.klass.find(ids).each do |relation_obj|
-        @object.send(relation) << relation_obj
+  private
+
+      def load_platform
+        @platform = @config.find_platform(params[:platform])
       end
-    end
-  end
+  
+      def load_model
+        @model = @platform.model
+        @model_sym = ActiveModel::Naming.singular(@model).to_sym
+      end
+  
+      def load_object
+        @object = @model.find(params[:id])
+      end
+  
+      def split_object
+        @collection = @platform.collection
+      end
+  
+      def manage_many_to_many
+        return unless params[:has_and_belongs_to_many]
+        params[:has_and_belongs_to_many].each_pair do |relation, ids|
+          reflection = @model.reflections[relation.to_sym]
+      
+          @object.send(reflection.name).delete_all
+      
+          ids = ids.values.reject(&:blank?)
+      
+          return if ids.blank?
+      
+          reflection.klass.find(ids).each do |relation_obj|
+            @object.send(relation) << relation_obj
+          end
+        end
+      end
   
 end

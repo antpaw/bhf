@@ -1,9 +1,9 @@
-- #just a test, :has_many shouldn't be editable imo
+- # just a test, :has_many shouldn't be editable imo
 
 - ref_name = field.reflection.name
 .node
   .label
-    %p= ref_name.humanize
+    %p= f.object.class.human_attribute_name(ref_name)
   .input
     %ul
       - field.reflection.klass.all.each do |obj|

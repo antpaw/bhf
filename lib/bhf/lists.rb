@@ -17,9 +17,8 @@ module Bhf
       attr_accessor :name, :title, :data
       
       def initialize(settings)
-        # i18n
         @name = settings.keys[0]
-        @title = settings.keys[0]
+        @title = I18n.t("bhf.platforms.#{settings.keys[0]}.title", :page => settings.keys[0].humanize, :default => I18n.t('bhf.platforms.title'))
         @data = settings.values[0]
       end
       
@@ -69,11 +68,15 @@ module Bhf
         @data['model'].constantize
       end
       
+      def model_name
+        ActiveModel::Naming.singular(model)
+      end
+      
       def collection
         all = {}
         
         model.columns_hash.each_pair do |name, props|
-          all[name] = Bhf::Form::Field.new(props, overwrite_type(name))
+          all[name] = Bhf::Form::Field.new(props, overwrite_type(name), model.primary_key)
         end
 
         model.reflections.each_pair do |name, props|
@@ -92,28 +95,38 @@ module Bhf
           end
         end
         
+        id = []
+        static_dates = []
+        
         output = []
         all.each_pair do |key, value|
-          output << value
+          if key === model.primary_key
+            id << value
+          elsif key === 'created_at' || key === 'updated_at'
+            static_dates << value
+          else
+            output << value
+          end
         end
-        output
+        
+        id + output.sort_by(&:name) + static_dates
       end
       
       private
       
-      def overwrite_type(attribute)
-        if form && form['types'] && form['types'][attribute]
-          return form['types'][attribute]
+        def overwrite_type(attribute)
+          if form && form['types'] && form['types'][attribute]
+            return form['types'][attribute]
+          end
         end
-      end
       
-      def table
-        @data['table']
-      end
+        def table
+          @data['table']
+        end
       
-      def form
-        @data['form']
-      end
+        def form
+          @data['form']
+        end
       
     end
     

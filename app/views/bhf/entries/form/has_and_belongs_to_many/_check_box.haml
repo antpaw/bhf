@@ -1,7 +1,8 @@
 .node
   .label
-    %p= field.reflection.klass.to_bhf_s
+    %p= f.object.class.human_attribute_name(field.reflection.name)
   .input
     %ul
       - field.reflection.klass.all.each do |obj|
         %li= f.many_to_many_check_box obj, field.reflection.name, params
+    = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => field.reflection.name}

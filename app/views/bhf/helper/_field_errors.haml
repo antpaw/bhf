@@ -1,0 +1,4 @@
+- if f.field_has_errors?(field)
+  %ul.errors
+    - f.field_errors(field).each do |error|
+      %li{:style => 'color:red'}= error

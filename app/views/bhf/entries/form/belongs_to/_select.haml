@@ -3,4 +3,7 @@
 
 .node
   .label= f.label fk
-  .input= f.select fk, select_opts
+  .input
+    = f.select fk, select_opts
+    = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => fk}
+    

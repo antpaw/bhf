@@ -1,3 +1,28 @@
 en:
   bhf:
-    a: Check
+    pages:
+      headline: Content
+    platforms:
+      title: "%{page}"
+    
+    helpers:
+      entry:
+        new: "Create new %{model}"
+        edit: "Edit %{model}"
+        empty: Empty
+      entries:
+        empty: Empty
+
+  activerecord:
+    notices:
+      messages:
+        success:
+          create: "%{model} was created successfuly"
+          activated: "%{model} was activated successfuly"
+          update: "%{model} was updated successfuly"
+          destory: "%{model} was deleted successfuly"
+        error:
+          create: "%{model} "
+          destory: "%{model} "
+          not_found: "%{model} "
+          exists: "%{model} "

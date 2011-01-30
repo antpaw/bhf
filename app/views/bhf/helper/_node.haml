@@ -1,5 +1,5 @@
 .node
-  .label
-    = f.label column.name
-    %span{:style => 'font-size: 10px'}= column.type
-  .input= input
+  .label= f.label column.name
+  .input
+    = input
+    = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => column.name}

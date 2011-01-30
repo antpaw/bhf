@@ -1,13 +1,9 @@
 - ref_object = f.object.send(field.reflection.name)
 .node
   .label
-    %p
-      - if ref_object
-        = ref_object.to_bhf_s
-      - else
-        = field.reflection.klass.to_bhf_s
+    %p= f.object.class.human_attribute_name(field.reflection.name)
   .input
-    - if ref_object
-      = ref_object.to_bhf_s
+    - if ref_object.blank?
+      = t 'bhf.helpers.entry.empty'
     - else
-      empty
+      = ref_object.to_bhf_s

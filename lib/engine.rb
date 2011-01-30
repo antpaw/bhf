@@ -6,11 +6,13 @@ module Bhf
   class Engine < Rails::Engine
 
     # Config defaults
-    config.widget_factory_name = "default factory name"
+    config.page_title = 'Bahhof Admin'
     config.mount_at = 'bhf'
     config.auth_logic_from = 'ApplicationController'
+    
+    # config.bhf_logic = YAML::load(IO.read('config/bhf.yml'))
 
-    initializer "static assets" do |app|
+    initializer 'static assets' do |app|
       app.middleware.use ::ActionDispatch::Static, "#{root}/public"
     end
 

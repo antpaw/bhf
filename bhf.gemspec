@@ -5,37 +5,62 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.0.0"
+  s.version = "0.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-01-10}
+  s.date = %q{2011-01-29}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
-    "app/controllers/bhf/widgets_controller.rb",
-    "app/helpers/application_helper.rb",
-    "app/helpers/bhf/widgets_helper.rb",
-    "app/models/bhf/widget.rb",
-    "app/views/bhf/widgets/index.html.erb",
-    "app/views/bhf/widgets/show.html.erb",
+    "app/controllers/bhf/bhf_controller.rb",
+    "app/controllers/bhf/entries_controller.rb",
+    "app/controllers/bhf/pages_controller.rb",
+    "app/helpers/bhf/bhf_helper.rb",
+    "app/helpers/bhf/entries_helper.rb",
+    "app/models/bhf/base.rb",
+    "app/views/bhf/bhf/index.haml",
+    "app/views/bhf/entries/_form.haml",
+    "app/views/bhf/entries/_validation_errors.haml",
+    "app/views/bhf/entries/edit.haml",
+    "app/views/bhf/entries/form/belongs_to/_radio.haml",
+    "app/views/bhf/entries/form/belongs_to/_select.haml",
+    "app/views/bhf/entries/form/belongs_to/_static.haml",
+    "app/views/bhf/entries/form/column/_boolean.haml",
+    "app/views/bhf/entries/form/column/_date.haml",
+    "app/views/bhf/entries/form/column/_number.haml",
+    "app/views/bhf/entries/form/column/_static.haml",
+    "app/views/bhf/entries/form/column/_string.haml",
+    "app/views/bhf/entries/form/column/_text.haml",
+    "app/views/bhf/entries/form/has_and_belongs_to_many/_check_box.haml",
+    "app/views/bhf/entries/form/has_and_belongs_to_many/_static.haml",
+    "app/views/bhf/entries/form/has_many/_check_box.haml",
+    "app/views/bhf/entries/form/has_many/_static.haml",
+    "app/views/bhf/entries/form/has_one/_static.haml",
+    "app/views/bhf/entries/new.haml",
+    "app/views/bhf/entries/show.haml",
+    "app/views/bhf/helper/_node.haml",
+    "app/views/bhf/pages/macro/_belongs_to.haml",
+    "app/views/bhf/pages/macro/_column.haml",
+    "app/views/bhf/pages/macro/_has_and_belongs_to_many.haml",
+    "app/views/bhf/pages/macro/_has_many.haml",
+    "app/views/bhf/pages/macro/_has_one.haml",
+    "app/views/bhf/pages/show.haml",
     "app/views/layouts/bhf.haml",
+    "config/locales/en.yml",
     "config/routes.rb",
-    "lib/acts_as_widget/base.rb",
-    "lib/application_controller.rb",
-    "lib/application_helper.rb",
     "lib/bhf.rb",
+    "lib/bhf/active_record.rb",
+    "lib/bhf/form.rb",
+    "lib/bhf/lists.rb",
+    "lib/bhf/settings.rb",
     "lib/engine.rb",
-    "lib/rails/generators/bhf/bhf_generator.rb",
     "lib/rails/generators/bhf/templates/initializer.rb",
-    "lib/rails/generators/bhf/templates/migration.rb",
-    "lib/rails/generators/bhf/templates/schema.rb",
-    "lib/rails/railties/tasks.rake",
-    "public/images/bhf.jpg",
-    "public/stylesheets/sass/layout.sass"
+    "public/javascripts/bhf.js",
+    "public/stylesheets/bhf.css"
   ]
   s.homepage = %q{http://github.com/antpaw/bahnhof}
   s.require_paths = ["lib"]
@@ -43,8 +68,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.7}
   s.summary = %q{Agnostic rails backend}
   s.test_files = [
-    "test/test_helper.rb",
-    "test/unit/widget_test.rb"
+    "test/test_helper.rb"
   ]
 
   if s.respond_to? :specification_version then
