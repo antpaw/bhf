@@ -1,17 +1,47 @@
 class Bhf::PagesController < Bhf::BhfController
-  before_filter :set_page
+  before_filter :set_page, :store_location
 
   def show
-    settings = @config.content_for_page(@page)
+    platform_options = @config.content_for_page(@page)
+
+    @pagination = Bhf::Pagination.new
     
-    @platforms = settings.each_with_object([]) do |cfg, obj|
-      obj << Bhf::Lists::Platform.new(cfg, @page)
+    params.each do |key, val|
+      return render_platform(key) if val.is_a?(Hash)
     end
-    
+
+    @platforms = platform_options.each_with_object([]) do |opts, obj|
+      platform = Bhf::Platform.new(opts, @page)
+      platform.paginated_objects = platform_objects(platform)
+      obj << platform
+    end
   end
 
-  def set_page
-    @page = params[:page]
-  end
+  private
+
+    def render_platform(platform_name)
+      @platform = @config.find_platform(platform_name)
+
+      @platform.paginated_objects = platform_objects(@platform)
+
+      render '_platform', :layout => false
+    end
+
+    def set_page
+      @page = params[:page]
+    end
+
+    def check_params(platform)
+      page = 1 # TODO: pagination default value
+      page = params[platform][:page].to_i if params[platform] && !params[platform][:page].blank?
+      per_page = 2 # TODO: pagination default value
+      per_page = params[platform][:per_page].to_i if params[platform] && !params[platform][:per_page].blank?
+
+      return :page => page, :per_page => per_page
+    end
+    
+    def platform_objects(platform)
+      platform.prepare_objects(params[platform.name] || {}).paginate(check_params(platform.name))
+    end
 
 end

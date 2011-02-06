@@ -1,0 +1,41 @@
+- @pagination.template = self
+%table
+  %caption
+    %h4= @platform.title
+    %p.info= @pagination.info @platform, :entry_name => 'entry'
+    
+    - if @platform.search
+      = form_for @platform.name, :html => {:method => 'get', :class => 'search'} do |f|
+        = f.text_field :search, :value => get_value(:search, @platform.name), :placeholder => t('bhf.helpers.searchform.placeholder')
+        = f.hidden_field :per_page, :value => get_value(:per_page, @platform.name)
+        = f.hidden_field :order, :value => get_value(:order, @platform.name)
+        = f.hidden_field :direction, :value => get_value(:direction, @platform.name)
+
+    %p.create= link_to new_t(@platform), new_entry_path(@platform.name), :class => 'button'
+
+  %thead
+    %tr
+      - @platform.columns.each do |column|
+        %th{:class => "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, @platform.name)}"}
+          - column_name = @platform.model.human_attribute_name(column.name)
+          - link = link_to column_name, current_order_path(column.name, @platform.name)
+          = column.field.macro == :column ? link : column_name
+
+      %th.edit= edit_t(@platform)
+  %tfoot
+    %tr
+      %td{:colspan => @platform.columns.count+1}
+        = @pagination.paginate @platform
+  %tbody
+    - @platform.paginated_objects.each do |object|
+      - edit_link = edit_entry_path(@platform.name, object)
+      %tr
+        - @platform.columns.each do |column|
+          %td{:class => "#{column.field.macro} #{column.field.display_type}"}
+            - unless column.field.macro == :column && object.send(column.name).blank?
+              = link_to edit_link, :class => 'quick_edit' do
+                - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
+                = render :partial => p, :locals => {:column => column, :object => object}
+        %td.edit
+          = link_to edit_t(@platform), edit_link
+          = link_to delete_t(@platform), entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :remote => true

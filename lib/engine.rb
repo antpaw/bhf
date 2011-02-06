@@ -1,6 +1,5 @@
-require 'bhf'
-require 'rails'
 require 'haml'
+require 'will_paginate'
 
 module Bhf
   class Engine < Rails::Engine

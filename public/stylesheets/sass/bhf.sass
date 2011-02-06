@@ -6,6 +6,7 @@
 
 html
   background-color: #767A80
+  min-width: 900px
 
 body
   color: #424856
@@ -13,7 +14,6 @@ body
 
 a
   color: #333333
-  text-decoration: none
 
 header
   display: block
@@ -23,6 +23,9 @@ header
   background-color: #414756
   border-bottom: 1px solid #8C8C8C
   +box-shadow(0, 0, 3)
+  h1
+    float: left
+    display: none
   li
     float: left
     font-weight: bold
@@ -40,6 +43,7 @@ header
           +text-shadow(#fff)
           +box-inner-shadow(0, 0, 3, #fff)
     a
+      text-decoration: none
       display: block
       padding: 5px 20px
       +border-radius(5)
@@ -68,26 +72,51 @@ header
   table
     width: 100%
     caption
+      +text-shadow(#E4E4E4)
       height: 30px
       padding: 10px 15px 8px 10px
       border: 1px solid #C6C6C6
       +bg-gradient(#D4D4D4, #C6C6C6)
       +border-top-radius(3)
-      h4
+      h4,
+      .info
         float: left
-      p
+      .info
+        padding: 5px 20px
+        text-transform: uppercase
+        color: gray
+        strong
+          color: #424856
+      .create
         float: right
+      form
+        float: left
     thead
       th
         padding: 4px 0
+        padding-left: 5px
         text-align: left
         border-top: 1px solid #FFFFFF
         border-bottom: 1px solid #C6C6C6
         &.primary_key
           text-transform: uppercase
+        &.sorted
+          background: #414756
+          a
+            color: #FFFFFF
+            +text-shadow
+          & a:after,
+          &.desc:hover a:after
+            content: ' ▼'
+          &:hover a:after,
+          &.desc a:after
+            content: ' ▲'
     tbody
+      a
+        text-decoration: none
       tr
         td
+          padding-left: 5px
           border-top: 1px solid #FFFFFF
           border-bottom: 1px solid #C6C6C6
           a
@@ -99,6 +128,7 @@ header
     tfoot
       td
         border-top: 1px solid #FFFFFF
+        padding: 8px 12px
     .primary_key,
     .number
       padding-right: 10px
@@ -149,10 +179,12 @@ form
         background: #FFF
         font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
         +border-radius(2)
+        +box-shadow(0, 1, 0, #FFFFFF)
         padding: 3px 5px 1px 5px
         width: 300px
         &:focus
-          +box-shadow(0, 1, 4, rgba(0, 0, 0, 0.5))
+          +box-shadow(0, 1, 10, #8AC3DA)
+          border-color: #30A3D1
           outline: 0
       textarea
         width: 500px
@@ -175,6 +207,7 @@ input[type="submit"],
   cursor: pointer
   display: block
   text-transform: uppercase
+  text-decoration: none
   +bg-gradient(#FFFFFF, #D5D5D5)
   +text-shadow(#fff, 1)
   +box-shadow(0, 1, 2, rgba(0, 0, 0, 0.5))
@@ -189,3 +222,55 @@ input[type="submit"],
     +text-shadow(#fff, -1)
     +bg-gradient(#D5D5D5, #FFFFFF)
     
+.pagination
+  a, span, em
+    display: inline-block
+    padding: 2px 9px
+    border: 1px solid #C6C6C6
+    +bg-gradient(#D4D4D4, #C6C6C6)
+    +border-radius(3)
+    +text-shadow(#E4E4E4)
+  span.current
+    color: #fff
+    +bg-gradient(rgba(#545F76, 0.5), rgba(#424856, 0.5))
+    border-color: rgba(#424856, 0.5)
+    +text-shadow(#686868)
+  span.disabled
+    color: #999
+    +bg-gradient(#C6C6C6, #D4D4D4)
+    border-color: #DDD
+  em
+    font-weight: bold
+    color: white
+    border-color: #2E6AB1
+  a
+    text-decoration: none
+    color: #424856
+    &:hover,
+    &:focus
+      color: #fff
+      +bg-gradient(#545F76, #424856)
+      border-color: #424856
+      +text-shadow(#383838)
+
+
+#ajax_holder
+  +border-radius(12)
+  +box-shadow(0, 5, 10, #333)
+  position: fixed
+  top: 0
+  width: 500px
+  left: 50%
+  margin-left: -250px
+  margin-top: 20px
+  padding: 20px
+  background: white
+  border: 1px solid #666
+  color: #666
+  font-size: 14px
+  z-index: 80000
+  &.success
+    color: green
+  &.failure
+    color: red
+    border-color: red

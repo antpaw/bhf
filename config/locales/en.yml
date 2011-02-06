@@ -2,13 +2,16 @@ en:
   bhf:
     pages:
       headline: Content
-    platforms:
-      title: "%{page}"
     
     helpers:
+      searchform:
+        placeholder: Search
+      promts:
+        confirm: Are you sure?
       entry:
-        new: "Create new %{model}"
-        edit: "Edit %{model}"
+        new: "Create new %{platform_name}"
+        edit: "Edit %{platform_name}"
+        delete: "Delete %{platform_name}"
         empty: Empty
       entries:
         empty: Empty
@@ -18,7 +21,20 @@ en:
       activated:
         success: "%{model} was activated successfuly"
         error: "%{model} error"
+      validation:
+        header: "%{error} prohibited this %{name} from being saved:"
+        error: error
 
+    pagination:
+      previous_label: « Previous
+      next_label: Next »
+      load_more: Show more entries
+      load_less: Show less entries
+      info:
+        default: "Displaying <strong>%{offset_start} - %{offset_end}</strong> of <strong>%{total_count}</strong> %{name} in total"
+        nothing_found: "No %{name} found"
+        one_found: "Displaying <strong>1</strong> %{name}"
+        all_displayed: "Displaying <strong>all %{total_count}</strong> %{name}"
   activerecord:
     notices:
       messages:

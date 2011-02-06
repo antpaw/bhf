@@ -9,22 +9,28 @@ class Bhf::EntriesController < Bhf::BhfController
     @form_url = entries_path(@platform.name, @model)
     split_object
   end
-  
+
   def edit
-    @form_url = entry_path(@platform.name, @object)
     split_object
+    
+    if params[:quick_edit]
+      @form_url = entry_path(@platform.name, @object, :json)
+      render :layout => false
+    else
+      @form_url = entry_path(@platform.name, @object)
+    end
   end
-  
+
   def create
     @object = @model.new(params[@model_sym])
     after_load
 
     before_save
     if @object.save
-      after_save
       manage_many_to_many
+      after_save
 
-      redirect_to(entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
+      redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
     else
       @form_url = entries_path(@platform.name, @model)
       split_object
@@ -35,20 +41,20 @@ class Bhf::EntriesController < Bhf::BhfController
   def update
     before_save
     if @object.update_attributes(params[@model_sym])
-      after_save
       manage_many_to_many
+      after_save
 
-      redirect_to(entry_path(@platform.name, @object), :notice => set_message('update.success', @model))
+      redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('update.success', @model))
     else
       @form_url = entry_path(@platform.name, @object)
       split_object
       render :edit
     end
   end
-  
+
   def destroy
-    @object.destroy
-    redirect_to(bhf_root, :notice => set_message('destory.success', @model))
+    # @object.destroy
+    redirect_back_or_default(bhf_root_url, :notice => set_message('destory.success', @model))
   end
 
   private
@@ -87,19 +93,19 @@ class Bhf::EntriesController < Bhf::BhfController
         end
       end
     end
-    
+
     def after_load
       @object.send(@platform.hooks(:after_load)) if @platform.hooks(:after_load)
     end
-    
+
     def before_save
       @object.send(@platform.hooks(:before_save), params) if @platform.hooks(:before_save)
     end
-    
+
     def after_save
       @object.send(@platform.hooks(:after_save), params) if @platform.hooks(:after_save)
     end
-    
+
     def set_page
       @page = @platform.page_name
     end

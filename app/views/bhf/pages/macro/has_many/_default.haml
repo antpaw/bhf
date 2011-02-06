@@ -1,3 +1,2 @@
 - ref_objects = object.send(column.name)
-- text = ref_objects.blank? ? t('bhf.helpers.entries.empty') : ref_objects.collect(&:to_bhf_s).join(', ')
-= link_to text, edit_entry_path(platform.name, object)
+= ref_objects.blank? ? t('bhf.helpers.entries.empty') : ref_objects.collect(&:to_bhf_s).join(', ')

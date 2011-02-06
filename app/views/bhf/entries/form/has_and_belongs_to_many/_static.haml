@@ -1,11 +1,12 @@
-- ref_objects = f.object.send(reflection.name)
-.node
-  .label
-    %p= f.object.class.human_attribute_name(field.reflection.name)
-  .input
-    - if ref_objects.blank?
-      = t 'bhf.helpers.entries.empty'
-    - else
-      %ul
-        - ref_objects.each do |obj|
-          %li= obj.to_bhf_s
+= reflection_node f, field do
+  - ref_objects = f.object.send(field.reflection.name)
+  - if ref_objects.blank?
+    = t 'bhf.helpers.entries.empty'
+  - else
+    %ul
+      - ref_objects.each do |ref_object|
+        %li
+          - if field.link
+            = link_to ref_object.to_bhf_s, edit_entry_path(field.link, ref_object)
+          - else
+            = ref_object.to_bhf_s

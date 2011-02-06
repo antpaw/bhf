@@ -1,21 +1,20 @@
 var Ajaxify = new Class({
-	version: '0.1',
+	version: 0.2,
 
 	Implements: [Options, Events],
 
-	options: {/*
-		a: $empty(b),*/
+	options: {
 		events: {
 			loading: {
-				name: 'loading',
+				name: 'ajax:loading',
 				text: 'Loading…'
 			},
 			success: {
-				name: 'success',
+				name: 'ajax:success',
 				text: 'Changes successfully saved!'
 			},
 			failure: {
-				name: 'failure',
+				name: 'ajax:failure',
 				text: 'Oops, something went wrong…'
 			}
 		},
@@ -28,11 +27,15 @@ var Ajaxify = new Class({
 		this.holder = this.options.holder;
 	},
 	
-	applyEvents: function(elements){
-		elements
-			.addEvent(this.options.events.loading.name, this.loading.bind(this))
-			.addEvent(this.options.events.success.name, this.success.bind(this))
-			.addEvent(this.options.events.failure.name, this.failure.bind(this));
+	applyEvents: function(el){
+		el = $(el || document.body);
+		var apply = function(action, callback) {
+			el.getElements('[data-remote="true"]').addEvent(action, callback);
+		};
+		
+		apply(this.options.events.loading.name, this.loading.bind(this));
+		apply(this.options.events.success.name, this.success.bind(this));
+		apply(this.options.events.failure.name, this.failure.bind(this));
 	},
 
 	loading: function(xhr){

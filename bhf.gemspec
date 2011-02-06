@@ -9,11 +9,11 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-01-29}
+  s.date = %q{2011-02-01}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     "app/controllers/bhf/bhf_controller.rb",
@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     "app/controllers/bhf/pages_controller.rb",
     "app/helpers/bhf/bhf_helper.rb",
     "app/helpers/bhf/entries_helper.rb",
+    "app/helpers/bhf/pages_helper.rb",
     "app/models/bhf/base.rb",
     "app/views/bhf/bhf/index.haml",
     "app/views/bhf/entries/_form.haml",
@@ -37,17 +38,25 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/column/_text.haml",
     "app/views/bhf/entries/form/has_and_belongs_to_many/_check_box.haml",
     "app/views/bhf/entries/form/has_and_belongs_to_many/_static.haml",
-    "app/views/bhf/entries/form/has_many/_check_box.haml",
     "app/views/bhf/entries/form/has_many/_static.haml",
     "app/views/bhf/entries/form/has_one/_static.haml",
     "app/views/bhf/entries/new.haml",
     "app/views/bhf/entries/show.haml",
+    "app/views/bhf/helper/_field_errors.haml",
+    "app/views/bhf/helper/_flash.haml",
+    "app/views/bhf/helper/_info.haml",
     "app/views/bhf/helper/_node.haml",
-    "app/views/bhf/pages/macro/_belongs_to.haml",
-    "app/views/bhf/pages/macro/_column.haml",
-    "app/views/bhf/pages/macro/_has_and_belongs_to_many.haml",
-    "app/views/bhf/pages/macro/_has_many.haml",
-    "app/views/bhf/pages/macro/_has_one.haml",
+    "app/views/bhf/helper/_reflection_node.haml",
+    "app/views/bhf/pages/macro/belongs_to/_default.haml",
+    "app/views/bhf/pages/macro/column/_boolean.haml",
+    "app/views/bhf/pages/macro/column/_date.haml",
+    "app/views/bhf/pages/macro/column/_number.haml",
+    "app/views/bhf/pages/macro/column/_primary_key.haml",
+    "app/views/bhf/pages/macro/column/_string.haml",
+    "app/views/bhf/pages/macro/column/_text.haml",
+    "app/views/bhf/pages/macro/has_and_belongs_to_many/_default.haml",
+    "app/views/bhf/pages/macro/has_many/_default.haml",
+    "app/views/bhf/pages/macro/has_one/_default.haml",
     "app/views/bhf/pages/show.haml",
     "app/views/layouts/bhf.haml",
     "config/locales/en.yml",
@@ -76,12 +85,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<rails>, [">= 0"])
       s.add_runtime_dependency(%q<haml>, [">= 0"])
+      s.add_runtime_dependency(%q<will_paginate>, [">= 0"])
     else
+      s.add_dependency(%q<rails>, [">= 0"])
       s.add_dependency(%q<haml>, [">= 0"])
+      s.add_dependency(%q<will_paginate>, [">= 0"])
     end
   else
+    s.add_dependency(%q<rails>, [">= 0"])
     s.add_dependency(%q<haml>, [">= 0"])
+    s.add_dependency(%q<will_paginate>, [">= 0"])
   end
 end
 

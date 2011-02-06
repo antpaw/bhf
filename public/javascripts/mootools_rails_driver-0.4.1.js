@@ -39,6 +39,8 @@ provides:
 						styles: { display: 'none' }
 					}).inject(this, 'after');
 					
+					
+					// TODO: check this, i dont think mootools needs this
 					var methodInput = new Element('input', {
 						type: 'hidden',
 						name: '_method',
@@ -67,6 +69,7 @@ provides:
 
 		confirmed: function(el) {
 			var confirmMessage = el.get('data-confirm');
+			// TODO: confirm null?
 			if(confirmMessage && !confirm(confirmMessage)) {
 				return false;
 			}

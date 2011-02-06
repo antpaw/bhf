@@ -13,7 +13,7 @@ module Bhf
       end
       
       def field_has_errors?(field)
-        ! field_errors(field).blank?
+        field_errors(field).any?
       end
       
       def many_to_many_check_box(obj, ref_name, params)
@@ -33,10 +33,13 @@ module Bhf
     
     class Field
       
-      def initialize(props, overwrite_type = nil, pk = 'id')
+      attr_accessor :info
+      
+      def initialize(props, options = {}, pk = 'id')
         @props = props
-        
-        @overwrite_type = overwrite_type.to_sym if overwrite_type
+        @info = options[:info] if options[:info]
+
+        @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
       
         @primary_key = pk
       end
@@ -96,11 +99,14 @@ module Bhf
     
     class Reflection
       
-      attr_accessor :reflection
+      attr_accessor :reflection, :info, :link
       
-      def initialize(reflection, overwrite_type = nil)
+      def initialize(reflection, options = {})
         @reflection = reflection
-        @overwrite_type = overwrite_type.to_sym if overwrite_type
+        @info = options[:info] if options[:info]
+        @link = options[:link].to_sym if options[:link]
+
+        @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
       end
       
       def macro
@@ -126,7 +132,6 @@ module Bhf
       def display_type
         :default
       end
-      
       
       def name
         @reflection.name.to_s

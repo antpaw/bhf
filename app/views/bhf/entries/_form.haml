@@ -1,3 +1,4 @@
+-#, :html => { :multipart => true }
 = form_for @object, :url => @form_url, :builder => Bhf::Form::Builder do |f|
   
   - if f.object.errors.any?
@@ -9,4 +10,4 @@
 
   .node
     .label
-    .input= f.submit
+    .input= f.submit new_t(@platform)

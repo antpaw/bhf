@@ -25,7 +25,7 @@ class Bhf::BhfController < ActionController::Base
     end
 
     def load_config
-      @config = Bhf::Settings::Pages.new(
+      @config = Bhf::Settings.new(
         YAML::load(IO.read('config/bhf.yml'))
         # Bhf::Engine.config.bhf_logic
       )
@@ -56,13 +56,17 @@ class Bhf::BhfController < ActionController::Base
     def set_message(type, model = nil)
       key = model && ActiveModel::Naming.singular(model)
       
-      I18n.t("bhf.activerecord.notices.models.#{key}.#{type}", :model => model.to_bhf_s, :default => I18n.t("activerecord.notices.messages.#{type}"))
+      I18n.t("bhf.activerecord.notices.models.#{key}.#{type}", :model => model.model_name.human, :default => I18n.t("activerecord.notices.messages.#{type}"))
+    end
+
+
+    def store_location
+      session[:return_to] = request.fullpath
+    end
+
+    def redirect_back_or_default(default, msg)
+      redirect_to(session[:return_to] || default, msg)
+      session[:return_to] = nil
     end
 
 end
-
-
-
-
-::ActiveRecord::Base.send :include, Bhf::ActiveRecord
-::ActiveRecord::Base.send :extend, Bhf::ActiveRecord

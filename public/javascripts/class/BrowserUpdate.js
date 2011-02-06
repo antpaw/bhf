@@ -1,5 +1,5 @@
-//browser-update.org notification script, <browser-update.org>
-//Copyright (c) 2007-2009, MIT Style License <browser-update.org/LICENSE.txt>
+// browser-update.org notification script, <browser-update.org>
+// Copyright (c) 2007-2009, MIT Style License <browser-update.org/LICENSE.txt>
 var BrowserUpdate = new Class({
 	initialize: function(op, test) {
 		var b, jsv = 5, n = window.navigator;

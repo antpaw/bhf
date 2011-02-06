@@ -1,12 +1,7 @@
-- fk = field.reflection.association_foreign_key
-.node
-  .label
-    %p= f.object.class.human_attribute_name(field.reflection.name)
-  .input
-    %ul
-      - field.reflection.klass.all.each do |obj|
-        %li
-          = f.radio_button fk, obj.id, :id => "belongs_to_#{fk}_#{obj.id}"
-          = label_tag "belongs_to_#{fk}_#{obj.id}", obj.to_bhf_s
-
-    = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => fk}
+= reflection_node f, field do
+  - fk = field.reflection.association_foreign_key
+  %ul
+    - field.reflection.klass.all.each do |obj|
+      %li
+        = f.radio_button fk, obj.id, :id => "belongs_to_#{fk}_#{obj.id}"
+        = label_tag "belongs_to_#{fk}_#{obj.id}", obj.to_bhf_s
