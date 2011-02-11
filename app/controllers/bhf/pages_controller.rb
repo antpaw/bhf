@@ -4,10 +4,12 @@ class Bhf::PagesController < Bhf::BhfController
   def show
     platform_options = @config.content_for_page(@page)
 
-    @pagination = Bhf::Pagination.new
+    @pagination = Bhf::Pagination.new(2, 3)
     
-    params.each do |key, val|
-      return render_platform(key) if val.is_a?(Hash)
+    if request.xhr?
+      params.each do |key, val|
+        return render_platform(key) if val.is_a?(Hash)
+      end
     end
 
     @platforms = platform_options.each_with_object([]) do |opts, obj|
@@ -32,9 +34,9 @@ class Bhf::PagesController < Bhf::BhfController
     end
 
     def check_params(platform)
-      page = 1 # TODO: pagination default value
+      page = 1
       page = params[platform][:page].to_i if params[platform] && !params[platform][:page].blank?
-      per_page = 2 # TODO: pagination default value
+      per_page = @pagination.offset_per_page
       per_page = params[platform][:per_page].to_i if params[platform] && !params[platform][:per_page].blank?
 
       return :page => page, :per_page => per_page

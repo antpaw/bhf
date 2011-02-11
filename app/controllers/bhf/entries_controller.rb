@@ -12,12 +12,10 @@ class Bhf::EntriesController < Bhf::BhfController
 
   def edit
     split_object
+    @form_url = entry_path(@platform.name, @object)
     
-    if params[:quick_edit]
-      @form_url = entry_path(@platform.name, @object, :json)
-      render :layout => false
-    else
-      @form_url = entry_path(@platform.name, @object)
+    if request.xhr?
+      render :layout => 'bhf/quick_edit'
     end
   end
 
@@ -40,25 +38,42 @@ class Bhf::EntriesController < Bhf::BhfController
 
   def update
     before_save
+    
     if @object.update_attributes(params[@model_sym])
       manage_many_to_many
       after_save
 
-      redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('update.success', @model))
+      if request.xhr?
+        render :json => object_to_bhf_display_hash, :status => :ok
+      else
+        redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('update.success', @model))
+      end
     else
       @form_url = entry_path(@platform.name, @object)
       split_object
-      render :edit
+
+      if request.xhr?
+        render :edit, :status => :unprocessable_entity, :layout => 'bhf/quick_edit'
+      end
     end
   end
 
   def destroy
-    # @object.destroy
+    @object.destroy
     redirect_back_or_default(bhf_root_url, :notice => set_message('destory.success', @model))
   end
 
   private
-
+  
+    def object_to_bhf_display_hash
+      @platform.columns.each_with_object({:to_bhf_s => @object.to_bhf_s}) do |column, hash|
+        unless column.field.macro == :column && @object.send(column.name).blank?
+          p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
+          hash[column.name] = render_to_string :partial => p, :locals => {:column => column, :object => @object}
+        end
+      end
+    end
+    
     def load_platform
       @platform = @config.find_platform(params[:platform])
     end

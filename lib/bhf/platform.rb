@@ -1,32 +1,61 @@
 module Bhf
   class Platform
     
-    attr_writer :paginated_objects
-    # TODO: clean up accessor vs reader
-    attr_accessor :paginated_objects, :name, :title, :data, :page_name, :objects
+    attr_accessor :paginated_objects
+    attr_reader :name, :title, :data, :page_name, :objects, :collection, :columns
     
     def initialize(options, page_name)
       @paginated_objects = []
-      
+
       if options.is_a?(String)
         options = {options => nil}
       end
       @name = options.keys[0]
       @data = options.values[0] || {}
-      
+
       human_title = if model.to_s === @name.singularize.camelize
         model.model_name.human
       else
         @name.humanize
       end
-      
+
       @title = I18n.t("bhf.platforms.#{@name}.title", :platform_title => human_title, :default => human_title).pluralize
       @page_name = page_name
+      @collection = get_collection
+      @columns = get_columns
     end
 
-    # TODO: add default search
+    def data_source
+      read_table_options(:source) || :all
+    end
+
+    def search?
+      read_table_options(:search) != false
+    end
+
     def search
-      read_table_options(:search)
+      read_table_options(:search) || :where
+    end
+
+    def do_search(chain, search_term)
+      search_condition = if read_table_options(:search)
+        search_term
+      else
+        where_statement = []
+        model.columns_hash.each_pair do |name, props|
+          if props.type === :string
+            where_statement << "#{name} LIKE '%#{search_term}%'"
+          elsif props.type === :integer
+            where_statement << "#{name} = #{search_term.to_i}"
+          elsif props.type === :float
+            where_statement << "#{name} = #{search_term.to_f}"
+          end
+        end
+
+        where_statement.join(' OR ')
+      end
+
+      chain.send search, search_condition
     end
 
     def prepare_objects(options)
@@ -36,43 +65,11 @@ module Bhf
         chain = chain.order("#{options[:order]} #{options[:direction]}")
       end
 
-      @objects = if !options[:search].blank?
-        chain.send search, options[:search]
-      elsif read_table_options(:source)
-        chain.send read_table_options(:source)
-      else
-        chain.all
+      if search? && options[:search].present?
+        chain = do_search(chain, options[:search])
       end
-    end
 
-    def columns
-      collection_content = {}
-      collection.each do |field|
-        collection_content[field.name] = field
-      end
-      
-      if table && table['columns']
-        cols_array = table['columns']
-      else
-        cols_array = []
-        
-        cols_array << model.primary_key if collection_content[model.primary_key]
-        
-        i = 0
-        collection.each do |field|
-          unless [model.primary_key, 'updated_at', 'created_at'].include?(field.name) or i > 4
-            cols_array << field.name
-            i += 1
-          end
-        end
-        
-        cols_array << 'updated_at' if collection_content['updated_at']
-        cols_array << 'created_at' if collection_content['created_at']
-      end
-      
-      cols_array.each_with_object([]) do |field_name, obj|
-        obj << Column.new(field_name, collection_content[field_name])
-      end
+      @objects = chain.send(data_source)
     end
     
     def model
@@ -83,10 +80,43 @@ module Bhf
     def model_name
       ActiveModel::Naming.singular(model)
     end
-    
-    def collection
-      all = {}
+
+    def get_columns
+      collection_content = {}
+      raw_collection = get_collection(true)
+      raw_collection.each do |field|
+        collection_content[field.name] = field
+      end
       
+      if table && table['columns']
+        cols_array = table['columns']
+      else
+        cols_array = []
+        
+        cols_array << model.primary_key if collection_content[model.primary_key]
+        
+        raw_collection.each_with_index do |field, index|
+          unless [model.primary_key, 'updated_at', 'created_at'].include?(field.name) or index > 4
+            cols_array << field.name
+          end
+        end
+        
+        cols_array << 'updated_at' if collection_content['updated_at']
+        cols_array << 'created_at' if collection_content['created_at']
+      end
+
+      new_obj = model.new
+      cols_array.each_with_object([]) do |field_name, obj|
+        unless new_obj.respond_to?(field_name)
+          raise Exception.new("Model '#{model}' does not respond to '#{field_name}'")
+        end
+        obj << Column.new(field_name, collection_content[field_name])
+      end
+    end
+
+    def get_collection(raw = false)
+      all = {}
+
       model.columns_hash.each_pair do |name, props|
         all[name] = Bhf::Form::Field.new(props, {
           :overwrite_type => read_form_options(:types, name),
@@ -100,16 +130,19 @@ module Bhf
           :info => I18n.t("bhf.platforms.#{@name}.infos.#{name}", :default => ''),
           :link => read_form_options(:links, name)
         })
-        
+
         fk = all[name.to_s].reflection.association_foreign_key
         if all.has_key?(fk)
           all.delete(fk)
         end
       end
 
-      if form && form['display']
+      if !raw && form && form['display']
+        new_obj = model.new
         return form['display'].each_with_object([]) do |attribute, obj|
-          # TODO: all[attribute] can be nil if attribute doesn't exsist, throw some
+          unless new_obj.respond_to?(attribute)
+            raise Exception.new("Model '#{model}' does not respond to '#{attribute}'")
+          end
           obj << all[attribute]
         end
       end
@@ -131,6 +164,13 @@ module Bhf
       id + output.sort_by(&:name) + static_dates
     end
     
+    def has_file_upload?
+      @collection.each do |field|
+        return true if field.form_type === :file
+      end
+      return false
+    end
+
     def table
       @data['table']
     end
@@ -169,5 +209,4 @@ module Bhf
     end
 
   end
-
 end

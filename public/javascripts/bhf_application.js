@@ -1,95 +1,118 @@
-var AjaxEdit = new Class({
-	version: 0.2,
-
-	Implements: [Options, Events],
-
-	options: {
-		holder: new Element('div.quick_edit')
-	},
-
-	initialize: function(_options) {
-		this.setOptions(_options);
-	},
-	
-	startEdit: function(form){
-		var that = this;
-		this.options.holder.innerHTML = form;
-		this.options.holder.getElement('form').addEvent('submit', function(e){
-			e.preventDefault();
-			new Request({
-				method: this.get('method'),
-				url: this.get('action'),
-				onSuccess: function(html){
-					console.log(html);
-					that.endEdit();
-				}
-			}).send({data: this});
-			/*
-			*/
-		});
-		this.options.holder.inject(document.body);
-	},
-	
-	endEdit: function(){
-		this.options.holder.dispose();
-	}
-});
-
 var ajaxNote = new Ajaxify();
 var quickEdit = new AjaxEdit();
 
-
 window.addEvent('domready', function(){
-	
 	ajaxNote.applyEvents();
-	
-	// TODO: i18n
-	// document.getElement('html').lang;
-	// Locale.use('de-DE');
-	
-	$$('.platform').addEvents({
-		'click:relay(.pagination a, thead a)': function(e){
-			e.preventDefault();
-		
-			var parent = this.getParent('.platform');
-			
+
+	var platforms = document.body.getElements('.platform');
+	var main_form = document.id('main_form');
+
+	if (platforms.length) {
+		var updatePlatform = function(href, platform, callback){
 			new Request({
 				method: 'get',
-				url: this.get('href'),
+				url: href,
 				onSuccess: function(html){
-					parent.innerHTML = html;
+					platform.innerHTML = html;
+					if (callback) {
+						callback.call();
+					}
 				}
 			}).send();
-		},
-		'submit:relay(.search)': function(e){
-			e.preventDefault();
-		
-			var parent = this.getParent('.platform');
-			
-			new Request({
-				method: 'get',
-				url: this.get('action'),
-				onSuccess: function(html){
-					parent.innerHTML = html;
+		};
+
+		platforms.addEvents({
+			'click:relay(.pagination a, thead a)': function(e){
+				e.preventDefault();
+				updatePlatform(this.get('href'), this.getParent('.platform'));
+			},
+			'submit:relay(.search)': function(e){
+				e.preventDefault();
+				var parent = this.getParent('.platform');
+
+				new Request({
+					method: 'get',
+					url: this.get('action'),
+					onSuccess: function(html){
+						parent.innerHTML = html;
+					}
+				}).send({data: this});
+			},
+			'click:relay(.quick_edit)': function(e){
+				e.preventDefault();
+				quickEdit.startEdit(this, this.getParent('tr'));
+			}
+		});
+
+		quickEdit.addEvents({
+			successAndChange: function(json){
+				var tr = this.wrapElement;
+				tr.getElements('td').each(function(td){
+					var name = td.get('data-column-name');
+					if ( ! name) { return; }
+					var a = td.getElement('a');
+					(a ? a : td).innerHTML = json[name] || '';
+				});
+			},
+			successAndNext: function(json){
+				var tr = this.wrapElement;
+				var nextTr = tr.getNext('tr');
+
+				if (nextTr) {
+					quickEdit.startEdit(nextTr.getElement('a'), nextTr);
 				}
-			}).send({data: this});
-		},
-		'click:relay(.quick_edit)': function(e){
-			e.preventDefault();
-		
-			var parent = this.getParent('.platform');
-			
-			new Request({
-				method: 'get',
-				url: this.get('href'),
-				onSuccess: function(e){
-					quickEdit.startEdit(e);
-					
+				else {
+					var platform = tr.getParent('.platform');
+					var loadMore = platform.getElement('.load_more');
+					if (loadMore) {
+						trIndex = tr.getParent('tbody').getElements('tr').indexOf(tr);
+						updatePlatform(loadMore.get('href'), platform, function(){
+							platform.getElements('tbody tr').each(function(newTr, index){
+								if (trIndex === index) {
+									nextTr = newTr.getNext('tr');
+									quickEdit.startEdit(nextTr.getElement('a'), nextTr);
+								}
+							});
+						});
+					}
+					else {
+						nextTr = platform.getElements('tbody tr')[0];
+						quickEdit.startEdit(nextTr.getElement('a'), nextTr);
+					}
 				}
-			}).send({data: {quick_edit: true}});
-		}
-	});
-	
-	
+			}
+		});
+	}
+	else if (main_form) {
+		main_form.addEvents({
+			'click:relay(.quick_edit)': function(e){
+				e.preventDefault();
+				quickEdit.startEdit(this, this);
+			}
+		});
+
+		quickEdit.addEvents({
+			successAndChange: function(json){
+				this.wrapElement.set('text', json.to_bhf_s || '');
+			},
+			successAndNext: function(json){
+				var a = this.wrapElement;
+
+				var li = a.getParent('li');
+				if ( ! li) { 
+					this.close();
+					return;
+				}
+
+				var holder = li.getNext('li');
+
+				if ( ! holder) {
+					holder = li.getParent('ul');
+				}
+				quickEdit.startEdit(holder.getElement('a'));
+			}
+		});
+	}
+
 	new BrowserUpdate({vs:{i:8,f:3,o:10.01,s:2,n:9}});
 });

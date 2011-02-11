@@ -4,6 +4,6 @@
     = t 'bhf.helpers.entry.empty'
   - else
     - if field.link
-      = link_to ref_object.to_bhf_s, edit_entry_path(field.link, ref_object)
+      = link_to ref_object.to_bhf_s, edit_entry_path(field.link, ref_object), :class => 'quick_edit'
     - else
       = ref_object.to_bhf_s

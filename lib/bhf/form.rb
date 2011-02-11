@@ -33,7 +33,7 @@ module Bhf
     
     class Field
       
-      attr_accessor :info
+      attr_reader :info
       
       def initialize(props, options = {}, pk = 'id')
         @props = props
@@ -43,7 +43,7 @@ module Bhf
       
         @primary_key = pk
       end
-      
+
       def macro
         :column
       end
@@ -93,13 +93,14 @@ module Bhf
         def group_types(type_sym)
           return :date if [:date, :datetime, :timestamp, :time, :year].include?(type_sym)
           return :number if [:integer, :float].include?(type_sym)
+          return :file if type_sym === :file
         end
       
     end
     
     class Reflection
       
-      attr_accessor :reflection, :info, :link
+      attr_reader :reflection, :info, :link
       
       def initialize(reflection, options = {})
         @reflection = reflection

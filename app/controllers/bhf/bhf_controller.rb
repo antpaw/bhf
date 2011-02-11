@@ -5,7 +5,7 @@ class Bhf::BhfController < ActionController::Base
   before_filter :check_admin_account, :load_config, :set_title
 
   helper_method :entry_path, :new_entry_path, :entries_path, :edit_entry_path
-  layout 'bhf'
+  layout 'bhf/default'
 
   def index
     
@@ -50,7 +50,8 @@ class Bhf::BhfController < ActionController::Base
 
 
     def set_title
-      @title = Bhf::Engine.config.page_title
+      @title = Bhf::Engine.config.page_title ||
+               Rails.application.class.to_s.split('::').first+' — Admin'
     end
 
     def set_message(type, model = nil)

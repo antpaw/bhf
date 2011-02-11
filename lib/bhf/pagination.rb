@@ -2,11 +2,12 @@ module Bhf
 
   class Pagination
 
-    attr_writer :template
-    attr_reader :template
+    attr_accessor :template
+    attr_reader :offset_per_page, :offset_to_add
     
-    def initialize(offset = 4) # TODO: pagination default value
-      @offset_per_page = offset
+    def initialize(offset_per_page = 10, offset_to_add = 5)
+      @offset_per_page = offset_per_page
+      @offset_to_add = offset_to_add
     end
 
     def paginate(platform)
@@ -19,7 +20,7 @@ module Bhf
         :container => false
       })
         links = "#{load_more(platform)} #{page_links}"
-      elsif platform.paginated_objects.total_pages == 1 && platform.paginated_objects.size > @offset_per_page
+      elsif platform.paginated_objects.total_pages == 1 && platform.paginated_objects.size > @offset_to_add
         links = load_less(platform)
       end
       
@@ -57,23 +58,24 @@ module Bhf
 
     def load_more(platform, attributes = {}, plus = true)
       platform_params = template.params[platform.name] || {}
-      load_offset = 2 # TODO: pagination default value
+      load_offset = @offset_per_page
       load_offset = platform_params[:per_page].to_i if platform_params[:per_page]
       if plus
-        load_offset += @offset_per_page
+        load_offset += @offset_to_add
       else
-        load_offset -= @offset_per_page
+        load_offset -= @offset_to_add
       end
       
       platform_params.delete(:page)
       platform_params[:per_page] = load_offset
       
+      direction = (plus ? 'more' : 'less')
       template.link_to(
-        I18n.t('bhf.pagination.load_'+(plus ? 'more' : 'less')),
+        I18n.t("bhf.pagination.load_#{direction}"),
         template.bhf_page_path(
           platform.page_name,
           template.params.merge(platform.name => platform_params)
-        ), attributes
+        ), attributes.merge(:class => "load_#{direction}")
       )
     end
     

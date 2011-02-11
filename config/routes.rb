@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     get 'page/:page', :to => 'pages#show', :as => :page
     
     scope ':platform' do
-      resources :entries, :except => [:index]
+      resources :entries, :except => [:index, :show]
     end
 
   end

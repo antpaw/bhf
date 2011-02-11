@@ -24,7 +24,13 @@ en:
       validation:
         header: "%{error} prohibited this %{name} from being saved:"
         error: error
-
+    
+    quick_edit:
+      buttons:
+        cancel: Cancel
+        open: Open
+        save_and_next: Save and go to next
+    
     pagination:
       previous_label: « Previous
       next_label: Next »

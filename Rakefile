@@ -8,22 +8,22 @@ task :compile_js do
 
   output = ''
   [
-    'public/javascripts/mootools-core-1.3-full-nocompat-yc.js',
-    'public/javascripts/mootools-more.js'
+    'mootools-core-1.3-full-nocompat-yc.js',
+    'mootools-more.js'
   ].each do |js_path|
-    output << File.read(js_path)
+    output << File.read('public/javascripts/'+js_path)
   end
 
   [
-    'public/javascripts/mootools_rails_driver-0.4.1.js',
-    'public/javascripts/class/BrowserUpdate.js', 
-    'public/javascripts/class/Ajaxify.js',
-    'public/javascripts/bhf_application.js'
+    'mootools_rails_driver-0.4.1.js',
+    'class/BrowserUpdate.js', 
+    'class/Ajaxify.js',
+    'class/AjaxEdit.js',
+    'bhf_application.js'
   ].each do |js_path|
-    output << compressor.compress(File.read(js_path))
+    output << compressor.compress(File.read('public/javascripts/'+js_path))
   end
 
-  # TODO: Zlib::GzipWriter.open('public/javascripts/bhf.js', 'w')
   File.open('public/javascripts/bhf.js', 'w') do |file|
     file.write(output)
   end

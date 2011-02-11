@@ -4,7 +4,7 @@
     %h4= @platform.title
     %p.info= @pagination.info @platform, :entry_name => 'entry'
     
-    - if @platform.search
+    - if @platform.search?
       = form_for @platform.name, :html => {:method => 'get', :class => 'search'} do |f|
         = f.text_field :search, :value => get_value(:search, @platform.name), :placeholder => t('bhf.helpers.searchform.placeholder')
         = f.hidden_field :per_page, :value => get_value(:per_page, @platform.name)
@@ -31,7 +31,7 @@
       - edit_link = edit_entry_path(@platform.name, object)
       %tr
         - @platform.columns.each do |column|
-          %td{:class => "#{column.field.macro} #{column.field.display_type}"}
+          %td{:class => "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
             - unless column.field.macro == :column && object.send(column.name).blank?
               = link_to edit_link, :class => 'quick_edit' do
                 - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"

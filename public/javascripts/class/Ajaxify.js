@@ -28,7 +28,7 @@ var Ajaxify = new Class({
 	},
 	
 	applyEvents: function(el){
-		el = $(el || document.body);
+		el = document.id(el || document.body);
 		var apply = function(action, callback) {
 			el.getElements('[data-remote="true"]').addEvent(action, callback);
 		};
