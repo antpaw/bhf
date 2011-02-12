@@ -7,14 +7,14 @@ class Bhf::PagesController < Bhf::BhfController
     @pagination = Bhf::Pagination.new(2, 3)
     
     if request.xhr?
-      params.each do |key, val|
-        return render_platform(key) if val.is_a?(Hash)
+      params.each do |key, value|
+        return render_platform(key) if value.is_a?(Hash)
       end
     end
 
     @platforms = platform_options.each_with_object([]) do |opts, obj|
       platform = Bhf::Platform.new(opts, @page)
-      platform.paginated_objects = platform_objects(platform)
+      platform.paginated_objects = paginate_platform_objects(platform)
       obj << platform
     end
   end
@@ -24,7 +24,7 @@ class Bhf::PagesController < Bhf::BhfController
     def render_platform(platform_name)
       @platform = @config.find_platform(platform_name)
 
-      @platform.paginated_objects = platform_objects(@platform)
+      @platform.paginated_objects = paginate_platform_objects(@platform)
 
       render '_platform', :layout => false
     end
@@ -42,7 +42,7 @@ class Bhf::PagesController < Bhf::BhfController
       return :page => page, :per_page => per_page
     end
     
-    def platform_objects(platform)
+    def paginate_platform_objects(platform)
       platform.prepare_objects(params[platform.name] || {}).paginate(check_params(platform.name))
     end
 

@@ -1,19 +1,17 @@
 class Bhf::EntriesController < Bhf::BhfController
   before_filter :load_platform, :load_model, :set_page
   before_filter :load_object, :except => [:create, :new]
-  
+
   def new
     @object = @model.new
     after_load
 
     @form_url = entries_path(@platform.name, @model)
-    split_object
   end
 
   def edit
-    split_object
     @form_url = entry_path(@platform.name, @object)
-    
+
     if request.xhr?
       render :layout => 'bhf/quick_edit'
     end
@@ -31,7 +29,6 @@ class Bhf::EntriesController < Bhf::BhfController
       redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
     else
       @form_url = entries_path(@platform.name, @model)
-      split_object
       render :new
     end
   end
@@ -50,7 +47,6 @@ class Bhf::EntriesController < Bhf::BhfController
       end
     else
       @form_url = entry_path(@platform.name, @object)
-      split_object
 
       if request.xhr?
         render :edit, :status => :unprocessable_entity, :layout => 'bhf/quick_edit'
@@ -64,7 +60,7 @@ class Bhf::EntriesController < Bhf::BhfController
   end
 
   private
-  
+
     def object_to_bhf_display_hash
       @platform.columns.each_with_object({:to_bhf_s => @object.to_bhf_s}) do |column, hash|
         unless column.field.macro == :column && @object.send(column.name).blank?
@@ -73,7 +69,7 @@ class Bhf::EntriesController < Bhf::BhfController
         end
       end
     end
-    
+
     def load_platform
       @platform = @config.find_platform(params[:platform])
     end
@@ -86,10 +82,6 @@ class Bhf::EntriesController < Bhf::BhfController
     def load_object
       @object = @model.find(params[:id])
       after_load
-    end
-
-    def split_object
-      @collection = @platform.collection
     end
 
     def manage_many_to_many
