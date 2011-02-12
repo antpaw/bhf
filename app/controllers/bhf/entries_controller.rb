@@ -1,5 +1,5 @@
 class Bhf::EntriesController < Bhf::BhfController
-  before_filter :load_platform, :load_model, :set_page
+  before_filter :load_platform, :load_model, :set_page, :set_quick_edit
   before_filter :load_object, :except => [:create, :new]
 
   def new
@@ -12,7 +12,7 @@ class Bhf::EntriesController < Bhf::BhfController
   def edit
     @form_url = entry_path(@platform.name, @object)
 
-    if request.xhr?
+    if @quick_edit
       render :layout => 'bhf/quick_edit'
     end
   end
@@ -40,7 +40,7 @@ class Bhf::EntriesController < Bhf::BhfController
       manage_many_to_many
       after_save
 
-      if request.xhr?
+      if @quick_edit
         render :json => object_to_bhf_display_hash, :status => :ok
       else
         redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('update.success', @model))
@@ -48,7 +48,7 @@ class Bhf::EntriesController < Bhf::BhfController
     else
       @form_url = entry_path(@platform.name, @object)
 
-      if request.xhr?
+      if @quick_edit
         render :edit, :status => :unprocessable_entity, :layout => 'bhf/quick_edit'
       end
     end
@@ -117,4 +117,7 @@ class Bhf::EntriesController < Bhf::BhfController
       @page = @platform.page_name
     end
 
+    def set_quick_edit
+      @quick_edit = request.xhr?
+    end
 end

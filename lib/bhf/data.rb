@@ -1,6 +1,6 @@
 module Bhf
   module Data
-    
+
     class Field
 
       attr_reader :info
@@ -87,7 +87,7 @@ module Bhf
       
       def type
         return @overwrite_type if @overwrite_type
-        
+
         if macro === :has_and_belongs_to_many
           :check_box
         elsif macro === :belongs_to
@@ -96,7 +96,7 @@ module Bhf
           :static
         end
       end
-      
+
       def form_type
         type
       end
@@ -104,23 +104,23 @@ module Bhf
       def display_type
         :default
       end
-      
+
       def name
         @reflection.name.to_s
       end
-      
+
     end
 
 
     class Column
-    
+
       attr_reader :name, :field
-    
+
       def initialize(field)
         @name = field.name
         @field = field
       end
-    
+
     end
 
   end  

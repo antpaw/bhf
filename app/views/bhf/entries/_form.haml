@@ -1,13 +1,14 @@
-- html = { :id => :main_form, :multipart => @platform.has_file_upload? }
+- html = { :id => (:main_form unless @quick_edit), :multipart => @platform.has_file_upload? }
 = form_for @object, :url => @form_url, :builder => Bhf::Form::Builder, :html => html do |f|
-  
+
   - if f.object.errors.any?
     = render :partial => 'validation_errors', :locals => {:f => f}
-  
+
   - @platform.fields.each do |field|
     - unless field.form_type === :hidden
       = render :partial => "bhf/entries/form/#{field.macro}/#{field.form_type}", :locals => {:f => f, :field => field}
-  
-  .node
-    .label
-    .input= f.submit f.object.new_record? ? new_t(@platform) : edit_t(@platform)
+
+  - unless @quick_edit
+    .node
+      .label
+      .input= f.submit f.object.new_record? ? new_t(@platform) : edit_t(@platform)

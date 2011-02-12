@@ -53,15 +53,12 @@ header
       &:hover
         border-color: #2B303C
         +box-inner-shadow(0, 0, 35, #2B303C)
-      
-#content
-  padding: 40px
 
-#content
+.quick_edit_holder,
+#main
   background: #EAEAEA
   border: 1px solid #FFFFFF
   padding: 10px 20px
-  margin: 20px
   +border-radius(5)
   +box-shadow(0, 1, 4, rgba(0, 0, 0, 0.5))
   
@@ -205,7 +202,7 @@ form
 input[type="submit"],
 .button
   cursor: pointer
-  display: block
+  display: inline-block
   text-transform: uppercase
   text-decoration: none
   +bg-gradient(#FFFFFF, #D5D5D5)
@@ -222,6 +219,18 @@ input[type="submit"],
     +text-shadow(#fff, -1)
     +bg-gradient(#D5D5D5, #FFFFFF)
     
+footer
+  +text-shadow(#999)
+  text-align: center
+  color: #414756
+  font-size: 12px
+  line-height: 20px
+  a
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+
+
 .pagination
   a, span, em
     display: inline-block
@@ -279,18 +288,48 @@ input[type="submit"],
   td
     background: #fff !important
 
+#content
+  .quick_edit_holder
+    position: relative
+    width: 400px
+    .node,
+    .input,
+    .label
+      display: block
+    .input
+      padding-top: 0
+    textarea
+      width: 300px
+      height: 100px
+    > .button
+      text-indent: -9999px
+      &.cancel,
+      &.open
+        float: right
+      &.open
+        margin-right: 10px
+#content
+  display: table
+  width: 100%
+  box-sizing: border-box
+  border-spacing: 20px
+#main,
 .quick_edit_holder
-  width: 400px
-  background: #fff
-  position: absolute
-  right: 0
-  top: 0
-  padding: 20px
-  .input,
-  .label
-    display: block !important
+  display: table-cell
+.quick_edit_holder
+  border-spacing: 20px
 
-  textarea
-    width: 300px !important
-    height: 100px !important
-  
+
+#content tbody
+  td
+    max-width: 200px
+    white-space: nowrap
+    overflow: hidden
+    &.text
+      a
+        -webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(80%,rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+    &.edit
+      a
+        display: inline
+    
+    

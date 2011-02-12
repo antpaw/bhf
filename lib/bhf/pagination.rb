@@ -4,7 +4,7 @@ module Bhf
 
     attr_accessor :template
     attr_reader :offset_per_page, :offset_to_add
-    
+
     def initialize(offset_per_page = 10, offset_to_add = 5)
       @offset_per_page = offset_per_page
       @offset_to_add = offset_to_add
@@ -12,7 +12,7 @@ module Bhf
 
     def paginate(platform)
       platform_params = template.params[platform.name] || {}
-      
+
       if page_links = template.will_paginate(platform.paginated_objects, {
         :previous_label => I18n.t('bhf.pagination.previous_label'),
         :next_label => I18n.t('bhf.pagination.next_label'),
@@ -23,7 +23,7 @@ module Bhf
       elsif platform.paginated_objects.total_pages == 1 && platform.paginated_objects.size > @offset_to_add
         links = load_less(platform)
       end
-      
+
       if links
         template.content_tag(:div, links.html_safe, {:class => 'pagination'})
       end
@@ -65,7 +65,7 @@ module Bhf
       else
         load_offset -= @offset_to_add
       end
-      
+
       platform_params.delete(:page)
       platform_params[:per_page] = load_offset
       

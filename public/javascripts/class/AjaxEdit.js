@@ -37,7 +37,7 @@ var AjaxEdit = new Class({
 			url: element.get('href'),
 			onSuccess: function(html){
 				this.holder.innerHTML = html;
-				this.holder.inject(document.body);
+				this.holder.inject($('content'));
 			}.bind(this)
 		}).send();
 	},

@@ -2,7 +2,7 @@ class Bhf::BhfController < ActionController::Base
   
   protect_from_forgery
   
-  before_filter :check_admin_account, :load_config, :set_title
+  before_filter :init_time, :check_admin_account, :load_config, :set_title
 
   helper_method :entry_path, :new_entry_path, :entries_path, :edit_entry_path
   layout 'bhf/default'
@@ -58,6 +58,10 @@ class Bhf::BhfController < ActionController::Base
       key = model && ActiveModel::Naming.singular(model)
       
       I18n.t("bhf.activerecord.notices.models.#{key}.#{type}", :model => model.model_name.human, :default => I18n.t("activerecord.notices.messages.#{type}"))
+    end
+
+    def init_time
+      @start_time = Time.now
     end
 
 

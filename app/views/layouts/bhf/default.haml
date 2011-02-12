@@ -2,7 +2,7 @@
 %html{:lang => I18n.locale}
   %head
     %meta{:charset => 'utf-8'}
-    %title= @title.to_s
+    %title= @title
     = csrf_meta_tag
     %link{:href => '/favicon.ico', :rel => 'icon', :type => 'image/x-icon'}
     = stylesheet_link_tag 'bhf'
@@ -11,7 +11,7 @@
     
   %body
     %header
-      %h1= 'a'
+      %h1= @title
       %nav
         %ul
           - @config.pages.each do |page|
@@ -19,7 +19,9 @@
               = link_to page, bhf_page_path(page)
 
     #content
-      = render :partial => 'bhf/helper/flash', :locals => {:flash => flash}
-      = yield
+      #main
+        = render :partial => 'bhf/helper/flash', :locals => {:flash => flash}
+        = yield
 
-    %footer
+    %footer= render 'bhf/footer'
+    
