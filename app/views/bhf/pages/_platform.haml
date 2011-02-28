@@ -1,5 +1,5 @@
 - @pagination.template = self
-%table
+%table{:class => (@platform.custom_columns? ? 'custom_columns' : 'default_columns')}
   %caption
     %h4= @platform.title
     %p.info= @pagination.info @platform, :entry_name => 'entry'
@@ -11,7 +11,7 @@
         = f.hidden_field :order, :value => get_value(:order, @platform.name)
         = f.hidden_field :direction, :value => get_value(:direction, @platform.name)
 
-    %p.create= link_to new_t(@platform), new_entry_path(@platform.name), :class => 'button'
+    %p.create= link_to new_t(@platform), new_entry_path(@platform.name), :class => 'alt_button'
 
   %thead
     %tr
@@ -21,7 +21,7 @@
           - link = link_to column_name, current_order_path(column.name, @platform.name)
           = column.field.macro == :column ? link : column_name
 
-      %th.edit= edit_t(@platform)
+      %th.action
   %tfoot
     %tr
       %td{:colspan => @platform.columns.count+1}
@@ -36,6 +36,6 @@
               = link_to edit_link, :class => 'quick_edit' do
                 - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
                 = render :partial => p, :locals => {:column => column, :object => object}
-        %td.edit
-          = link_to edit_t(@platform), edit_link
-          = link_to delete_t(@platform), entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :remote => true
+        %td.action
+          = link_to edit_t(@platform), edit_link, :class => 'edit'
+          = link_to delete_t(@platform), entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :remote => true, :class => 'delete'

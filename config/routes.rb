@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   
   namespace :bhf, :path => Bhf::Engine.config.mount_at do
-    root :to => 'bhf#index'
+    root :to => 'application#index'
     
     get 'page/:page', :to => 'pages#show', :as => :page
     

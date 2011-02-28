@@ -42,7 +42,7 @@ end
 
 begin
   require 'jeweler'
-  
+
   Jeweler::Tasks.new do |gem|
     gem.name = 'bhf'
     gem.summary = 'Agnostic rails backend'
@@ -55,8 +55,8 @@ begin
     gem.add_dependency 'rails'
     gem.add_dependency 'haml'
     gem.add_dependency 'will_paginate'
-    
   end
+
   Jeweler::GemcutterTasks.new
 rescue
   puts 'Jeweler or dependency not available.'

@@ -65,6 +65,7 @@ window.addEvent('domready', function(){
 					var platform = tr.getParent('.platform');
 					var loadMore = platform.getElement('.load_more');
 					if (loadMore) {
+						// TODO: disable pagination while in quick_edit mode
 						trIndex = tr.getParent('tbody').getElements('tr').indexOf(tr);
 						updatePlatform(loadMore.get('href'), platform, function(){
 							platform.getElements('tbody tr').each(function(newTr, index){
@@ -114,5 +115,5 @@ window.addEvent('domready', function(){
 		});
 	}
 
-	new BrowserUpdate({vs:{i:8,f:3,o:10.01,s:2,n:9}});
+	// new BrowserUpdate({vs:{i:8,f:3,o:10.01,s:2,n:9}});
 });

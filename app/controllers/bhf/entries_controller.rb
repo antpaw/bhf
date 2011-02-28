@@ -1,4 +1,4 @@
-class Bhf::EntriesController < Bhf::BhfController
+class Bhf::EntriesController < Bhf::ApplicationController
   before_filter :load_platform, :load_model, :set_page, :set_quick_edit
   before_filter :load_object, :except => [:create, :new]
 

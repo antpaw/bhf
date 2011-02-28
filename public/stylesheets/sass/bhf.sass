@@ -5,24 +5,28 @@
 @import functions
 
 html
-  background-color: #767A80
-  min-width: 900px
+  min-width: 700px
 
 body
-  color: #424856
-  +text-shadow(#fff)
+  background: url(/images/bg.png)
+  margin-right: -40px
+  overflow-x: hidden
+
+$w1: #fff
+$w2: #F1F1F1
+$k1: #000
+$b1: #38A5E9
+$b2: #0F8FDD
 
 a
-  color: #333333
+  text-decoration: none
+  color: inherit 
 
 header
   display: block
   overflow: hidden
   clear: both
-  padding: 10px 20px
-  background-color: #414756
-  border-bottom: 1px solid #8C8C8C
-  +box-shadow(0, 0, 3)
+  padding: 20px 20px 0 20px
   h1
     float: left
     display: none
@@ -35,7 +39,6 @@ header
         +text-shadow(#fff, -1)
         +bg-gradient(#D5D5D5, #FFFFFF)
         +box-shadow(0, 1, 4)
-        +border-radius(2)
         color: #414756
         &:hover
           +bg-gradient(#FFFFFF, #D5D5D5)
@@ -46,7 +49,6 @@ header
       text-decoration: none
       display: block
       padding: 5px 20px
-      +border-radius(5)
       border: 1px solid transparent
       color: #D8D8D8
       +text-shadow(#000, -1)
@@ -54,102 +56,168 @@ header
         border-color: #2B303C
         +box-inner-shadow(0, 0, 35, #2B303C)
 
+#content
+  display: table
+  width: 100%
+  box-sizing: border-box
+  margin-left: -20px
+  border-spacing: 20px
+
 .quick_edit_holder,
 #main
+  display: table-cell
   background: #EAEAEA
-  border: 1px solid #FFFFFF
+  border: 3px solid #FFFFFF
   padding: 10px 20px
-  +border-radius(5)
-  +box-shadow(0, 1, 4, rgba(0, 0, 0, 0.5))
-  
+  +box-shadow(0, 1, 4, rgba($k1, 0.5))
 
-.platform
-  padding: 20px 0
-  
-  table
-    width: 100%
-    caption
-      +text-shadow(#E4E4E4)
-      height: 30px
-      padding: 10px 15px 8px 10px
-      border: 1px solid #C6C6C6
-      +bg-gradient(#D4D4D4, #C6C6C6)
-      +border-top-radius(3)
-      h4,
-      .info
-        float: left
-      .info
-        padding: 5px 20px
-        text-transform: uppercase
-        color: gray
-        strong
-          color: #424856
-      .create
+#content
+  #main
+    border-right: none
+    border-left: none
+  .quick_edit_holder
+    border-right: none
+    position: relative
+    width: 400px
+    .node,
+    .input,
+    .label
+      display: block
+    .input
+      padding-top: 0
+    textarea
+      width: 300px
+      height: 100px
+    > .button
+      /*text-indent: -9999px*/
+      &.cancel,
+      &.open
         float: right
-      form
-        float: left
-    thead
-      th
-        padding: 4px 0
-        padding-left: 5px
-        text-align: left
-        border-top: 1px solid #FFFFFF
-        border-bottom: 1px solid #C6C6C6
-        &.primary_key
-          text-transform: uppercase
-        &.sorted
-          background: #414756
-          a
-            color: #FFFFFF
-            +text-shadow
-          & a:after,
-          &.desc:hover a:after
-            content: ' ▼'
-          &:hover a:after,
-          &.desc a:after
-            content: ' ▲'
-    tbody
-      a
-        text-decoration: none
-      tr
-        td
-          padding-left: 5px
-          border-top: 1px solid #FFFFFF
-          border-bottom: 1px solid #C6C6C6
-          a
-            display: block
-            padding: 4px 0
-        &:hover td
-          background-color: #D9D9D9
-            
-    tfoot
-      td
-        border-top: 1px solid #FFFFFF
-        padding: 8px 12px
+      &.open
+        margin-right: 10px
+
+table
+  margin-top: 40px
+  width: 100%
+  caption
+    height: 60px
+    background-image: url(/images/button_bg_2.png)
+    h4,
+    .info
+      float: left
+    .info
+      padding: 5px 20px
+      text-transform: uppercase
+      font-size: 12px
+    .create
+      float: right
+    form
+      float: left
+  thead
+    th
+      padding: 4px 0
+      padding-left: 5px
+      text-align: left
+      border-top: 1px solid #FFFFFF
+      border-bottom: 1px solid #C6C6C6
+      white-space: nowrap
+      &.primary_key
+        text-transform: uppercase
+      &.sorted
+        background: #414756
+        & a:after,
+        &.desc:hover a:after
+          content: ' ▼'
+        &:hover a:after,
+        &.desc a:after
+          content: ' ▲'
+        a
+          color: #FFFFFF
+          +text-shadow
+  tbody
+    td
+      border-top: 1px solid #FFFFFF
+      border-bottom: 1px solid #C6C6C6
+      &.has_many,
+      &.has_and_belongs_to_many,
+      &.text
+        max-width: 200px
+        white-space: nowrap
+        overflow: hidden
+        a 
+          -webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(50%,rgba($k1,1)), to(rgba($w1,0)))
+    a
+      display: block
+      padding: 5px 3px
+      &.edit,
+      &.delete
+        padding: 0
+        margin-right: 5px
+        display: inline-block
+        text-indent: -9999px
+        width: 20px
+        height: 20px
+        &:active
+          background-position: 0 1px
+      &.edit
+        background: url(/images/icon_edit.png)
+        &:hover
+          background-image: url(/images/icon_edit_a.png)
+      &.delete
+        background: url(/images/icon_delete.png)
+        &:hover
+          background-image: url(/images/icon_delete_a.png)
+    tr
+      &:hover td,
+      &.live_edit td
+        background: $b2
+        color: $w1
+        &:first-child
+          +border-left-radius(4)
+        &:last-child
+          +border-right-radius(4)
+      &.live_edit td
+        background: red
+
+
+  tfoot
+    td
+      padding-top: 10px
+      border-top: 1px solid #FFFFFF
+
+  thead,
+  tbody
     .primary_key,
     .number
       padding-right: 10px
       text-align: right
     .primary_key
+      width: 30px
+    .action
       width: 50px
-    .edit
-      width: 150px
-    
+
+
+.default_input
+  border: 1px solid #BBBBBB
+  background: #FFF
+  +border-radius(2)
+  +box-shadow(0, 1, 0, #FFFFFF)
+  padding: 3px 5px 1px 5px
+  width: 300px
+  &:focus
+    outline: 0
+    +transition-duration(1)
+    -webkit-box-shadow: 0 1px 12px $b2
+    border-color: $b2
+
+.search
+  input
+    @extend .default_input
+    width: 200px
+
 form
   .node
     display: table-row
-    &:hover
-      .label
-        color: inherit
-      .input
-        input[type="password"],
-        input[type="text"],
-        textarea
-    .input,
-    .label
-      padding-top: 10px
-      vertical-align: top
-      display: table-cell
     &.string,
     &.text,
     &.password
@@ -168,21 +236,16 @@ form
     &.primary_key
       .label
         text-transform: uppercase
+    .input,
+    .label
+      padding-top: 10px
+      vertical-align: top
+      display: table-cell
     .input
       input[type="password"],
       input[type="text"],
       textarea
-        border: 1px solid #BBBBBB
-        background: #FFF
-        font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
-        +border-radius(2)
-        +box-shadow(0, 1, 0, #FFFFFF)
-        padding: 3px 5px 1px 5px
-        width: 300px
-        &:focus
-          +box-shadow(0, 1, 10, #8AC3DA)
-          border-color: #30A3D1
-          outline: 0
+        @extend .default_input
       textarea
         width: 500px
         height: 200px
@@ -199,30 +262,11 @@ form
       &:hover
         color: #ff9900
 
-input[type="submit"],
-.button
-  cursor: pointer
-  display: inline-block
-  text-transform: uppercase
-  text-decoration: none
-  +bg-gradient(#FFFFFF, #D5D5D5)
-  +text-shadow(#fff, 1)
-  +box-shadow(0, 1, 2, rgba(0, 0, 0, 0.5))
-  color: #414756
-  border: 1px solid #FFFFFF
-  padding: 5px 20px 3px 20px
-  +border-radius(2)
-  font: 14px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif
-  font-weight: bold
-  font-size: 12px
-  &:hover
-    +text-shadow(#fff, -1)
-    +bg-gradient(#D5D5D5, #FFFFFF)
-    
+
 footer
-  +text-shadow(#999)
+  +text-shadow(#000, -1)
   text-align: center
-  color: #414756
+  color: gray
   font-size: 12px
   line-height: 20px
   a
@@ -230,106 +274,63 @@ footer
     &:hover
       text-decoration: underline
 
+input[type="submit"],
+button,
+.button
+  display: inline-block
+  border: 0
+  padding: 12px 50px
+  background: url(/images/button_bg.png)
+  +border-radius(4)
+  -webkit-box-shadow: 0 1px 4px rgba($k1, 0.5), inset 0 2px 0 rgba($w1, 0.3), inset 0 1px 0 rgba($k1, 0.9)
+  text-decoration: none
+  font-weight: bold
+  color: $w2
+  font-size: 13px
+  text-shadow: 0 -1px 0 black
+  cursor: pointer
+  +transition-duration(0.8)
+  +transition-property(color)
+  &:hover
+    -webkit-box-shadow: inset 0 10px 20px 5px rgba($k1, 1), inset 0 -2px 0 rgba($w1, 0.5), inset 0 -1px 0 rgba($k1, 1)
+    color: $b1
+    text-shadow: 0 1px 0 black
+  &:active
+    -webkit-box-shadow: inset 0 1px 6px rgba($k1, 0.3), inset 0 -1px 0 $b2, inset 0 -2px 0 rgba($w1, 0.6)
+    background: url(/images/button_bg_a.png)
+    color: $w1
+  &:focus
+    outline: 0
+    padding: 10px 48px
+    +transition-duration(1)
+    +transition-property(-webkit-box-shadow)
+    -webkit-box-shadow: 0 1px 12px $b2
+    border: 2px solid $b2
+
+.alt_button
+  @extend .button
+  background-image: url(/images/button_bg_2.png)
+  padding: 5px 10px
+  -webkit-box-shadow: inset 0 1px 0 rgba($w1, 0.7)
+  color: $k1
+  +text-shadow($w1)
 
 .pagination
   a, span, em
-    display: inline-block
-    padding: 2px 9px
-    border: 1px solid #C6C6C6
-    +bg-gradient(#D4D4D4, #C6C6C6)
-    +border-radius(3)
-    +text-shadow(#E4E4E4)
-  span.current
-    color: #fff
-    +bg-gradient(rgba(#545F76, 0.5), rgba(#424856, 0.5))
-    border-color: rgba(#424856, 0.5)
-    +text-shadow(#686868)
-  span.disabled
-    color: #999
-    +bg-gradient(#C6C6C6, #D4D4D4)
-    border-color: #DDD
-  em
-    font-weight: bold
-    color: white
-    border-color: #2E6AB1
-  a
-    text-decoration: none
-    color: #424856
-    &:hover,
-    &:focus
-      color: #fff
-      +bg-gradient(#545F76, #424856)
-      border-color: #424856
-      +text-shadow(#383838)
+    @extend .alt_button
+  // span.current
+  // span.disabled
+  // em
+  // a
 
+@media (max-width: 800px)
+  body
+    overflow-x: auto
 
-#ajax_holder
-  +border-radius(12)
-  +box-shadow(0, 5, 10, #333)
-  position: fixed
-  top: 0
-  width: 500px
-  left: 50%
-  margin-left: -250px
-  margin-top: 20px
-  padding: 20px
-  background: white
-  border: 1px solid #666
-  color: #666
-  font-size: 14px
-  z-index: 80000
-  &.success
-    color: green
-  &.failure
-    color: red
-    border-color: red
-
-.live_edit
-  td
-    background: #fff !important
-
-#content
-  .quick_edit_holder
-    position: relative
-    width: 400px
-    .node,
-    .input,
-    .label
-      display: block
-    .input
-      padding-top: 0
-    textarea
-      width: 300px
-      height: 100px
-    > .button
-      text-indent: -9999px
-      &.cancel,
-      &.open
-        float: right
-      &.open
-        margin-right: 10px
-#content
-  display: table
-  width: 100%
-  box-sizing: border-box
-  border-spacing: 20px
-#main,
-.quick_edit_holder
-  display: table-cell
-.quick_edit_holder
-  border-spacing: 20px
-
-
-#content tbody
-  td
-    max-width: 200px
-    white-space: nowrap
-    overflow: hidden
-    &.text
-      a
-        -webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(80%,rgba(0,0,0,1)), to(rgba(0,0,0,0)))
-    &.edit
-      a
-        display: inline
-    
-    
+@media (max-width: 960px)
+  .default_columns
+    thead th:nth-last-child(2),
+    tbody td:nth-last-child(2),
+    thead th:nth-last-child(3),
+    tbody td:nth-last-child(3)
+      display: none

@@ -1,4 +1,4 @@
-class Bhf::PagesController < Bhf::BhfController
+class Bhf::PagesController < Bhf::ApplicationController
   before_filter :set_page, :store_location
 
   def show

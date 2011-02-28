@@ -1,4 +1,4 @@
-class Bhf::BhfController < ActionController::Base
+class Bhf::ApplicationController < ActionController::Base
   
   protect_from_forgery
   

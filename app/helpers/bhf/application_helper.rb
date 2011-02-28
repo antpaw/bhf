@@ -1,5 +1,5 @@
 module Bhf
-  module BhfHelper
+  module ApplicationHelper
     
 
     def new_t(platform)

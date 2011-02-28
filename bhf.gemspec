@@ -5,25 +5,25 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.0.1"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-02-01}
+  s.date = %q{2011-02-28}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
     "README.md"
   ]
   s.files = [
-    "app/controllers/bhf/bhf_controller.rb",
+    "app/controllers/bhf/application_controller.rb",
     "app/controllers/bhf/entries_controller.rb",
     "app/controllers/bhf/pages_controller.rb",
-    "app/helpers/bhf/bhf_helper.rb",
+    "app/helpers/bhf/application_helper.rb",
     "app/helpers/bhf/entries_helper.rb",
     "app/helpers/bhf/pages_helper.rb",
-    "app/models/bhf/base.rb",
-    "app/views/bhf/bhf/index.haml",
+    "app/views/bhf/_footer.haml",
+    "app/views/bhf/application/index.haml",
     "app/views/bhf/entries/_form.haml",
     "app/views/bhf/entries/_validation_errors.haml",
     "app/views/bhf/entries/edit.haml",
@@ -32,21 +32,24 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/belongs_to/_static.haml",
     "app/views/bhf/entries/form/column/_boolean.haml",
     "app/views/bhf/entries/form/column/_date.haml",
+    "app/views/bhf/entries/form/column/_file.haml",
+    "app/views/bhf/entries/form/column/_markdown.haml",
     "app/views/bhf/entries/form/column/_number.haml",
     "app/views/bhf/entries/form/column/_static.haml",
     "app/views/bhf/entries/form/column/_string.haml",
     "app/views/bhf/entries/form/column/_text.haml",
+    "app/views/bhf/entries/form/column/_wysiwyg.haml",
     "app/views/bhf/entries/form/has_and_belongs_to_many/_check_box.haml",
     "app/views/bhf/entries/form/has_and_belongs_to_many/_static.haml",
     "app/views/bhf/entries/form/has_many/_static.haml",
     "app/views/bhf/entries/form/has_one/_static.haml",
     "app/views/bhf/entries/new.haml",
-    "app/views/bhf/entries/show.haml",
     "app/views/bhf/helper/_field_errors.haml",
     "app/views/bhf/helper/_flash.haml",
     "app/views/bhf/helper/_info.haml",
     "app/views/bhf/helper/_node.haml",
     "app/views/bhf/helper/_reflection_node.haml",
+    "app/views/bhf/pages/_platform.haml",
     "app/views/bhf/pages/macro/belongs_to/_default.haml",
     "app/views/bhf/pages/macro/column/_boolean.haml",
     "app/views/bhf/pages/macro/column/_date.haml",
@@ -58,13 +61,16 @@ Gem::Specification.new do |s|
     "app/views/bhf/pages/macro/has_many/_default.haml",
     "app/views/bhf/pages/macro/has_one/_default.haml",
     "app/views/bhf/pages/show.haml",
-    "app/views/layouts/bhf.haml",
+    "app/views/layouts/bhf/default.haml",
+    "app/views/layouts/bhf/quick_edit.haml",
     "config/locales/en.yml",
     "config/routes.rb",
     "lib/bhf.rb",
     "lib/bhf/active_record.rb",
+    "lib/bhf/data.rb",
     "lib/bhf/form.rb",
-    "lib/bhf/lists.rb",
+    "lib/bhf/pagination.rb",
+    "lib/bhf/platform.rb",
     "lib/bhf/settings.rb",
     "lib/engine.rb",
     "lib/rails/generators/bhf/templates/initializer.rb",

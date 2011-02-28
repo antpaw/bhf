@@ -28,6 +28,10 @@ module Bhf
       table_options(:search) != false
     end
 
+    def custom_columns?
+      table_options(:columns).is_a?(Array)
+    end
+
     def search
       table_options(:search) || :where
     end
@@ -135,7 +139,7 @@ module Bhf
 
         model.reflections.each_pair do |name, props|
           all[name.to_s] = Bhf::Data::Reflection.new(props, {
-            :overwrite_type => form_options('types', name),
+            :overwrite_type => form_options(:types, name),
             :info => I18n.t("bhf.platforms.#{@name}.infos.#{name}", :default => ''),
             :link => form_options(:links, name)
           })
@@ -177,7 +181,7 @@ module Bhf
         end
         true      
       end
-    
+
       def form_options(key, attribute = nil)
         if form
           if attribute === nil
@@ -187,7 +191,7 @@ module Bhf
           end
         end
       end
-  
+
       def table_options(key)
         if table
           return table[key.to_s]
