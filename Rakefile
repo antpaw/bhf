@@ -28,8 +28,6 @@ task :compile_js do
     file.write(output)
   end
 end
-# Rake::Task[:compile_js].invoke
-# Rake::Task[:compile_css].invoke
 
 
 require 'rake/testtask'
@@ -44,6 +42,9 @@ begin
   require 'jeweler'
 
   Jeweler::Tasks.new do |gem|
+    Rake::Task[:compile_js].invoke
+    Rake::Task[:compile_css].invoke
+    
     gem.name = 'bhf'
     gem.summary = 'Agnostic rails backend'
     gem.description = 'Gets you there in time'

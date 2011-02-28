@@ -1,2 +1,4 @@
 .sass-cache/
 pkg/
+public/stylesheets/bhf.css
+public/javascripts/bhf.js
