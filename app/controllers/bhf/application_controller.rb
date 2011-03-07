@@ -20,7 +20,7 @@ class Bhf::ApplicationController < ActionController::Base
       if auth_logic.respond_to?(:current_admin_account) && auth_logic.current_admin_account
         return true
       else
-        redirect_to(root_url, :error => I18t.t('bhf.helpers.login.error')) and return false
+        redirect_to(root_url, :error => t('bhf.helpers.login.error')) and return false
       end
     end
 

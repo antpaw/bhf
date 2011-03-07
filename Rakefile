@@ -50,7 +50,7 @@ begin
     gem.description = 'Gets you there in time'
     gem.email = 'anton.pawlik@gmail.com'
     gem.authors = ['Anton Pawlik']
-    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "public/stylesheets/bhf.css", "public/javascripts/bhf.js"]
+    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "public/stylesheets/bhf.css", "public/javascripts/bhf.js", "public/images/bhf/*"]
     gem.homepage = 'http://github.com/antpaw/bahnhof'
     gem.rubyforge_project = 'nowarning'
     gem.add_dependency 'rails'
