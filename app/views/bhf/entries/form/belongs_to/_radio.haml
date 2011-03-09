@@ -1,5 +1,5 @@
 = reflection_node f, field do
-  - fk = field.reflection.association_foreign_key
+  - fk = field.reflection.primary_key_name
   %ul
     - field.reflection.klass.all.each do |obj|
       %li

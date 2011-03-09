@@ -40,7 +40,7 @@ module Bhf
       chain = model
 
       if options[:order]
-        chain = chain.order("#{options[:order]} #{options[:direction]}")
+        chain = chain.unscoped.order("#{options[:order]} #{options[:direction]}")
       end
 
       if search? && options[:search].present?
@@ -60,11 +60,11 @@ module Bhf
     end
 
     def fields
-      default_attrs(form_options(:display))
+      default_attrs(form_options(:display), @collection)
     end
 
     def columns
-      default_attrs(table_options(:columns)).
+      default_attrs(table_options(:columns), @collection[0..5]).
       each_with_object([]) do |field, obj|
         obj << Bhf::Data::Column.new(field)
       end
@@ -116,14 +116,12 @@ module Bhf
         table_options(:source) || :all
       end
 
-      def default_attrs(attrs)
-        if attrs
-          model_respond_to?(attrs)
-          @collection.select do |field|
-            attrs.include?(field.name)
-          end
-        else
-          @collection
+      def default_attrs(attrs, default_attrs)
+        return default_attrs unless attrs
+        
+        model_respond_to?(attrs)
+        @collection.select do |field|
+          attrs.include?(field.name)
         end
       end
 
@@ -144,7 +142,7 @@ module Bhf
             :link => form_options(:links, name)
           })
 
-          fk = all[name.to_s].reflection.association_foreign_key
+          fk = all[name.to_s].reflection.primary_key_name
           if all.has_key?(fk)
             all.delete(fk)
           end

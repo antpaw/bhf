@@ -24,6 +24,7 @@ module Bhf
           return page.values.flatten
         end
       end
+      nil
     end
 
     def find_platform(platform_name)

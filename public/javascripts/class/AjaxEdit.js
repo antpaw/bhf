@@ -20,6 +20,10 @@ var AjaxEdit = new Class({
 				e.preventDefault();
 				this.submit(['successAndChange', 'successAndNext']);
 			}.bind(this),
+			'click:relay(.save)': function(e){
+				e.preventDefault();
+				this.submit(['successAndChange']);
+			}.bind(this),
 			'submit:relay(form)': function(e){
 				e.preventDefault();
 				this.submit(['successAndChange']);

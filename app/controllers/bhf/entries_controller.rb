@@ -6,7 +6,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     @object = @model.new
     after_load
 
-    @form_url = entries_path(@platform.name, @model)
+    @form_url = entries_path(@platform.name)
   end
 
   def edit
@@ -28,7 +28,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
       redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
     else
-      @form_url = entries_path(@platform.name, @model)
+      @form_url = entries_path(@platform.name)
       render :new
     end
   end

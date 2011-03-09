@@ -2,7 +2,12 @@ class Bhf::PagesController < Bhf::ApplicationController
   before_filter :set_page, :store_location
 
   def show
-    platform_options = @config.content_for_page(@page)
+    # TODO: 404
+    
+    unless platform_options = @config.content_for_page(@page)
+      render :status => 404 and return
+    end
+    
 
     @pagination = Bhf::Pagination.new(2, 3)
     
