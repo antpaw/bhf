@@ -51,6 +51,9 @@ var AjaxEdit = new Class({
 		new Request.JSON({
 			method: form.get('method'),
 			url: form.get('action'),
+			onRequest: function(){
+				this.disableButtons();
+			}.bind(this),
 			onFailure: function(invalidForm){
 				this.holder.innerHTML = invalidForm.response;
 				this.holder.inject(document.body);
@@ -64,6 +67,10 @@ var AjaxEdit = new Class({
 				}.bind(this));
 			}.bind(this)
 		}).send({data: form});
+	},
+
+	disableButtons: function(){
+		this.holder.getElements('.open, .cancel, .save_and_next, .save').set('disabled', 'disabled');
 	},
 
 	clean: function(){
