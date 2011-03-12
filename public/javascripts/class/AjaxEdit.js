@@ -1,5 +1,9 @@
 var AjaxEdit = new Class({
 	version: 0.2,
+	
+	options: {
+		holderParent: document.body
+	},
 
 	Implements: [Options, Events],
 
@@ -41,7 +45,7 @@ var AjaxEdit = new Class({
 			url: element.get('href'),
 			onSuccess: function(html){
 				this.holder.innerHTML = html;
-				this.holder.inject($('content'));
+				this.holder.inject(this.options.holderParent);
 			}.bind(this)
 		}).send();
 	},
@@ -56,7 +60,7 @@ var AjaxEdit = new Class({
 			}.bind(this),
 			onFailure: function(invalidForm){
 				this.holder.innerHTML = invalidForm.response;
-				this.holder.inject(document.body);
+				this.holder.inject(this.options.holderParent);
 			}.bind(this),
 			onSuccess: function(json){
 				if ( ! eventNames.contains('successAndNext')) {

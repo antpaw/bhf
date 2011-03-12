@@ -2,5 +2,5 @@
 .node
   .label= f.label fk
   .input
-    = f.select fk, options_from_collection_for_select(field.reflection.klass.all, :id, :to_bhf_s, f.object.send(fk))
+    = f.select fk, options_from_collection_for_select(field.reflection.klass.all, :id, :to_bhf_s, f.object.send(fk)), :include_blank => true
     = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => fk}

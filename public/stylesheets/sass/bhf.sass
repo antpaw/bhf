@@ -6,17 +6,22 @@
 
 html
   min-width: 700px
+  height: 100%
+  overflow-y: scroll
+  background: black url(/images/bhf/bg.png)
 
 body
-  background: url(/images/bhf/bg.png)
-  margin-right: -40px
-  overflow-x: hidden
+  min-width: 960px
+  min-height: 100%
+  +box-inner-shadow(0, 0, 8,#000)
 
 $w1: #fff
 $w2: #F1F1F1
 $k1: #000
 $b1: #38A5E9
 $b2: #0F8FDD
+$g1: #7F7F7F
+$g2: #ccc
 
 a
   text-decoration: none
@@ -26,57 +31,61 @@ header
   display: block
   overflow: hidden
   clear: both
-  padding: 20px 20px 0 20px
+  padding: 0 20px
   h1
-    float: left
-    display: none
-  li
-    float: left
-    font-weight: bold
-    margin-right: 30px
-    &.active
+    float: right
+    height: 83px
+    overflow: hidden
+  nav
+    padding-top: 25px
+    li
+      float: left
+      font-weight: bold
+      margin-right: 30px
+      &.active
+        a
+          +text-shadow(#fff, -1)
+          +bg-gradient(#D5D5D5, #FFFFFF)
+          +box-shadow(0, 1, 4)
+          color: #414756
+          &:hover
+            +bg-gradient(#FFFFFF, #D5D5D5)
+            border-color: #FFFFFF
+            +text-shadow(#fff)
+            +box-inner-shadow(0, 0, 3, #fff)
       a
-        +text-shadow(#fff, -1)
-        +bg-gradient(#D5D5D5, #FFFFFF)
-        +box-shadow(0, 1, 4)
-        color: #414756
+        text-decoration: none
+        display: block
+        padding: 5px 20px
+        border: 1px solid transparent
+        color: #D8D8D8
+        +text-shadow(#000, -1)
         &:hover
-          +bg-gradient(#FFFFFF, #D5D5D5)
-          border-color: #FFFFFF
-          +text-shadow(#fff)
-          +box-inner-shadow(0, 0, 3, #fff)
-    a
-      text-decoration: none
-      display: block
-      padding: 5px 20px
-      border: 1px solid transparent
-      color: #D8D8D8
-      +text-shadow(#000, -1)
-      &:hover
-        border-color: #2B303C
-        +box-inner-shadow(0, 0, 35, #2B303C)
+          border-color: #2B303C
+          +box-inner-shadow(0, 0, 35, #2B303C)
+          // TODO: table, so we can vertial align nav
+            
 
 #content
   display: table
   width: 100%
   box-sizing: border-box
-  margin-left: -20px
+  margin-top: -20px
   border-spacing: 20px
-
+  h2
+    +text-shadow(#fff)
+    
 .quick_edit_holder,
 #main
   display: table-cell
   background: #EAEAEA
   border: 3px solid #FFFFFF
+  box-sizing: border-box
   padding: 10px 20px
   +box-shadow(0, 1, 4, rgba($k1, 0.5))
 
 #content
-  #main
-    border-right: none
-    border-left: none
   .quick_edit_holder
-    border-right: none
     position: relative
     width: 400px
     .node,
@@ -100,27 +109,38 @@ table
   margin-top: 40px
   width: 100%
   caption
-    height: 60px
+    height: 28px
+    padding: 10px 20px
     background-image: url(/images/bhf/button_bg_2.png)
+    +border-top-radius(4)
+    text-align: left
+    +box-shadow(0, 1, 4, #ccc)
     h4,
     .info
-      float: left
+      display: inline-block
+      +text-shadow(#fff)
+    h4
+      color: #3E3E3E
     .info
       padding: 5px 20px
       text-transform: uppercase
       font-size: 12px
+      color: $g1
+    form
+      display: inline-block
     .create
       float: right
-    form
-      float: left
   thead
     th
       padding: 4px 0
       padding-left: 5px
       text-align: left
-      border-top: 1px solid #FFFFFF
-      border-bottom: 1px solid #C6C6C6
+      border-top: 1px solid #C6C6C6
+      border-bottom: 1px solid #1B1B1B
       white-space: nowrap
+      background: #3E3E3E
+      +text-shadow(#000, -1)
+      color: #C2C2C2
       &.primary_key
         text-transform: uppercase
       &.sorted
@@ -170,14 +190,14 @@ table
     tr
       &:hover td,
       &.live_edit td
-        background: $b2
+        background: $g1
         color: $w1
         &:first-child
           +border-left-radius(4)
         &:last-child
           +border-right-radius(4)
       &.live_edit td
-        background: red
+        background: $b1
 
 
   tfoot
@@ -287,7 +307,7 @@ button,
   font-weight: bold
   color: $w2
   font-size: 13px
-  text-shadow: 0 -1px 0 black
+  +text-shadow(#000, -1)
   cursor: pointer
   +transition-duration(0.8)
   +transition-property(color)
@@ -306,29 +326,42 @@ button,
     +transition-property(-webkit-box-shadow)
     -webkit-box-shadow: 0 1px 12px $b2
     border: 2px solid $b2
-  [disabeled]
+  &[disabeled]
     background: red
   
   
 .alt_button
-  @extend .button
-  background-image: url(/images/bhf/button_bg_2.png)
+  display: inline-block
+  padding: 12px 50px
+  +border-radius(4)
+  text-decoration: none
+  border: 1px solid gray
+  font-size: 13px
+  cursor: pointer
+  background: #666
   padding: 5px 10px
-  -webkit-box-shadow: inset 0 1px 0 rgba($w1, 0.7)
-  color: $k1
-  +text-shadow($w1)
+  -webkit-box-shadow: inset 0 1px 0 rgba(#AAABAA, 0.7)
+  color: $w1
+  +text-shadow(#444, -1)
+  &:hover
+    background: #444
+    -webkit-box-shadow: inset 0 -1px 0 rgba(#AAABAA, 0.7)
 
 .pagination
   a, span, em
     @extend .alt_button
+  
+  .current
+    background: #888
+    -webkit-box-shadow: inset 0 -1px 0 rgba(#AAABAA, 0.7)
+
   // span.current
   // span.disabled
   // em
   // a
 
 @media (max-width: 800px)
-  body
-    overflow-x: auto
+  
 
 @media (max-width: 960px)
   .default_columns

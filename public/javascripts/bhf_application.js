@@ -1,7 +1,9 @@
 var ajaxNote = new Ajaxify();
-var quickEdit = new AjaxEdit();
 
 window.addEvent('domready', function(){
+	var quickEdit = new AjaxEdit({
+		holderParent: $('content')
+	});
 	ajaxNote.applyEvents();
 
 	var platforms = document.body.getElements('.platform');
@@ -98,13 +100,11 @@ window.addEvent('domready', function(){
 			},
 			successAndNext: function(json){
 				var a = this.wrapElement;
-
 				var li = a.getParent('li');
 				if ( ! li) { 
 					this.close();
 					return;
 				}
-
 				var holder = li.getNext('li');
 
 				if ( ! holder) {

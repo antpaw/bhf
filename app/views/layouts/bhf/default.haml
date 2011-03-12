@@ -11,13 +11,13 @@
     
   %body
     %header
-      %h1= @title
+      %h1= image_tag 'logo_bhf.png'
       %nav
         %ul
           - @config.pages.each do |page|
             %li{:class => ('active' if @page == page)}
               = link_to page, bhf_page_path(page)
-
+      
     #content
       #main
         = render :partial => 'bhf/helper/flash', :locals => {:flash => flash}
