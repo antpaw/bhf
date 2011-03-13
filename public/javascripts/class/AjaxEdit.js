@@ -44,14 +44,18 @@ var AjaxEdit = new Class({
 			method: 'get',
 			url: element.get('href'),
 			onSuccess: function(html){
-				this.holder.innerHTML = html;
-				this.holder.inject(this.options.holderParent);
+				this.injectForm(html);
 			}.bind(this)
 		}).send();
 	},
 
 	submit: function(eventNames){
 		var form = this.holder.getElement('form');
+
+		wysiwyg.each(function(elem){
+			elem.saveContent();
+		});
+
 		new Request.JSON({
 			method: form.get('method'),
 			url: form.get('action'),
@@ -59,8 +63,7 @@ var AjaxEdit = new Class({
 				this.disableButtons();
 			}.bind(this),
 			onFailure: function(invalidForm){
-				this.holder.innerHTML = invalidForm.response;
-				this.holder.inject(this.options.holderParent);
+				this.injectForm(invalidForm.response);
 			}.bind(this),
 			onSuccess: function(json){
 				if ( ! eventNames.contains('successAndNext')) {
@@ -84,5 +87,14 @@ var AjaxEdit = new Class({
 	close: function(){
 		this.clean();
 		this.holder.dispose();
+	},
+	
+	injectForm: function(form){
+		this.holder.innerHTML = form;
+		this.holder.inject(this.options.holderParent);
+		
+		this.holder.getElements('.wysiwyg').each(function(elem){
+			wysiwyg.push(elem.mooEditable());
+		});
 	}
 });

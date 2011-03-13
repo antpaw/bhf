@@ -1,4 +1,5 @@
 var ajaxNote = new Ajaxify();
+var wysiwyg = [];
 
 window.addEvent('domready', function(){
 	var quickEdit = new AjaxEdit({
@@ -87,6 +88,10 @@ window.addEvent('domready', function(){
 		});
 	}
 	else if (main_form) {
+		$$('.wysiwyg').each(function(elem){
+			wysiwyg.push(elem.mooEditable());
+		});
+
 		main_form.addEvents({
 			'click:relay(.quick_edit)': function(e){
 				e.preventDefault();
@@ -114,6 +119,14 @@ window.addEvent('domready', function(){
 			}
 		});
 	}
+	
+	setTimeout(function(){
+		// TODO: mootools slideUp(), maybe css3 animations
+		var fm = $('flash_massages');
+		if (fm) {
+			fm.fade('out');
+		}
+	}, 4000);
 
-	// new BrowserUpdate({vs:{i:8,f:3,o:10.01,s:2,n:9}});
+	new BrowserUpdate({vs:{i:8,f:3,o:10.01,s:2,n:9}});
 });

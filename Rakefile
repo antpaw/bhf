@@ -19,6 +19,7 @@ task :compile_js do
     'class/BrowserUpdate.js', 
     'class/Ajaxify.js',
     'class/AjaxEdit.js',
+    'class/MooEditable.js', 
     'bhf_application.js'
   ].each do |js_path|
     output << compressor.compress(File.read('public/javascripts/'+js_path))
@@ -50,7 +51,7 @@ begin
     gem.description = 'Gets you there in time'
     gem.email = 'anton.pawlik@gmail.com'
     gem.authors = ['Anton Pawlik']
-    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "public/stylesheets/bhf.css", "public/javascripts/bhf.js", "public/images/bhf/*"]
+    gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "public/stylesheets/bhf.css", "public/javascripts/bhf.js", "public/images/logo_bhf.png", "public/images/bhf/*"]
     gem.homepage = 'http://github.com/antpaw/bahnhof'
     gem.rubyforge_project = 'nowarning'
     gem.add_dependency 'rails'

@@ -97,7 +97,7 @@ module Bhf
         else
           where_statement = []
           model.columns_hash.each_pair do |name, props|
-            if props.type === :string
+            if props.type === :string || props.type === :text
               where_statement << "#{name} LIKE '%#{search_term}%'"
             elsif props.type === :integer
               where_statement << "#{name} = #{search_term.to_i}"
