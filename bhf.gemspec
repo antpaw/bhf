@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.1.4"
+  s.version = "0.1.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-03-12}
+  s.date = %q{2011-03-13}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
@@ -82,6 +82,8 @@ Gem::Specification.new do |s|
     "public/images/bhf/icon_delete_a.png",
     "public/images/bhf/icon_edit.png",
     "public/images/bhf/icon_edit_a.png",
+    "public/images/bhf/mooeditable-toolbarbuttons-tango.png",
+    "public/images/logo_bhf.png",
     "public/javascripts/bhf.js",
     "public/stylesheets/bhf.css"
   ]
