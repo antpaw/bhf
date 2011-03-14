@@ -27,15 +27,20 @@
       %td{:colspan => @platform.columns.count+1}
         = @pagination.paginate @platform
   %tbody
-    - @platform.paginated_objects.each do |object|
-      - edit_link = edit_entry_path(@platform.name, object)
-      %tr
-        - @platform.columns.each do |column|
-          %td{:class => "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
-            - unless column.field.macro == :column && object.send(column.name).blank?
-              = link_to edit_link, :class => 'quick_edit' do
-                - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
-                = render :partial => p, :locals => {:column => column, :object => object}
-        %td.action
-          = link_to edit_t(@platform), edit_link, :class => 'edit'
-          = link_to delete_t(@platform), entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :remote => true, :class => 'delete'
+    - if @platform.paginated_objects.any?
+      - @platform.paginated_objects.each do |object|
+        - edit_link = edit_entry_path(@platform.name, object)
+        %tr
+          - @platform.columns.each do |column|
+            %td{:class => "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
+              - unless column.field.macro == :column && object.send(column.name).blank?
+                = link_to edit_link, :class => 'quick_edit' do
+                  - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
+                  = render :partial => p, :locals => {:column => column, :object => object}
+          %td.action
+            = link_to edit_t(@platform), edit_link, :class => 'edit'
+            = link_to delete_t(@platform), entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :remote => true, :class => 'delete'
+    - else
+      %td.no_entries{:colspan => @platform.columns.count+1}
+        = t 'bhf.pagination.info.nothing_found', :name => t('bhf.pagination.entry').pluralize
+        = link_to new_t(@platform), new_entry_path(@platform.name)

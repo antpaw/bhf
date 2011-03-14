@@ -6,7 +6,8 @@ class Bhf::PagesController < Bhf::ApplicationController
       raise Exception.new("Page '#{@page}' could not be found")
     end
 
-    @pagination = Bhf::Pagination.new(2, 3)
+    # TODO: page offset form bhf.yml
+    @pagination = Bhf::Pagination.new(10)
     
     if request.xhr?
       params.each do |key, value|

@@ -9,7 +9,7 @@ en:
       promts:
         confirm: Are you sure?
       entry:
-        new: "Create new %{platform_name}"
+        new: "Create a new %{platform_name}"
         edit: "Edit %{platform_name}"
         delete: "Delete %{platform_name}"
         empty: Empty
@@ -37,6 +37,7 @@ en:
       next_label: Next »
       load_more: Show more entries
       load_less: Show less entries
+      entry: entry
       info:
         default: "Displaying <strong>%{offset_start} - %{offset_end}</strong> of <strong>%{total_count}</strong> %{name} in total"
         nothing_found: "No %{name} found"

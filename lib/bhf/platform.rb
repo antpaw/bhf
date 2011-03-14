@@ -97,11 +97,13 @@ module Bhf
         else
           where_statement = []
           model.columns_hash.each_pair do |name, props|
+            is_number = search_term.to_i.to_s === search_term || search_term.to_f.to_s === search_term
+            
             if props.type === :string || props.type === :text
               where_statement << "#{name} LIKE '%#{search_term}%'"
-            elsif props.type === :integer
+            elsif props.type === :integer && is_number
               where_statement << "#{name} = #{search_term.to_i}"
-            elsif props.type === :float
+            elsif props.type === :float && is_number
               where_statement << "#{name} = #{search_term.to_f}"
             end
           end
@@ -120,8 +122,8 @@ module Bhf
         return default_attrs unless attrs
         
         model_respond_to?(attrs)
-        @collection.select do |field|
-          attrs.include?(field.name)
+        attrs.each_with_object([]) do |attr_name, obj|
+          obj << @collection.select{ |field| attr_name === field.name }[0]
         end
       end
 

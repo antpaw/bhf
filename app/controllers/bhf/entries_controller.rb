@@ -48,9 +48,9 @@ class Bhf::EntriesController < Bhf::ApplicationController
     else
       @form_url = entry_path(@platform.name, @object)
 
-      if @quick_edit
-        render :edit, :status => :unprocessable_entity, :layout => 'bhf/quick_edit'
-      end
+      r_settings = {:status => :unprocessable_entity}
+      r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
+      render :edit, r_settings
     end
   end
 

@@ -33,7 +33,7 @@ module Bhf
       collection = platform.paginated_objects
       
       entry_name = options[:entry_name] ||
-        (collection.empty?? 'entry' : collection.first.class.model_name.human)
+        (collection.empty?? I18n.t('bhf.pagination.entry') : collection.first.class.model_name.human)
   
       info = if collection.total_pages < 2
         case collection.size

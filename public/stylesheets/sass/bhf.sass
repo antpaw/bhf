@@ -8,7 +8,7 @@ html
   min-width: 700px
   height: 100%
   overflow-y: scroll
-  background: black url(/images/bhf/bg.png)
+  background: #303030 url(/images/bhf/bg.png)
 
 body
   min-width: 960px
@@ -41,7 +41,7 @@ header
     li
       float: left
       font-weight: bold
-      margin-right: 30px
+      margin-right: 20px
       &.active
         a
           +text-shadow(#fff, -1)
@@ -52,17 +52,24 @@ header
             +bg-gradient(#FFFFFF, #D5D5D5)
             border-color: #FFFFFF
             +text-shadow(#fff)
+            color: #414756
             +box-inner-shadow(0, 0, 3, #fff)
       a
         text-decoration: none
         display: block
-        padding: 5px 20px
+        padding: 5px 23px
         border: 1px solid transparent
-        color: #D8D8D8
+        color: #EAEAEA
         +text-shadow(#000, -1)
         &:hover
-          border-color: #2B303C
-          +box-inner-shadow(0, 0, 35, #2B303C)
+          +bg-gradient($b1, $b2)
+          color: $w1
+          border-color: $b1
+          +box-shadow(0, 1, 4)
+          +text-shadow(#0068B3)
+        &:active
+          +bg-gradient($b2, $b1)
+          +text-shadow(#0068B3, -1)
           // TODO: table, so we can vertial align nav
             
 
@@ -88,6 +95,7 @@ header
   .quick_edit_holder
     position: relative
     width: 400px
+    vertical-align: top
     button
     form
       padding-bottom: 10px
@@ -120,7 +128,7 @@ table
   width: 100%
   caption
     height: 28px
-    padding: 10px 20px
+    padding: 10px 10px 10px 20px
     background-image: url(/images/bhf/button_bg_2.png)
     +border-top-radius(4)
     text-align: left
@@ -140,6 +148,15 @@ table
       display: inline-block
     .create
       float: right
+      a:hover
+        background: $b1
+      
+  td,
+  th
+    &:first-child
+      +border-left-radius(4)
+    &:last-child
+      +border-right-radius(4)
   thead
     th
       padding: 4px 0
@@ -154,7 +171,7 @@ table
       &.primary_key
         text-transform: uppercase
       &.sorted
-        background: #414756
+        +box-inner-shadow(0, -15, 50,#000)
         & a:after,
         &.desc:hover a:after
           content: ' ▼'
@@ -176,6 +193,14 @@ table
         overflow: hidden
         a 
           -webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(50%,rgba($k1,1)), to(rgba($w1,0)))
+      &.no_entries
+        text-align: center
+        text-transform: uppercase
+        padding: 10px 0
+        color: $g1
+        a
+          font-weight: bold
+          display: inline
     a
       display: block
       padding: 5px 3px
@@ -198,16 +223,13 @@ table
         &:hover
           background-image: url(/images/bhf/icon_delete_a.png)
     tr
+      
       &:hover td,
       &.live_edit td
-        background: $g1
+        +bg-gradient($b1, $b2)
         color: $w1
-        &:first-child
-          +border-left-radius(4)
-        &:last-child
-          +border-right-radius(4)
       &.live_edit td
-        background: $b1
+        +bg-gradient($b2, $b1)
 
 
   tfoot
@@ -284,6 +306,8 @@ form
       .field_with_errors
         input
           border-color: red
+      [disabled]
+        background: $g2 !important
   .error_explanation
     label
       color: red

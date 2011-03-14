@@ -4,6 +4,6 @@ module Bhf
     config.page_title = 'Bahhof Admin'
     config.mount_at = '/bhf'
     # config.auth_logic_from = 'ApplicationController'
-        
+    config.css = ['bhf_extend']
   end
 end
