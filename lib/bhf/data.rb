@@ -27,7 +27,7 @@ module Bhf
       def form_type
         return @overwrite_type if @overwrite_type
 
-        if name === @primary_key || name === 'updated_at' || name === 'created_at'
+        if name == @primary_key || name == 'updated_at' || name == 'created_at'
           :static
         else
           supported_types(@props.type)
@@ -35,9 +35,9 @@ module Bhf
       end
 
       def display_type
-        if name === @primary_key
+        if name == @primary_key
           :primary_key
-        elsif name === 'updated_at' || name === 'created_at'
+        elsif name == 'updated_at' || name == 'created_at'
           :date
         else
           supported_types(@props.type)
@@ -63,7 +63,7 @@ module Bhf
         def group_types(type_sym)
           return :date if [:date, :datetime, :timestamp, :time, :year].include?(type_sym)
           return :number if [:integer, :float].include?(type_sym)
-          return :file if type_sym === :file
+          return :file if type_sym == :file
         end
 
     end
@@ -88,9 +88,9 @@ module Bhf
       def type
         return @overwrite_type if @overwrite_type
 
-        if macro === :has_and_belongs_to_many
+        if macro == :has_and_belongs_to_many
           :check_box
-        elsif macro === :belongs_to
+        elsif macro == :belongs_to
           :select
         else
           :static

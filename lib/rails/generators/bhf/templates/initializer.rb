@@ -1,9 +1,10 @@
 module Bhf
   class Engine < Rails::Engine
 
-    config.page_title = 'Bahhof Admin'
+    config.page_title = 'Bahnhof Admin'
     config.mount_at = '/bhf'
-    # config.auth_logic_from = 'ApplicationController'
-    config.css = ['bhf_extend']
+    # config.current_admin_account = :current_user
+    # config.session_auth_name = :admin
+    # config.css = ['bhf_extend']
   end
 end

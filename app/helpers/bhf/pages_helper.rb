@@ -8,7 +8,7 @@ module Bhf
     def current_order_path(order_by, platform_name)
       params_platfrom = params[platform_name] ? params[platform_name].clone : {}
 
-      if params_platfrom['order'] === order_by && params_platfrom['direction'] != 'desc'
+      if params_platfrom['order'] == order_by && params_platfrom['direction'] != 'desc'
         params_platfrom['direction'] = 'desc'
       else
         params_platfrom['direction'] = 'asc'
@@ -21,9 +21,9 @@ module Bhf
 
     def order_class(order_by, platform_name)
       params_platfrom = params[platform_name] ? params[platform_name] : {}
-      return unless params_platfrom['order'] === order_by
+      return unless params_platfrom['order'] == order_by
       
-      params_platfrom['direction'] === 'desc' ? 'sorted desc' : 'sorted asc'
+      params_platfrom['direction'] == 'desc' ? 'sorted desc' : 'sorted asc'
     end
 
   end

@@ -14,7 +14,7 @@ module Bhf
       @data = options.values[0] || {}
       @collection = get_collection
 
-      human_title = if model.to_s === @name.singularize.camelize
+      human_title = if model.to_s == @name.singularize.camelize
         model.model_name.human
       else
         @name.humanize
@@ -72,7 +72,7 @@ module Bhf
 
     def has_file_upload?
       @collection.each do |field|
-        return true if field.form_type === :file
+        return true if field.form_type == :file
       end
       return false
     end
@@ -97,13 +97,13 @@ module Bhf
         else
           where_statement = []
           model.columns_hash.each_pair do |name, props|
-            is_number = search_term.to_i.to_s === search_term || search_term.to_f.to_s === search_term
+            is_number = search_term.to_i.to_s == search_term || search_term.to_f.to_s == search_term
             
-            if props.type === :string || props.type === :text
+            if props.type == :string || props.type == :text
               where_statement << "#{name} LIKE '%#{search_term}%'"
-            elsif props.type === :integer && is_number
+            elsif props.type == :integer && is_number
               where_statement << "#{name} = #{search_term.to_i}"
-            elsif props.type === :float && is_number
+            elsif props.type == :float && is_number
               where_statement << "#{name} = #{search_term.to_f}"
             end
           end
@@ -123,7 +123,7 @@ module Bhf
         
         model_respond_to?(attrs)
         attrs.each_with_object([]) do |attr_name, obj|
-          obj << @collection.select{ |field| attr_name === field.name }[0]
+          obj << @collection.select{ |field| attr_name == field.name }[0]
         end
       end
 
@@ -159,9 +159,9 @@ module Bhf
         output = []
       
         attrs.each_pair do |key, value|
-          if key === model.primary_key
+          if key == model.primary_key
             id << value
-          elsif key === 'created_at' || key === 'updated_at'
+          elsif key == 'created_at' || key == 'updated_at'
             static_dates << value
           else
             output << value
@@ -184,7 +184,7 @@ module Bhf
 
       def form_options(key, attribute = nil)
         if form
-          if attribute === nil
+          if attribute == nil
             form[key.to_s]
           elsif form[key.to_s]
             form[key.to_s][attribute.to_s]

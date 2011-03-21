@@ -1,36 +1,51 @@
 class Bhf::ApplicationController < ActionController::Base
-  
-  protect_from_forgery
-  
-  before_filter :init_time, :check_admin_account, :load_config, :set_title
 
-  helper_method :entry_path, :new_entry_path, :entries_path, :edit_entry_path
+  protect_from_forgery
+
+  before_filter :init_time, :check_admin_account, :setup_current_account, :load_config, :set_title
+
+  helper_method :entry_path, :new_entry_path, :entries_path, :edit_entry_path, :current_account
   layout 'bhf/default'
 
   def index
     
   end
 
-
   private
 
     def check_admin_account
-      auth_logic = Bhf::Engine.config.auth_logic_from.constantize.new
-      
-      if auth_logic.respond_to?(:current_admin_account) && auth_logic.current_admin_account
+      if session[Bhf::Engine.config.session_auth_name.to_s] == true
         return true
-      else
-        redirect_to(root_url, :error => t('bhf.helpers.login.error')) and return false
       end
+      
+      redirect_to(root_url, :error => t('bhf.helpers.login.error')) and return false
+    end
+
+    def setup_current_account
+      if Bhf::Engine.config.current_admin_account
+        @current_account = session[Bhf::Engine.config.current_admin_account.to_s]
+      end
+    end
+    
+    def current_account
+      @current_account
     end
 
     def load_config
+      if current_account && current_account.respond_to?(:role)
+        role = if current_account.role.is_a?(String)
+          current_account.role
+        else
+          current_account.role.to_bhf_s
+        end
+        
+        yml_file = "_#{role}"
+      end
+      
       @config = Bhf::Settings.new(
-        YAML::load(IO.read('config/bhf.yml'))
-        # Bhf::Engine.config.bhf_logic
+        YAML::load(IO.read("config/bhf#{yml_file}.yml"))
       )
     end
-
 
     def new_entry_path(platform, extra_params = {})
       new_bhf_entry_path platform, extra_params

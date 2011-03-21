@@ -1,3 +1,10 @@
+- if current_account
+  -# TODO: i18n and custom logout path
+  %p.user
+    You are logged in as
+    %strong= current_account.name
+    = link_to 'Logout', logout_path, :method => :delete
+    
 %p.stats= "Page rendered in ~#{(Time.now-@start_time).round(2)} seconds"
 %p.copy
   Made by

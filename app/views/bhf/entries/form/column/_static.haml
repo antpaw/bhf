@@ -1,8 +1,8 @@
 - if value = f.object.send(field.name)
   = node f, field do
-    - if field.display_type === :primary_key
+    - if field.display_type == :primary_key
       %strong= value
-    - elsif field.display_type === :date
+    - elsif field.display_type == :date
       = l value, :format => :long
     - else
       = value
