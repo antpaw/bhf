@@ -23,7 +23,7 @@ class Bhf::ApplicationController < ActionController::Base
 
     def setup_current_account
       if Bhf::Engine.config.current_admin_account
-        @current_account = session[Bhf::Engine.config.current_admin_account.to_s]
+        @current_account = session[Bhf::Engine.config.current_admin_account.to_s].reload
       end
     end
     
@@ -32,21 +32,41 @@ class Bhf::ApplicationController < ActionController::Base
     end
 
     def load_config
-      if current_account && current_account.respond_to?(:role)
-        role = if current_account.role.is_a?(String)
-          current_account.role
-        else
-          current_account.role.to_bhf_s
+      @config = Bhf::Settings.new(roles_yml(get_account_roles))
+    end
+    
+    def roles_yml(roles = nil)
+      if roles.is_a?(String)
+        load_yml("_#{roles}.yml")
+      elsif roles.is_a?(Array)
+        files = roles.each_with_object({'pages' => []}) do |r, account_roles|
+          account_roles['pages'] += load_yml("_#{r}")['pages']
         end
-        
-        yml_file = "_#{role}"
+        files['pages'].uniq! do |a|
+          a.keys
+        end
+        files
+      else
+        load_yml
       end
+    end
+    
+    def load_yml(suffix = nil)
+      YAML::load(IO.read("config/bhf#{suffix}.yml"))
+    end
+    
+    def get_account_roles
+      return unless current_account
       
-      @config = Bhf::Settings.new(
-        YAML::load(IO.read("config/bhf#{yml_file}.yml"))
-      )
+      if current_account.respond_to?(:role)
+        current_account.role.is_a?(String) ? current_account.role : current_account.role.to_bhf_s
+      elsif current_account.respond_to?(:roles)
+        current_account.roles.collect(&:to_bhf_s)
+      end
     end
 
+
+    # TODO: why do i use this helpers again?
     def new_entry_path(platform, extra_params = {})
       new_bhf_entry_path platform, extra_params
     end

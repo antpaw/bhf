@@ -1,5 +1,15 @@
 module Bhf
   module Data
+    class AbstractField
+      attr_reader :name, :form_type, :info, :macro
+      
+      def initialize(props)
+        @name = props[:name]
+        @form_type = props[:type]
+        @info = props[:info]
+        @macro = :column
+      end
+    end
 
     class Field
 
@@ -7,7 +17,7 @@ module Bhf
 
       def initialize(props, options = {}, pk = 'id')
         @props = props
-        @info = options[:info] if options[:info]
+        @info = options[:info] if options[:info] # TODO: i think this is wrong because info is atleast '' 
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
 

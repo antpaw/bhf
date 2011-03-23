@@ -4,7 +4,7 @@ module Bhf
     attr_accessor :paginated_objects
     attr_reader :name, :title, :page_name
 
-    def initialize(options, page_name)
+    def initialize(options, page_name, user = nil)
       @paginated_objects = []
 
       if options.is_a?(String)
@@ -22,6 +22,7 @@ module Bhf
 
       @title = I18n.t("bhf.platforms.#{@name}.title", :platform_title => human_title, :default => human_title).pluralize
       @page_name = page_name
+      @user = user
     end
 
     def search?
@@ -60,7 +61,7 @@ module Bhf
     end
 
     def fields
-      default_attrs(form_options(:display), @collection)
+      default_attrs(form_options(:display), @collection, false)
     end
 
     def columns
@@ -115,15 +116,27 @@ module Bhf
       end
 
       def data_source
+        # TODO: test this
+        if @user && user_scope = table_options(:user_scope)
+          return @user.send(user_scope.to_sym)
+        end
+        
         table_options(:source) || :all
       end
 
-      def default_attrs(attrs, default_attrs)
-        return default_attrs unless attrs
+      def default_attrs(attrs, d_attrs, warning = true)
+        return d_attrs unless attrs
         
-        model_respond_to?(attrs)
+        model_respond_to?(attrs) if warning
         attrs.each_with_object([]) do |attr_name, obj|
-          obj << @collection.select{ |field| attr_name == field.name }[0]
+          obj << (
+            @collection.select{ |field| attr_name == field.name }[0] ||
+            Bhf::Data::AbstractField.new({
+              :name => attr_name,
+              :type => form_options(:types, attr_name) || attr_name,
+              :info => I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", :default => '')
+            })
+          )
         end
       end
 

@@ -16,7 +16,7 @@ class Bhf::PagesController < Bhf::ApplicationController
     end
 
     @platforms = platform_options.each_with_object([]) do |opts, obj|
-      platform = Bhf::Platform.new(opts, @page)
+      platform = Bhf::Platform.new(opts, @page, current_account)
       platform.paginated_objects = paginate_platform_objects(platform)
       obj << platform
     end
