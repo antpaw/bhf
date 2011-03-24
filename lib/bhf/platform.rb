@@ -48,7 +48,7 @@ module Bhf
         chain = do_search(chain, options[:search])
       end
 
-      @objects = chain.send(data_source)
+      @objects = chain.send(data_source) # TODO: send pagination to here, for sql limit stuff
     end
     
     def model
@@ -69,6 +69,10 @@ module Bhf
       each_with_object([]) do |field, obj|
         obj << Bhf::Data::Column.new(field)
       end
+    end
+
+    def entries_per_page
+      table_options(:per_page)
     end
 
     def has_file_upload?

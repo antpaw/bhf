@@ -6,7 +6,7 @@ class Bhf::PagesController < Bhf::ApplicationController
       raise Exception.new("Page '#{@page}' could not be found")
     end
 
-    # TODO: page offset form bhf.yml
+    # TODO: page offset form bhf.yml - platform.entries_per_page
     @pagination = Bhf::Pagination.new(10)
     
     if request.xhr?
@@ -24,6 +24,10 @@ class Bhf::PagesController < Bhf::ApplicationController
 
   private
 
+    def set_page
+      @page = params[:page]
+    end
+
     def render_platform(platform_name)
       @platform = @config.find_platform(platform_name)
 
@@ -32,21 +36,22 @@ class Bhf::PagesController < Bhf::ApplicationController
       render '_platform', :layout => false
     end
 
-    def set_page
-      @page = params[:page]
-    end
-
     def check_params(platform)
       page = 1
-      page = params[platform][:page].to_i if params[platform] && !params[platform][:page].blank?
+      if params[platform.name] && !params[platform.name][:page].blank?
+        page = params[platform.name][:page].to_i
+      end
+      
       per_page = @pagination.offset_per_page
-      per_page = params[platform][:per_page].to_i if params[platform] && !params[platform][:per_page].blank?
+      if params[platform.name] && !params[platform.name][:per_page].blank?
+        per_page = params[platform.name][:per_page].to_i
+      end
 
       return :page => page, :per_page => per_page
     end
-    
+
     def paginate_platform_objects(platform)
-      platform.prepare_objects(params[platform.name] || {}).paginate(check_params(platform.name))
+      platform.prepare_objects(params[platform.name] || {}).paginate(check_params(platform))
     end
 
 end

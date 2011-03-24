@@ -10,13 +10,14 @@
     =# javascript_include_tag 'mootools-core-1.3-full-nocompat-yc.js', 'mootools-more', 'mootools_rails_driver-0.4.1.js', 'class/BrowserUpdate', 'class/Ajaxify', 'class/AjaxEdit', 'class/MooEditable', 'bhf_application'
   %body
     %header
+      -# TODO: logo as css bg for better cache and no jumping?
       %h1= image_tag 'logo_bhf.png'
       %nav
         %ul
           - @config.pages.each do |page|
             %li{:class => ('active' if @page == page)}
               = link_to t("bhf.pages.navigation.#{page}", :default => page.capitalize), bhf_page_path(page)
-      
+
     #content
       #main
         = render :partial => 'bhf/helper/flash', :locals => {:flash => flash}

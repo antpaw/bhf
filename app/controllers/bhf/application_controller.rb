@@ -5,7 +5,7 @@ class Bhf::ApplicationController < ActionController::Base
   before_filter :init_time, :check_admin_account, :setup_current_account, :load_config, :set_title
 
   helper_method :entry_path, :new_entry_path, :entries_path, :edit_entry_path, :current_account
-  layout 'bhf/default'
+  layout 'bhf/application'
 
   def index
     
@@ -37,11 +37,12 @@ class Bhf::ApplicationController < ActionController::Base
     
     def roles_yml(roles = nil)
       if roles.is_a?(String)
-        load_yml("_#{roles}.yml")
+        load_yml("/#{roles}")
       elsif roles.is_a?(Array)
         files = roles.each_with_object({'pages' => []}) do |r, account_roles|
-          account_roles['pages'] += load_yml("_#{r}")['pages']
+          account_roles['pages'] += load_yml("/#{r}")['pages']
         end
+        # TODO: merge platforms of the same pages rather the replace them 
         files['pages'].uniq! do |a|
           a.keys
         end

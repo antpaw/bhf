@@ -1,11 +1,11 @@
 module Bhf
-  
+
   class Settings
-    
+
     def initialize(options)
       @options = options
     end
-    
+
     def pages
       @options['pages'].each_with_object([]) do |page, obj|
         if page.is_a?(String)
@@ -14,12 +14,11 @@ module Bhf
         obj << page.keys[0]
       end
     end
-    
+
     def content_for_page(selected_page)
       @options['pages'].each do |page|
-        if page.is_a?(String)
-          page = {page => nil}
-        end
+        page = {page => nil} if page.is_a?(String)
+        
         if selected_page == page.keys[0]
           return page.values.flatten
         end

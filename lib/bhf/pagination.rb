@@ -69,7 +69,7 @@ module Bhf
       platform_params.delete(:page)
       platform_params[:per_page] = load_offset
       
-      direction = (plus ? 'more' : 'less')
+      direction = plus ? 'more' : 'less'
       template.link_to(
         I18n.t("bhf.pagination.load_#{direction}"),
         template.bhf_page_path(
