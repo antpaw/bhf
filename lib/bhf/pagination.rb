@@ -6,7 +6,7 @@ module Bhf
     attr_reader :offset_per_page, :offset_to_add
 
     def initialize(offset_per_page = 10, offset_to_add = 5)
-      @offset_per_page = offset_per_page
+      @offset_per_page = offset_per_page || 10
       @offset_to_add = offset_to_add
     end
 
@@ -31,10 +31,10 @@ module Bhf
 
     def info(platform, options = {})
       collection = platform.paginated_objects
-      
+
       entry_name = options[:entry_name] ||
         (collection.empty?? I18n.t('bhf.pagination.entry') : collection.first.class.model_name.human)
-  
+
       info = if collection.total_pages < 2
         case collection.size
           when 0
@@ -52,7 +52,7 @@ module Bhf
           :offset_end => collection.offset + collection.length
         })
       end
-    
+
       info.html_safe
     end
 
@@ -78,20 +78,20 @@ module Bhf
         ), attributes.merge(:class => "load_#{direction}")
       )
     end
-    
+
     def load_less(platform, attributes = {})
       load_more(platform, attributes, false)
     end
 
 
-    class LinkRenderer < WillPaginate::LinkRenderer
-      
+    class LinkRenderer < WillPaginate::ViewHelpers::LinkRenderer
+
       def initialize(bhf_pagination, platform)
         @b_p = bhf_pagination
         @platform = platform
       end
 
-      def page_link(page, text, attributes = {})
+      def link(text, page, attributes = {})
         platform_params = @b_p.template.params[@platform.name] || {}
         platform_params[:page] = page
         
@@ -105,7 +105,6 @@ module Bhf
       end
 
     end
-
+    
   end
-
 end

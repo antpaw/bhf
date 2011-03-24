@@ -6,11 +6,11 @@ class Bhf::EntriesController < Bhf::ApplicationController
     @object = @model.new
     after_load
 
-    @form_url = entries_path(@platform.name)
+    @form_url = bhf_entries_path(@platform.name)
   end
 
   def edit
-    @form_url = entry_path(@platform.name, @object)
+    @form_url = bhf_entry_path(@platform.name, @object)
 
     if @quick_edit
       render :layout => 'bhf/quick_edit'
@@ -26,9 +26,9 @@ class Bhf::EntriesController < Bhf::ApplicationController
       manage_many_to_many
       after_save
 
-      redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
+      redirect_back_or_default(bhf_entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
     else
-      @form_url = entries_path(@platform.name)
+      @form_url = bhf_entries_path(@platform.name)
       render :new
     end
   end
@@ -43,10 +43,10 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render :json => object_to_bhf_display_hash, :status => :ok
       else
-        redirect_back_or_default(entry_path(@platform.name, @object), :notice => set_message('update.success', @model))
+        redirect_back_or_default(bhf_entry_path(@platform.name, @object), :notice => set_message('update.success', @model))
       end
     else
-      @form_url = entry_path(@platform.name, @object)
+      @form_url = bhf_entry_path(@platform.name, @object)
 
       r_settings = {:status => :unprocessable_entity}
       r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
@@ -71,7 +71,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def load_platform
-      @platform = @config.find_platform(params[:platform])
+      @platform = @config.find_platform(params[:platform], current_account)
     end
 
     def load_model

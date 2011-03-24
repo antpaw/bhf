@@ -54,9 +54,9 @@ begin
     gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "public/stylesheets/bhf.css", "public/javascripts/bhf.js", "public/images/logo_bhf.png", "public/images/bhf/*"]
     gem.homepage = 'http://github.com/antpaw/bahnhof'
     gem.rubyforge_project = 'nowarning'
-    gem.add_dependency 'rails'
-    gem.add_dependency 'haml'
-    gem.add_dependency 'will_paginate'
+    gem.add_dependency 'rails', '> 3.0.4'
+    gem.add_dependency 'haml', '3.0.0'
+    gem.add_dependency 'will_paginate', '~> 3.0.pre2'
   end
 
   Jeweler::GemcutterTasks.new

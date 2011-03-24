@@ -4,7 +4,7 @@ class Bhf::ApplicationController < ActionController::Base
 
   before_filter :init_time, :check_admin_account, :setup_current_account, :load_config, :set_title
 
-  helper_method :entry_path, :new_entry_path, :entries_path, :edit_entry_path, :current_account
+  helper_method :current_account
   layout 'bhf/application'
 
   def index
@@ -17,7 +17,7 @@ class Bhf::ApplicationController < ActionController::Base
       if session[Bhf::Engine.config.session_auth_name.to_s] == true
         return true
       end
-      
+
       redirect_to(root_url, :error => t('bhf.helpers.login.error')) and return false
     end
 
@@ -64,24 +64,6 @@ class Bhf::ApplicationController < ActionController::Base
       elsif current_account.respond_to?(:roles)
         current_account.roles.collect(&:to_bhf_s)
       end
-    end
-
-
-    # TODO: why do i use this helpers again?
-    def new_entry_path(platform, extra_params = {})
-      new_bhf_entry_path platform, extra_params
-    end
-
-    def entries_path(platform, extra_params = {})
-      bhf_entries_path platform, extra_params
-    end
-
-    def entry_path(platform, object, extra_params = {})
-      bhf_entry_path platform, object, extra_params
-    end
-
-    def edit_entry_path(platform, object, extra_params = {})
-      edit_bhf_entry_path platform, object, extra_params
     end
 
 

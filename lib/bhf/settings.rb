@@ -26,10 +26,10 @@ module Bhf
       nil
     end
 
-    def find_platform(platform_name)
+    def find_platform(platform_name, current_account = nil)
       pages.each do |page|
         content_for_page(page).each do |platform|
-          bhf_platform = Bhf::Platform.new(platform, page)
+          bhf_platform = Bhf::Platform.new(platform, page, current_account)
           return bhf_platform if bhf_platform.name == platform_name
         end
       end

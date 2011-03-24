@@ -1,7 +1,7 @@
 module Bhf
   class Platform
 
-    attr_accessor :paginated_objects
+    attr_accessor :paginated_objects, :pagination
     attr_reader :name, :title, :page_name
 
     def initialize(options, page_name, user = nil)
@@ -33,22 +33,34 @@ module Bhf
       table_options(:columns).is_a?(Array)
     end
 
-    def search
+    def search_source
       table_options(:search) || :where
     end
 
-    def prepare_objects(options)
-      chain = model
-
-      if options[:order]
-        chain = chain.unscoped.order("#{options[:order]} #{options[:direction]}")
+    def prepare_objects(options, paginate_options = nil)
+      if @user && user_scope = table_options(:user_scope)
+        # TODO: wtf ActionDispatch::Cookies::CookieOverflow
+        # @user.send(user_scope.to_sym)
+        chain = @user.class.find(@user.id).send(user_scope.to_sym)
+      else
+        chain = model
+        if options[:order]
+          chain = chain.unscoped.order("#{options[:order]} #{options[:direction]}")
+        end
+        if data_source != :all
+          chain = chain.send(data_source)
+        end
       end
 
       if search? && options[:search].present?
         chain = do_search(chain, options[:search])
       end
 
-      @objects = chain.send(data_source) # TODO: send pagination to here, for sql limit stuff
+      if paginate_options
+        chain = chain.paginate(paginate_options)
+      end
+
+      @objects = chain
     end
     
     def model
@@ -116,15 +128,10 @@ module Bhf
           where_statement.join(' OR ')
         end
 
-        chain.send search, search_condition
+        chain.send search_source, search_condition
       end
 
       def data_source
-        # TODO: test this
-        if @user && user_scope = table_options(:user_scope)
-          return @user.send(user_scope.to_sym)
-        end
-        
         table_options(:source) || :all
       end
 
