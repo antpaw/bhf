@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.1.6"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-03-14}
+  s.date = %q{2011-03-26}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/_form.haml",
     "app/views/bhf/entries/_validation_errors.haml",
     "app/views/bhf/entries/edit.haml",
+    "app/views/bhf/entries/form/belongs_to/_account_scope.haml",
     "app/views/bhf/entries/form/belongs_to/_radio.haml",
     "app/views/bhf/entries/form/belongs_to/_select.haml",
     "app/views/bhf/entries/form/belongs_to/_static.haml",
@@ -35,13 +36,16 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/column/_file.haml",
     "app/views/bhf/entries/form/column/_markdown.haml",
     "app/views/bhf/entries/form/column/_number.haml",
+    "app/views/bhf/entries/form/column/_password.haml",
     "app/views/bhf/entries/form/column/_static.haml",
     "app/views/bhf/entries/form/column/_string.haml",
     "app/views/bhf/entries/form/column/_text.haml",
     "app/views/bhf/entries/form/column/_wysiwyg.haml",
+    "app/views/bhf/entries/form/has_and_belongs_to_many/_account_scope.haml",
     "app/views/bhf/entries/form/has_and_belongs_to_many/_check_box.haml",
     "app/views/bhf/entries/form/has_and_belongs_to_many/_static.haml",
     "app/views/bhf/entries/form/has_many/_static.haml",
+    "app/views/bhf/entries/form/has_one/_account_scope.haml",
     "app/views/bhf/entries/form/has_one/_static.haml",
     "app/views/bhf/entries/new.haml",
     "app/views/bhf/helper/_field_errors.haml",
@@ -61,7 +65,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/pages/macro/has_many/_default.haml",
     "app/views/bhf/pages/macro/has_one/_default.haml",
     "app/views/bhf/pages/show.haml",
-    "app/views/layouts/bhf/default.haml",
+    "app/views/layouts/bhf/application.haml",
     "app/views/layouts/bhf/quick_edit.haml",
     "config/locales/en.yml",
     "config/routes.rb",
@@ -101,18 +105,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, [">= 0"])
-      s.add_runtime_dependency(%q<haml>, [">= 0"])
-      s.add_runtime_dependency(%q<will_paginate>, [">= 0"])
+      s.add_runtime_dependency(%q<rails>, ["> 3.0.0"])
+      s.add_runtime_dependency(%q<haml>, ["> 3.0.0"])
+      s.add_runtime_dependency(%q<will_paginate>, ["~> 3.0.pre2"])
     else
-      s.add_dependency(%q<rails>, [">= 0"])
-      s.add_dependency(%q<haml>, [">= 0"])
-      s.add_dependency(%q<will_paginate>, [">= 0"])
+      s.add_dependency(%q<rails>, ["> 3.0.0"])
+      s.add_dependency(%q<haml>, ["> 3.0.0"])
+      s.add_dependency(%q<will_paginate>, ["~> 3.0.pre2"])
     end
   else
-    s.add_dependency(%q<rails>, [">= 0"])
-    s.add_dependency(%q<haml>, [">= 0"])
-    s.add_dependency(%q<will_paginate>, [">= 0"])
+    s.add_dependency(%q<rails>, ["> 3.0.0"])
+    s.add_dependency(%q<haml>, ["> 3.0.0"])
+    s.add_dependency(%q<will_paginate>, ["~> 3.0.pre2"])
   end
 end
 
