@@ -13,6 +13,7 @@ en:
         edit: "Edit %{platform_name}"
         delete: "Delete %{platform_name}"
         empty: Empty
+        cancel: Cancel
       entries:
         empty: Empty
       login:

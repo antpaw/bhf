@@ -1,4 +1,5 @@
+- data_source ||= field.reflection.klass.all
 = reflection_node f, field do
   %ul
-    - field.reflection.klass.all.each do |obj|
+    - data_source.each do |obj|
       %li= f.many_to_many_check_box obj, field.reflection.name, params

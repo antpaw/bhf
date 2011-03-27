@@ -11,4 +11,6 @@
   - unless @quick_edit
     .node
       .label
-      .input= f.submit f.object.new_record? ? new_t(@platform) : edit_t(@platform)
+      .input
+        = f.submit f.object.new_record? ? new_t(@platform) : edit_t(@platform)
+        = link_to t('bhf.helpers.entry.cancel'), bhf_page_path(@platform.page_name), :class => 'cancel'

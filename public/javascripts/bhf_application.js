@@ -1,11 +1,11 @@
-var ajaxNote = new Ajaxify();
+// var ajaxNote = new Ajaxify();
 var wysiwyg = [];
 
 window.addEvent('domready', function(){
 	var quickEdit = new AjaxEdit({
 		holderParent: $('content')
 	});
-	ajaxNote.applyEvents();
+	// ajaxNote.applyEvents();
 
 	var platforms = document.body.getElements('.platform');
 	var main_form = document.id('main_form');
@@ -44,7 +44,12 @@ window.addEvent('domready', function(){
 			'click:relay(.quick_edit)': function(e){
 				e.preventDefault();
 				quickEdit.startEdit(this, this.getParent('tr'));
-			}
+			},
+			'ajax:complete:relay(a[data-method=delete][data-remote])': function(e){
+				// TODO: make this work
+				e.preventDefault();
+				this.getParent('tr').dispose();
+			}			
 		});
 
 		quickEdit.addEvents({

@@ -34,13 +34,12 @@
           - @platform.columns.each do |column|
             %td{:class => "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
               - unless column.field.macro == :column && object.send(column.name).blank?
-                = link_to edit_link, :class => 'quick_edit' do
-                  - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
-                  = render :partial => p, :locals => {:column => column, :object => object}
+                - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
+                - a = render :partial => p, :locals => {:column => column, :object => object}
+                = column.field.overwrite_display_type ? a : link_to(a.html_safe, edit_link, :class => 'quick_edit')
           %td.action
             = link_to edit_t(@platform), edit_link, :class => 'edit'
             = link_to delete_t(@platform), bhf_entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :class => 'delete'
-            -# TODO: , :remote => true 
     - else
       %td.no_entries{:colspan => @platform.columns.count+1}
         = t 'bhf.pagination.info.nothing_found', :name => t('bhf.pagination.entry').pluralize

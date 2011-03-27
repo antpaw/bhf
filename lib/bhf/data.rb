@@ -1,11 +1,13 @@
 module Bhf
   module Data
     class AbstractField
-      attr_reader :name, :form_type, :info, :macro
+      attr_reader :name, :form_type, :info, :macro, :display_type, :overwrite_display_type
       
       def initialize(props)
         @name = props[:name]
         @form_type = props[:type]
+        @display_type = props[:type]
+        @overwrite_display_type = props[:type]
         @info = props[:info]
         @macro = :column
       end
@@ -13,13 +15,14 @@ module Bhf
 
     class Field
 
-      attr_reader :info
+      attr_reader :info, :overwrite_display_type
 
       def initialize(props, options = {}, pk = 'id')
         @props = props
         @info = options[:info] if options[:info] # TODO: i think this is wrong because info is atleast '' 
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
+        @overwrite_display_type = options[:overwrite_display_type].to_sym if options[:overwrite_display_type]
 
         @primary_key = pk
       end
@@ -45,6 +48,8 @@ module Bhf
       end
 
       def display_type
+        return @overwrite_display_type if @overwrite_display_type
+        
         if name == @primary_key
           :primary_key
         elsif name == 'updated_at' || name == 'created_at'
@@ -81,7 +86,7 @@ module Bhf
 
     class Reflection
       
-      attr_reader :reflection, :info, :link
+      attr_reader :reflection, :info, :link, :overwrite_display_type
       
       def initialize(reflection, options = {})
         @reflection = reflection
@@ -89,6 +94,7 @@ module Bhf
         @link = options[:link].to_sym if options[:link]
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
+        @overwrite_display_type = options[:overwrite_display_type].to_sym if options[:overwrite_display_type]
       end
       
       def macro
@@ -112,6 +118,7 @@ module Bhf
       end
 
       def display_type
+        return @overwrite_display_type if @overwrite_display_type
         :default
       end
 
@@ -124,7 +131,7 @@ module Bhf
 
     class Column
 
-      attr_reader :name, :field
+      attr_reader :name, :field, :overwrite_display_type
 
       def initialize(field)
         @name = field.name

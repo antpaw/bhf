@@ -23,7 +23,9 @@ class Bhf::ApplicationController < ActionController::Base
 
     def setup_current_account
       if Bhf::Engine.config.current_admin_account
-        @current_account = session[Bhf::Engine.config.current_admin_account.to_s].reload
+        # TODO: wtf ActionDispatch::Cookies::CookieOverflow
+        account = session[Bhf::Engine.config.current_admin_account.to_s]
+        @current_account = account.class.find(account.id)
       end
     end
     
@@ -40,7 +42,8 @@ class Bhf::ApplicationController < ActionController::Base
         load_yml("/#{roles}")
       elsif roles.is_a?(Array)
         files = roles.each_with_object({'pages' => []}) do |r, account_roles|
-          account_roles['pages'] += load_yml("/#{r}")['pages']
+          pages = load_yml("/#{r}")['pages']
+          account_roles['pages'] += pages if pages
         end
         # TODO: merge platforms of the same pages rather the replace them 
         files['pages'].uniq! do |a|

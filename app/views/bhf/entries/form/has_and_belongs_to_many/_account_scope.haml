@@ -1,0 +1,2 @@
+- data_source = current_account.send(field.reflection.name.to_s.pluralize)
+= render :partial => 'bhf/entries/form/has_and_belongs_to_many/check_box', :locals => {:data_source => data_source, :field => field, :f => f}

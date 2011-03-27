@@ -22,6 +22,7 @@ $b1: #38A5E9
 $b2: #0F8FDD
 $g1: #7F7F7F
 $g2: #ccc
+$g3: #424242
 
 a
   text-decoration: none
@@ -107,6 +108,7 @@ header
       padding-top: 0
       input[type="password"],
       input[type="text"],
+      select,
       textarea
         margin-left: -6px
     
@@ -313,6 +315,13 @@ form
           border-color: red
       [disabled]
         background: $g2 !important
+    .cancel
+      margin-left: 20px
+      color: $g1
+      &:hover
+        color: $g3
+        text-decoration: underline
+        
   .error_explanation
     label
       color: red

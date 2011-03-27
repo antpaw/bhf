@@ -12,11 +12,12 @@
     %header
       -# TODO: logo as css bg for better cache and no jumping?
       %h1= image_tag 'logo_bhf.png'
-      %nav
-        %ul
-          - @config.pages.each do |page|
-            %li{:class => ('active' if @page == page)}
-              = link_to t("bhf.pages.navigation.#{page}", :default => page.capitalize), bhf_page_path(page)
+      - if @config && @config.pages.any?
+        %nav
+          %ul
+            - @config.pages.each do |page|
+              %li{:class => ('active' if @page == page)}
+                = link_to t("bhf.pages.navigation.#{page}", :default => page.capitalize), bhf_page_path(page)
 
     #content
       #main

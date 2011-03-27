@@ -2,7 +2,7 @@ module Bhf
   module PagesHelper
     
     def get_value(key, platform_name)
-      params[platform_name][key] if params[platform_name] && params[platform_name][key]
+      params[platform_name][key] if params[platform_name] && params[platform_name][key] && params[platform_name][key].is_a?(String)
     end
 
     def current_order_path(order_by, platform_name)

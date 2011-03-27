@@ -1,11 +1,13 @@
-- if current_account
+- if defined?(current_account)
   -# TODO: i18n and custom logout path
   %p.user
     You are logged in as
     %strong= current_account.name
     = link_to 'Logout', logout_path, :method => :delete
     
-%p.stats= "Page rendered in ~#{(Time.now-@start_time).round(2)} seconds"
+- if @start_time
+  %p.stats= "Page rendered in ~#{(Time.now-@start_time).round(2)} seconds"
+
 %p.copy
   Made by
   = link_to '@antpaw', 'http://twitter.com/antpaw'
@@ -13,6 +15,7 @@
   = link_to 'Rails 3', 'http://twitter.com/antpaw'
   and
   = link_to 'MooTools', 'http://mootools.net/'
+
 %p.info
   More information on 
   = link_to 'GitHub', 'http://github.com/antpaw/bahnhof/'

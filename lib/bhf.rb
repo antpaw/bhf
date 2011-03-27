@@ -10,4 +10,5 @@ require 'bhf/settings'
 require 'bhf/pagination'
 require 'bhf/form'
 
-::ActiveRecord::Base.send :include, Bhf::ActiveRecord
+::ActiveRecord::Base.send :include, Bhf::ActiveRecord::Object
+::ActiveRecord::Base.send :extend,  Bhf::ActiveRecord::Self

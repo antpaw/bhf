@@ -32,24 +32,26 @@ module Bhf
     def custom_columns?
       table_options(:columns).is_a?(Array)
     end
+    
+    def user_scope?
+      @user && table_options(:user_scope)
+    end
 
     def search_source
       table_options(:search) || :where
     end
 
     def prepare_objects(options, paginate_options = nil)
-      if @user && user_scope = table_options(:user_scope)
-        # TODO: wtf ActionDispatch::Cookies::CookieOverflow
-        # @user.send(user_scope.to_sym)
-        chain = @user.class.find(@user.id).send(user_scope.to_sym)
+      if user_scope?
+        chain = @user.send(table_options(:user_scope).to_sym)
       else
         chain = model
-        if options[:order]
-          chain = chain.unscoped.order("#{options[:order]} #{options[:direction]}")
-        end
-        if data_source != :all
-          chain = chain.send(data_source)
-        end
+        chain = chain.unscoped if options[:order]
+        chain = chain.send(data_source) if data_source
+      end
+
+      if options[:order]
+        chain = chain.order("#{options[:order]} #{options[:direction]}")
       end
 
       if search? && options[:search].present?
@@ -62,12 +64,12 @@ module Bhf
 
       @objects = chain
     end
-    
+
     def model
       return @data['model'].constantize if @data['model']
       @name.singularize.camelize.constantize
     end
-    
+
     def model_name
       ActiveModel::Naming.singular(model)
     end
@@ -91,7 +93,7 @@ module Bhf
       @collection.each do |field|
         return true if field.form_type == :file
       end
-      return false
+      false
     end
 
     def table
@@ -103,41 +105,30 @@ module Bhf
     end
 
     def hooks(method)
-      @data['hooks'][method.to_s] if @data['hooks']
+      if @data['hooks'] && @data['hooks'][method.to_s]
+        @data['hooks'][method.to_s].to_sym
+      end
     end
-    
+
     private
 
       def do_search(chain, search_term)
         search_condition = if table_options(:search)
           search_term
         else
-          where_statement = []
-          model.columns_hash.each_pair do |name, props|
-            is_number = search_term.to_i.to_s == search_term || search_term.to_f.to_s == search_term
-            
-            if props.type == :string || props.type == :text
-              where_statement << "#{name} LIKE '%#{search_term}%'"
-            elsif props.type == :integer && is_number
-              where_statement << "#{name} = #{search_term.to_i}"
-            elsif props.type == :float && is_number
-              where_statement << "#{name} = #{search_term.to_f}"
-            end
-          end
-
-          where_statement.join(' OR ')
+          model.bhf_default_search(search_term)
         end
 
         chain.send search_source, search_condition
       end
 
       def data_source
-        table_options(:source) || :all
+        table_options(:source)
       end
 
       def default_attrs(attrs, d_attrs, warning = true)
         return d_attrs unless attrs
-        
+
         model_respond_to?(attrs) if warning
         attrs.each_with_object([]) do |attr_name, obj|
           obj << (
@@ -157,6 +148,7 @@ module Bhf
         model.columns_hash.each_pair do |name, props|
           all[name] = Bhf::Data::Field.new(props, {
             :overwrite_type => form_options(:types, name),
+            :overwrite_display_type => table_options(:types, name),
             :info => I18n.t("bhf.platforms.#{@name}.infos.#{name}", :default => '')
           }, model.primary_key)
         end
@@ -164,6 +156,7 @@ module Bhf
         model.reflections.each_pair do |name, props|
           all[name.to_s] = Bhf::Data::Reflection.new(props, {
             :overwrite_type => form_options(:types, name),
+            :overwrite_display_type => table_options(:types, name),
             :info => I18n.t("bhf.platforms.#{@name}.infos.#{name}", :default => ''),
             :link => form_options(:links, name)
           })
@@ -216,9 +209,13 @@ module Bhf
         end
       end
 
-      def table_options(key)
+      def table_options(key, attribute = nil)
         if table
-          return table[key.to_s]
+          if attribute == nil
+            table[key.to_s]
+          elsif table[key.to_s]
+            table[key.to_s][attribute.to_s]
+          end
         end
       end
 
