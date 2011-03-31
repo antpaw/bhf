@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-03-26}
+  s.date = %q{2011-03-31}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
@@ -40,6 +40,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/column/_static.haml",
     "app/views/bhf/entries/form/column/_string.haml",
     "app/views/bhf/entries/form/column/_text.haml",
+    "app/views/bhf/entries/form/column/_timedate.haml",
     "app/views/bhf/entries/form/column/_wysiwyg.haml",
     "app/views/bhf/entries/form/has_and_belongs_to_many/_account_scope.haml",
     "app/views/bhf/entries/form/has_and_belongs_to_many/_check_box.haml",
@@ -78,12 +79,14 @@ Gem::Specification.new do |s|
     "lib/bhf/settings.rb",
     "lib/engine.rb",
     "lib/rails/generators/bhf/templates/initializer.rb",
+    "public/images/bhf/Untitled-1.png",
     "public/images/bhf/bg.png",
     "public/images/bhf/button_bg.png",
     "public/images/bhf/button_bg_2.png",
     "public/images/bhf/button_bg_a.png",
     "public/images/bhf/icon_delete.png",
     "public/images/bhf/icon_delete_a.png",
+    "public/images/bhf/icon_drag.png",
     "public/images/bhf/icon_edit.png",
     "public/images/bhf/icon_edit_a.png",
     "public/images/bhf/mooeditable-toolbarbuttons-tango.png",
