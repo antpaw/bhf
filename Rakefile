@@ -16,10 +16,11 @@ task :compile_js do
 
   [
     'mootools_rails_driver-0.4.1.js',
-    'class/BrowserUpdate.js', 
+    'class/BrowserUpdate.js',
     'class/Ajaxify.js',
     'class/AjaxEdit.js',
-    'class/MooEditable.js', 
+    'class/MooEditable.js',
+    'class/Datepicker.js',
     'bhf_application.js'
   ].each do |js_path|
     output << compressor.compress(File.read('public/javascripts/'+js_path))
