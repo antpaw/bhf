@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
@@ -79,7 +79,6 @@ Gem::Specification.new do |s|
     "lib/bhf/settings.rb",
     "lib/engine.rb",
     "lib/rails/generators/bhf/templates/initializer.rb",
-    "public/images/bhf/Untitled-1.png",
     "public/images/bhf/bg.png",
     "public/images/bhf/button_bg.png",
     "public/images/bhf/button_bg_2.png",
