@@ -1,5 +1,5 @@
 - @platform.pagination.template = self
-%table{:class => (@platform.custom_columns? ? 'custom_columns' : 'default_columns')}
+%table{:id => "#{@platform.name}_platform", :class => (@platform.custom_columns? ? 'custom_columns' : 'default_columns')}
   %caption
     %h4= @platform.title
     %p.info= @platform.pagination.info @platform, :entry_name => 'entry'
@@ -15,6 +15,8 @@
 
   %thead
     %tr
+      - if @platform.sortable
+        %th
       - @platform.columns.each do |column|
         %th{:class => "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, @platform.name)}"}
           - column_name = @platform.model.human_attribute_name(column.name)
@@ -24,23 +26,25 @@
       %th.action
   %tfoot
     %tr
-      %td{:colspan => @platform.columns.count+1}
-        = @platform.pagination.paginate @platform
-  %tbody
-    - if @platform.paginated_objects.any?
-      - @platform.paginated_objects.each do |object|
+      %td{:colspan => @platform.columns_count}
+        = @platform.pagination.create(@platform) unless @platform.sortable
+  %tbody{:class => ('sortable' if @platform.sortable), :'data-sort-url' => sort_bhf_entries_path(@platform.name)}
+    - if @platform.objects.any?
+      - @platform.objects.each do |object|
         - edit_link = edit_bhf_entry_path(@platform.name, object)
-        %tr
+        %tr{:id => "#{object.id}_#{@platform.name}"}
+          - if @platform.sortable
+            %td
+              %span.handle &nbsp;
           - @platform.columns.each do |column|
             %td{:class => "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
-              - unless column.field.macro == :column && object.send(column.name).blank?
-                - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
-                - a = render :partial => p, :locals => {:column => column, :object => object}
-                = column.field.overwrite_display_type ? a : link_to(a.html_safe, edit_link, :class => 'quick_edit')
+              - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
+              - a = object.send(column.name).blank? ? '&nbsp;' : render(:partial => p, :locals => {:column => column, :object => object})
+              = column.field.overwrite_display_type ? a.html_safe : link_to(a.html_safe, edit_link, :class => 'quick_edit')
           %td.action
             = link_to edit_t(@platform), edit_link, :class => 'edit'
             = link_to delete_t(@platform), bhf_entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :class => 'delete'
     - else
-      %td.no_entries{:colspan => @platform.columns.count+1}
+      %td.no_entries{:colspan => @platform.columns_count}
         = t 'bhf.pagination.info.nothing_found', :name => t('bhf.pagination.entry').pluralize
         = link_to new_t(@platform), new_bhf_entry_path(@platform.name)

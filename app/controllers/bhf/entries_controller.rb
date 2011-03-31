@@ -1,6 +1,6 @@
 class Bhf::EntriesController < Bhf::ApplicationController
   before_filter :load_platform, :load_model, :set_page, :set_quick_edit
-  before_filter :load_object, :except => [:create, :new]
+  before_filter :load_object, :except => [:create, :new, :sort]
 
   def new
     @object = @model.new
@@ -51,6 +51,17 @@ class Bhf::EntriesController < Bhf::ApplicationController
       r_settings = {:status => :unprocessable_entity}
       r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
       render :edit, r_settings
+    end
+  end
+
+  def sort
+    return unless @platform.sortable
+    
+    sortable = @platform.sortable.to_sym
+
+    params[:order].each_with_index do |id, index|
+      object = @model.find(id[1].gsub("_#{@platform.name}", ''))
+      object.update_attribute(sortable, index)
     end
   end
 

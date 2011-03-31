@@ -97,7 +97,6 @@ header
     position: relative
     width: 400px
     vertical-align: top
-    button
     form
       padding-bottom: 10px
     .node,
@@ -208,9 +207,11 @@ table
         a
           font-weight: bold
           display: inline
+			
     a
       display: block
-      padding: 5px 3px
+      padding: 5px 3px 
+      // TODO: padding left right with th td
       &.edit,
       &.delete
         padding: 0
@@ -237,7 +238,11 @@ table
         color: $w1
       &.live_edit td
         +bg-gradient($b2, $b1)
-
+      &.dragged
+        td
+          opacity: 0.4
+          background-color: gray
+        
 
   tfoot
     td
@@ -252,6 +257,12 @@ table
       text-align: right
     .primary_key
       width: 30px
+    .handle
+      background: url(/images/bhf/icon_drag.png) no-repeat right 0
+      padding-right: 4px
+      cursor: move
+      display: block
+    
     .action
       width: 50px
 
@@ -308,6 +319,8 @@ form
       textarea
         width: 500px
         height: 200px
+        &.wysiwyg
+          height: 400px
       .errors
         color: red
       .field_with_errors
@@ -404,6 +417,8 @@ button,
   color: $w1
   +text-shadow($b2, -1)
 
+
+
 .pagination
   a, span, em
     @extend .alt_button
@@ -424,6 +439,8 @@ button,
       display: none
 
 
+// MooEditable
+
 @import MooEditable
 
 .mooeditable-container
@@ -441,3 +458,189 @@ button,
     -webkit-box-shadow: none
     &:hover
       background: $g2 !important
+      
+      
+// Datepicker
+
+.datepicker
+  position: absolute
+  width: 172px
+  padding: 5px 10px
+  background: #E5E5E5
+  border: 1px solid #C1C2DC
+  +box-inner-shadow(0, 1, 0, #fff)
+  +border-radius(2)
+  +text-shadow(#fff)
+  color: #535b6f
+  .header
+    position: relative
+    margin-bottom: 5px
+    padding-bottom: 5px
+    border-bottom: 1px solid #C1C2DC
+    +box-shadow(0, 1, 0, #fff)
+    .title
+      padding-top: 3px
+      text-align: center
+      margin: 0 18px 0 18px
+    .titleText
+    .previous, .next, .closeButton
+      position: absolute
+      cursor: pointer
+      overflow: hidden
+      width: 12px
+      top: 2px
+      font-weight: bold
+      &:hover
+        color: #2F4D7B
+    .previous
+      left: 4px
+    .next
+      right: 4px
+    .closeButton
+      display: none
+      right: 0px
+      top: 0px
+  .titles
+    font-weight: bold
+    font-size: 12px
+    .title.day
+      color: #535b6f
+  .body
+    position: relative
+    top: 0px
+    width: 170px
+    height: 156px
+    overflow: hidden
+    > div
+      margin-top: 2px
+      margin-left: 2px
+    
+  .time
+    position: relative
+    width: 100%
+    height: 100%
+    .hour, .separator, .minutes
+      color: #535B6F
+      background: #fff
+      width: 50px
+      font-size: 32px
+      position: absolute
+      top: 10px
+      text-align: center
+      padding: 2px
+    .hour,
+    .minutes
+      +box-shadow(0, 0, 1, #2F4D7B)
+      +text-shadow(#ccc)
+      margin-top: 8px
+      border: none
+      left: 15px
+    .separator
+      background: transparent
+      border: 0px
+      width: 10px
+      left: 76px
+    .minutes
+      left: 95px
+    .ok
+      +box-shadow(0, 0, 1, #2F4D7B)
+      +text-shadow(#ccc)
+      color: #535B6F
+      background: #fff
+      position: absolute
+      border: none
+      cursor: pointer
+      top: 73px
+      left: 15px
+      width: 134px
+      padding: 4px 0
+      font-size: 16px
+      &:hover,
+      &:focus,
+      &:active
+        background-color: #2F4D7B
+        color: #fff
+        +text-shadow(#000)
+        +box-shadow(0, 0, 1, #fff)
+  .days
+    .day
+      float: left
+      text-align: center
+      overflow: hidden
+      width: 23px
+      margin: 0 1px 1px 0
+      color: #262626
+    .day0
+      margin-right: 0
+    .week5 .day
+      margin-bottom: 0
+    .week .day
+      cursor: pointer
+      &:hover
+        +box-shadow(0, 0, 1, #2F4D7B)
+        background-color: #fff
+        color: #2F4D7B
+        +text-shadow(#ccc)
+        
+    .otherMonth
+      color: #aaa
+    .selected
+      background-color: #2F4D7B
+      color: #fff
+      +text-shadow(#000)
+      +box-shadow(0, 0, 1, #fff)
+  .months
+    .month
+      float: left
+      cursor: pointer
+      text-align: center
+      margin-top: 2px
+      padding-top: 3px
+      padding-bottom: 3px
+      width: 55px
+      overflow: hidden
+      margin: 0 1px 1px 0
+    .month3, .month6, .month9, .month12
+      margin-right: 0
+    .month10, .month11, .month12
+      margin-bottom: 0
+    .month:hover
+      +box-shadow(0, 0, 1, #2F4D7B)
+      background-color: #fff
+      color: #2F4D7B
+      +text-shadow(#ccc)
+    .selected
+      background-color: #2F4D7B
+      color: #fff
+      +text-shadow(#000)
+      +box-shadow(0, 0, 1, #fff)
+  .years
+    .year
+      float: left
+      cursor: pointer
+      text-align: center
+      margin-top: 2px
+      padding-top: 3px
+      padding-bottom: 3px
+      width: 32px
+      font-size: 12px
+      overflow: hidden
+      margin: 0 1px 1px 0
+    .year4, .year9, .year14, .year19
+      margin-right: 0
+    .year15, .year16, .year17, .year18, .year19
+      margin-bottom: 0
+    .year:hover
+      +box-shadow(0, 0, 1, #2F4D7B)
+      background-color: #fff
+      color: #2F4D7B
+      +text-shadow(#ccc)
+    .selected
+      background-color: #2F4D7B
+      color: #fff
+      +text-shadow(#000)
+      +box-shadow(0, 0, 1, #fff)
+  .unavailable
+    background: none !important
+    color: #fbb !important
+    cursor: default !important

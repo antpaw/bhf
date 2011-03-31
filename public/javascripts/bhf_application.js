@@ -11,6 +11,21 @@ window.addEvent('domready', function(){
 	var main_form = document.id('main_form');
 
 	if (platforms.length) {
+		var setupSortables = function(scope){
+			new Sortables(scope.getElements('.sortable'), {
+				handle: '.handle',
+				onStart: function(element, clone){
+					element.addClass('dragged');
+				},
+				onComplete: function(element){
+					element.removeClass('dragged');
+					new Request({
+						method: 'get',
+						url: this.element.getParent('tbody').get('data-sort-url')
+					}).send({data: {order: this.serialize()}});
+				}
+			});
+		};
 		var updatePlatform = function(href, platform, callback){
 			new Request({
 				method: 'get',
@@ -20,6 +35,7 @@ window.addEvent('domready', function(){
 					if (callback) {
 						callback.call();
 					}
+					setupSortables(platform);
 				}
 			}).send();
 		};
@@ -38,6 +54,7 @@ window.addEvent('domready', function(){
 					url: this.get('action'),
 					onSuccess: function(html){
 						parent.innerHTML = html;
+						setupSortables(platform);
 					}
 				}).send({data: this});
 			},
@@ -91,9 +108,11 @@ window.addEvent('domready', function(){
 				}
 			}
 		});
+		setupSortables(document.body);
 	}
 	else if (main_form) {
 		$$('.wysiwyg').each(function(elem){
+			// TODO: wtf is this
 			wysiwyg.push(elem.mooEditable());
 		});
 
@@ -122,6 +141,18 @@ window.addEvent('domready', function(){
 				}
 				quickEdit.startEdit(holder.getElement('a'));
 			}
+		});
+
+		new DatePicker('.datepicker.datetime', {
+			timePicker: true,
+			format: 'd.m.Y H:i'
+		});
+		new DatePicker('.datepicker.date', {
+			format: 'd.m.Y'
+		});
+		new DatePicker('.datepicker.time', {
+			timePicker: true,
+			format: 'H:i'
 		});
 	}
 	

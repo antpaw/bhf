@@ -1,11 +1,11 @@
 module Bhf
   class Platform
 
-    attr_accessor :paginated_objects, :pagination
-    attr_reader :name, :title, :page_name
+    attr_accessor :pagination
+    attr_reader :name, :objects, :title, :page_name
 
     def initialize(options, page_name, user = nil)
-      @paginated_objects = []
+      @objects = []
 
       if options.is_a?(String)
         options = {options => nil}
@@ -46,22 +46,25 @@ module Bhf
         chain = @user.send(table_options(:user_scope).to_sym)
       else
         chain = model
-        chain = chain.unscoped if options[:order]
-        chain = chain.send(data_source) if data_source
+        chain = chain.send data_source if data_source
       end
 
       if options[:order]
-        chain = chain.order("#{options[:order]} #{options[:direction]}")
+        chain = chain.except(:order).order("#{options[:order]} #{options[:direction]}")
       end
 
       if search? && options[:search].present?
         chain = do_search(chain, options[:search])
       end
 
-      if paginate_options
+      if paginate_options && !sortable
         chain = chain.paginate(paginate_options)
       end
-
+      
+      if chain == model
+        chain = chain.all
+      end
+      
       @objects = chain
     end
 
@@ -110,6 +113,14 @@ module Bhf
       end
     end
 
+    def columns_count
+      columns.count + (sortable ? 2 : 1)
+    end
+
+    def sortable
+      table_options 'sortable'
+    end
+
     private
 
       def do_search(chain, search_term)
@@ -135,7 +146,7 @@ module Bhf
             @collection.select{ |field| attr_name == field.name }[0] ||
             Bhf::Data::AbstractField.new({
               :name => attr_name,
-              :type => form_options(:types, attr_name) || attr_name,
+              :type => table_options(:types, attr_name) || attr_name,
               :info => I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", :default => '')
             })
           )
@@ -146,6 +157,7 @@ module Bhf
         all = {}
 
         model.columns_hash.each_pair do |name, props|
+          next if name == sortable
           all[name] = Bhf::Data::Field.new(props, {
             :overwrite_type => form_options(:types, name),
             :overwrite_display_type => table_options(:types, name),
@@ -174,7 +186,7 @@ module Bhf
         id = []
         static_dates = []
         output = []
-      
+
         attrs.each_pair do |key, value|
           if key == model.primary_key
             id << value
@@ -196,25 +208,23 @@ module Bhf
             return false
           end
         end
-        true      
+        true
       end
 
       def form_options(key, attribute = nil)
-        if form
-          if attribute == nil
-            form[key.to_s]
-          elsif form[key.to_s]
-            form[key.to_s][attribute.to_s]
-          end
-        end
+        lookup_options form, key, attribute
       end
 
       def table_options(key, attribute = nil)
-        if table
+        lookup_options table, key, attribute
+      end
+
+      def lookup_options(main_key, key, attribute = nil)
+        if main_key
           if attribute == nil
-            table[key.to_s]
-          elsif table[key.to_s]
-            table[key.to_s][attribute.to_s]
+            main_key[key.to_s]
+          elsif main_key[key.to_s]
+            main_key[key.to_s][attribute.to_s]
           end
         end
       end

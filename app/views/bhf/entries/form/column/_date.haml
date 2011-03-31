@@ -1,2 +1,2 @@
 = node f, field do
-  = f.text_field field.name, :class => 'date'
+  = f.text_field field.name, :class => "datepicker #{field.type}", :value => f.object.send(field.name).to_i

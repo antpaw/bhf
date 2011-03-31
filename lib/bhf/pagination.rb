@@ -10,17 +10,17 @@ module Bhf
       @offset_to_add = offset_to_add
     end
 
-    def paginate(platform)
+    def create(platform)
       platform_params = template.params[platform.name] || {}
 
-      if page_links = template.will_paginate(platform.paginated_objects, {
+      if page_links = template.will_paginate(platform.objects, {
         :previous_label => I18n.t('bhf.pagination.previous_label'),
         :next_label => I18n.t('bhf.pagination.next_label'),
         :renderer => LinkRenderer.new(self, platform),
         :container => false
       })
         links = "#{load_more(platform)} #{page_links}"
-      elsif platform.paginated_objects.total_pages == 1 && platform.paginated_objects.size > @offset_to_add
+      elsif platform.objects.total_pages == 1 && platform.objects.size > @offset_to_add
         links = load_less(platform)
       end
 
@@ -30,7 +30,11 @@ module Bhf
     end
 
     def info(platform, options = {})
-      collection = platform.paginated_objects
+      collection = platform.objects
+      
+      unless collection.respond_to?(:total_pages)
+        collection = collection.paginate({:page => 1, :per_page => collection.count+1})
+      end
 
       entry_name = options[:entry_name] ||
         (collection.empty?? I18n.t('bhf.pagination.entry') : collection.first.class.model_name.human)
