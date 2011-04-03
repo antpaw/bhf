@@ -44,6 +44,7 @@
           %td.action
             = link_to edit_t(@platform), edit_link, :class => 'edit'
             = link_to delete_t(@platform), bhf_entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :class => 'delete'
+            -# TODO: :remote => true
     - else
       %td.no_entries{:colspan => @platform.columns_count}
         = t 'bhf.pagination.info.nothing_found', :name => t('bhf.pagination.entry').pluralize

@@ -1,0 +1,7 @@
+- if defined?(current_account) && current_account
+  -# TODO: i18n and custom logout path
+  %p.user
+    You are logged in as
+    %strong= current_account.to_bhf_s
+    - if self.respond_to?(:logout_path)
+      = link_to 'Logout', logout_path, :method => :delete

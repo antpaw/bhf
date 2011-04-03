@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     scope ':platform' do
       resources :entries, :except => [:index, :show] do
         collection do 
+          # TODO: put it
           get :sort
         end
       end

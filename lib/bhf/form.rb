@@ -5,7 +5,7 @@ module Bhf
       include ActionView::Helpers::FormTagHelper
 
       def error_label(name, message)
-        label name, "#{object.class.human_attribute_name(name)} #{message}"
+        label name, "#{object.class.human_attribute_name(name)} #{message.join(', ')}"
       end
 
       def field_errors(field)

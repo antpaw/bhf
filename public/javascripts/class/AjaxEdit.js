@@ -1,6 +1,6 @@
 var AjaxEdit = new Class({
 	version: 0.2,
-	
+
 	options: {
 		holderParent: document.body
 	},
@@ -51,10 +51,7 @@ var AjaxEdit = new Class({
 
 	submit: function(eventNames){
 		var form = this.holder.getElement('form');
-
-		wysiwyg.each(function(elem){
-			elem.saveContent();
-		});
+		this.fireEvent('beforeSubmit');
 
 		new Request.JSON({
 			method: form.get('method'),
@@ -83,18 +80,16 @@ var AjaxEdit = new Class({
 	clean: function(){
 		document.body.getElements('.live_edit').removeClass('live_edit');
 	},
-	
+
 	close: function(){
 		this.clean();
 		this.holder.dispose();
 	},
-	
+
 	injectForm: function(form){
 		this.holder.innerHTML = form;
 		this.holder.inject(this.options.holderParent);
 		
-		this.holder.getElements('.wysiwyg').each(function(elem){
-			wysiwyg.push(elem.mooEditable());
-		});
+		this.fireEvent('formInjected', [this.holder]);		
 	}
 });

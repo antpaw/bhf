@@ -146,7 +146,8 @@ module Bhf
             @collection.select{ |field| attr_name == field.name }[0] ||
             Bhf::Data::AbstractField.new({
               :name => attr_name,
-              :type => table_options(:types, attr_name) || attr_name,
+              :form_type => form_options(:types, attr_name) || attr_name,
+              :display_type => table_options(:types, attr_name) || attr_name,
               :info => I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", :default => '')
             })
           )

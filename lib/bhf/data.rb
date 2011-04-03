@@ -1,13 +1,13 @@
 module Bhf
   module Data
     class AbstractField
-      attr_reader :name, :form_type, :info, :macro, :display_type, :overwrite_display_type
+      attr_reader :name, :info, :macro, :display_type, :form_type, :overwrite_type, :overwrite_display_type
       
       def initialize(props)
         @name = props[:name]
-        @form_type = props[:type]
-        @display_type = props[:type]
-        @overwrite_display_type = props[:type]
+        @form_type = props[:form_type]
+        @display_type = props[:display_type]
+        @overwrite_display_type = props[:display_type]
         @info = props[:info]
         @macro = :column
       end

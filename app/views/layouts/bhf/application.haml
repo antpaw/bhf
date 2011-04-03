@@ -11,7 +11,7 @@
   %body
     %header
       -# TODO: logo as css bg for better cache and no jumping?
-      %h1= image_tag 'logo_bhf.png'
+      %h1= link_to image_tag('logo_bhf.png'), root_url
       - if @config && @config.pages.any?
         %nav
           %ul
@@ -24,4 +24,6 @@
         = render :partial => 'bhf/helper/flash', :locals => {:flash => flash}
         = yield
 
-    %footer= render 'bhf/footer'
+    %footer
+      = render 'bhf/user'
+      = render 'bhf/footer'

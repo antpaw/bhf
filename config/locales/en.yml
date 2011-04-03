@@ -4,6 +4,9 @@ en:
       headline: Content
     
     helpers:
+      boolean:
+        a: 'yes'
+        b: 'no'
       searchform:
         placeholder: Search
       promts:

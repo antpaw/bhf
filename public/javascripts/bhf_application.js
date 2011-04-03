@@ -1,9 +1,33 @@
-// var ajaxNote = new Ajaxify();
-var wysiwyg = [];
-
 window.addEvent('domready', function(){
+	// var ajaxNote = new Ajaxify();
+	var wysiwyg = [];
+	var setupJsForm = function(scope){
+		scope.getElements('.wysiwyg').each(function(elem){
+			wysiwyg.push(elem.mooEditable());
+		});
+		new DatePicker(scope.getElements('.datepicker.datetime'), {
+			timePicker: true,
+			format: 'd.m.Y H:i'
+		});
+		new DatePicker(scope.getElements('.datepicker.date'), {
+			format: 'd.m.Y'
+		});
+		new DatePicker(scope.getElements('.datepicker.time'), {
+			timePickerOnly: true,
+			format: 'H:i'
+		});
+	};
+	
 	var quickEdit = new AjaxEdit({
-		holderParent: $('content')
+		holderParent: $('content'),
+		onFormInjected: function(form){
+			setupJsForm(form);
+		},
+		onBeforeSubmit: function(){
+			wysiwyg.each(function(elem){
+				elem.saveContent();
+			});
+		}
 	});
 	// ajaxNote.applyEvents();
 
@@ -111,10 +135,7 @@ window.addEvent('domready', function(){
 		setupSortables(document.body);
 	}
 	else if (main_form) {
-		$$('.wysiwyg').each(function(elem){
-			// TODO: wtf is this
-			wysiwyg.push(elem.mooEditable());
-		});
+		setupJsForm(main_form);
 
 		main_form.addEvents({
 			'click:relay(.quick_edit)': function(e){
@@ -141,18 +162,6 @@ window.addEvent('domready', function(){
 				}
 				quickEdit.startEdit(holder.getElement('a'));
 			}
-		});
-
-		new DatePicker('.datepicker.datetime', {
-			timePicker: true,
-			format: 'd.m.Y H:i'
-		});
-		new DatePicker('.datepicker.date', {
-			format: 'd.m.Y'
-		});
-		new DatePicker('.datepicker.time', {
-			timePicker: true,
-			format: 'H:i'
 		});
 	}
 	

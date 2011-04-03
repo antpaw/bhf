@@ -12,9 +12,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   def edit
     @form_url = bhf_entry_path(@platform.name, @object)
 
-    if @quick_edit
-      render :layout => 'bhf/quick_edit'
-    end
+    render :layout => 'bhf/quick_edit' if @quick_edit
   end
 
   def create
@@ -35,7 +33,6 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
   def update
     before_save
-    
     if @object.update_attributes(params[@model_sym])
       manage_many_to_many
       after_save
@@ -100,7 +97,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       params[:has_and_belongs_to_many].each_pair do |relation, ids|
         reflection = @model.reflections[relation.to_sym]
 
-        @object.send(reflection.name).delete_all
+        @object.send(reflection.name).delete_all # TODO: not this
 
         ids = ids.values.reject(&:blank?)
 
