@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-03-31}
+  s.date = %q{2011-04-03}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
     "app/helpers/bhf/entries_helper.rb",
     "app/helpers/bhf/pages_helper.rb",
     "app/views/bhf/_footer.haml",
+    "app/views/bhf/_user.haml",
     "app/views/bhf/application/index.haml",
     "app/views/bhf/entries/_form.haml",
     "app/views/bhf/entries/_validation_errors.haml",
