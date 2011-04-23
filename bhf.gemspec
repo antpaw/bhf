@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.2.3"
+  s.version = "0.2.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-04-03}
+  s.date = %q{2011-04-23}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/column/_date.haml",
     "app/views/bhf/entries/form/column/_file.haml",
     "app/views/bhf/entries/form/column/_markdown.haml",
+    "app/views/bhf/entries/form/column/_multiple_fields.haml",
     "app/views/bhf/entries/form/column/_number.haml",
     "app/views/bhf/entries/form/column/_password.haml",
     "app/views/bhf/entries/form/column/_static.haml",
@@ -56,6 +57,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/helper/_node.haml",
     "app/views/bhf/helper/_reflection_node.haml",
     "app/views/bhf/pages/_platform.haml",
+    "app/views/bhf/pages/_search.haml",
     "app/views/bhf/pages/macro/belongs_to/_default.haml",
     "app/views/bhf/pages/macro/column/_boolean.haml",
     "app/views/bhf/pages/macro/column/_date.haml",
@@ -69,12 +71,14 @@ Gem::Specification.new do |s|
     "app/views/bhf/pages/show.haml",
     "app/views/layouts/bhf/application.haml",
     "app/views/layouts/bhf/quick_edit.haml",
+    "config/locales/de.yml",
     "config/locales/en.yml",
     "config/routes.rb",
     "lib/bhf.rb",
     "lib/bhf/active_record.rb",
     "lib/bhf/data.rb",
     "lib/bhf/form.rb",
+    "lib/bhf/i18n.rb",
     "lib/bhf/pagination.rb",
     "lib/bhf/platform.rb",
     "lib/bhf/settings.rb",
@@ -87,6 +91,7 @@ Gem::Specification.new do |s|
     "public/images/bhf/icon_delete.png",
     "public/images/bhf/icon_delete_a.png",
     "public/images/bhf/icon_drag.png",
+    "public/images/bhf/icon_drag_a.png",
     "public/images/bhf/icon_edit.png",
     "public/images/bhf/icon_edit_a.png",
     "public/images/bhf/mooeditable-toolbarbuttons-tango.png",
