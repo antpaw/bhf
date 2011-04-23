@@ -17,7 +17,8 @@ module Bhf
     end
 
     module Self
-      def bhf_default_search(search_term)
+      def bhf_default_search(search_params)
+        return if (search_term = search_params[:text]).blank?
         where_statement = []
         columns_hash.each_pair do |name, props|
           is_number = search_term.to_i.to_s == search_term || search_term.to_f.to_s == search_term

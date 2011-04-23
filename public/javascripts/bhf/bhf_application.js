@@ -1,23 +1,46 @@
 window.addEvent('domready', function(){
 	// var ajaxNote = new Ajaxify();
+	var lang = document.html.get('lang');
+	if (lang === 'en') {
+		lang = 'en-US';
+	} else {
+		lang = lang+'-'+lang.toUpperCase();
+	}
+	Locale.use('de-DE' || lang);
 	var wysiwyg = [];
 	var setupJsForm = function(scope){
 		scope.getElements('.wysiwyg').each(function(elem){
 			wysiwyg.push(elem.mooEditable());
 		});
-		new DatePicker(scope.getElements('.datepicker.datetime'), {
+		new MultipleFields(scope.getElements('.multiple_fields'));
+		
+		var dateFormat = Locale.get('Date.shortDate').replace(/%/g, '');
+		var timeFormat = 'H:i'; // Locale.get('Date.shortTime').replace(/%/g, '')
+		var dateMonths = Locale.get('Date.months');
+		var dateDays = Locale.get('Date.days');
+		new DatePicker(scope.getElements('.picker.datetime, .picker.timestamp'), {
+			inputOutputFormat: 'Y-m-d H:i',
+			months: dateMonths,
+			days: dateDays,
 			timePicker: true,
-			format: 'd.m.Y H:i'
+			format: dateFormat+' '+timeFormat
+			// TODO: i18n Date formats
 		});
-		new DatePicker(scope.getElements('.datepicker.date'), {
-			format: 'd.m.Y'
+		new DatePicker(scope.getElements('.picker.date'), {
+			inputOutputFormat: 'Y-m-d H:i',
+			months: dateMonths,
+			days: dateDays,
+			format: dateFormat
 		});
-		new DatePicker(scope.getElements('.datepicker.time'), {
+		new DatePicker(scope.getElements('.picker.time'), {
+			inputOutputFormat: 'Y-m-d H:i',
+			months: dateMonths,
+			days: dateDays,
 			timePickerOnly: true,
-			format: 'H:i'
+			format: timeFormat
 		});
 	};
-	
+
 	var quickEdit = new AjaxEdit({
 		holderParent: $('content'),
 		onFormInjected: function(form){
@@ -165,13 +188,10 @@ window.addEvent('domready', function(){
 		});
 	}
 	
-	setTimeout(function(){
-		// TODO: mootools slideUp(), maybe css3 animations
-		var fm = $('flash_massages');
-		if (fm) {
-			fm.fade('out');
-		}
-	}, 4000);
+	var fm = $('flash_massages');
+	if (fm) {
+		fm.addClass('show').removeClass.delay(4000, fm, 'show');
+	}
 
 	new BrowserUpdate({vs:{i:8,f:3,o:10.01,s:2,n:9}});
 });

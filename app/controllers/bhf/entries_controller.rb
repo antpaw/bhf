@@ -64,7 +64,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
   def destroy
     @object.destroy
-    redirect_back_or_default(bhf_root_url, :notice => set_message('destory.success', @model))
+    redirect_back_or_default(bhf_page_path(@platform.page_name, :anchor => "#{@platform.name}_platform"), :notice => set_message('destory.success', @model))
   end
 
   private

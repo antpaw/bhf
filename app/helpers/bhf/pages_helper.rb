@@ -1,8 +1,12 @@
 module Bhf
   module PagesHelper
     
-    def get_value(key, platform_name)
-      params[platform_name][key] if params[platform_name] && params[platform_name][key] && params[platform_name][key].is_a?(String)
+    def get_value(key, p)
+      return unless p.is_a?(Hash)
+
+      return p[key[0]][key[1]] if key.is_a?(Array) && p[key[0]].is_a?(Hash) && p[key[0]][key[1]].is_a?(String) #omg
+      
+      p[key] if p[key] && p[key].is_a?(String)
     end
 
     def current_order_path(order_by, platform_name)
@@ -24,6 +28,10 @@ module Bhf
       return unless params_platfrom['order'] == order_by
       
       params_platfrom['direction'] == 'desc' ? 'sorted desc' : 'sorted asc'
+    end
+    
+    def has_link?(display_type)
+      display_type.to_s.include? '_link'
     end
 
   end

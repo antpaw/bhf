@@ -28,6 +28,14 @@ module Bhf
     def search?
       table_options(:search) != false
     end
+    
+    def search_field?
+      table_options(:search_field) != false
+    end
+    
+    def custom_search
+      table_options(:custom_search)
+    end
 
     def custom_columns?
       table_options(:columns).is_a?(Array)
@@ -123,11 +131,11 @@ module Bhf
 
     private
 
-      def do_search(chain, search_term)
+      def do_search(chain, search_params)
         search_condition = if table_options(:search)
-          search_term
+          search_params
         else
-          model.bhf_default_search(search_term)
+          model.bhf_default_search(search_params)
         end
 
         chain.send search_source, search_condition

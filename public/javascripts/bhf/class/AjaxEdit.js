@@ -44,6 +44,7 @@ var AjaxEdit = new Class({
 			method: 'get',
 			url: element.get('href'),
 			onSuccess: function(html){
+				// TODO: don't strip js
 				this.injectForm(html);
 			}.bind(this)
 		}).send();

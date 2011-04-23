@@ -1,0 +1,2 @@
+= node f, field do
+  = f.text_field field.name, :class => 'multiple_fields', :'data-spliter' => (f.object.send("#{field.name}_spliter") if f.object.respond_to?(:"#{field.name}_spliter"))

@@ -11,7 +11,7 @@ task :compile_js do
     'mootools-core-1.3.1-full-compat-yc.js',
     'mootools-more-1.3.1.1.js'
   ].each do |js_path|
-    output << File.read('public/javascripts/'+js_path)
+    output << File.read('public/javascripts/bhf/'+js_path)
   end
 
   [
@@ -21,9 +21,10 @@ task :compile_js do
     'class/AjaxEdit.js',
     'class/MooEditable.js',
     'class/Datepicker.js',
+    'class/MultipleFields.js',
     'bhf_application.js'
   ].each do |js_path|
-    output << compressor.compress(File.read('public/javascripts/'+js_path))
+    output << compressor.compress(File.read('public/javascripts/bhf/'+js_path))
   end
 
   File.open('public/javascripts/bhf.js', 'w') do |file|

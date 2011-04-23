@@ -36,21 +36,21 @@ module Bhf
         collection = collection.paginate({:page => 1, :per_page => collection.count+1})
       end
 
-      entry_name = options[:entry_name] ||
-        (collection.empty?? I18n.t('bhf.pagination.entry') : collection.first.class.model_name.human)
+      entry_name = collection.empty? ? I18n.t('bhf.pagination.entry') : collection.first.class.model_name.human
+      entries_name = collection.empty? ? I18n.t('bhf.pagination.entries') : collection.first.class.model_name.human.pluralize
 
       info = if collection.total_pages < 2
         case collection.size
           when 0
-            I18n.t 'bhf.pagination.info.nothing_found', :name => entry_name.pluralize
+            I18n.t 'bhf.pagination.info.nothing_found', :name => entries_name
           when 1
             I18n.t 'bhf.pagination.info.one_found', :name => entry_name
           else
-            I18n.t 'bhf.pagination.info.all_displayed', :total_count => collection.size, :name => entry_name.pluralize
+            I18n.t 'bhf.pagination.info.all_displayed', :total_count => collection.size, :name => entries_name
         end
       else
         I18n.t('bhf.pagination.info.default', {
-          :name => entry_name.pluralize,
+          :name => entries_name,
           :total_count => collection.total_entries,
           :offset_start => collection.offset + 1,
           :offset_end => collection.offset + collection.length

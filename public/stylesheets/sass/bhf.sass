@@ -86,18 +86,30 @@ header
 .quick_edit_holder,
 #main
   display: table-cell
+  overflow: hidden
   background: #EAEAEA
   border: 3px solid #FFFFFF
   box-sizing: border-box
   padding: 10px 20px
   +box-shadow(0, 1, 4, rgba($k1, 0.5))
 
+#main_form
+  // TODO: wtf css?
+  margin-left: -20px
+  .primary_key,
+  .static
+  
+
+
 #content
   .quick_edit_holder
+    overflow-x: auto
     position: relative
+    max-width: 400px
     width: 400px
     vertical-align: top
     form
+      margin-left: 0
       padding-bottom: 10px
     .node,
     .input,
@@ -106,11 +118,6 @@ header
     .input
       padding-top: 0
       min-height: 31px
-      input[type="password"],
-      input[type="text"],
-      select,
-      textarea
-        margin-left: -6px
     
     textarea
       width: 300px
@@ -148,6 +155,7 @@ table
       color: #3E3E3E
     .info
       padding: 5px 20px
+      width: 290px
       text-transform: uppercase
       font-size: 12px
       color: $g1
@@ -155,8 +163,6 @@ table
       display: inline-block
     .create
       float: right
-      a:hover
-        background: $b1
       
   td,
   th
@@ -167,7 +173,7 @@ table
   thead
     th
       padding: 4px 0
-      padding-left: 5px
+      padding-left: 3px
       text-align: left
       border-top: 1px solid #C6C6C6
       border-bottom: 1px solid #1B1B1B
@@ -178,7 +184,7 @@ table
       &.primary_key
         text-transform: uppercase
       &.sorted
-        +box-inner-shadow(0, -15, 50,#000)
+        +box-inner-shadow(0, -15, 50, #000)
         & a:after,
         &.desc:hover a:after
           content: ' ▼'
@@ -224,18 +230,26 @@ table
           background-position: 0 1px
       &.edit
         background: url(/images/bhf/icon_edit.png)
-        &:hover
-          background-image: url(/images/bhf/icon_edit_a.png)
       &.delete
         background: url(/images/bhf/icon_delete.png)
-        &:hover
-          background-image: url(/images/bhf/icon_delete_a.png)
-          
+
+    .handle
+      background: url(/images/bhf/icon_drag.png) no-repeat 7px 0
+      cursor: move
+      display: block
+    
+
     tr
       &:hover td,
       &.live_edit td
         +bg-gradient($b1, $b2)
         color: $w1
+        .edit
+          background-image: url(/images/bhf/icon_edit_a.png)
+        .delete
+          background-image: url(/images/bhf/icon_delete_a.png)
+        .handle
+          background-image: url(/images/bhf/icon_drag_a.png)
       &.live_edit td
         +bg-gradient($b2, $b1)
       &.dragged
@@ -243,7 +257,10 @@ table
           opacity: 0.4
           background-color: gray
           // TODO: padding left right with th td
-        
+
+  thead
+    th.drag
+      width: 24px
 
   tfoot
     td
@@ -258,18 +275,12 @@ table
       text-align: right
     .primary_key
       width: 30px
-    .handle
-      background: url(/images/bhf/icon_drag.png) no-repeat right 0
-      padding-right: 4px
-      cursor: move
-      display: block
-    
     .action
-      width: 50px
+      width: 54px
 
 
 .default_input
-  border: 1px solid #BBBBBB
+  border: 1px solid #BBB
   background: #FFF
   +border-radius(2)
   +box-shadow(0, 1, 0, #FFFFFF)
@@ -282,7 +293,7 @@ table
     border-color: $b2
 
 .search
-  input
+  input[type="text"]
     @extend .default_input
     width: 200px
 
@@ -294,7 +305,7 @@ form
     &.password
       .input,
       .label
-        padding-top: 5px
+        padding-top: 0
       .label
         label
           padding-top: 5px
@@ -309,7 +320,7 @@ form
         text-transform: uppercase
     .input,
     .label
-      padding-top: 10px
+      padding-top: 5px
       vertical-align: top
       display: table-cell
     .input
@@ -329,6 +340,25 @@ form
           border-color: red
       [disabled]
         background: $g2 !important
+      input[type="password"],
+      input[type="text"],
+      select,
+      textarea,
+      .mooeditable-container
+        margin-left: -6px
+      
+      .multiple_fields.template
+        display: block
+      .add_field
+        display: block
+        font-size: 20px
+        font-weight: bold
+        width: 30px
+        margin-left: -8px
+        cursor: pointer
+        text-align: center
+        &:hover
+          color: $b1
     .cancel
       margin-left: 20px
       color: $g1
@@ -337,6 +367,7 @@ form
         text-decoration: underline
         
   .error_explanation
+    margin-left: 20px
     label
       color: red
       cursor: pointer
@@ -393,7 +424,7 @@ button,
   &[disabeled]
     background: red
 
-  
+input[type="submit"].alt_button,
 .alt_button
   display: inline-block
   padding: 12px 50px
@@ -410,8 +441,9 @@ button,
   &:hover
     border-color: $b2
     -webkit-box-shadow: inset 0 -1px 0 rgba(#AAABAA, 0.7)
+    background: $b1    
   &:active
-    margin-top: 1px
+    border-color: $g1
   &:focus
     outline: 0
     +transition-duration(1)
@@ -419,13 +451,20 @@ button,
     -webkit-box-shadow: 0 1px 12px $b2
 
 #flash_massages
-  background: $b1
-  border: 1px solid $w1
-  padding: 5px 10px
-  margin: 0 -13px 10px -13px
+  display: block
+  padding: 5px 20px
+  margin: -45px 0 10px 0
+  border: 1px solid $b1
+  +bg-gradient($b1, $b2)
   color: $w1
-  +text-shadow($b2, -1)
-
+  +text-shadow(#0068B3)
+  overflow: hidden
+  height: 100%
+  +transition-duration(0.6)
+  opacity: 0
+  &.show
+    opacity: 1
+    margin-top: 0px
 
 
 .pagination
@@ -437,7 +476,7 @@ button,
     -webkit-box-shadow: inset 0 -1px 0 rgba(#AAABAA, 0.7)
 
 @media (max-width: 800px)
-  
+
 
 @media (max-width: 960px)
   .default_columns
@@ -455,7 +494,7 @@ button,
 .mooeditable-container
   @extend .default_input
   background: white
-  border-width: 1px
+  border: 1px solid #BBB
   .toolbar-separator
     background: $g2
   .mooeditable-ui-toolbar
@@ -469,7 +508,7 @@ button,
       background: $g2 !important
       
       
-// Datepicker
+// Datepicker TODO: style .datepicker
 
 .datepicker
   position: absolute
@@ -652,3 +691,6 @@ button,
     background: none !important
     color: #fbb !important
     cursor: default !important
+
+.hide
+  display: none !important

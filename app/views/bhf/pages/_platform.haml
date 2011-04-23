@@ -2,21 +2,16 @@
 %table{:id => "#{@platform.name}_platform", :class => (@platform.custom_columns? ? 'custom_columns' : 'default_columns')}
   %caption
     %h4= @platform.title
-    %p.info= @platform.pagination.info @platform, :entry_name => 'entry'
+    %p.info= @platform.pagination.info @platform
     
-    - if @platform.search?
-      = form_for @platform.name, :html => {:method => 'get', :class => 'search'} do |f|
-        = f.text_field :search, :value => get_value(:search, @platform.name), :placeholder => t('bhf.helpers.searchform.placeholder')
-        = f.hidden_field :per_page, :value => get_value(:per_page, @platform.name)
-        = f.hidden_field :order, :value => get_value(:order, @platform.name)
-        = f.hidden_field :direction, :value => get_value(:direction, @platform.name)
+    = render :partial => 'search', :locals => {:platform => @platform} if @platform.search?
 
     %p.create= link_to new_t(@platform), new_bhf_entry_path(@platform.name), :class => 'alt_button'
 
   %thead
     %tr
       - if @platform.sortable
-        %th
+        %th.drag
       - @platform.columns.each do |column|
         %th{:class => "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, @platform.name)}"}
           - column_name = @platform.model.human_attribute_name(column.name)
@@ -24,10 +19,12 @@
           = column.field.macro == :column ? link : column_name
 
       %th.action
+
   %tfoot
     %tr
       %td{:colspan => @platform.columns_count}
         = @platform.pagination.create(@platform) unless @platform.sortable
+
   %tbody{:class => ('sortable' if @platform.sortable), :'data-sort-url' => sort_bhf_entries_path(@platform.name)}
     - if @platform.objects.any?
       - @platform.objects.each do |object|
@@ -38,14 +35,17 @@
               %span.handle &nbsp;
           - @platform.columns.each do |column|
             %td{:class => "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
-              - p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
-              - a = object.send(column.name).blank? ? '&nbsp;' : render(:partial => p, :locals => {:column => column, :object => object})
-              = column.field.overwrite_display_type ? a.html_safe : link_to(a.html_safe, edit_link, :class => 'quick_edit')
+              - a = if column.field.display_type != :boolean && object.send(column.name).blank?
+                - '&nbsp;'
+              - else
+                - render(:partial => "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", :locals => {:column => column, :object => object})
+              
+              = has_link?(column.field.overwrite_display_type) ? a.html_safe : link_to(a.html_safe, edit_link, :class => 'quick_edit')
           %td.action
             = link_to edit_t(@platform), edit_link, :class => 'edit'
             = link_to delete_t(@platform), bhf_entry_path(@platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :class => 'delete'
-            -# TODO: :remote => true
+            -# TODO: :remote => true, authlogic problem?
     - else
       %td.no_entries{:colspan => @platform.columns_count}
-        = t 'bhf.pagination.info.nothing_found', :name => t('bhf.pagination.entry').pluralize
+        = t 'bhf.pagination.info.nothing_found', :name => t('bhf.pagination.entries')
         = link_to new_t(@platform), new_bhf_entry_path(@platform.name)

@@ -1,0 +1,59 @@
+de:
+  bhf:
+    helpers:
+      boolean:
+        a: ja
+        b: nein
+      searchform:
+        placeholder: Suche
+      promts:
+        confirm: Sind Sie sicher?
+      entry:
+        new: "%{platform_name} anlegen"
+        edit: "%{platform_name} editieren"
+        delete: "%{platform_name} löschen"
+        empty: Leer
+        cancel: Abbrechen
+      entries:
+        empty: Leer
+      login:
+        success: Login war erfolgreich
+        error: Konnte nicht eingeloggen
+      activated:
+        success: "%{model} wurde erfolgreich aktiviert"
+        error: "%{model} Fehler"
+      validation:
+        header: "Durch diese Fehler konnte %{name} nicht gespeichert werden:"
+        error: Fehler
+    
+    quick_edit:
+      buttons:
+        cancel: Abbrechen
+        open: Öffnen
+        save: Speichern
+        save_and_next: Speichern und weiter
+    
+    pagination:
+      previous_label: « Vorheriges
+      next_label: Nächstes »
+      load_more: Mehr anzeigen
+      load_less: Weniger anzeigen
+      entry: Eintrag
+      entries: Einträge
+      info:
+        default: "Es werden angezeigt <strong>%{offset_start} - %{offset_end}</strong> von <strong>%{total_count}</strong> %{name}"
+        nothing_found: "Es wurde nichts gefunden"
+        one_found: "Es wird <strong>1</strong> %{name} angezeigt"
+        all_displayed: "Es werden <strong>alle %{total_count}</strong> %{name} angezeigt"
+  activerecord:
+    notices:
+      messages:
+        create:
+          success: "%{model} wurde erfolgreich erstellt"
+          error: "%{model} Fehler"
+        update:
+          success: "%{model} wurde erfolgreich editiert"
+          error: "%{model} Fehler"
+        destory:
+          success: "%{model} wurde erfolgreich gelöscht"
+          error: "%{model} Fehler"

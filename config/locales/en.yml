@@ -42,6 +42,7 @@ en:
       load_more: Show more entries
       load_less: Show less entries
       entry: entry
+      entries: entries
       info:
         default: "Displaying <strong>%{offset_start} - %{offset_end}</strong> of <strong>%{total_count}</strong> %{name} in total"
         nothing_found: "No %{name} found"
