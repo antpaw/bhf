@@ -28,7 +28,7 @@ class Bhf::ApplicationController < ActionController::Base
         @current_account = account.class.find(account.id)
       end
     end
-    
+
     def current_account
       @current_account
     end
@@ -36,7 +36,7 @@ class Bhf::ApplicationController < ActionController::Base
     def load_config
       @config = Bhf::Settings.new(roles_yml(get_account_roles))
     end
-    
+
     def roles_yml(roles = nil)
       if roles.is_a?(String)
         load_yml("/#{roles}")
@@ -54,14 +54,14 @@ class Bhf::ApplicationController < ActionController::Base
         load_yml
       end
     end
-    
+
     def load_yml(suffix = nil)
       YAML::load(IO.read("config/bhf#{suffix}.yml"))
     end
-    
+
     def get_account_roles
       return unless current_account
-      
+
       if current_account.respond_to?(:role)
         current_account.role.is_a?(String) ? current_account.role : current_account.role.to_bhf_s
       elsif current_account.respond_to?(:roles)

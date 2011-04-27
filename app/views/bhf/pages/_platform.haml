@@ -3,10 +3,8 @@
   %caption
     %h4= @platform.title
     %p.info= @platform.pagination.info @platform
-    
-    = render :partial => 'search', :locals => {:platform => @platform} if @platform.search?
-
     %p.create= link_to new_t(@platform), new_bhf_entry_path(@platform.name), :class => 'alt_button'
+    = render :partial => 'search', :locals => {:platform => @platform} if @platform.search?
 
   %thead
     %tr

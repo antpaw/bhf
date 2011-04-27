@@ -24,7 +24,6 @@ window.addEvent('domready', function(){
 			days: dateDays,
 			timePicker: true,
 			format: dateFormat+' '+timeFormat
-			// TODO: i18n Date formats
 		});
 		new DatePicker(scope.getElements('.picker.date'), {
 			inputOutputFormat: 'Y-m-d H:i',

@@ -19,7 +19,7 @@ module Bhf
 
       def initialize(props, options = {}, pk = 'id')
         @props = props
-        @info = options[:info] if options[:info] # TODO: i think this is wrong because info is atleast '' 
+        @info = options[:info]
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
         @overwrite_display_type = options[:overwrite_display_type].to_sym if options[:overwrite_display_type]
@@ -90,7 +90,7 @@ module Bhf
       
       def initialize(reflection, options = {})
         @reflection = reflection
-        @info = options[:info] if options[:info]
+        @info = options[:info]
         @link = options[:link].to_sym if options[:link]
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]

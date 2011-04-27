@@ -80,7 +80,8 @@ header
   box-sizing: border-box
   margin-top: -20px
   border-spacing: 20px
-  h2
+  h2,
+  h3
     +text-shadow(#fff)
     
 .quick_edit_holder,
@@ -141,6 +142,7 @@ table
   margin-bottom: 40px
   width: 100%
   caption
+    overflow: hidden
     height: 28px
     padding: 10px 10px 10px 20px
     background-image: url(/images/bhf/button_bg_2.png)
@@ -151,14 +153,17 @@ table
     .info
       display: inline-block
       +text-shadow(#fff)
+      padding-bottom: 20px
     h4
       color: #3E3E3E
     .info
-      padding: 5px 20px
+      margin: 0 20px 0 10px
       width: 290px
       text-transform: uppercase
       font-size: 12px
       color: $g1
+      white-space: nowrap
+      overflow: hidden
     form
       display: inline-block
     .create
@@ -256,7 +261,6 @@ table
         td
           opacity: 0.4
           background-color: gray
-          // TODO: padding left right with th td
 
   thead
     th.drag
@@ -312,6 +316,8 @@ form
     .label
       label
         display: block
+        color: $g3
+        +text-shadow(#fff)
       width: 200px
       .field_with_errors
         color: red
@@ -365,7 +371,12 @@ form
       &:hover
         color: $g3
         text-decoration: underline
-        
+    .info
+      font-style: italic
+      font-size: 12px
+      color: $g3
+      +text-shadow(#fff)
+      
   .error_explanation
     margin-left: 20px
     label
