@@ -1,2 +1,5 @@
 = node f, field do
+  - file = f.object.send(field.name)
+  - if file.is_a? String
+    = image_tag f.object.send(field.name), :class => 'uploaded_image'
   = f.file_field field.name

@@ -97,9 +97,7 @@ header
 #main_form
   // TODO: wtf css?
   margin-left: -20px
-  .primary_key,
-  .static
-  
+    
 
 
 #content
@@ -126,7 +124,7 @@ header
     > button
       &.save,
       &.save_and_next
-        margin-left: -5px
+        margin-left: -6px
         margin-right: 20px
         padding: 6px 25px
         
@@ -166,6 +164,7 @@ table
       overflow: hidden
     form
       display: inline-block
+        
     .create
       float: right
       
@@ -288,8 +287,9 @@ table
   background: #FFF
   +border-radius(2)
   +box-shadow(0, 1, 0, #FFFFFF)
-  padding: 3px 5px 1px 5px
+  padding: 5px 5px 4px 5px
   width: 300px
+  line-height: 10px
   &:focus
     outline: 0
     +transition-duration(1)
@@ -332,11 +332,13 @@ form
     .input
       input[type="password"],
       input[type="text"],
+      .uploaded_image,
       textarea
         @extend .default_input
       textarea
         width: 500px
         height: 200px
+        line-height: 20px
         &.wysiwyg
           height: 400px
       .errors
@@ -346,13 +348,16 @@ form
           border-color: red
       [disabled]
         background: $g2 !important
+      input[type="submit"],
       input[type="password"],
       input[type="text"],
       select,
       textarea,
+      .uploaded_image,
       .mooeditable-container
         margin-left: -6px
-      
+      input[type="file"]
+        margin-left: -5px
       .multiple_fields.template
         display: block
       .add_field
@@ -365,6 +370,14 @@ form
         text-align: center
         &:hover
           color: $b1
+      .uploaded_image
+        padding: 2px
+        width: auto
+        max-width: 400px
+        max-height: 200px
+        margin-bottom: 5px
+        display: block
+        
     .cancel
       margin-left: 20px
       color: $g1
@@ -409,6 +422,7 @@ button,
   +border-radius(4)
   -webkit-box-shadow: 0 1px 4px rgba($k1, 0.5), inset 0 2px 0 rgba($w1, 0.3), inset 0 1px 0 rgba($k1, 0.9)
   text-decoration: none
+  
   font-weight: bold
   color: $w2
   font-size: 13px
