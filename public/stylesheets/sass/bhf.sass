@@ -27,6 +27,9 @@ $g3: #424242
 a
   text-decoration: none
   color: inherit 
+  &:focus,
+  &:active
+    outline: 0
 
 header
   display: block
@@ -142,6 +145,7 @@ table
   caption
     overflow: hidden
     height: 28px
+    -moz-box-sizing: content-box
     padding: 10px 10px 10px 20px
     background-image: url(/images/bhf/button_bg_2.png)
     +border-top-radius(4)
@@ -161,7 +165,6 @@ table
       font-size: 12px
       color: $g1
       white-space: nowrap
-      overflow: hidden
     form
       display: inline-block
         
@@ -294,6 +297,7 @@ table
     outline: 0
     +transition-duration(1)
     -webkit-box-shadow: 0 1px 12px $b2
+    -moz-box-shadow: 0 1px 12px $b2
     border-color: $b2
 
 .search
@@ -496,7 +500,9 @@ input[type="submit"].alt_button,
   a, span, em
     @extend .alt_button
   
-  .current
+  em
+    font-style: normal
+    font-weight: bold
     background: #888
     -webkit-box-shadow: inset 0 -1px 0 rgba(#AAABAA, 0.7)
 
