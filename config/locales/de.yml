@@ -25,7 +25,9 @@ de:
       validation:
         header: "Durch diese Fehler konnte %{name} nicht gespeichert werden:"
         error: Fehler
-    
+      file:
+        delete: Datei löschen
+
     quick_edit:
       buttons:
         cancel: Abbrechen

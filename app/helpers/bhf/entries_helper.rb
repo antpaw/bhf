@@ -12,5 +12,12 @@ module Bhf
       }
     end
 
+    def is_image?(file)
+      ['.png', '.jpg', '.jpeg', '.gif', '.svg'].each do |file_extention|
+        return true if file.downcase.include? file_extention
+      end
+      false
+    end
+
   end
 end

@@ -8,8 +8,8 @@ task :compile_js do
 
   output = ''
   [
-    'mootools-core-1.3.1-full-compat-yc.js',
-    'mootools-more-1.3.1.1.js'
+    'mootools-core-1.3.2-full-compat-yc.js',
+    'mootools-more-1.3.2.1.js'
   ].each do |js_path|
     output << File.read('public/javascripts/bhf/'+js_path)
   end

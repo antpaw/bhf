@@ -24,7 +24,7 @@ var Ajaxify = new Class({
 
 	initialize: function(_options) {
 		this.setOptions(_options);
-		this.holder = this.options.holder;
+		this.holder = this.options.holder.inject(document.body);
 	},
 	
 	applyEvents: function(el){
@@ -50,15 +50,13 @@ var Ajaxify = new Class({
 
 	setMessage: function(status, fadeOut) {
 		this.holder
-			.set('class', status)
 			.set('text', this.options.events[status].text)
-			.inject(document.body);
+			.set('class', status);
 
 		if (fadeOut) {
 			this.holder.addClass('fadeout');
-			
 			setTimeout(function(){
-				this.holder.dispose();
+				this.holder.erase('class');
 			}.bind(this), this.options.fadeOutDuration);
 		}
 	}

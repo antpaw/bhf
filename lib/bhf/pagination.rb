@@ -104,7 +104,7 @@ module Bhf
           @b_p.template.bhf_page_path(
             @platform.page_name,
             @b_p.template.params.merge(@platform.name => platform_params)
-          ), attributes
+          ), {:class => 'page_number'}.merge(attributes)
         )
       end
 

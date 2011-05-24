@@ -1,12 +1,13 @@
 window.addEvent('domready', function(){
-	// var ajaxNote = new Ajaxify();
+	var ajaxNote = new Ajaxify();
 	var lang = document.html.get('lang');
 	if (lang === 'en') {
 		lang = 'en-US';
-	} else {
+	}
+	else {
 		lang = lang+'-'+lang.toUpperCase();
 	}
-	Locale.use('de-DE' || lang);
+	Locale.use(lang);
 	var wysiwyg = [];
 	var setupJsForm = function(scope){
 		scope.getElements('.wysiwyg').each(function(elem){
@@ -42,10 +43,18 @@ window.addEvent('domready', function(){
 
 	var quickEdit = new AjaxEdit({
 		holderParent: $('content'),
+		onStartRequest: function(form){
+			ajaxNote.loading();
+		},
 		onFormInjected: function(form){
 			setupJsForm(form);
+			ajaxNote.success();
+		},
+		onSave: function(form){
+			ajaxNote.success();
 		},
 		onBeforeSubmit: function(){
+			ajaxNote.loading();
 			wysiwyg.each(function(elem){
 				elem.saveContent();
 			});
@@ -73,6 +82,7 @@ window.addEvent('domready', function(){
 			});
 		};
 		var updatePlatform = function(href, platform, callback){
+			ajaxNote.loading();
 			new Request({
 				method: 'get',
 				url: href,
@@ -82,6 +92,7 @@ window.addEvent('domready', function(){
 						callback.call();
 					}
 					setupSortables(platform);
+					ajaxNote.success();
 				}
 			}).send();
 		};
@@ -92,6 +103,7 @@ window.addEvent('domready', function(){
 				updatePlatform(this.get('href'), this.getParent('.platform'));
 			},
 			'submit:relay(.search)': function(e){
+				ajaxNote.loading();
 				e.preventDefault();
 				var parent = this.getParent('.platform');
 
@@ -100,13 +112,17 @@ window.addEvent('domready', function(){
 					url: this.get('action'),
 					onSuccess: function(html){
 						parent.innerHTML = html;
-						setupSortables(platform);
+						setupSortables(parent);
+						ajaxNote.success();
 					}
 				}).send({data: this});
 			},
 			'click:relay(.quick_edit)': function(e){
 				e.preventDefault();
 				quickEdit.startEdit(this, this.getParent('tr'));
+			},
+			'click:relay(.action a)': function(e){
+				e.target.addClass('clicked');
 			},
 			'ajax:complete:relay(a[data-method=delete][data-remote])': function(e){
 				// TODO: make this work
@@ -162,7 +178,7 @@ window.addEvent('domready', function(){
 		main_form.addEvents({
 			'click:relay(.quick_edit)': function(e){
 				e.preventDefault();
-				quickEdit.startEdit(this, this);
+				quickEdit.startEdit(this);
 			}
 		});
 
@@ -186,11 +202,25 @@ window.addEvent('domready', function(){
 			}
 		});
 	}
+	var dbch = document.body.clientHeight;
+	window.onresize = function(e){
+		dbch = document.body.clientHeight;
+	};
+	window.onscroll = function(e){
+		var innerForm = quickEdit.holder.getElement('form');
+		if ( ! innerForm) { return; }
+		var scroll = document.body.scrollTop-70;
+		if (scroll < 10) {
+			scroll = 10;
+		}
+		if (scroll + innerForm.getSize().y > dbch) { return; }
+		quickEdit.holder.setStyle('padding-top', scroll);
+	};
 	
 	var fm = $('flash_massages');
 	if (fm) {
 		fm.addClass('show').removeClass.delay(4000, fm, 'show');
 	}
-
+	
 	new BrowserUpdate({vs:{i:8,f:3,o:10.01,s:2,n:9}});
 });

@@ -28,6 +28,8 @@ en:
       validation:
         header: "%{error} prohibited this %{name} from being saved:"
         error: error
+      file:
+        delete: Delete file
     
     quick_edit:
       buttons:

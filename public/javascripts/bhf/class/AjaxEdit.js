@@ -40,6 +40,7 @@ var AjaxEdit = new Class({
 		this.wrapElement = wrapElement ? wrapElement : element;
 		this.wrapElement.addClass('live_edit');
 		
+		this.fireEvent('startRequest');
 		new Request({
 			method: 'get',
 			url: element.get('href'),
@@ -70,6 +71,7 @@ var AjaxEdit = new Class({
 				eventNames.each(function(eventName){
 					this.fireEvent(eventName, [json]);
 				}.bind(this));
+				this.fireEvent('save');
 			}.bind(this)
 		}).send({data: form});
 	},
