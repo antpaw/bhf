@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.2.7"
+  s.version = "0.2.8"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-05-13}
+  s.date = %q{2011-05-24}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
@@ -76,7 +76,8 @@ Gem::Specification.new do |s|
     "config/locales/en.yml",
     "config/routes.rb",
     "lib/bhf.rb",
-    "lib/bhf/active_record.rb",
+    "lib/bhf/active_record/active_record.rb",
+    "lib/bhf/active_record/upload.rb",
     "lib/bhf/data.rb",
     "lib/bhf/form.rb",
     "lib/bhf/i18n.rb",
@@ -86,17 +87,23 @@ Gem::Specification.new do |s|
     "lib/bhf/view_helpers.rb",
     "lib/engine.rb",
     "lib/rails/generators/bhf/templates/initializer.rb",
+    "public/images/bhf/ajax_loader.gif",
     "public/images/bhf/bg.png",
     "public/images/bhf/button_bg.png",
     "public/images/bhf/button_bg_2.png",
     "public/images/bhf/button_bg_a.png",
     "public/images/bhf/icon_delete.png",
     "public/images/bhf/icon_delete_a.png",
+    "public/images/bhf/icon_delete_h.png",
     "public/images/bhf/icon_drag.png",
     "public/images/bhf/icon_drag_a.png",
+    "public/images/bhf/icon_drag_h.png",
     "public/images/bhf/icon_edit.png",
     "public/images/bhf/icon_edit_a.png",
+    "public/images/bhf/icon_edit_h.png",
     "public/images/bhf/mooeditable-toolbarbuttons-tango.png",
+    "public/images/bhf/small_ajax_loader.gif",
+    "public/images/bhf/small_ajax_loader_h.gif",
     "public/images/logo_bhf.png",
     "public/javascripts/bhf.js",
     "public/stylesheets/bhf.css"
