@@ -77,7 +77,6 @@ window.addEvent('domready', function(){
 				},
 				onComplete: function(element){
 					element.removeClass('dragged');
-					console.log(this.serialize());
 					new Request({
 						method: 'get',
 						url: this.element.getParent('tbody').get('data-sort-url')
