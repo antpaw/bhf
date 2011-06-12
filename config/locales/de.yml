@@ -27,6 +27,7 @@ de:
         error: Fehler
       file:
         delete: Datei löschen
+        reselect: Bitte die Datei noch mal auswählen
 
     quick_edit:
       buttons:

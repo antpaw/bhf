@@ -1,2 +1,2 @@
 = node f, field do
-  = f.text_field field.name, :class => "picker #{field.type}", :value => l(f.object.send(field.name) || Date.today, :format => '%Y-%m-%d %H:%M')
+  = f.text_field field.name, :class => "picker #{field.type}", :value => f.object.send(field.name) ? l(f.object.send(field.name), :format => '%Y-%m-%d %H:%M') : nil

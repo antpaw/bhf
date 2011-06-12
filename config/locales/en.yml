@@ -30,6 +30,7 @@ en:
         error: error
       file:
         delete: Delete file
+        reselect: Please reselect the file
     
     quick_edit:
       buttons:

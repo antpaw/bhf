@@ -41,12 +41,13 @@ var AjaxEdit = new Class({
 		this.wrapElement.addClass('live_edit');
 		
 		this.fireEvent('startRequest');
-		new Request({
+		new Request.HTML({
 			method: 'get',
+			evalScripts: false,
 			url: element.get('href'),
-			onSuccess: function(html){
-				// TODO: don't strip js
-				this.injectForm(html);
+			onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript){
+				this.injectForm(responseHTML);
+				eval(responseJavaScript);
 			}.bind(this)
 		}).send();
 	},
@@ -58,11 +59,15 @@ var AjaxEdit = new Class({
 		new Request.JSON({
 			method: form.get('method'),
 			url: form.get('action'),
+			evalScripts: true,
 			onRequest: function(){
 				this.disableButtons();
 			}.bind(this),
 			onFailure: function(invalidForm){
 				this.injectForm(invalidForm.response);
+				invalidForm.response.stripScripts(function(script){
+					eval(script);
+				});
 			}.bind(this),
 			onSuccess: function(json){
 				if ( ! eventNames.contains('successAndNext')) {

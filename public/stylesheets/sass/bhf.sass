@@ -4,6 +4,15 @@
 @import typo
 @import functions
 
+$w1: #fff
+$w2: #F1F1F1
+$k1: #000
+$b1: #38A5E9
+$b2: #0F8FDD
+$g1: #7F7F7F
+$g2: #ccc
+$g3: #424242
+
 html
   min-width: 700px
   height: 100%
@@ -15,15 +24,6 @@ body
   min-height: 100%
   +box-inner-shadow(0, 0, 8,#000)
   background: url(/images/bhf/small_ajax_loader.gif) no-repeat -4000px -4000px, url(/images/bhf/small_ajax_loader_h.gif) no-repeat -4000px -4000px, url(/images/bhf/ajax_loader.gif) no-repeat -4000px -4000px, url(/images/bhf/button_bg_a.png) no-repeat -4000px -4000px, url(/images/bhf/icon_edit_a.png) no-repeat -4000px -4000px, url(/images/bhf/icon_delete_a.png) no-repeat -4000px -4000px, url(/images/bhf/icon_drag_a.png) no-repeat -4000px -4000px
-
-$w1: #fff
-$w2: #F1F1F1
-$k1: #000
-$b1: #38A5E9
-$b2: #0F8FDD
-$g1: #7F7F7F
-$g2: #ccc
-$g3: #424242
 
 a
   text-decoration: none
@@ -75,7 +75,6 @@ header
         &:active
           +bg-gradient($b2, $b1)
           +text-shadow(#0068B3, -1)
-          // TODO: table, so we can vertial align nav
             
 
 #content
@@ -404,6 +403,9 @@ form
         max-height: 200px
         margin-bottom: 5px
         display: block
+      .warning
+        font-weight: bold
+        
       .uploaded_file
         padding: 7px 5px 8px 7px
         background: #999

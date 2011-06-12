@@ -20,6 +20,7 @@ window.addEvent('domready', function(){
 		var dateMonths = Locale.get('Date.months');
 		var dateDays = Locale.get('Date.days');
 		new DatePicker(scope.getElements('.picker.datetime, .picker.timestamp'), {
+			allowEmpty: true,
 			inputOutputFormat: 'Y-m-d H:i',
 			months: dateMonths,
 			days: dateDays,
@@ -27,12 +28,14 @@ window.addEvent('domready', function(){
 			format: dateFormat+' '+timeFormat
 		});
 		new DatePicker(scope.getElements('.picker.date'), {
+			allowEmpty: true,
 			inputOutputFormat: 'Y-m-d H:i',
 			months: dateMonths,
 			days: dateDays,
 			format: dateFormat
 		});
 		new DatePicker(scope.getElements('.picker.time'), {
+			allowEmpty: true,
 			inputOutputFormat: 'Y-m-d H:i',
 			months: dateMonths,
 			days: dateDays,
@@ -41,6 +44,7 @@ window.addEvent('domready', function(){
 		});
 	};
 
+	// TODO: disable more ajax calls while ajax is loading
 	var quickEdit = new AjaxEdit({
 		holderParent: $('content'),
 		onStartRequest: function(form){
@@ -60,7 +64,6 @@ window.addEvent('domready', function(){
 			});
 		}
 	});
-	// ajaxNote.applyEvents();
 
 	var platforms = document.body.getElements('.platform');
 	var main_form = document.id('main_form');
@@ -74,6 +77,7 @@ window.addEvent('domready', function(){
 				},
 				onComplete: function(element){
 					element.removeClass('dragged');
+					console.log(this.serialize());
 					new Request({
 						method: 'get',
 						url: this.element.getParent('tbody').get('data-sort-url')
@@ -152,7 +156,6 @@ window.addEvent('domready', function(){
 					var platform = tr.getParent('.platform');
 					var loadMore = platform.getElement('.load_more');
 					if (loadMore) {
-						// TODO: disable pagination while in quick_edit mode
 						trIndex = tr.getParent('tbody').getElements('tr').indexOf(tr);
 						updatePlatform(loadMore.get('href'), platform, function(){
 							platform.getElements('tbody tr').each(function(newTr, index){

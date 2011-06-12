@@ -54,12 +54,14 @@ class Bhf::EntriesController < Bhf::ApplicationController
   def sort
     return unless @platform.sortable
     
-    sortable = @platform.sortable.to_sym
+    sort_attr = @platform.sortable.to_sym
 
-    params[:order].each_with_index do |id, index|
-      object = @model.find(id[1].gsub("_#{@platform.name}", ''))
-      object.update_attribute(sortable, index)
+    params[:order].each do |order|
+      @model.
+        find(order[1].gsub("_#{@platform.name}", '')).
+        update_attribute(sort_attr, order[0].to_i)
     end
+    render :text => 'OK'
   end
 
   def destroy

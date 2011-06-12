@@ -1,4 +1,4 @@
-- html = { :id => (:main_form unless @quick_edit), :multipart => @platform.has_file_upload? }
+- html = { :id => (:main_form unless @quick_edit), :multipart => (!@quick_edit && @platform.has_file_upload?) }
 = form_for @object, :url => @form_url, :builder => Bhf::Form::Builder, :html => html do |f|
 
   - if f.object.errors.any?
