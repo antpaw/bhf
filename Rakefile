@@ -3,8 +3,7 @@ task :compile_css do
 end
 
 task :compile_js do
-  require 'yui/compressor'
-  compressor = YUI::JavaScriptCompressor.new
+  require 'yuicompressor'
 
   output = ''
   [
@@ -24,7 +23,7 @@ task :compile_js do
     'class/MultipleFields.js',
     'bhf_application.js'
   ].each do |js_path|
-    output << compressor.compress(File.read('public/javascripts/bhf/'+js_path))
+    output << YUICompressor.compress_js(File.read('public/javascripts/bhf/'+js_path))
   end
 
   File.open('public/javascripts/bhf.js', 'w') do |file|
@@ -32,6 +31,7 @@ task :compile_js do
   end
 end
 
+task :default => :compile_css
 
 require 'rake/testtask'
 
@@ -62,6 +62,4 @@ begin
   end
 
   Jeweler::GemcutterTasks.new
-rescue
-  puts 'Jeweler or dependency not available.'
 end
