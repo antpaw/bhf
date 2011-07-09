@@ -3,3 +3,4 @@ pkg/
 doc/
 public/stylesheets/bhf.css
 public/javascripts/bhf.js
+.yardoc/
