@@ -1,4 +1,4 @@
 - unless flash.blank?
   %ul#flash_massages
-    - flash.each_pair do |key, value|
-      %li{:class => key}= value
+    - flash.each do |type, msg|
+      %li{:class => type}= msg
