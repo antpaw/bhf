@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.3.5"
+  s.version = "0.3.6.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
@@ -108,7 +108,8 @@ Gem::Specification.new do |s|
     "public/javascripts/bhf.js",
     "public/javascripts/bhf_includes/showdown.js",
     "public/javascripts/bhf_includes/wmd.js",
-    "public/stylesheets/bhf.css"
+    "public/stylesheets/bhf.css",
+    "public/test/test.css"
   ]
   s.homepage = %q{http://github.com/antpaw/bahnhof}
   s.require_paths = ["lib"]
