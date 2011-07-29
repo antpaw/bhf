@@ -5,6 +5,7 @@
     %title= @title
     = csrf_meta_tag
     %link{:href => '/favicon.ico', :rel => 'icon', :type => 'image/x-icon'}
+    = stylesheet_link_tag 'http://projects.antpaw.org/bhf.css'
     - ([:bhf] + Bhf::Engine.config.css.to_a).each do |css|
       = stylesheet_link_tag "/stylesheets/#{css}"
     = javascript_include_tag '/javascripts/bhf'
