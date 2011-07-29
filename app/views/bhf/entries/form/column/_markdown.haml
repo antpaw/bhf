@@ -1,3 +1,15 @@
 -# TODO: markdown editor
+
 = node f, field do
-  = f.text_area field.name, :class => 'markdown'
+  - if @quick_edit
+    = f.text_area field.name, :id => 'wmd-input', :class => 'markdown'
+  - else
+    = javascript_include_tag '/javascripts/bhf_includes/showdown.js'
+    #wmd-editor.wmd-pane
+      #wmd-button-bar
+      = f.text_area field.name, :id => 'wmd-input', :class => 'markdown'
+    %h6 Live Preview:
+    #wmd-preview.wmd-panel
+    %h6 HTML Preview:
+    #wmd-output.wmd-panel
+    = javascript_include_tag '/javascripts/bhf_includes/wmd.js'

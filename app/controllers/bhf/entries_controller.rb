@@ -100,7 +100,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       params[:has_and_belongs_to_many].each_pair do |relation, ids|
         reflection = @model.reflections[relation.to_sym]
 
-        @object.send(reflection.name).delete_all # TODO: not this
+        @object.send(reflection.name).delete_all # TODO: drop only the diff
 
         ids = ids.values.reject(&:blank?)
 

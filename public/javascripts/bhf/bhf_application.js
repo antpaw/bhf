@@ -86,10 +86,10 @@ window.addEvent('domready', function(){
 		};
 		var updatePlatform = function(href, platform, callback){
 			ajaxNote.loading();
-			new Request({
+			new Request.HTML({
 				method: 'get',
 				url: href,
-				onSuccess: function(html){
+				onSuccess: function(a, b, html){
 					platform.innerHTML = html;
 					if (callback) {
 						callback.call();
@@ -110,10 +110,10 @@ window.addEvent('domready', function(){
 				e.preventDefault();
 				var parent = this.getParent('.platform');
 
-				new Request({
+				new Request.HTML({
 					method: 'get',
 					url: this.get('action'),
-					onSuccess: function(html){
+					onSuccess: function(a, b, html){
 						parent.innerHTML = html;
 						setupSortables(parent);
 						ajaxNote.success();
