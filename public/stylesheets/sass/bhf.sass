@@ -216,8 +216,8 @@ table
         max-width: 200px
         white-space: nowrap
         overflow: hidden
-        a 
-          -webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(55%,rgba($k1,1)), color-stop(95%,rgba($w1,0)))
+        a
+          -webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(70%,rgba($k1,1)), color-stop(95%,rgba($w1,0)))
           
       &.no_entries
         text-align: center
@@ -386,6 +386,8 @@ form
         margin-left: -6px
       input[type="file"]
         margin-left: -5px
+      select
+        font-size: 16px
       .multiple_fields.template
         display: block
       .add_field
@@ -846,11 +848,36 @@ input[type="submit"].alt_button,
   width: 700px !important
 
 #wmd-preview
+  img
+    display: block
+  ul,
+  ol
+    padding-left: 30px
+  ul,
+  ol,
+  h1, h2, h3, h4, h5, h6,
+  p
+    padding-bottom: 10px
   a
     text-decoration: underline
+    color: $b2
+    font-weight: bold
+    
+.preview_switch
+  span
+    float: right
+    margin-left: 10px
+    cursor: pointer
+    &.active
+      color: $b2
 
 #wmd-output 
   overflow-x: scroll
+  font-family: Monaco,Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Courier New",Courier,monospace
+  font-size: 12px
+  line-height: 16px
+  background: $g3
+  color: $w2
   
 
 #wmd-button-row 

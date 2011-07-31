@@ -8,8 +8,21 @@
     #wmd-editor.wmd-pane
       #wmd-button-bar
       = f.text_area field.name, :id => 'wmd-input', :class => 'markdown'
-    %h6 Live Preview:
+    %h6.preview_switch
+      Preview
+      %span#toggle_html_preview HTML
+      %span#toggle_live_preview.active Live
     #wmd-preview.wmd-panel
-    %h6 HTML Preview:
-    #wmd-output.wmd-panel
+    #wmd-output.wmd-panel.hide
     = javascript_include_tag '/javascripts/bhf_includes/wmd.js'
+    :javascript
+      var toggleMdPreview = function(e){
+        var a = e.target.id === 'toggle_html_preview';
+        $('wmd-preview').toggleClass('hide', a);
+        $('wmd-output').toggleClass('hide', !a);
+        $('toggle_live_preview').toggleClass('active', !a);
+        $('toggle_html_preview').toggleClass('active', a);
+      };
+      $('toggle_live_preview').addEvent('click', toggleMdPreview);
+      $('toggle_html_preview').addEvent('click', toggleMdPreview);
+      

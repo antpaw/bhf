@@ -61,8 +61,8 @@ class Bhf::EntriesController < Bhf::ApplicationController
         find(order[1].gsub("_#{@platform.name}", '')).
         update_attribute(sort_attr, order[0].to_i)
     end
-    # TODO: head :ok
-    render :text => 'OK'
+    
+    head :ok
   end
 
   def destroy

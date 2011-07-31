@@ -20,7 +20,7 @@ module Bhf
         :container => false
       })
         links = "#{load_more(platform)} #{page_links}"
-      elsif platform.objects.total_pages == 1 && platform.objects.size > @offset_to_add
+      elsif platform.objects.total_pages == 1 && platform.objects.size + @offset_to_add > @offset_per_page
         links = load_less(platform)
       end
 

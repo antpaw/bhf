@@ -109,6 +109,10 @@ window.addEvent('domready', function(){
 				ajaxNote.loading();
 				e.preventDefault();
 				var parent = this.getParent('.platform');
+				var hidden_search = e.target.getElement('.hidden_search');
+				if (hidden_search) {
+					hidden_search.destroy();
+				}
 
 				new Request.HTML({
 					method: 'get',
