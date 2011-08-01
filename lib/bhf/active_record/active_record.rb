@@ -24,7 +24,7 @@ module Bhf
             is_number = search_term.to_i.to_s == search_term || search_term.to_f.to_s == search_term
 
             if props.type == :string || props.type == :text
-              where_statement << "#{name} LIKE '%#{search_term}%'"
+              where_statement << "LOWER(#{name}) LIKE LOWER('%#{search_term}%')"
             elsif props.type == :integer && is_number
               where_statement << "#{name} = #{search_term.to_i}"
             elsif props.type == :float && is_number
