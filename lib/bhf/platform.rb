@@ -2,7 +2,7 @@ module Bhf
   class Platform
 
     attr_accessor :pagination
-    attr_reader :name, :objects, :title, :page_name
+    attr_reader :name, :objects, :page_name, :title, :title_zero, :title_singular
 
     def initialize(options, page_name, user = nil)
       @objects = []
@@ -14,13 +14,14 @@ module Bhf
       @data = options.values[0] || {}
       @collection = get_collection
 
-      human_title = if model.to_s == @name.singularize.camelize
-        model.model_name.human
-      else
-        @name.humanize
-      end
+      t_model_path = "activerecord.models.#{model.model_name.downcase}"
+      model_name = I18n.t(t_model_path, :count => 2, :default => @name.pluralize.capitalize)
+      @title = I18n.t("bhf.platforms.#{@name}.title", :count => 2, :default => model_name)
+      model_name = I18n.t(t_model_path, :count => 1, :default => @name.singularize.capitalize)
+      @title_singular = I18n.t("bhf.platforms.#{@name}.title", :count => 1, :default => model_name)
+      model_name = I18n.t(t_model_path, :count => 0, :default => @name.singularize.capitalize)
+      @title_zero = I18n.t("bhf.platforms.#{@name}.title", :count => 0, :default => model_name)
 
-      @title = I18n.t("bhf.platforms.#{@name}.title", :platform_title => human_title, :default => human_title).pluralize
       @page_name = page_name
       @user = user
     end

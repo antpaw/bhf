@@ -44,10 +44,10 @@ de:
       entry: Eintrag
       entries: Einträge
       info:
-        default: "Es werden angezeigt <strong>%{offset_start} - %{offset_end}</strong> von <strong>%{total_count}</strong> %{name}"
-        nothing_found: "Es wurde nichts gefunden"
-        one_found: "Es wird <strong>1</strong> %{name} angezeigt"
-        all_displayed: "Es werden <strong>alle %{total_count}</strong> %{name} angezeigt"
+        default: "Es werden <strong>%{offset_start} - %{offset_end}</strong> von <strong>%{count}</strong> %{name} angezeigt"
+        other: "Es werden <strong>alle %{count}</strong> %{name_plural} angezeigt"
+        one: "Es wird <strong>1</strong> %{name_singular} angezeigt"
+        zero: "Es wurde nichts gefunden"
   activerecord:
     notices:
       messages:
