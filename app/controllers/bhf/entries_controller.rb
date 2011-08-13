@@ -21,7 +21,6 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     before_save
     if @object.save
-      manage_many_to_many
       after_save
 
       redirect_back_or_default(bhf_entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
@@ -34,7 +33,6 @@ class Bhf::EntriesController < Bhf::ApplicationController
   def update
     before_save
     if @object.update_attributes(params[@model_sym])
-      manage_many_to_many
       after_save
 
       if @quick_edit
@@ -100,7 +98,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       params[:has_and_belongs_to_many].each_pair do |relation, ids|
         reflection = @model.reflections[relation.to_sym]
 
-        @object.send(reflection.name).delete_all # TODO: drop only the diff
+        @object.send(reflection.name).clear
 
         ids = ids.values.reject(&:blank?)
 
@@ -121,6 +119,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def after_save
+      manage_many_to_many
       @object.send(@platform.hooks(:after_save), params) if @platform.hooks(:after_save)
     end
 

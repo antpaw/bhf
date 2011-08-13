@@ -13,7 +13,13 @@ window.addEvent('domready', function(){
 		scope.getElements('.wysiwyg').each(function(elem){
 			wysiwyg.push(elem.mooEditable());
 		});
-		new MultipleFields(scope.getElements('.multiple_fields'));
+		
+		scope.getElements('.multiple_fields').each(function(elem){
+			new MultipleFields(elem);
+		});
+		scope.getElements('.array_holder').each(function(elem){
+			new ArrayFields(elem);
+		});
 		
 		var dateFormat = Locale.get('Date.shortDate').replace(/%/g, '');
 		var timeFormat = 'H:i'; // Locale.get('Date.shortTime').replace(/%/g, '')

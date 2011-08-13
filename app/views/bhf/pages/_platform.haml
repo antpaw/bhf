@@ -12,7 +12,7 @@
         %th.drag
       - platform.columns.each do |column|
         %th{:class => "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, platform.name)}"}
-          - column_name = platform.model.human_attribute_name(column.name)
+          - column_name = platform.model.human_attribute_name(column.name) rescue d( column)
           - link = link_to column_name, current_order_path(column.name, platform.name)
           = column.field.macro == :column ? link : column_name
 

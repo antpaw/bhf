@@ -28,7 +28,7 @@ module Bhf
             if file.is_a? ActionDispatch::Http::UploadedFile
               # File.delete(settings[:path] + name_was.to_s) if File.exist?(settings[:path] + name_was.to_s)
 
-              filename = Time.now.to_i.to_s+'_'+file.original_filename.downcase.sub(/[^\w\.\-]/,'_')
+              filename = Time.now.to_i.to_s+'_'+file.original_filename.downcase.sub(/[^\w\.\-]/, '_')
               path = File.join(settings[:path], filename)
               File.open(path, 'w') { |f| f.write(file.read) }
               filename

@@ -66,14 +66,14 @@ module Bhf
         chain = do_search(chain, options[:search])
       end
 
-      if paginate_options && !sortable
-        chain = chain.paginate(paginate_options)
-      end
-      
       if chain == model
         chain = chain.all
       end
-      
+
+      if paginate_options && !sortable
+        chain = chain.paginate(paginate_options)
+      end
+
       @objects = chain
     end
 
@@ -172,7 +172,7 @@ module Bhf
             :overwrite_type => form_options(:types, name),
             :overwrite_display_type => table_options(:types, name),
             :info => I18n.t("bhf.platforms.#{@name}.infos.#{name}", :default => '')
-          }, model.primary_key)
+          }, model.bhf_primary_key)
         end
 
         model.reflections.each_pair do |name, props|

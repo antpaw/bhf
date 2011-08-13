@@ -66,7 +66,7 @@ module Bhf
       private
 
         def supported_types(check_type)
-          if [:boolean, :text].include?(check_type)
+          if [:boolean, :text, :array].include?(check_type)
             check_type
           elsif type_sym = group_types(check_type)
             type_sym

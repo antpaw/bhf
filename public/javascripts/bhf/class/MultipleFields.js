@@ -14,22 +14,21 @@ var MultipleFields = new Class({
 			this.options.spliter = _object.get('data-spliter');
 		}
 
-		this.inputFields = _object;
-		this.inputFields.each(function(elem){
-			var template = elem.clone()
-				.erase('name').erase('id').erase('data-spliter').erase('value')
-				.addClass('template');
-			elem.set('type', 'hidden');
+ 		var elem = _object;
+		var template = elem.clone()
+			.erase('name').erase('id').erase('data-spliter').erase('value')
+			.addClass('template');
 
-			new Element('span.add_field', {text: '+'})
-				.inject(elem, 'after')
-				.addEvent('click', function(e){
-					this.addField(elem, template);
-				}.bind(this));
+		elem.set('type', 'hidden');
 
-			elem.get('value').toString().split(this.options.spliter).each(function(data){
-				this.addField(elem, template, data);
+		new Element('span.add_field', {text: '+'})
+			.inject(elem, 'after')
+			.addEvent('click', function(e){
+				this.addField(elem, template);
 			}.bind(this));
+
+		elem.get('value').toString().split(this.options.spliter).each(function(data){
+			this.addField(elem, template, data);
 		}.bind(this));
 	},
 	

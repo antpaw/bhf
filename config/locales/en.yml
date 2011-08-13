@@ -1,4 +1,4 @@
-en:
+en:  
   bhf:
     pages:
       headline: Content
@@ -51,6 +51,10 @@ en:
         other: "Displaying <strong>all %{count}</strong> %{name_plural}"
         one: "Displaying <strong>1</strong> %{name_singular}"
         zero: "No %{name_zero} found"
+
+  attributes:
+    _id: 'id'
+
   activerecord:
     notices:
       messages:

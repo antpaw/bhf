@@ -34,6 +34,10 @@ module Bhf
 
           where_statement.join(' OR ')
         end
+        
+        def bhf_primary_key
+          primary_key
+        end
       end
       
     end
