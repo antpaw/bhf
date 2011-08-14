@@ -19,5 +19,12 @@ module Bhf
       false
     end
 
+    def reflection_title(f, field)
+      title = f.object.class.human_attribute_name(field.reflection.name)
+      if field.link
+        title = t("bhf.platforms.#{field.link}.title", :count => f.object.send(field.reflection.name).to_a.count, :default => title)
+      end
+      title
+    end
   end
 end

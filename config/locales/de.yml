@@ -14,8 +14,6 @@ de:
         delete: "%{platform_name} löschen"
         empty: Leer
         cancel: Abbrechen
-      entries:
-        empty: Leer
       login:
         success: Login war erfolgreich
         error: Konnte nicht eingeloggen
@@ -34,7 +32,7 @@ de:
         cancel: Abbrechen
         open: Öffnen
         save: Speichern
-        save_and_next: Speichern und weiter
+        save_and_next: Speichern und weiter zum nächsten Eintrag gehen
     
     pagination:
       previous_label: « Vorheriges

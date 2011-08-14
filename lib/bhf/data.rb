@@ -91,7 +91,7 @@ module Bhf
       def initialize(reflection, options = {})
         @reflection = reflection
         @info = options[:info]
-        @link = options[:link].to_sym if options[:link]
+        @link = options[:link].downcase.to_sym unless options[:link].blank?
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
         @overwrite_display_type = options[:overwrite_display_type].to_sym if options[:overwrite_display_type]

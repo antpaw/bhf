@@ -17,8 +17,6 @@ en:
         delete: "Delete %{platform_name}"
         empty: Empty
         cancel: Cancel
-      entries:
-        empty: Empty
       login:
         success: "Login was successful"
         error: "Can't login"
@@ -37,7 +35,7 @@ en:
         cancel: Cancel
         open: Open
         save: Save
-        save_and_next: Save and go to next
+        save_and_next: Save and go to the next entry
     
     pagination:
       previous_label: « Previous

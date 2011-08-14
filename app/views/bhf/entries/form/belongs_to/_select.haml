@@ -1,7 +1,7 @@
 - data_source ||= field.reflection.klass.all
 - fk = field.reflection.primary_key_name
 .node
-  .label= f.label fk
+  .label= f.label fk, reflection_title(f, field)
   .input
     = f.select fk, options_from_collection_for_select(data_source, :id, :to_bhf_s, f.object.send(fk)), :include_blank => true
     = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => fk}

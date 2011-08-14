@@ -144,7 +144,7 @@ window.addEvent('domready', function(){
 				tr.getElements('td').each(function(td){
 					var name = td.get('data-column-name');
 					if ( ! name) { return; }
-					var a = td.getElement('a');
+					var a = td.getElement('a.quick_edit');
 					(a ? a : td).innerHTML = json[name] || '';
 				});
 			},
