@@ -23,7 +23,6 @@ body
   min-width: 960px
   min-height: 100%
   +box-inner-shadow(0, 0, 8,#000)
-  background: url(/images/bhf/small_ajax_loader.gif) no-repeat -4000px -4000px, url(/images/bhf/small_ajax_loader_h.gif) no-repeat -4000px -4000px, url(/images/bhf/ajax_loader.gif) no-repeat -4000px -4000px, url(/images/bhf/button_bg_a.png) no-repeat -4000px -4000px, url(/images/bhf/icon_edit_a.png) no-repeat -4000px -4000px, url(/images/bhf/icon_delete_a.png) no-repeat -4000px -4000px, url(/images/bhf/icon_drag_a.png) no-repeat -4000px -4000px
 
 a
   text-decoration: none
@@ -129,12 +128,49 @@ header
     textarea
       width: 300px
       height: 100px
+    
+    .group
+      padding: 0
+      &:active
+        .save
+          border-right: 1px solid rgba(#fff, 0.4)
+        .save_and_next
+          border-left: 1px solid $b2
+        
+      button
+        border: none
+        background: none
+        color: inherit
+        font: inherit
+        text-shadow: inherit
+        margin: 0
+        float: left
+        cursor: pointer
+        padding: 6px 20px
+        &:focus
+          outline: 0
+        &.save
+          border-right: 1px solid $b2
+          &:focus
+            color: $b2
+            text-shadow: 0 0px 3px #fff
+        &.save_and_next
+          border-left: 1px solid rgba(#fff, 0.3)
+          text-indent: -9999px
+          background: url(/images/bhf/pictos.png) no-repeat -140px -40px
+          width: 40px
+          &:focus,
+          &:hover
+            background-position: -140px -90px
+        
+
     > button
-      &.save,
-      &.save_and_next
-        margin-left: -6px
-        padding: 6px 25px
-        font-size: 13px
+      //
+        &.save,
+        &.save_and_next
+          margin-left: -6px
+          padding: 6px 25px
+          font-size: 13px
         
       &.cancel,
       &.open
@@ -156,10 +192,11 @@ table
     height: 28px
     -moz-box-sizing: content-box
     padding: 10px 10px 10px 20px
-    background-image: url(/images/bhf/button_bg_2.png)
     +border-top-radius(4)
-    text-align: left
     +box-shadow(0, 1, 4, #ccc)
+    background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), color-stop(50%, #CCCCCC), color-stop(51%, #DCDCDC), to(#DCDCDC))
+    background-size: 0 2px
+    text-align: left
     h4,
     .info
       display: inline-block
@@ -233,7 +270,7 @@ table
 			
     a
       display: block
-      padding: 5px 3px 
+      padding: 5px 3px
       &.edit,
       &.delete
         padding: 0
@@ -242,17 +279,19 @@ table
         text-indent: -9999px
         width: 20px
         height: 20px
-        &:active
-          background-position: 0 1px
+        background: url(/images/bhf/pictos.png) no-repeat
         &.clicked
           background: url(/images/bhf/small_ajax_loader.gif) no-repeat center center
       &.edit
-        background: url(/images/bhf/icon_edit.png)
+        &:active
+          background-position: 0 -101px
       &.delete
-        background: url(/images/bhf/icon_delete.png)
+        background-position: -50px 0
+        &:active
+          background-position: -50px -101px
 
     .handle
-      background: url(/images/bhf/icon_drag.png) no-repeat 7px 0
+      background: url(/images/bhf/pictos.png) no-repeat -94px 0
       cursor: move
       display: block
     
@@ -265,17 +304,17 @@ table
         box-shadow: inset 0 1px 0 $b2, inset 0 2px 0 rgba(#fff, 0.4)
         border-color: #EAEAEA
         .edit
-          background-image: url(/images/bhf/icon_edit_a.png)
+          background-position: 0 -50px
           &:hover
-            background-image: url(/images/bhf/icon_edit_h.png)
+            background-position: 0 -100px
         .delete
-          background-image: url(/images/bhf/icon_delete_a.png)
+          background-position: -50px -50px
           &:hover
-            background-image: url(/images/bhf/icon_delete_h.png)
+            background-position: -50px -100px
         .handle
-          background-image: url(/images/bhf/icon_drag_a.png)
+          background-position: -94px -50px
           &:hover
-            background-image: url(/images/bhf/icon_drag_h.png)
+            background-position: -94px -100px
         .edit,
         .delete
           &.clicked
@@ -343,6 +382,7 @@ form
         label
           padding-top: 5px
     .label
+      p,
       label
         display: block
         color: $g3
@@ -463,7 +503,6 @@ footer
 
 
 input[type="submit"],
-button,
 .button
   cursor: pointer
   display: inline-block

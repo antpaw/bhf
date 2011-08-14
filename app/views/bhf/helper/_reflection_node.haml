@@ -1,6 +1,6 @@
 .node
   .label
-    %p= f.object.class.human_attribute_name(field.reflection.name)
+    %p= reflection_title(f, field)
   .input
     = input
     = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => field.reflection.name}

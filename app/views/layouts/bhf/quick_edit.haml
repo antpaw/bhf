@@ -1,5 +1,6 @@
 %button.alt_button.cancel= t('bhf.quick_edit.buttons.cancel')
 %button.alt_button.open= t('bhf.quick_edit.buttons.open')
 = yield
-%button.save= t('bhf.quick_edit.buttons.save')
-%button.save_and_next= t('bhf.quick_edit.buttons.save_and_next')
+.button.group
+  %button.save= t('bhf.quick_edit.buttons.save')
+  %button.save_and_next{:title => t('bhf.quick_edit.buttons.save_and_next')}= t('bhf.quick_edit.buttons.save_and_next')

@@ -5,8 +5,4 @@
   - else
     %ul
       - ref_objects.each do |ref_object|
-        %li
-          - if field.link
-            = link_to ref_object.to_bhf_s, edit_bhf_entry_path(field.link, ref_object), :class => 'quick_edit'
-          - else
-            = ref_object.to_bhf_s
+        %li= link_to_if field.link, ref_object.to_bhf_s, edit_bhf_entry_path(field.link || 0, ref_object), :class => 'quick_edit'

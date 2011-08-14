@@ -12,10 +12,8 @@
         %th.drag
       - platform.columns.each do |column|
         %th{:class => "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, platform.name)}"}
-          - column_name = platform.model.human_attribute_name(column.name) rescue d( column)
-          - link = link_to column_name, current_order_path(column.name, platform.name)
-          = column.field.macro == :column ? link : column_name
-
+          - column_name = platform.model.human_attribute_name(column.name)
+          = link_to_if column.field.macro == :column, column_name, current_order_path(column.name, platform.name)
       %th.action
 
   %tfoot
@@ -37,8 +35,8 @@
                 - '&nbsp;'
               - else
                 - render(:partial => "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", :locals => {:column => column, :object => object})
-              
-              = has_link?(column.field.overwrite_display_type) ? a.html_safe : link_to(a.html_safe, edit_link, :class => 'quick_edit')
+              = link_to_if(!has_link?(column.field.overwrite_display_type), a.html_safe, edit_link, :class => 'quick_edit')
+
           %td.action
             = link_to edit_t(platform), edit_link, :class => 'edit'
             = link_to delete_t(platform), bhf_entry_path(platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :class => 'delete'
