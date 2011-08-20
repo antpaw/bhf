@@ -1,6 +1,7 @@
 module Bhf
   module ActiveRecord
     module Object
+
       extend ActiveSupport::Concern
       
       def to_bhf_s
@@ -37,6 +38,10 @@ module Bhf
         
         def bhf_primary_key
           primary_key
+        end
+        
+        def bhf_embedded?
+          false
         end
       end
       

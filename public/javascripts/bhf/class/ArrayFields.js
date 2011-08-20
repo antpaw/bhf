@@ -7,7 +7,6 @@ var ArrayFields = new Class({
 		if ( ! _object) { return; }
 		// this.setOptions(_options);
 		var elem = _object;
-		console.log(elem);
 		var template = elem.getElement('input').clone().erase('value');
 		new Element('span.add_field', {text: '+'})
 			.inject(elem)

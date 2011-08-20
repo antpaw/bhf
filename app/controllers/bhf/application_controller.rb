@@ -1,7 +1,5 @@
 class Bhf::ApplicationController < ActionController::Base
 
-  protect_from_forgery
-
   before_filter :init_time, :check_admin_account, :setup_current_account, :load_config, :set_title
 
   helper_method :current_account

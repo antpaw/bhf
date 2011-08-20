@@ -1,11 +1,9 @@
 class Bhf::EntriesController < Bhf::ApplicationController
   before_filter :load_platform, :load_model, :set_page, :set_quick_edit
   before_filter :load_object, :except => [:create, :new, :sort]
+  before_filter :load_new_object, :only => [:create, :new]
 
   def new
-    @object = @model.new
-    after_load
-
     @form_url = bhf_entries_path(@platform.name)
   end
 
@@ -16,11 +14,9 @@ class Bhf::EntriesController < Bhf::ApplicationController
   end
 
   def create
-    @object = @model.new(params[@model_sym])
-    after_load
-
     before_save
     if @object.save
+      manage_many_to_many
       after_save
 
       redirect_back_or_default(bhf_entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
@@ -33,6 +29,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   def update
     before_save
     if @object.update_attributes(params[@model_sym])
+      manage_many_to_many
       after_save
 
       if @quick_edit
@@ -93,12 +90,17 @@ class Bhf::EntriesController < Bhf::ApplicationController
       after_load
     end
 
+    def load_new_object
+      @object = @model.new(params[@model_sym])
+      after_load
+    end
+
     def manage_many_to_many
       return unless params[:has_and_belongs_to_many]
       params[:has_and_belongs_to_many].each_pair do |relation, ids|
         reflection = @model.reflections[relation.to_sym]
 
-        @object.send(reflection.name).clear
+        @object.send(reflection.name).delete_all # TODO: drop only the diff
 
         ids = ids.values.reject(&:blank?)
 
@@ -119,7 +121,6 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def after_save
-      manage_many_to_many
       @object.send(@platform.hooks(:after_save), params) if @platform.hooks(:after_save)
     end
 
@@ -130,4 +131,5 @@ class Bhf::EntriesController < Bhf::ApplicationController
     def set_quick_edit
       @quick_edit = request.xhr?
     end
+    
 end

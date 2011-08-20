@@ -8,14 +8,6 @@ module Bhf
         cattr_accessor :bhf_upload_settings
       end
 
-      module ClassMethods
-        def setup_upload(settings)
-          self.bhf_upload_settings = settings.each_with_object([]) do |s, obj|
-            obj << {:path => '', :name => :file}.merge(s)
-          end
-        end
-      end
-
       def bhf_upload
         self.class.bhf_upload_settings.each do |settings|
           name_was = send("#{settings[:name]}_was")
@@ -37,6 +29,14 @@ module Bhf
             end
           end
           write_attribute settings[:name], file_string
+        end
+      end
+
+      module ClassMethods
+        def setup_upload(settings)
+          self.bhf_upload_settings = settings.each_with_object([]) do |s, obj|
+            obj << {:path => '', :name => :file}.merge(s)
+          end
         end
       end
 

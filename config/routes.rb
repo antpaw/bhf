@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     
     scope ':platform' do
       resources :entries, :except => [:index, :show] do
+        resources :embed_entries, :except => [:index, :show], :as => :embed
         collection do 
           # TODO: put it
           get :sort

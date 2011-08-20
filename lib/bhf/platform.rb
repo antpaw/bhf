@@ -184,7 +184,7 @@ module Bhf
           })
 
           fk = all[name.to_s].reflection.primary_key_name
-          if all.has_key?(fk)
+          if all.has_key?(fk) and fk != name.to_s
             all.delete(fk)
           end
         end

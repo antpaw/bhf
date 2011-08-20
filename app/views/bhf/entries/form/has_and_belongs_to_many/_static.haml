@@ -1,7 +1,7 @@
 = reflection_node f, field do
   - ref_objects = f.object.send(field.reflection.name)
   - if ref_objects.blank?
-    = t 'bhf.helpers.entries.empty'
+    = t 'bhf.helpers.entry.empty', :count => 2
   - else
     %ul
       - ref_objects.each do |ref_object|

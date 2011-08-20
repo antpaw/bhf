@@ -58,6 +58,7 @@ window.addEvent('domready', function(){
 		},
 		onFormInjected: function(form){
 			setupJsForm(form);
+			scrollContent();
 			ajaxNote.success();
 		},
 		onSave: function(form){
@@ -136,12 +137,20 @@ window.addEvent('domready', function(){
 			},
 			'click:relay(.action a)': function(e){
 				e.target.addClass('clicked');
+			/*
 			},
-			'ajax:complete:relay(a[data-method=delete][data-remote])': function(e){
-				// TODO: make this work
-				e.preventDefault();
-				this.getParent('tr').dispose();
-			}			
+			// TODO: make this work
+			'click:relay(a[data-method=delete][data-remote])': function(e){
+				e.target.addEvents({
+					'ajax:success': function(html){
+						this.getParent('tr').dispose();
+					},
+					'ajax:failure': function(html){
+						alert('Something went wrong!');
+					}
+				});
+			*/
+			}
 		});
 
 		quickEdit.addEvents({
@@ -191,10 +200,27 @@ window.addEvent('domready', function(){
 			'click:relay(.quick_edit)': function(e){
 				e.preventDefault();
 				quickEdit.startEdit(this);
+			},
+			'click:relay(.delete)': function(e){
+				e.target.addEvents({
+					'ajax:success': function(html){
+						e.target.getParent('li').dispose();
+					},
+					'ajax:failure': function(html){
+						alert('Something went wrong!');
+					}
+				});
 			}
 		});
 
 		quickEdit.addEvents({
+			successAndAdd: function(json){
+				this.wrapElement.getPrevious('ul').adopt(
+					new Element('li').adopt(
+						new Element('a.quick_edit', {text: json.to_bhf_s || '', href: json.edit_path})
+					)
+				);
+			},
 			successAndChange: function(json){
 				this.wrapElement.set('text', json.to_bhf_s || '');
 			},
@@ -218,7 +244,7 @@ window.addEvent('domready', function(){
 	window.onresize = function(e){
 		dbch = document.body.clientHeight;
 	};
-	window.onscroll = function(e){
+	var scrollContent = function(){
 		var innerForm = quickEdit.holder.getElement('form');
 		if ( ! innerForm) { return; }
 		var scroll = document.body.scrollTop-70;
@@ -228,6 +254,7 @@ window.addEvent('domready', function(){
 		if (scroll + innerForm.getSize().y > dbch) { return; }
 		quickEdit.holder.setStyle('padding-top', scroll);
 	};
+	window.onscroll = scrollContent;
 	
 	var fm = $('flash_massages');
 	if (fm) {

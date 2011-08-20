@@ -14,7 +14,7 @@ var AjaxEdit = new Class({
 		this.holder.addEvents({
 			'click:relay(.open)': function(e){
 				e.preventDefault();
-				location.href = this.wrapElement.getElement('a').get('href');
+				location.href = (this.wrapElement.getElement('a') || this.wrapElement).get('href');
 			}.bind(this),
 			'click:relay(.cancel)': function(e){
 				e.preventDefault();
@@ -22,15 +22,15 @@ var AjaxEdit = new Class({
 			}.bind(this),
 			'click:relay(.save_and_next)': function(e){
 				e.preventDefault();
-				this.submit(['successAndChange', 'successAndNext']);
+				this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange', 'successAndNext']);
 			}.bind(this),
 			'click:relay(.save)': function(e){
 				e.preventDefault();
-				this.submit(['successAndChange']);
+				this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange']);
 			}.bind(this),
 			'submit:relay(form)': function(e){
 				e.preventDefault();
-				this.submit(['successAndChange']);
+				this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange']);
 			}.bind(this)
 		});
 	},
@@ -39,6 +39,7 @@ var AjaxEdit = new Class({
 		this.clean();
 		this.wrapElement = wrapElement ? wrapElement : element;
 		this.wrapElement.addClass('live_edit');
+		this.newEntry = this.wrapElement.hasClass('add_field');
 		
 		this.fireEvent('startRequest');
 		new Request.HTML({

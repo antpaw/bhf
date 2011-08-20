@@ -151,6 +151,8 @@ header
           outline: 0
         &.save
           border-right: 1px solid $b2
+          &.create
+            border-right: none
           &:focus
             color: $b2
             text-shadow: 0 0px 3px #fff
@@ -216,6 +218,11 @@ table
     .create
       float: right
 
+  td:first-child
+    padding-left: 17px
+  th:first-child
+    padding-left: 20px
+
   td,
   th
     &:first-child
@@ -246,6 +253,13 @@ table
         a
           color: #FFFFFF
           +text-shadow
+
+  th,
+  td
+    &.drag,
+    &.primary_key
+      padding-left: 0px
+
   tbody
     td
       border-top: 1px solid #FFFFFF
@@ -296,7 +310,7 @@ table
       display: block
     
 
-    tr
+    tr      
       &:hover td,
       &.live_edit td
         +bg-gradient($b1, $b2)
@@ -442,8 +456,10 @@ form
         margin-left: -8px
         cursor: pointer
         text-align: center
+        color: $k1 !important
+        text-decoration: none !important
         &:hover
-          color: $b1
+          color: $b1 !important
       .uploaded_file,
       .uploaded_image
         padding: 2px
@@ -465,7 +481,16 @@ form
         &:hover
           background: #fff
           color: $b1
-
+      .relation
+        li
+          &:hover
+            .delete
+              opacity: 1
+              +transition-duration(0.5)
+          .delete
+            opacity: 0
+            &:hover
+              color: $b1
         
     .cancel
       margin-left: 20px
@@ -1019,16 +1044,20 @@ input[type="submit"].alt_button,
 .wmd-prompt-dialog
   border: 1px solid #999999
   background-color: #F5F5F5
-  & > div 
+  > div 
     font-size: 0.8em
     font-family: arial, helvetica, sans-serif
-  & > form
-    & input[type="text"] 
+  > form
+    input[type="text"] 
       border: 1px solid #999999
       color: black
-  & > form
-    & input[type="button"]
+  > form
+    input[type="button"]
       border: 1px solid #888888
       font-size: 0.8em
       font-weight: bold
 
+
+// TODO: remove me
+.translation_missing
+  color: red !important

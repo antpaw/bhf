@@ -1,2 +1,2 @@
-- ref_objects = object.send(column.name)
-= ref_objects.blank? ? t('bhf.helpers.entries.empty') : ref_objects.collect(&:to_bhf_s).join(', ')
+- ref_objects ||= object.send(column.name)
+= ref_objects.blank? ? t('bhf.helpers.entry.empty', :count => 2) : ref_objects.collect(&:to_bhf_s).join(', ')

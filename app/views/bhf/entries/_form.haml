@@ -2,7 +2,7 @@
 = form_for @object, :url => @form_url, :builder => Bhf::Form::Builder, :html => html do |f|
 
   - if f.object.errors.any?
-    = render :partial => 'validation_errors', :locals => {:f => f}
+    = render :partial => 'bhf/entries/validation_errors', :locals => {:f => f}
 
   - @platform.fields.each do |field|
     - unless field.form_type == :hidden

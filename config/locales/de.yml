@@ -32,6 +32,7 @@ de:
         cancel: Abbrechen
         open: Öffnen
         save: Speichern
+        create: Erstellen
         save_and_next: Speichern und weiter zum nächsten Eintrag gehen
     
     pagination:
@@ -39,7 +40,6 @@ de:
       next_label: Nächstes »
       load_more: Mehr anzeigen
       load_less: Weniger anzeigen
-      entry: Eintrag
       entries: Einträge
       info:
         default: "Es werden <strong>%{offset_start} - %{offset_end}</strong> von <strong>%{count}</strong> %{name} angezeigt"

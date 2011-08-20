@@ -35,6 +35,7 @@ en:
         cancel: Cancel
         open: Open
         save: Save
+        create: Create
         save_and_next: Save and go to the next entry
     
     pagination:
@@ -42,7 +43,6 @@ en:
       next_label: Next »
       load_more: Show more entries
       load_less: Show less entries
-      entry: entry
       entries: entries
       info:
         default: "Displaying <strong>%{offset_start} - %{offset_end}</strong> of <strong>%{count}</strong> %{name} in total"
