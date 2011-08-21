@@ -6,6 +6,7 @@ require 'engine' if defined?(Rails) && Rails::VERSION::MAJOR == 3
 require 'bhf/i18n'
 require 'bhf/active_record/active_record'
 require 'bhf/active_record/upload'
+require 'bhf/mongoid/document'
 require 'bhf/view_helpers'
 require 'bhf/data'
 require 'bhf/platform'

@@ -103,6 +103,7 @@ window.addEvent('domready', function(){
 					}
 					setupSortables(platform);
 					ajaxNote.success();
+					windowHight = document.body.clientHeight;
 				}
 			}).send();
 		};
@@ -240,9 +241,9 @@ window.addEvent('domready', function(){
 			}
 		});
 	}
-	var dbch = document.body.clientHeight;
+	var windowHight = document.body.clientHeight;
 	window.onresize = function(e){
-		dbch = document.body.clientHeight;
+		windowHight = document.body.clientHeight;
 	};
 	var scrollContent = function(){
 		var innerForm = quickEdit.holder.getElement('form');
@@ -251,7 +252,7 @@ window.addEvent('domready', function(){
 		if (scroll < 10) {
 			scroll = 10;
 		}
-		if (scroll + innerForm.getSize().y > dbch) { return; }
+		if (scroll + innerForm.getSize().y > windowHight) { return; }
 		quickEdit.holder.setStyle('padding-top', scroll);
 	};
 	window.onscroll = scrollContent;

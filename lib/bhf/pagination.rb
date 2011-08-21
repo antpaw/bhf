@@ -13,12 +13,17 @@ module Kaminari
       end
 
       def page_url_for(page)
-        @params[@param_name[0]] = (@params[@param_name[0]] || {}).merge(@param_name[1] => (page <= 1 ? nil : page))
-        @template.url_for @params
+        if @param_name.is_a?(Array)
+          @params[@param_name[0]] = (@params[@param_name[0]] || {}).merge(@param_name[1] => (page <= 1 ? nil : page))
+          return @template.url_for @params
+        end
+        
+        @template.url_for @params.merge(@param_name => (page <= 1 ? nil : page))
       end
     end
   end
 end
+# TODO: lets hope they fix nested params and we can remove this
 
 
 module Bhf
