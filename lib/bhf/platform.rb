@@ -66,12 +66,11 @@ module Bhf
         chain = do_search(chain, options[:search])
       end
 
-      if chain == model
-        chain = chain.all
-      end
 
-      if paginate_options && !sortable
-        chain = chain.paginate(paginate_options)
+      chain = if paginate_options && !sortable
+        chain.page(paginate_options[:page]).per(paginate_options[:per_page])
+      elsif chain == model
+        chain.all
       end
 
       @objects = chain

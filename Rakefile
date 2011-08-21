@@ -58,7 +58,7 @@ begin
     gem.rubyforge_project = 'nowarning'
     gem.add_dependency 'rails', '> 3.0.0'
     gem.add_dependency 'haml', '> 3.0.0'
-    gem.add_dependency 'will_paginate', '~> 3.0.pre2'
+    gem.add_dependency 'kaminari'
   end
 
   Jeweler::GemcutterTasks.new

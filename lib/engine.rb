@@ -1,6 +1,5 @@
 require 'haml'
-require 'will_paginate'
-require 'will_paginate/view_helpers/action_view'
+require 'kaminari'
 
 module Bhf
   class Engine < Rails::Engine

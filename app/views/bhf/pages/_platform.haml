@@ -43,5 +43,5 @@
             - # TODO: :remote => true
     - else
       %td.no_entries{:colspan => platform.columns_count}
-        = t 'bhf.pagination.info.nothing_found', :name => t('bhf.pagination.entries'), :count => 0
+        = t 'bhf.pagination.info', :name_zero => platform.title, :count => 0
         = link_to new_t(platform), new_bhf_entry_path(platform.name)

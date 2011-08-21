@@ -38,6 +38,7 @@ de:
     pagination:
       previous_label: « Vorheriges
       next_label: Nächstes »
+      truncate: …
       load_more: Mehr anzeigen
       load_less: Weniger anzeigen
       entries: Einträge

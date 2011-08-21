@@ -17,7 +17,7 @@ module Bhf
         self.to_s.humanize
       end
 
-      module ClassMethods
+      module ClassMethods        
         def bhf_default_search(search_params)
           return if (search_term = search_params[:text]).blank?
           where_statement = []

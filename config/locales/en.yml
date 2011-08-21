@@ -41,6 +41,7 @@ en:
     pagination:
       previous_label: « Previous
       next_label: Next »
+      truncate: …
       load_more: Show more entries
       load_less: Show less entries
       entries: entries
