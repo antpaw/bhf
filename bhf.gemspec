@@ -92,6 +92,7 @@ Gem::Specification.new do |s|
     "lib/bhf/data.rb",
     "lib/bhf/form.rb",
     "lib/bhf/i18n.rb",
+    "lib/bhf/mongoid/document.rb",
     "lib/bhf/pagination.rb",
     "lib/bhf/platform.rb",
     "lib/bhf/settings.rb",
