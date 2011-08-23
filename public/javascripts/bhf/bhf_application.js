@@ -73,7 +73,7 @@ window.addEvent('domready', function(){
 	});
 
 	var platforms = document.body.getElements('.platform');
-	var main_form = document.id('main_form');
+	var mainForm = document.id('main_form');
 
 	if (platforms.length) {
 		var setupSortables = function(scope){
@@ -194,10 +194,10 @@ window.addEvent('domready', function(){
 		});
 		setupSortables(document.body);
 	}
-	else if (main_form) {
-		setupJsForm(main_form);
+	else if (mainForm) {
+		setupJsForm(mainForm);
 
-		main_form.addEvents({
+		mainForm.addEvents({
 			'click:relay(.quick_edit)': function(e){
 				e.preventDefault();
 				quickEdit.startEdit(this);

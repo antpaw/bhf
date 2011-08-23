@@ -90,8 +90,8 @@ module Bhf
           return if (search_term = search_params[:text]).blank?
           
           # TODO: add mongoid search
-          #return find(:all, :conditions => {:nick => /^antp/i})
-          return where("this.nick == 'antpaw'")
+          return where(:name => /^antp/i)
+          #return where("this.nick == 'antpaw'")
         end
 
         def get_embedded_parent(parent_id, &block)

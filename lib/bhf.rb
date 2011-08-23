@@ -16,6 +16,11 @@ require 'bhf/form'
 
 ::I18n.send :include, Bhf::I18nTranslationFallbackHelper
 
-::ActiveRecord::Base.send :include, Bhf::ActiveRecord::Object
+if defined?(ActiveRecord)
+  ::ActiveRecord::Base.send :include, Bhf::ActiveRecord::Object
+end
+if defined?(Mongoid)
+  ::Mongoid::Document.send :include, Bhf::Mongoid::Document
+end
 
 ::ActionView::Base.send :include, Bhf::ViewHelpers::ActionView
