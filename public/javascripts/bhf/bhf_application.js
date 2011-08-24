@@ -205,6 +205,13 @@ window.addEvent('domready', function(){
 			'click:relay(.delete)': function(e){
 				e.target.addEvents({
 					'ajax:success': function(html){
+						var relation = e.target.getParent('.relation');
+						if (relation.getElements('li').length < 2) {
+							relation.getPrevious('.empty').removeClass('hide');
+							if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
+								relation.getNext('.add_field').removeClass('hide');
+							}
+						}
 						e.target.getParent('li').dispose();
 					},
 					'ajax:failure': function(html){
@@ -216,7 +223,12 @@ window.addEvent('domready', function(){
 
 		quickEdit.addEvents({
 			successAndAdd: function(json){
-				this.wrapElement.getPrevious('ul').adopt(
+				var relation = this.wrapElement.getPrevious('.relation');
+				relation.getPrevious('.empty').addClass('hide');
+				if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
+					relation.getNext('.add_field').addClass('hide');
+				}
+				relation.adopt(
 					new Element('li').adopt(
 						new Element('a.quick_edit', {text: json.to_bhf_s || '', href: json.edit_path})
 					)

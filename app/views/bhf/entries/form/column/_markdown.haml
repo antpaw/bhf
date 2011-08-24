@@ -2,7 +2,7 @@
 
 = node f, field do
   - if @quick_edit
-    = f.text_area field.name, :id => 'wmd-input', :class => 'markdown'
+    = f.text_area field.name, :class => 'markdown'
   - else
     = javascript_include_tag '/javascripts/bhf_includes/showdown.js'
     #wmd-editor.wmd-pane
@@ -17,11 +17,11 @@
     = javascript_include_tag '/javascripts/bhf_includes/wmd.js'
     :javascript
       var toggleMdPreview = function(e){
-        var a = e.target.id === 'toggle_html_preview';
-        $('wmd-preview').toggleClass('hide', a);
-        $('wmd-output').toggleClass('hide', !a);
-        $('toggle_live_preview').toggleClass('active', !a);
-        $('toggle_html_preview').toggleClass('active', a);
+        var htmlPreview = e.target.id === 'toggle_html_preview';
+        $('wmd-preview').toggleClass('hide', htmlPreview);
+        $('wmd-output').toggleClass('hide', !htmlPreview);
+        $('toggle_live_preview').toggleClass('active', !htmlPreview);
+        $('toggle_html_preview').toggleClass('active', htmlPreview);
       };
       $('toggle_live_preview').addEvent('click', toggleMdPreview);
       $('toggle_html_preview').addEvent('click', toggleMdPreview);

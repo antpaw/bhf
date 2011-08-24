@@ -1,8 +1,9 @@
 = reflection_node f, field do
-  - ref_objects = f.object.send(field.reflection.name)
-  - if ref_objects.blank?
-    = t 'bhf.helpers.entry.empty', :count => 2
-  - else
-    %ul
-      - ref_objects.each do |ref_object|
-        %li= link_to_if field.link, ref_object.to_bhf_s, edit_bhf_entry_path(field.link || 0, ref_object), :class => 'quick_edit'
+  - ref_objects ||= f.object.send(field.reflection.name)
+  %p.empty{:class => ('hide' unless ref_objects.blank?)}= t 'bhf.helpers.entry.empty', :count => 2
+  %ul.relation{:class => field.macro}
+    - ref_objects.each do |ref_object|
+      %li= link_to_if field.link, ref_object.to_bhf_s, edit_bhf_entry_path(field.link || 0, ref_object), :class => :quick_edit
+
+  - if field.link
+    = link_to '+', new_bhf_entry_path(field.link), :class => 'add_field quick_edit'

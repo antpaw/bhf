@@ -1,6 +1,1 @@
-= reflection_node f, field do
-  - ref_object = f.object.send(field.reflection.name)
-  - if ref_object.blank?
-    = t 'bhf.helpers.entry.empty', :count => 1
-  - else
-    = link_to_if field.link, ref_object.to_bhf_s, edit_bhf_entry_path(field.link || 0, ref_object), :class => 'quick_edit'
+= render :partial => 'bhf/entries/form/has_one/static', :locals => {:ref_object => f.object.send(field.reflection.name), :field => field, :f => f}

@@ -1,15 +1,12 @@
 = reflection_node f, field do
   - ref_objects = f.object.send(field.reflection.name)
-  - if ref_objects.blank?
-    = t 'bhf.helpers.entry.empty', :count => 2
-  - else
-    %ul.relation
-      - ref_objects.each do |ref_object|
-        %li
-          = link_to_if field.link, ref_object.to_bhf_s, edit_bhf_entry_embed_path(field.link || 0, f.object, ref_object), :class => 'quick_edit'
-          - if field.link
-            = link_to '&times;'.html_safe, bhf_entry_embed_path(field.link, f.object, ref_object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :class => 'delete', :remote => true
+  %p.empty{:class => ('hide' unless ref_objects.blank?)}= t 'bhf.helpers.entry.empty', :count => 2
+  %ul.relation{:class => field.macro}
+    - ref_objects.each do |ref_object|
+      %li
+        = link_to_if field.link, ref_object.to_bhf_s, edit_bhf_entry_embed_path(field.link || 0, f.object, ref_object), :class => :quick_edit
+        - if field.link
+          = link_to '&times;'.html_safe, bhf_entry_embed_path(field.link, f.object, ref_object), :method => :delete, :class => :delete, :remote => true, :confirm => t('bhf.helpers.promts.confirm')
 
-  - # FIXME: empty ul js problem
   - if field.link
     = link_to '+', new_bhf_entry_embed_path(field.link, f.object), :class => 'add_field quick_edit'
