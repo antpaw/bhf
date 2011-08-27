@@ -67,10 +67,10 @@ module Bhf
       end
 
 
-      chain = if paginate_options && !sortable
-        chain.page(paginate_options[:page]).per(paginate_options[:per_page])
+      if paginate_options && !sortable
+        chain = chain.page(paginate_options[:page]).per(paginate_options[:per_page])
       elsif chain == model
-        chain.all
+        chain = chain.all
       end
 
       @objects = chain
