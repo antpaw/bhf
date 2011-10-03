@@ -1,6 +1,6 @@
 .sass-cache/
 pkg/
 doc/
-public/stylesheets/bhf.css
-public/javascripts/bhf.js
+vendor/assets/stylesheets/bhf.css
+vendor/assets/javascripts/bhf.js
 .yardoc/

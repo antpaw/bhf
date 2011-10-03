@@ -40,11 +40,6 @@
 	overflow: visible;
 	padding: 2px 4px;
 }
-*:first-child+html .mooeditable-ui-toolbar .mooeditable-ui-button{ /* IE7 */
-	min-width: 24px;
-	overflow: visible;
-	padding: 2px 4px;
-}
 
 .mooeditable-ui-toolbar .mooeditable-ui-button.active,
 .mooeditable-ui-toolbar .mooeditable-ui-button.onActive{

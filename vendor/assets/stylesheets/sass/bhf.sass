@@ -257,8 +257,7 @@ table
 
   th,
   td
-    &.drag,
-    &.primary_key
+    &.drag
       padding-left: 0px
 
   tbody
@@ -358,6 +357,7 @@ table
       padding-right: 10px
       text-align: right
     .primary_key
+      padding-left: 10px
       width: 30px
     .action
       width: 54px
@@ -944,13 +944,13 @@ input[type="submit"].alt_button,
       color: $b2
 
 #wmd-output 
-  overflow-x: scroll
   font-size: 12px
   line-height: 16px
   background: $g3
   color: $w2
   code
     font-family: Monaco,Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Courier New",Courier,monospace
+    white-space: pre-wrap
 
 #wmd-button-row 
   position: relative 
@@ -982,7 +982,7 @@ input[type="submit"].alt_button,
   background-position: 0px 0px
   display: inline-block 
   list-style: none
-  & > a
+  > a
     width: 20px 
     height: 20px 
     margin-left: 5px
@@ -1057,6 +1057,9 @@ input[type="submit"].alt_button,
       border: 1px solid #888888
       font-size: 0.8em
       font-weight: bold
+
+
+// TODO: bigger ration buttons
 
 
 // TODO: remove me

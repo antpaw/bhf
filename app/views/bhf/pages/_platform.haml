@@ -1,9 +1,9 @@
 - platform.pagination.template = self
-%table{:id => "#{platform.name}_platform", :class => (platform.custom_columns? ? 'custom_columns' : 'default_columns')}
+%table{:id => "#{platform.name}_platform", :class => (platform.custom_columns? ? :custom_columns : :default_columns)}
   %caption
     %h4= platform.title
     %p.info= platform.pagination.info platform
-    %p.create= link_to new_t(platform), new_bhf_entry_path(platform.name), :class => 'alt_button'
+    %p.create= link_to new_t(platform), new_bhf_entry_path(platform.name), :class => :alt_button
     = render :partial => 'search', :locals => {:platform => platform} if platform.search?
 
   %thead
@@ -13,6 +13,9 @@
       - platform.columns.each do |column|
         %th{:class => "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, platform.name)}"}
           - column_name = platform.model.human_attribute_name(column.name)
+          - # TODO: link only if column.name is a database column
+          - #   column_names = platform.model.column_names
+          - #   column_name = column_names.include?(column.name+'_id') ? column.name+'_id' : column.name
           = link_to_if column.field.macro == :column, column_name, current_order_path(column.name, platform.name)
       %th.action
 
@@ -21,7 +24,7 @@
       %td{:colspan => platform.columns_count}
         = platform.pagination.create(platform) unless platform.sortable
 
-  %tbody{:class => ('sortable' if platform.sortable), :'data-sort-url' => sort_bhf_entries_path(platform.name)}
+  %tbody{:class => (:sortable if platform.sortable), :'data-sort-url' => sort_bhf_entries_path(platform.name)}
     - if platform.objects.any?
       - platform.objects.each do |object|
         - edit_link = edit_bhf_entry_path(platform.name, object)
@@ -29,6 +32,7 @@
           - if platform.sortable
             %td.drag
               %span.handle &nbsp;
+          -# TODO: external link partial from anpex
           - platform.columns.each do |column|
             %td{:class => "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
               - a = if column.field.display_type != :boolean && object.send(column.name).blank?
@@ -39,8 +43,7 @@
 
           %td.action
             = link_to edit_t(platform), edit_link, :class => 'edit'
-            = link_to delete_t(platform), bhf_entry_path(platform.name, object), :method => :delete, :confirm => t('bhf.helpers.promts.confirm'), :class => 'delete'
-            - # TODO: :remote => true
+            = link_to delete_t(platform), bhf_entry_path(platform.name, object), :method => :delete, :remote => true, :class => :delete, :confirm => t('bhf.helpers.promts.confirm')
     - else
       %td.no_entries{:colspan => platform.columns_count}
         = t 'bhf.pagination.info', :name_zero => platform.title, :count => 0

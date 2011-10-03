@@ -16,7 +16,7 @@ class Bhf::ApplicationController < ActionController::Base
         return true
       end
 
-      redirect_to(send(Bhf::Engine.config.on_login_fail.to_sym), :error => t('bhf.helpers.login.error')) and return false
+      redirect_to(send(Bhf::Engine.config.on_login_fail.to_sym), :error => t('bhf.helpers.user.login.error')) and return false
     end
 
     def setup_current_account

@@ -8,6 +8,7 @@ module Bhf
     config.page_title = nil
     config.mount_at = 'bhf'
     config.on_login_fail = :root_url
+    config.logout_path = :logout_path
     config.session_auth_name = :is_admin
     config.current_admin_account = nil
     config.css = []

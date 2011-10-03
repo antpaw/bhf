@@ -14,9 +14,13 @@ de:
         delete: "%{platform_name} löschen"
         empty: Leer
         cancel: Abbrechen
-      login:
-        success: Login war erfolgreich
-        error: Konnte nicht eingeloggen
+      user:
+        login:
+          success: Login war erfolgreich
+          error: Konnte nicht eingeloggen
+          as: 'Sie sind als <strong>%{user}</strong> eingeloggt'
+        logout:
+          link: Ausloggen
       activated:
         success: "%{model} wurde erfolgreich aktiviert"
         error: "%{model} Fehler"

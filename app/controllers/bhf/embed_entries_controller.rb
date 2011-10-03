@@ -53,16 +53,6 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
     end
   end
 
-  def destroy
-    @object.destroy
-    if @quick_edit
-      head :ok
-    else
-      redirect_back_or_default(bhf_page_path(@platform.page_name), :notice => set_message('destory.success', @model))
-    end
-  end
-
-
   private
 
     def load_object

@@ -85,7 +85,7 @@ window.addEvent('domready', function(){
 				onComplete: function(element){
 					element.removeClass('dragged');
 					new Request({
-						method: 'get',
+						method: 'put',
 						url: this.element.getParent('tbody').get('data-sort-url')
 					}).send({data: {order: this.serialize()}});
 				}
@@ -137,11 +137,9 @@ window.addEvent('domready', function(){
 				quickEdit.startEdit(this, this.getParent('tr'));
 			},
 			'click:relay(.action a)': function(e){
-				e.target.addClass('clicked');
-			/*
+				this.addClass('clicked');
 			},
-			// TODO: make this work
-			'click:relay(a[data-method=delete][data-remote])': function(e){
+			'click:relay(.delete)': function(e){
 				e.target.addEvents({
 					'ajax:success': function(html){
 						this.getParent('tr').dispose();
@@ -150,7 +148,6 @@ window.addEvent('domready', function(){
 						alert('Something went wrong!');
 					}
 				});
-			*/
 			}
 		});
 

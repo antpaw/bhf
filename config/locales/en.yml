@@ -17,9 +17,13 @@ en:
         delete: "Delete %{platform_name}"
         empty: Empty
         cancel: Cancel
-      login:
-        success: "Login was successful"
-        error: "Can't login"
+      user:
+        login:
+          success: Login was successful
+          error: "Can't login"
+          as: 'You are logged in as <strong>%{user}</strong>'
+        logout:
+          link: Logout
       activated:
         success: "%{model} was activated successfuly"
         error: "%{model} error"
@@ -29,7 +33,7 @@ en:
       file:
         delete: Delete file
         reselect: Please reselect the file
-    
+        
     quick_edit:
       buttons:
         cancel: Cancel

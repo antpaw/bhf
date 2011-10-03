@@ -1,5 +1,4 @@
--# TODO: reset seach on empty string
-= form_for platform.name, :html => {:method => 'get', :class => 'search'} do |f|
+= form_for platform.name, :html => {:method => :get, :class => :search} do |f|
   - p = params[platform.name]
   = f.fields_for :search do |s|
     - if platform.search_field?
