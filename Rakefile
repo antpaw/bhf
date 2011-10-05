@@ -56,8 +56,8 @@ begin
     gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "vendor/assets/stylesheets/bhf.css", "vendor/assets/javascripts/bhf.js", "vendor/assets/javascripts/bhf_includes/showdown.js", "vendor/assets/javascripts/bhf_includes/wmd.js", "public/images/logo_bhf.png", "public/images/bhf/*"]
     gem.homepage = 'http://github.com/antpaw/bahnhof'
     gem.rubyforge_project = 'nowarning'
-    gem.add_dependency 'rails', '> 3.1.0'
-    gem.add_dependency 'haml', '> 3.1.3'
+    gem.add_dependency 'rails', '>= 3.1.0'
+    gem.add_dependency 'haml', '>= 3.1.3'
     gem.add_dependency 'kaminari'
   end
 
