@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.4.1"
+  s.version = "0.4.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-08-27}
+  s.date = %q{2011-10-05}
   s.description = %q{Gets you there in time}
   s.email = %q{anton.pawlik@gmail.com}
   s.extra_rdoc_files = [
@@ -107,10 +107,10 @@ Gem::Specification.new do |s|
     "public/images/bhf/small_ajax_loader_h.gif",
     "public/images/bhf/wmd-buttons.png",
     "public/images/logo_bhf.png",
-    "public/javascripts/bhf.js",
-    "public/javascripts/bhf_includes/showdown.js",
-    "public/javascripts/bhf_includes/wmd.js",
-    "public/stylesheets/bhf.css"
+    "vendor/assets/javascripts/bhf.js",
+    "vendor/assets/javascripts/bhf_includes/showdown.js",
+    "vendor/assets/javascripts/bhf_includes/wmd.js",
+    "vendor/assets/stylesheets/bhf.css"
   ]
   s.homepage = %q{http://github.com/antpaw/bahnhof}
   s.require_paths = ["lib"]
@@ -122,17 +122,17 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["> 3.0.0"])
-      s.add_runtime_dependency(%q<haml>, ["> 3.0.0"])
+      s.add_runtime_dependency(%q<rails>, ["> 3.1.0"])
+      s.add_runtime_dependency(%q<haml>, ["> 3.1.3"])
       s.add_runtime_dependency(%q<kaminari>, [">= 0"])
     else
-      s.add_dependency(%q<rails>, ["> 3.0.0"])
-      s.add_dependency(%q<haml>, ["> 3.0.0"])
+      s.add_dependency(%q<rails>, ["> 3.1.0"])
+      s.add_dependency(%q<haml>, ["> 3.1.3"])
       s.add_dependency(%q<kaminari>, [">= 0"])
     end
   else
-    s.add_dependency(%q<rails>, ["> 3.0.0"])
-    s.add_dependency(%q<haml>, ["> 3.0.0"])
+    s.add_dependency(%q<rails>, ["> 3.1.0"])
+    s.add_dependency(%q<haml>, ["> 3.1.3"])
     s.add_dependency(%q<kaminari>, [">= 0"])
   end
 end
