@@ -129,6 +129,10 @@ module Bhf
       table_options 'sortable'
     end
 
+    def custom_partial
+      table_options 'partial'
+    end
+
     private
 
       def do_search(chain, search_params)

@@ -7,8 +7,8 @@
     %link{:href => '/favicon.ico', :rel => 'icon', :type => 'image/x-icon'}
     - ([:bhf] + Bhf::Engine.config.css.to_a).each do |css|
       = stylesheet_link_tag css
-    =# javascript_include_tag 'bhf'
-    = javascript_include_tag 'bhf/mootools-core-1.3.2-full-compat-yc.js', 'bhf/mootools-more-1.3.2.1.js', 'bhf/mootools_rails_driver-0.4.1.js', 'bhf/class/BrowserUpdate', 'bhf/class/Ajaxify', 'bhf/class/AjaxEdit', 'bhf/class/MooEditable', 'bhf/class/Datepicker', 'bhf/class/MultipleFields', 'bhf/class/ArrayFields', 'bhf/bhf_application'
+    = javascript_include_tag 'bhf'
+    =# javascript_include_tag 'bhf/mootools-core-1.3.2-full-compat-yc.js', 'bhf/mootools-more-1.3.2.1.js', 'bhf/mootools_rails_driver-0.4.1.js', 'bhf/class/BrowserUpdate', 'bhf/class/Ajaxify', 'bhf/class/AjaxEdit', 'bhf/class/MooEditable', 'bhf/class/Datepicker', 'bhf/class/MultipleFields', 'bhf/class/ArrayFields', 'bhf/bhf_application'
   %body
     %header
       %h1= link_to image_tag('/images/logo_bhf.png'), root_url
