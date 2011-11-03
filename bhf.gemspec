@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{bhf}
-  s.version = "0.4.2.3"
+  s.version = "0.4.2.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
@@ -115,10 +115,9 @@ Gem::Specification.new do |s|
     "vendor/assets/javascripts/bhf/classes/Datepicker.js",
     "vendor/assets/javascripts/bhf/classes/MooEditable.js",
     "vendor/assets/javascripts/bhf/classes/MultipleFields.js",
-    "vendor/assets/javascripts/bhf/mootools-core-1.3.2-full-compat-yc.js",
-    "vendor/assets/javascripts/bhf/mootools-more-1.3.2.1.js",
-    "vendor/assets/javascripts/bhf_includes/showdown.js",
-    "vendor/assets/javascripts/bhf_includes/wmd.js",
+    "vendor/assets/javascripts/bhf/includes/showdown.js",
+    "vendor/assets/javascripts/bhf/includes/wmd.js",
+    "vendor/assets/javascripts/bhf/mootools-more-1.3.2.1-custom.js",
     "vendor/assets/stylesheets/bhf/MooEditable.css.scss",
     "vendor/assets/stylesheets/bhf/application.css.sass",
     "vendor/assets/stylesheets/bhf/functions.css.sass",
@@ -136,17 +135,23 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rails>, [">= 3.1.1"])
-      s.add_runtime_dependency(%q<haml>, [">= 3.1.3"])
       s.add_runtime_dependency(%q<kaminari>, [">= 0.12.4"])
+      s.add_runtime_dependency(%q<haml-rails>, [">= 0.3.4"])
+      s.add_runtime_dependency(%q<sass-rails>, [">= 3.1.4"])
+      s.add_runtime_dependency(%q<mootools-rails>, [">= 0.4"])
     else
       s.add_dependency(%q<rails>, [">= 3.1.1"])
-      s.add_dependency(%q<haml>, [">= 3.1.3"])
       s.add_dependency(%q<kaminari>, [">= 0.12.4"])
+      s.add_dependency(%q<haml-rails>, [">= 0.3.4"])
+      s.add_dependency(%q<sass-rails>, [">= 3.1.4"])
+      s.add_dependency(%q<mootools-rails>, [">= 0.4"])
     end
   else
     s.add_dependency(%q<rails>, [">= 3.1.1"])
-    s.add_dependency(%q<haml>, [">= 3.1.3"])
     s.add_dependency(%q<kaminari>, [">= 0.12.4"])
+    s.add_dependency(%q<haml-rails>, [">= 0.3.4"])
+    s.add_dependency(%q<sass-rails>, [">= 3.1.4"])
+    s.add_dependency(%q<mootools-rails>, [">= 0.4"])
   end
 end
 
