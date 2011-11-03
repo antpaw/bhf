@@ -2,7 +2,7 @@
   .array_holder
     = f.fields_for field.name do |x|
       - if f.object.send(field.name).blank?
-        = x.text_field nil, :class => 'array_fields', :id => nil
+        = x.text_field nil, class: 'array_fields', id: nil
       - else
         - f.object.send(field.name).each do |entry|
-          = x.text_field nil, :value => entry, :class => 'array_fields', :id => nil
+          = x.text_field nil, value: entry, class: 'array_fields', id: nil

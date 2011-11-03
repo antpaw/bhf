@@ -16,7 +16,7 @@ class Bhf::ApplicationController < ActionController::Base
         return true
       end
 
-      redirect_to(send(Bhf::Engine.config.on_login_fail.to_sym), :error => t('bhf.helpers.user.login.error')) and return false
+      redirect_to(send(Bhf::Engine.config.on_login_fail.to_sym), error: t('bhf.helpers.user.login.error')) and return false
     end
 
     def setup_current_account
@@ -76,7 +76,7 @@ class Bhf::ApplicationController < ActionController::Base
     def set_message(type, model = nil)
       key = model && ActiveModel::Naming.singular(model)
       
-      I18n.t("bhf.activerecord.notices.models.#{key}.#{type}", :model => model.model_name.human, :default => I18n.t("activerecord.notices.messages.#{type}"))
+      I18n.t("bhf.activerecord.notices.models.#{key}.#{type}", model: model.model_name.human, default: I18n.t("activerecord.notices.messages.#{type}"))
     end
 
     def init_time

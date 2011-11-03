@@ -1,3 +1,8 @@
+//= require ./mootools-core-1.3.2-full-compat-yc.js
+//= require ./mootools-more-1.3.2.1.js
+//= require mootools_ujs
+//= require_tree ./classes/
+
 window.addEvent('domready', function(){
 	var ajaxNote = new Ajaxify();
 	var lang = document.html.get('lang');

@@ -1,5 +1,5 @@
 .error_explanation
-  %h5= t 'bhf.helpers.validation.header', :error => pluralize(f.object.errors.count, t('bhf.helpers.validation.error')), :name => f.object.class.model_name.human
+  %h5= t 'bhf.helpers.validation.header', error: pluralize(f.object.errors.count, t('bhf.helpers.validation.error')), name: f.object.class.model_name.human
   %ul
     - f.object.errors.each do |name, message|
       %li= f.error_label name, message

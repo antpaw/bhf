@@ -15,12 +15,12 @@ module Bhf
       @collection = get_collection
 
       t_model_path = "activerecord.models.#{model.model_name.downcase}"
-      model_name = I18n.t(t_model_path, :count => 2, :default => @name.pluralize.capitalize)
-      @title = I18n.t("bhf.platforms.#{@name}.title", :count => 2, :default => model_name)
-      model_name = I18n.t(t_model_path, :count => 1, :default => @name.singularize.capitalize)
-      @title_singular = I18n.t("bhf.platforms.#{@name}.title", :count => 1, :default => model_name)
-      model_name = I18n.t(t_model_path, :count => 0, :default => @name.singularize.capitalize)
-      @title_zero = I18n.t("bhf.platforms.#{@name}.title", :count => 0, :default => model_name)
+      model_name = I18n.t(t_model_path, count: 2, default: @name.pluralize.capitalize)
+      @title = I18n.t("bhf.platforms.#{@name}.title", count: 2, default: model_name)
+      model_name = I18n.t(t_model_path, count: 1, default: @name.singularize.capitalize)
+      @title_singular = I18n.t("bhf.platforms.#{@name}.title", count: 1, default: model_name)
+      model_name = I18n.t(t_model_path, count: 0, default: @name.singularize.capitalize)
+      @title_zero = I18n.t("bhf.platforms.#{@name}.title", count: 0, default: model_name)
 
       @page_name = page_name
       @user = user
@@ -157,10 +157,10 @@ module Bhf
           obj << (
             @collection.select{ |field| attr_name == field.name }[0] ||
             Bhf::Data::AbstractField.new({
-              :name => attr_name,
-              :form_type => form_options(:types, attr_name) || attr_name,
-              :display_type => table_options(:types, attr_name) || attr_name,
-              :info => I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", :default => '')
+              name: attr_name,
+              form_type: form_options(:types, attr_name) || attr_name,
+              display_type: table_options(:types, attr_name) || attr_name,
+              info: I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", default: '')
             })
           )
         end
@@ -172,19 +172,19 @@ module Bhf
         model.columns_hash.each_pair do |name, props|
           next if name == sortable
           all[name] = Bhf::Data::Field.new(props, {
-            :overwrite_type => form_options(:types, name),
-            :overwrite_display_type => table_options(:types, name),
-            :info => I18n.t("bhf.platforms.#{@name}.infos.#{name}", :default => '')
+            overwrite_type: form_options(:types, name),
+            overwrite_display_type: table_options(:types, name),
+            info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: '')
           }, model.bhf_primary_key)
         end
 
         # TODO: test polymorphic
         model.reflections.each_pair do |name, props|
           all[name.to_s] = Bhf::Data::Reflection.new(props, {
-            :overwrite_type => form_options(:types, name),
-            :overwrite_display_type => table_options(:types, name),
-            :info => I18n.t("bhf.platforms.#{@name}.infos.#{name}", :default => ''),
-            :link => form_options(:links, name)
+            overwrite_type: form_options(:types, name),
+            overwrite_display_type: table_options(:types, name),
+            info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: ''),
+            link: form_options(:links, name)
           })
 
           fk = all[name.to_s].reflection.primary_key_name

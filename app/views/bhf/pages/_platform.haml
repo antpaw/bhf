@@ -1,11 +1,11 @@
 - platform.pagination.template = self
-%table{:id => "#{platform.name}_platform", :class => (platform.custom_columns? ? :custom_columns : :default_columns)}
+%table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
   %caption
     %h4= platform.title
     %p.info= platform.pagination.info platform
-    %p.create= link_to new_t(platform), new_bhf_entry_path(platform.name), :class => :alt_button
+    %p.create= link_to new_t(platform), new_bhf_entry_path(platform.name), class: :alt_button
     - unless platform.custom_partial
-      = render :partial => 'search', :locals => {:platform => platform} if platform.search?
+      = render partial: 'search', locals: {platform: platform} if platform.search?
 
   - unless platform.custom_partial
     %thead
@@ -13,7 +13,7 @@
         - if platform.sortable
           %th.drag
         - platform.columns.each do |column|
-          %th{:class => "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, platform.name)}"}
+          %th{class: "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, platform.name)}"}
             - column_name = platform.model.human_attribute_name(column.name)
             - # TODO: link only if column.name is a database column
             - #   column_names = platform.model.column_names
@@ -23,33 +23,33 @@
 
     %tfoot
       %tr
-        %td{:colspan => platform.columns_count}
+        %td{colspan: platform.columns_count}
           = platform.pagination.create(platform) unless platform.sortable
 
-    %tbody{:class => (:sortable if platform.sortable), :'data-sort-url' => sort_bhf_entries_path(platform.name)}
+    %tbody{class: (:sortable if platform.sortable), :'data-sort-url' => sort_bhf_entries_path(platform.name)}
       - if platform.objects.any?
         - platform.objects.each do |object|
           - edit_link = edit_bhf_entry_path(platform.name, object)
-          %tr{:id => "#{object.id}_#{platform.name}"}
+          %tr{id: "#{object.id}_#{platform.name}"}
             - if platform.sortable
               %td.drag
                 %span.handle &nbsp;
             -# TODO: external link partial from anpex
             - platform.columns.each do |column|
-              %td{:class => "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
+              %td{class: "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
                 - a = if column.field.display_type != :boolean && object.send(column.name).blank?
                   - '&nbsp;'
                 - else
-                  - render(:partial => "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", :locals => {:column => column, :object => object})
-                = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, edit_link, :class => 'quick_edit'
+                  - render(partial: "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", locals: {column: column, object: object})
+                = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, edit_link, class: 'quick_edit'
 
             %td.action
-              = link_to edit_t(platform), edit_link, :class => 'edit'
-              = link_to delete_t(platform), bhf_entry_path(platform.name, object), :method => :delete, :remote => true, :class => :delete, :confirm => t('bhf.helpers.promts.confirm')
+              = link_to edit_t(platform), edit_link, class: 'edit'
+              = link_to delete_t(platform), bhf_entry_path(platform.name, object), method: :delete, remote: true, class: :delete, confirm: t('bhf.helpers.promts.confirm')
       - else
-        %td.no_entries{:colspan => platform.columns_count}
-          = t 'bhf.pagination.info', :name_zero => platform.title, :count => 0
+        %td.no_entries{colspan: platform.columns_count}
+          = t 'bhf.pagination.info', name_zero: platform.title, count: 0
           = link_to new_t(platform), new_bhf_entry_path(platform.name)
 
 - if platform.custom_partial
-  = render :partial => "bhf/pages/#{platform.custom_partial}", :locals => {}
+  = render partial: "bhf/pages/#{platform.custom_partial}", locals: {}

@@ -1,1 +1,1 @@
-= render :partial => 'bhf/entries/form/has_one/static', :locals => {:ref_object => f.object.send(field.reflection.name), :field => field, :f => f}
+= render partial: 'bhf/entries/form/has_one/static', locals: {ref_object: f.object.send(field.reflection.name), field: field, f: f}

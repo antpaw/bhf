@@ -1,16 +1,16 @@
-= form_for platform.name, :html => {:method => :get, :class => :search} do |f|
+= form_for platform.name, html: {method: :get, class: :search} do |f|
   - p = params[platform.name]
   = f.fields_for :search do |s|
     - if platform.search_field?
-      = s.text_field :text, :value => get_value([:search, :text], p), :placeholder => t('bhf.helpers.searchform.placeholder')
+      = s.text_field :text, value: get_value([:search, :text], p), placeholder: t('bhf.helpers.searchform.placeholder')
 
     - if p && p[:search].is_a?(Hash)
       - p[:search].each do |key, value|
-        = s.hidden_field key, :value => value, :id => nil, :class => (:hidden_search if key == 'text')
+        = s.hidden_field key, value: value, id: nil, class: (:hidden_search if key == 'text')
 
     - if platform.custom_search
-      = render :partial => platform.custom_search, :locals => { :platform => platform, :f => f, :s => s, :p => p }
+      = render partial: platform.custom_search, locals: { platform: platform, f: f, s: s, p: p }
 
-  = f.hidden_field :per_page, :value => get_value(:per_page, p)
-  = f.hidden_field :order, :value => get_value(:order, p)
-  = f.hidden_field :direction, :value => get_value(:direction, p)
+  = f.hidden_field :per_page, value: get_value(:per_page, p)
+  = f.hidden_field :order, value: get_value(:order, p)
+  = f.hidden_field :direction, value: get_value(:direction, p)

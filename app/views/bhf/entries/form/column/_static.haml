@@ -3,6 +3,6 @@
     - if field.display_type == :primary_key
       %strong= value
     - elsif field.display_type == :date
-      = l value, :format => :long
+      = l value, format: :long
     - else
       = value

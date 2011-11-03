@@ -35,7 +35,7 @@ module Bhf
       module ClassMethods
         def setup_upload(settings)
           self.bhf_upload_settings = settings.each_with_object([]) do |s, obj|
-            obj << {:path => '', :name => :file}.merge(s)
+            obj << {path: '', name: :file}.merge(s)
           end
         end
       end

@@ -1,6 +1,6 @@
-.node{:class => field.display_type}
+.node{class: field.display_type}
   .label= f.label field.name
   .input
     = input
-    = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => field.name}
-    = render :partial => 'bhf/helper/info', :locals => {:info => field.info}
+    = render partial: 'bhf/helper/field_errors', locals: {f: f, field: field.name}
+    = render partial: 'bhf/helper/info', locals: {info: field.info}

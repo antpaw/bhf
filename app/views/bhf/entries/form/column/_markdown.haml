@@ -2,12 +2,12 @@
 
 = node f, field do
   - if @quick_edit
-    = f.text_area field.name, :class => 'markdown'
+    = f.text_area field.name, class: 'markdown'
   - else
     = javascript_include_tag 'bhf_includes/showdown.js'
     #wmd-editor.wmd-pane
       #wmd-button-bar
-      = f.text_area field.name, :id => 'wmd-input', :class => 'markdown'
+      = f.text_area field.name, id: 'wmd-input', class: 'markdown'
     %h6.preview_switch
       Preview
       %span#toggle_html_preview HTML

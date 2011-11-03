@@ -4,5 +4,5 @@
   %ul
     - data_source.each do |obj|
       %li
-        = f.radio_button fk, obj.id, :id => "belongs_to_#{fk}_#{obj.id}"
+        = f.radio_button fk, obj.id, id: "belongs_to_#{fk}_#{obj.id}"
         = label_tag "belongs_to_#{fk}_#{obj.id}", obj.to_bhf_s

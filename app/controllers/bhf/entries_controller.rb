@@ -1,7 +1,7 @@
 class Bhf::EntriesController < Bhf::ApplicationController
   before_filter :load_platform, :load_model, :set_page, :set_quick_edit
-  before_filter :load_object, :except => [:create, :new, :sort]
-  before_filter :load_new_object, :only => [:create, :new]
+  before_filter :load_object, except: [:create, :new, :sort]
+  before_filter :load_new_object, only: [:create, :new]
 
   def new
     @form_url = bhf_entries_path(@platform.name)
@@ -10,7 +10,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   def edit
     @form_url = bhf_entry_path(@platform.name, @object)
 
-    render :layout => 'bhf/quick_edit' if @quick_edit
+    render layout: 'bhf/quick_edit' if @quick_edit
   end
 
   def create
@@ -19,7 +19,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       manage_many_to_many
       after_save
 
-      redirect_back_or_default(bhf_entry_path(@platform.name, @object), :notice => set_message('create.success', @model))
+      redirect_back_or_default(bhf_entry_path(@platform.name, @object), notice: set_message('create.success', @model))
     else
       @form_url = bhf_entries_path(@platform.name)
       render :new
@@ -33,14 +33,14 @@ class Bhf::EntriesController < Bhf::ApplicationController
       after_save
 
       if @quick_edit
-        render :json => object_to_bhf_display_hash, :status => :ok
+        render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(bhf_entry_path(@platform.name, @object), :notice => set_message('update.success', @model))
+        redirect_back_or_default(bhf_entry_path(@platform.name, @object), notice: set_message('update.success', @model))
       end
     else
       @form_url = bhf_entry_path(@platform.name, @object)
 
-      r_settings = {:status => :unprocessable_entity}
+      r_settings = {status: :unprocessable_entity}
       r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
       render :edit, r_settings
     end
@@ -65,17 +65,17 @@ class Bhf::EntriesController < Bhf::ApplicationController
     if @quick_edit
       head :ok
     else
-      redirect_back_or_default(bhf_page_url(@platform.page_name, :anchor => "#{@platform.name}_platform"), :notice => set_message('destory.success', @model))
+      redirect_back_or_default(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('destory.success', @model))
     end
   end
 
   private
 
     def object_to_bhf_display_hash
-      @platform.columns.each_with_object({:to_bhf_s => @object.to_bhf_s}) do |column, hash|
+      @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s}) do |column, hash|
         unless column.field.macro == :column && @object.send(column.name).blank?
           p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
-          hash[column.name] = render_to_string :partial => p, :locals => {:column => column, :object => @object}
+          hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}
         end
       end
     end
