@@ -33,7 +33,7 @@ class Bhf::PagesController < Bhf::ApplicationController
       platform.pagination = Bhf::Pagination.new(platform.entries_per_page)
       paginate_platform_objects(platform)
 
-      render :layout => false, :partial => 'platform', :locals => {:platform => platform}
+      render layout: false, partial: 'platform', locals: {platform: platform}
     end
 
     def check_params(platform)
@@ -47,7 +47,7 @@ class Bhf::PagesController < Bhf::ApplicationController
         per_page = params[platform.name][:per_page].to_i
       end
 
-      return :page => page, :per_page => per_page
+      return { page: page, per_page: per_page }
     end
 
     def paginate_platform_objects(platform)

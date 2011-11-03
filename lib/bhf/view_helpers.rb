@@ -11,7 +11,7 @@ module Bhf
           return unless object.bhf_can_edit?(options)
         end
 
-        render :partial => 'bhf/helper/frontend_edit', :locals => { :platform_name => options[:platform_name], :object => object }
+        render partial: 'bhf/helper/frontend_edit', locals: { platform_name: options[:platform_name], object: object }
       end
 
     end

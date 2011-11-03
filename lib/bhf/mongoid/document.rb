@@ -81,7 +81,7 @@ module Bhf
         
         def except(key)
           if key == :order || key == :sort
-            #order_by.extras(:sort => []) #TODO: drop default_scope criteria
+            #order_by.extras(sort: []) #TODO: drop default_scope criteria
           end
           self
         end
@@ -96,7 +96,7 @@ module Bhf
           return if (search_term = search_params[:text]).blank?
           
           # TODO: add mongoid search
-          return where(:name => /^antp/i)
+          return where(name: /^antp/i)
           #return where("this.nick == 'antpaw'")
         end
 

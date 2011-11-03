@@ -11,9 +11,9 @@
           - file = f.object.send("#{field.name}_was")
         - if file.is_a?(String)
           - if is_image?(file)
-            = image_tag file, :class => 'uploaded_image'
+            = image_tag file, class: 'uploaded_image'
           - else
-            = link_to file, file, :class => 'uploaded_file'
+            = link_to file, file, class: 'uploaded_file'
         - unless file.blank?
           .file_delete
             = f_file.check_box :delete

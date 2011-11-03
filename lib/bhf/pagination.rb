@@ -9,7 +9,7 @@ module Kaminari
       end
 
       def to_s(locals = {}) #:nodoc:
-        @template.render :partial => "kaminari/#{@theme}#{self.class.name.demodulize.underscore}", :locals => @options.merge(locals)
+        @template.render partial: "kaminari/#{@theme}#{self.class.name.demodulize.underscore}", locals: @options.merge(locals)
       end
 
       def page_url_for(page)
@@ -43,9 +43,9 @@ module Bhf
       platform_params = template.params[platform.name] || {}
 
       links = if !(page_links = template.paginate(platform.objects, {
-        :theme => 'bhf',
-        :param_name => [platform.name, 'page'],
-        :params => template.params
+        theme: 'bhf',
+        param_name: [platform.name, 'page'],
+        params: template.params
       })).blank?
         "#{load_more(platform)} #{page_links}"
       elsif platform.objects.num_pages == 1 && platform.objects.size > @offset_to_add
@@ -53,7 +53,7 @@ module Bhf
       end
 
       if links
-        template.content_tag(:div, links.html_safe, {:class => 'pagination'})
+        template.content_tag(:div, links.html_safe, {class: 'pagination'})
       end
     end
 
@@ -62,17 +62,17 @@ module Bhf
 
       if collection.respond_to?(:num_pages) and collection.num_pages > 1
         I18n.t('bhf.pagination.info.default', {
-          :name => platform.title,
-          :count => collection.total_count,
-          :offset_start => collection.offset_value + 1,
-          :offset_end => collection.offset_value + collection.length
+          name: platform.title,
+          count: collection.total_count,
+          offset_start: collection.offset_value + 1,
+          offset_end: collection.offset_value + collection.length
         })
       else
         I18n.t('bhf.pagination.info', {
-          :name_zero => platform.title,
-          :name_singular => platform.title_singular,
-          :name_plural => platform.title,
-          :count => collection.size
+          name_zero: platform.title,
+          name_singular: platform.title_singular,
+          name_plural: platform.title,
+          count: collection.size
         })
       end.html_safe
     end
@@ -96,7 +96,7 @@ module Bhf
         template.bhf_page_path(
           platform.page_name,
           template.params.merge(platform.name => platform_params)
-        ), attributes.merge(:class => "load_#{direction}")
+        ), attributes.merge(class: "load_#{direction}")
       )
     end
 

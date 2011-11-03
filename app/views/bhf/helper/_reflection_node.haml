@@ -3,5 +3,5 @@
     %p= reflection_title(f, field)
   .input
     = input
-    = render :partial => 'bhf/helper/field_errors', :locals => {:f => f, :field => field.reflection.name}
-    = render :partial => 'bhf/helper/info', :locals => {:info => field.info}
+    = render partial: 'bhf/helper/field_errors', locals: {f: f, field: field.reflection.name}
+    = render partial: 'bhf/helper/info', locals: {info: field.info}

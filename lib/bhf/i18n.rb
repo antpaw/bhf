@@ -9,17 +9,17 @@ module Bhf
             default = options.delete(:default)
           
             [locale, :en].each do |lookup_locale|
-              translation_found, translation = attempt_translation(text, options.merge(:locale => lookup_locale))
+              translation_found, translation = attempt_translation(text, options.merge(locale: lookup_locale))
               return translation if translation_found
             end
           
             # Ensure 'translation missing' return is exactly the default behaviour
-            translate_without_fallback(text, options.merge(:default => default))
+            translate_without_fallback(text, options.merge(default: default))
           end
         
           def attempt_translation(text, options = {})
             puts "Attempting translation of '#{text}' with locale '#{options[:locale]}'." if options[:debug]
-            translation = translate_without_fallback(text, options.merge(:raise => true))
+            translation = translate_without_fallback(text, options.merge(raise: true))
             translation_found = options[:locale]
           rescue I18n::MissingTranslationData
             translation_found = nil

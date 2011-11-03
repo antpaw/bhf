@@ -24,7 +24,7 @@ module Bhf
           object.send(ref_name).include?(obj)
         end
 
-        hidden_field_tag("#{mm}[#{ref_name}][#{obj.id}]", '', :id => "hidden_has_and_belongs_to_many_#{ref_name}_#{obj.id}")+' '+
+        hidden_field_tag("#{mm}[#{ref_name}][#{obj.id}]", '', id: "hidden_has_and_belongs_to_many_#{ref_name}_#{obj.id}")+' '+
         check_box_tag("#{mm}[#{ref_name}][#{obj.id}]", obj.id, checked)+' '+
         label_tag("#{mm}_#{ref_name}_#{obj.id}", obj.to_bhf_s)
       end
