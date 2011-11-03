@@ -1,5 +1,5 @@
-//= require ./mootools-core-1.3.2-full-compat-yc.js
-//= require ./mootools-more-1.3.2.1.js
+//= require mootools-compat
+//= require ./mootools-more-1.3.2.1-custom.js
 //= require mootools_ujs
 //= require_tree ./classes/
 

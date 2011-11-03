@@ -1,10 +1,10 @@
--# TODO: markdown editor
+-# TODO: markdown lib that is not id based bullshit
 
 = node f, field do
   - if @quick_edit
     = f.text_area field.name, class: 'markdown'
   - else
-    = javascript_include_tag 'bhf_includes/showdown.js'
+    = javascript_include_tag 'bhf/includes/showdown'
     #wmd-editor.wmd-pane
       #wmd-button-bar
       = f.text_area field.name, id: 'wmd-input', class: 'markdown'
@@ -14,7 +14,7 @@
       %span#toggle_live_preview.active Live
     #wmd-preview.wmd-panel
     #wmd-output.wmd-panel.hide
-    = javascript_include_tag 'bhf_includes/wmd.js'
+    = javascript_include_tag 'bhf/includes/wmd'
     :javascript
       var toggleMdPreview = function(e){
         var htmlPreview = e.target.id === 'toggle_html_preview';
