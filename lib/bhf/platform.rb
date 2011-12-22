@@ -101,8 +101,8 @@ module Bhf
     end
 
     def has_file_upload?
-      @collection.each do |field|
-        return true if field.form_type == :file
+      fields.each do |field|
+        return true if field.form_type.to_sym == :file
       end
       false
     end

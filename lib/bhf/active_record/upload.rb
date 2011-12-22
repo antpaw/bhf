@@ -11,7 +11,7 @@ module Bhf
       def bhf_upload
         self.class.bhf_upload_settings.each do |settings|
           name_was = send("#{settings[:name]}_was")
-          param_name = read_attribute(settings[:name])
+          param_name = read_attribute(settings[:name]) || send(settings[:name])
           file_string = if param_name && param_name[:delete].to_i != 0
             # File.delete(settings[:path] + name_was.to_s) if File.exist?(settings[:path] + name_was.to_s)
             nil
@@ -22,7 +22,7 @@ module Bhf
 
               filename = Time.now.to_i.to_s+'_'+file.original_filename.downcase.sub(/[^\w\.\-]/, '_')
               path = File.join(settings[:path], filename)
-              File.open(path, 'w') { |f| f.write(file.read) }
+              File.open(path, 'wb') { |f| f.write(file.read) }
               filename
             else
               name_was
