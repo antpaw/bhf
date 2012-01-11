@@ -13,7 +13,7 @@ module Bhf
     end
 
     def is_image?(file)
-      file.match(/\.png|\.jpg|\.jpeg|\.gif|\.svg/i)
+      ! file.match(/\.png|\.jpg|\.jpeg|\.gif|\.svg/i).nil?
     end
 
     def reflection_title(f, field)
