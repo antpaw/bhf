@@ -4,14 +4,14 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{bhf}
+  s.name = "bhf"
   s.version = "0.4.2.7"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = %q{2011-11-03}
-  s.description = %q{Gets you there on time}
-  s.email = %q{anton.pawlik@gmail.com}
+  s.date = "2012-01-11"
+  s.description = "Gets you there on time"
+  s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
     "README.md"
   ]
@@ -124,11 +124,11 @@ Gem::Specification.new do |s|
     "vendor/assets/stylesheets/bhf/reset.css.sass",
     "vendor/assets/stylesheets/bhf/typo.css.scss"
   ]
-  s.homepage = %q{http://github.com/antpaw/bahnhof}
+  s.homepage = "http://github.com/antpaw/bahnhof"
   s.require_paths = ["lib"]
-  s.rubyforge_project = %q{nowarning}
-  s.rubygems_version = %q{1.6.2}
-  s.summary = %q{Agnostic rails backend}
+  s.rubyforge_project = "nowarning"
+  s.rubygems_version = "1.8.10"
+  s.summary = "Agnostic rails backend"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
