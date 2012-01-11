@@ -82,18 +82,20 @@ window.addEvent('domready', function(){
 
 	if (platforms.length) {
 		var setupSortables = function(scope){
-			new Sortables(scope.getElements('.sortable'), {
-				handle: '.handle',
-				onStart: function(element, clone){
-					element.addClass('dragged');
-				},
-				onComplete: function(element){
-					element.removeClass('dragged');
-					new Request({
-						method: 'put',
-						url: this.element.getParent('tbody').get('data-sort-url')
-					}).send({data: {order: this.serialize()}});
-				}
+			scope.getElements('.sortable').each(function(sortableElems){
+				new Sortables(sortableElems, {
+					handle: '.handle',
+					onStart: function(element, clone){
+						element.addClass('dragged');
+					},
+					onComplete: function(element){
+						element.removeClass('dragged');
+						new Request({
+							method: 'put',
+							url: this.element.getParent('tbody').get('data-sort-url')
+						}).send({data: {order: this.serialize()}});
+					}
+				});
 			});
 		};
 		var updatePlatform = function(href, platform, callback){
