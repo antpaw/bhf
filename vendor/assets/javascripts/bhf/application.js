@@ -30,7 +30,7 @@ window.addEvent('domready', function(){
 		var timeFormat = 'H:i'; // Locale.get('Date.shortTime').replace(/%/g, '')
 		var dateMonths = Locale.get('Date.months');
 		var dateDays = Locale.get('Date.days');
-		new DatePicker(scope.getElements('.picker.datetime, .picker.timestamp'), {
+		new Picker.Date(scope.getElements('.picker.datetime, .picker.timestamp'), {
 			allowEmpty: true,
 			inputOutputFormat: 'Y-m-d H:i',
 			months: dateMonths,
@@ -38,14 +38,14 @@ window.addEvent('domready', function(){
 			timePicker: true,
 			format: dateFormat+' '+timeFormat
 		});
-		new DatePicker(scope.getElements('.picker.date'), {
+		new Picker.Date(scope.getElements('.picker.date'), {
 			allowEmpty: true,
 			inputOutputFormat: 'Y-m-d H:i',
 			months: dateMonths,
 			days: dateDays,
 			format: dateFormat
 		});
-		new DatePicker(scope.getElements('.picker.time'), {
+		new Picker.Date(scope.getElements('.picker.time'), {
 			allowEmpty: true,
 			inputOutputFormat: 'Y-m-d H:i',
 			months: dateMonths,
