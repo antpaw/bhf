@@ -1,5 +1,5 @@
 //= require mootools-compat
-//= require ./mootools-more-1.3.2.1-custom.js
+//= require ./mootools-more-1.4.0.1.js
 //= require mootools_ujs
 //= require_tree ./classes/
 
@@ -278,5 +278,5 @@ window.addEvent('domready', function(){
 		fm.addClass('show').removeClass.delay(4000, fm, 'show');
 	}
 	
-	new BrowserUpdate({vs:{i:8,f:3,o:10.01,s:2,n:9}});
+	new BrowserUpdate({vs:{i:8,f:7,o:10.01,s:4,n:9}});
 });
