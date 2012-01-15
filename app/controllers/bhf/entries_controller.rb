@@ -74,7 +74,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     def object_to_bhf_display_hash
       @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s}) do |column, hash|
         unless column.field.macro == :column && @object.send(column.name).blank?
-          p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
+          p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}.html"
           hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}
         end
       end
