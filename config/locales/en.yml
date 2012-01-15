@@ -33,7 +33,13 @@ en:
       file:
         delete: Delete file
         reselect: Please reselect the file
-        
+      input:
+        date_format:
+          timestamp: '%Y-%m-%d %H:%M'
+          datetime:  '%Y-%m-%d %H:%M'
+          date: '%Y-%m-%d'
+          time: '%H:%M'
+      
     quick_edit:
       buttons:
         cancel: Cancel

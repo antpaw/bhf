@@ -26,32 +26,18 @@ window.addEvent('domready', function(){
 			new ArrayFields(elem);
 		});
 		
-		var dateFormat = Locale.get('Date.shortDate').replace(/%/g, '');
-		var timeFormat = 'H:i'; // Locale.get('Date.shortTime').replace(/%/g, '')
-		var dateMonths = Locale.get('Date.months');
-		var dateDays = Locale.get('Date.days');
+		// TODO: i18n datepicker
 		new Picker.Date(scope.getElements('.picker.datetime, .picker.timestamp'), {
-			allowEmpty: true,
-			inputOutputFormat: 'Y-m-d H:i',
-			months: dateMonths,
-			days: dateDays,
 			timePicker: true,
-			format: dateFormat+' '+timeFormat
+			format: '%Y-%m-%d %H:%M'
 		});
 		new Picker.Date(scope.getElements('.picker.date'), {
-			allowEmpty: true,
-			inputOutputFormat: 'Y-m-d H:i',
-			months: dateMonths,
-			days: dateDays,
-			format: dateFormat
+			timePicker: false,
+			format: '%Y-%m-%d'
 		});
 		new Picker.Date(scope.getElements('.picker.time'), {
-			allowEmpty: true,
-			inputOutputFormat: 'Y-m-d H:i',
-			months: dateMonths,
-			days: dateDays,
-			timePickerOnly: true,
-			format: timeFormat
+			pickOnly: 'time',
+			format: '%H:%M'
 		});
 	};
 

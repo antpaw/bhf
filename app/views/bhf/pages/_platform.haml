@@ -1,5 +1,5 @@
 - platform.pagination.template = self
-%table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
+%table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
   %caption
     %h4= platform.title
     %p.info= platform.pagination.info platform
