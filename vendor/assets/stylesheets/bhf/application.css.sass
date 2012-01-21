@@ -195,6 +195,7 @@ table.data_table
     padding: 10px 10px 10px 20px
     +border-top-radius(4)
     +box-shadow(0, 1, 4, #ccc)
+    background: #C9C9C9
     background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), color-stop(50%, #CCCCCC), color-stop(51%, #DCDCDC), to(#DCDCDC))
     background-size: 0 2px
     text-align: left
@@ -883,6 +884,7 @@ input[type="submit"].alt_button,
   z-index: 4000
   +border-bottom-radius(4)
   background: url(ajax_loader.gif) no-repeat center 16px, -webkit-gradient(linear, left top, left bottom, from($b1), to($b2))
+  background: url(ajax_loader.gif) no-repeat center 16px, -moz-linear-gradient(top, $b1, $b2)
   border: 1px solid $b1
   +box-shadow(0, 1, 4)
   +transition-duration(0.6)
