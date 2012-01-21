@@ -1,6 +1,6 @@
 - data_source ||= field.reflection.klass.all
 = reflection_node f, field do
-  - fk = field.reflection.primary_key_name
+  - fk = field.reflection.foreign_key
   %ul
     - data_source.each do |obj|
       %li

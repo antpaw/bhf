@@ -187,7 +187,7 @@ module Bhf
             link: form_options(:links, name)
           })
 
-          fk = all[name.to_s].reflection.primary_key_name
+          fk = all[name.to_s].reflection.foreign_key
           if all.has_key?(fk) and fk != name.to_s
             all.delete(fk)
           end

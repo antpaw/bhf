@@ -1,5 +1,5 @@
 - data_source ||= field.reflection.klass.all
-- fk = field.reflection.primary_key_name
+- fk = field.reflection.foreign_key
 .node
   .label= f.label fk, reflection_title(f, field)
   .input

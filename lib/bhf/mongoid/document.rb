@@ -15,12 +15,12 @@ module Bhf
       end
 
       class Reflection
-        attr_reader :name, :macro, :klass, :primary_key_name
+        attr_reader :name, :macro, :klass, :foreign_key
 
         def initialize(mongoid_field)
           @name = mongoid_field.name
           @klass = mongoid_field.class_name.constantize
-          @primary_key_name = mongoid_field.key
+          @foreign_key = mongoid_field.key
           @macro = case mongoid_field.macro
             when :references_and_referenced_in_many
               :has_and_belongs_to_many
