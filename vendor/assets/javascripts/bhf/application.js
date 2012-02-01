@@ -26,18 +26,70 @@ window.addEvent('domready', function(){
 			new ArrayFields(elem);
 		});
 		
-		// TODO: i18n datepicker
-		new Picker.Date(scope.getElements('.picker.datetime, .picker.timestamp'), {
-			timePicker: true,
-			format: '%Y-%m-%d %H:%M'
+		scope.getElements('.picker').each(function(input){
+			var options = {
+				timePicker: true,
+				format: '%B %d, %Y %H:%M'
+			};
+			if (input.hasClass('date')) {
+				options = {
+					timePicker: false,
+					format: '%B %d, %Y'
+				};
+			}
+			else if (input.hasClass('time')) {
+				options = {
+					pickOnly: 'time',
+					format: '%H:%M'
+				};
+			}
+			
+			var hiddenInput = input.clone();
+			input.value = new Date().parse(input.value).format(options.format);
+			input.erase('name');
+			hiddenInput.set('type', 'hidden').inject(input, 'after');
+			
+			new Picker.Date(input, Object.merge({
+				onSelect: function(date){
+					hiddenInput.value = date.format('db');
+				}
+			}, options));
 		});
-		new Picker.Date(scope.getElements('.picker.date'), {
-			timePicker: false,
-			format: '%Y-%m-%d'
-		});
-		new Picker.Date(scope.getElements('.picker.time'), {
-			pickOnly: 'time',
-			format: '%H:%M'
+		
+		scope.getElements('.markdown').each(function(mdTa){
+			var headline, toggleHtmlPreview, toggleLivePreview, livePreview, htmlPreview;
+			
+			var togglePreview = function(e){
+				var htmlMode = e.target.hasClass('toggle_html_preview');
+				livePreview.toggleClass('hide', htmlMode);
+				htmlPreview.toggleClass('hide', !htmlMode);
+				toggleLivePreview.toggleClass('active', !htmlMode);
+				toggleHtmlPreview.toggleClass('active', htmlMode);
+			};
+			
+			headline = new Element('h6.preview_switch', {text: 'Preview'});
+			
+			toggleHtmlPreview = new Element('span.toggle_html_preview', {text: 'HTML'})
+				.addEvent('click', togglePreview)
+				.inject(headline);
+			toggleLivePreview = new Element('span.toggle_live_preview.active', {text: 'Live'})
+				.addEvent('click', togglePreview)
+				.inject(headline);
+
+			headline.inject(mdTa, 'after');
+			
+			livePreview = new Element('div.wmd-preview').inject(headline, 'after');
+			htmlPreview = new Element('div.wmd-output.hide').inject(livePreview, 'after');
+			
+			new WMDEditor({
+				input: mdTa,
+				button_bar: new Element('div').inject(mdTa, 'before'),
+				preview: livePreview,
+				output: htmlPreview,
+				buttons: "bold italic link  heading  undo redo help",
+				modifierKeys: false,
+				autoFormatting: false
+			});
 		});
 	};
 

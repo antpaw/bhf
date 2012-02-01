@@ -45,6 +45,7 @@ header
       float: left
       font-weight: bold
       margin-right: 20px
+      margin-bottom: 10px
       &.active
         a
           +text-shadow(#fff, -1)
@@ -896,29 +897,22 @@ input[type="submit"].alt_button,
     
     
   
-#wmd-button-bar 
-  width: 100%
-  background: $w1
-  padding: 0 10px 4px 0
-  margin: 0 -6px 4px -6px
-  @extend .default_input
-#wmd-input 
-  height: 400px
-  width: 100%
+  
 
-#wmd-preview,
-#wmd-output 
+.wmd-preview,
+.wmd-output 
   @extend .default_input
+  width: 500px
   margin: 0 -6px 0 -6px
   background-color: #F5F5F5
-  padding: 3px 5px
+  padding: 3px 5px 2px 5px
   margin-bottom: 10px
   line-height: 22px
 
 .wmd-panel
   width: 700px !important
 
-#wmd-preview
+.wmd-preview
   img
     display: block
   ul,
@@ -935,6 +929,7 @@ input[type="submit"].alt_button,
     font-weight: bold
     
 .preview_switch
+  padding-right: 6px
   span
     float: right
     margin-left: 10px
@@ -942,7 +937,7 @@ input[type="submit"].alt_button,
     &.active
       color: $b2
 
-#wmd-output 
+.wmd-output 
   font-size: 12px
   line-height: 16px
   background: $g3
@@ -951,14 +946,16 @@ input[type="submit"].alt_button,
     font-family: Monaco,Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Courier New",Courier,monospace
     white-space: pre-wrap
 
-#wmd-button-row 
-  position: relative 
-  margin-left: 5px
-  margin-right: 5px
+.wmd-button-row 
+  width: 500px
+  background: $w1
+  padding: 6px 5px 1px 5px
+  @extend .default_input
+  margin-left: -6px
   margin-bottom: 5px
-  margin-top: 10px
-  padding: 0px  
-  height: 20px
+.wmd-input 
+  height: 400px
+  width: 100%
 
 
 .wmd-spacer
@@ -975,67 +972,54 @@ input[type="submit"].alt_button,
   height: 20px 
   margin-left: 5px
   margin-right: 5px
-  position: absolute
+  position: relative
   background-image: url(wmd-buttons.png)
   background-repeat: no-repeat
-  background-position: 0px 0px
-  display: inline-block 
+  display: inline-block
   list-style: none
-  > a
-    width: 20px 
-    height: 20px 
-    margin-left: 5px
-    margin-right: 5px
-    position: absolute
-    display: inline-block 
+  border: 1px solid transparent
+  &:hover
+    border-color: $g2
+
+
+.wmd-spacer
+  width: 1px
+  height: 20px
+  margin-left: 7px
+  margin-right: 7px
+  position: relative
+  background-color: $g2
+  display: inline-block
+  list-style: none
 
 // TODO: style this properly
 
-#wmd-button-bar
-  #wmd-bold-button
-    left: 0px
-    background-position: 0px 0
-  #wmd-italic-button
-    left: 25px
+.wmd-button-row
+  .wmd-bold-button
+    background-position: 0px 0px
+  .wmd-italic-button
     background-position: -20px 0
-  #wmd-spacer1
-    left: 50px
-  #wmd-link-button
-    left: 75px
+  .wmd-link-button
     background-position: -40px 0
-  #wmd-quote-button
-    left: 100px
+  .wmd-quote-button
     background-position: -60px 0
-  #wmd-code-button
-    left: 125px
+  .wmd-code-button
     background-position: -80px 0
-  #wmd-image-button
-    left: 150px
+  .wmd-image-button
     background-position: -100px 0
-  #wmd-spacer2
-    left: 175px
-  #wmd-olist-button
-    left: 200px
+  .wmd-olist-button
     background-position: -120px 0
-  #wmd-ulist-button
-    left: 225px
+  .wmd-ulist-button
     background-position: -140px 0
-  #wmd-heading-button
-    left: 250px
+  .wmd-heading-button
     background-position: -160px 0
-  #wmd-hr-button
-    left: 275px
+  .wmd-hr-button
     background-position: -180px 0
-  #wmd-spacer3
-    left: 300px
-  #wmd-undo-button
-    left: 325px
+  .wmd-undo-button
     background-position: -200px 0
-  #wmd-redo-button
-    left: 350px
+  .wmd-redo-button
     background-position: -220px 0
-  #wmd-help-button
-    right: 0px
+  .wmd-help-button
     background-position: -240px 0
 
 .wmd-prompt-background
