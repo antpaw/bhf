@@ -744,48 +744,31 @@ input[type="submit"].alt_button,
     width: 100%
     height: 100%
     .hour, .separator, .minutes
-      color: #535B6F
-      background: #fff
-      width: 50px
-      font-size: 32px
       position: absolute
-      top: 10px
-      text-align: center
-      padding: 2px
     .hour,
     .minutes
-      +box-shadow(0, 0, 1, #2F4D7B)
-      +text-shadow(#ccc)
-      margin-top: 8px
-      border: none
       left: 15px
+      font-size: 26px
+      height: 48px
+      width: 40px
+      font-weight: bold
+      color: $g3
+      text-align: center
+      @extend .default_input
     .separator
-      background: transparent
-      border: 0px
       width: 10px
+      font-size: 34px
       left: 76px
     .minutes
       left: 95px
     .ok
-      +box-shadow(0, 0, 1, #2F4D7B)
-      +text-shadow(#ccc)
-      color: #535B6F
-      background: #fff
       position: absolute
-      border: none
       cursor: pointer
-      top: 73px
+      top: 46px
       left: 15px
       width: 134px
-      padding: 4px 0
-      font-size: 16px
-      &:hover,
-      &:focus,
-      &:active
-        background-color: #2F4D7B
-        color: #fff
-        +text-shadow(#000)
-        +box-shadow(0, 0, 1, #fff)
+      @extend .alt_button
+      font-size: 20px !important
   .days
     .day
       float: left
@@ -805,10 +788,12 @@ input[type="submit"].alt_button,
         background-color: #fff
         color: #2F4D7B
         +text-shadow(#ccc)
+        +border-radius(2)
         
     .otherMonth
       color: #aaa
     .selected
+      +border-radius(2)
       background-color: #2F4D7B
       color: #fff
       +text-shadow(#000)
