@@ -23,8 +23,8 @@ module Kaminari
     end
   end
 end
-# TODO: lets hope they fix nested params and we can remove this
-# https://github.com/amatsuda/kaminari/issues/145
+# TODO: lets hope they'll fix nested params and we can remove this
+# https://github.com/amatsuda/kaminari/issues/152
 
 
 module Bhf
