@@ -147,6 +147,7 @@ window.addEvent('domready', function(){
 				url: href,
 				onSuccess: function(a, b, html){
 					platform.innerHTML = html;
+					rails.applyEvents(platform);
 					if (callback) {
 						callback.call();
 					}

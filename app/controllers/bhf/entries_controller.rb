@@ -35,6 +35,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
+        redirect_to params[:link_back] and return if params[:link_back]
         redirect_back_or_default(bhf_entry_path(@platform.name, @object), notice: set_message('update.success', @model))
       end
     else
