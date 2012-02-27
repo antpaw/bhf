@@ -1,0 +1,5 @@
+= node f, field do
+  .location_map_holder
+    = f.hidden_field :lat, :'data-default-lat' => 42.6259285, class: 'map_data_lat'
+    = f.hidden_field :lng, :'data-default-lng' => -70.6519888, class: 'map_data_lng'
+    = javascript_include_tag 'http://maps.googleapis.com/maps/api/js?sensor=false'

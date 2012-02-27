@@ -664,6 +664,14 @@ input[type="submit"].alt_button,
       display: none
 
 
+.location_map_holder
+  .map_canvas
+    @extend .default_input
+    margin-left: -6px
+    height: 350px
+    width: 500px
+
+
 // MooEditable
 
 @import MooEditable
@@ -936,7 +944,7 @@ input[type="submit"].alt_button,
   @extend .default_input
   margin-left: -6px
   margin-bottom: 5px
-#main .markdown
+#main .wmd_editor
   height: 400px
   width: 700px
 
@@ -974,8 +982,6 @@ input[type="submit"].alt_button,
   background-color: $g2
   display: inline-block
   list-style: none
-
-// TODO: style this properly
 
 .wmd-button-row
   .wmd-bold-button

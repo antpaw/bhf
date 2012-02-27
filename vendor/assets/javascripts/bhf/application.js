@@ -56,7 +56,7 @@ window.addEvent('domready', function(){
 			}, options));
 		});
 		
-		scope.getElements('.markdown').each(function(mdTa){
+		scope.getElements('.wmd_editor').each(function(mdTa){
 			var headline, toggleHtmlPreview, toggleLivePreview, livePreview, htmlPreview;
 			
 			var togglePreview = function(e){
@@ -91,6 +91,10 @@ window.addEvent('domready', function(){
 				autoFormatting: false
 			});
 		});
+		
+		scope.getElements('.map_data_lat').each(function(lat){
+			new Latlng(lat);
+	    });
 	};
 
 	// TODO: disable more ajax calls while ajax is loading
