@@ -19,7 +19,7 @@ window.addEvent('domready', function(){
 			wysiwyg.push(elem.mooEditable());
 		});
 		
-		scope.getElements('.multiple_fields').each(function(elem){
+		scope.getElements('.multiple_field').each(function(elem){
 			new MultipleFields(elem);
 		});
 		scope.getElements('.array_holder').each(function(elem){

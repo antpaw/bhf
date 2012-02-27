@@ -167,13 +167,6 @@ header
         
 
     > button
-      //
-        &.save,
-        &.save_and_next
-          margin-left: -6px
-          padding: 6px 25px
-          font-size: 13px
-        
       &.cancel,
       &.open
         float: right
@@ -385,33 +378,34 @@ table.data_table
 form
   .node
     display: table-row
-    &.string,
-    &.number,
-    &.text,
-    &.password
-      .input,
+    &.primary_key
       .label
-        padding-top: 0
-      .label
-        label
-          padding-top: 5px
+        text-transform: uppercase
+    //
+      &.string,
+      &.number,
+      &.text,
+      &.password
+        .input,
+        .label
+          padding-top: 0
+        .label
+          label
+            padding-top: 5px
+    .input,
     .label
+      display: table-cell
+      vertical-align: top
+      padding-top: 5px
+    .label
+      width: 200px
       p,
       label
         display: block
         color: $g3
         +text-shadow(#fff)
-      width: 200px
       .field_with_errors
         color: red
-    &.primary_key
-      .label
-        text-transform: uppercase
-    .input,
-    .label
-      padding-top: 5px
-      vertical-align: top
-      display: table-cell
     .input
       input[type="password"],
       input[type="text"],
@@ -439,13 +433,15 @@ form
       textarea,
       .uploaded_image,
       .uploaded_file,
-      .mooeditable-container
+      .mooeditable-container,
+      .wmd-button-row,
+      .map_canvas
         margin-left: -6px
       input[type="file"]
         margin-left: -5px
       select
         font-size: 16px
-      .multiple_fields.template,
+      .multiple_field,
       .array_fields
         display: block
       .add_field
@@ -664,10 +660,9 @@ input[type="submit"].alt_button,
       display: none
 
 
-.location_map_holder
+.mappin
   .map_canvas
     @extend .default_input
-    margin-left: -6px
     height: 350px
     width: 500px
 
@@ -942,7 +937,6 @@ input[type="submit"].alt_button,
   background: $w1
   padding: 6px 5px 1px 5px
   @extend .default_input
-  margin-left: -6px
   margin-bottom: 5px
 #main .wmd_editor
   height: 400px
