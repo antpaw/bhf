@@ -361,8 +361,12 @@ table.data_table
   background: #FFF
   +border-radius(2)
   +box-shadow(0, 1, 0, #FFFFFF)
-  padding: 3px 5px 2px 5px
+  padding: 2px 5px 2px 5px
   width: 300px
+  +box-model
+  min-height: 32px
+  margin: 0
+  margin-bottom: 4px
   &:focus
     outline: 0
     +transition-duration(1)
@@ -381,6 +385,9 @@ form
     &.primary_key
       .label
         text-transform: uppercase
+    &.static
+      .input
+        padding-top: 5px
     //
       &.string,
       &.number,
@@ -396,9 +403,9 @@ form
     .label
       display: table-cell
       vertical-align: top
-      padding-top: 5px
     .label
       width: 200px
+      padding-top: 5px
       p,
       label
         display: block
@@ -441,6 +448,9 @@ form
         margin-left: -5px
       select
         font-size: 16px
+        margin-top: 5px
+      input[type="checkbox"]
+        margin-top: 9px
       .multiple_field,
       .array_fields
         display: block
@@ -464,12 +474,6 @@ form
         max-height: 200px
         margin-bottom: 5px
         display: block
-      .warning
-        font-weight: bold
-      .quick_edit
-        text-decoration: underline
-        color: $b2
-        
       .uploaded_file
         padding: 7px 5px 8px 7px
         background: #999
@@ -477,6 +481,11 @@ form
         &:hover
           background: #fff
           color: $b1
+      .warning
+        font-weight: bold
+      .quick_edit
+        text-decoration: underline
+        color: $b2
       .relation
         li
           &:hover
