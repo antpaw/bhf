@@ -1,7 +1,8 @@
-var Latlng = new Class({
+var Setlatlng = new Class({
 	Implements: [Options, Events],
 	
 	options: {
+		
 	},
 	
 	initialize: function(elem){
@@ -50,7 +51,7 @@ var Latlng = new Class({
 			google.maps.event.addListener(map, 'click', function(e){
 				marker.position = e.latLng;
 				marker.setMap(map);
-				setValues(marker.getPosition().Ka, marker.getPosition().La);
+				setValues(marker.getPosition().lat(), marker.getPosition().lng());
 				google.maps.event.clearListeners(map, 'click');
 			});
 		}
@@ -58,7 +59,7 @@ var Latlng = new Class({
 		google.maps.event.addListener(marker, 'dragend', function(){
 			var mPos = marker.getPosition();
 			map.panTo(mPos);
-			setValues(mPos.Sa, mPos.Ta);
+			setValues(mPos.lat(), mPos.lng());
 		});
 	}
 });

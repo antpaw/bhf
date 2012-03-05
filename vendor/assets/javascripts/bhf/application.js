@@ -93,7 +93,7 @@ window.addEvent('domready', function(){
 		});
 		
 		scope.getElements('.map_data_lat').each(function(lat){
-			new Latlng(lat);
+			new Setlatlng(lat);
 	    });
 	};
 
