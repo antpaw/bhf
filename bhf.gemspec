@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = "2012-02-27"
+  s.date = "2012-05-05"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -113,7 +113,6 @@ Gem::Specification.new do |s|
     "vendor/assets/javascripts/bhf/classes/Ajaxify.js",
     "vendor/assets/javascripts/bhf/classes/ArrayFields.js",
     "vendor/assets/javascripts/bhf/classes/BrowserUpdate.js",
-    "vendor/assets/javascripts/bhf/classes/Latlng.js",
     "vendor/assets/javascripts/bhf/classes/Locale.de-DE.DatePicker.js",
     "vendor/assets/javascripts/bhf/classes/Locale.en-US.DatePicker.js",
     "vendor/assets/javascripts/bhf/classes/MooEditable.js",
@@ -121,6 +120,7 @@ Gem::Specification.new do |s|
     "vendor/assets/javascripts/bhf/classes/Picker.js",
     "vendor/assets/javascripts/bhf/classes/Picker_Attach.js",
     "vendor/assets/javascripts/bhf/classes/Picker_Date.js",
+    "vendor/assets/javascripts/bhf/classes/Setlatlng.js",
     "vendor/assets/javascripts/bhf/classes/showdown.js",
     "vendor/assets/javascripts/bhf/classes/wmd.js",
     "vendor/assets/javascripts/bhf/mootools-more-1.4.0.1.js",
