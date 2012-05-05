@@ -48,16 +48,16 @@ header
       margin-bottom: 10px
       &.active
         a
-          +text-shadow(#fff, -1)
-          +bg-gradient(#D5D5D5, #FFFFFF)
+          +text-shadow(#fff)
+          +bg-gradient(#FFFFFF, #D5D5D5)
           +box-shadow(0, 1, 4)
+          border-color: #FFFFFF
           color: #414756
           &:hover
-            +bg-gradient(#FFFFFF, #D5D5D5)
+            +bg-gradient(#D5D5D5, #FFFFFF)
+            color: #414756
             border-color: #FFFFFF
             +text-shadow(#fff)
-            color: #414756
-            +box-inner-shadow(0, 0, 3, #fff)
       a
         text-decoration: none
         display: block

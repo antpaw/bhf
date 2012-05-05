@@ -101,6 +101,8 @@ module Bhf
     end
 
     def has_file_upload?
+      return true if form_options(:multipart) == true
+      
       fields.each do |field|
         return true if field.form_type.to_sym == :file
       end
