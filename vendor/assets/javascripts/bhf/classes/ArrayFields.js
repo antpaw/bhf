@@ -11,7 +11,16 @@ var ArrayFields = new Class({
 		new Element('span.add_field', {text: '+'})
 			.inject(elem)
 			.addEvent('click', function(e){
-				template.clone().inject(e.target, 'before');
+				var newInput = template.clone();
+				
+				var arrayI = newInput.get('name').match(/.+?\[(\d+)\].+/);
+				if (arrayI && arrayI[1]) {
+					newInput.set('name',
+						newInput.get('name')
+							.replace(/(.+?\[)\d+(\].+)/, '$1'+(parseInt(arrayI[1], 10)+1)+'$2')
+					);
+				}
+				newInput.inject(e.target, 'before');
 			});
 		
 		elem.getParent('form').addEvent('submit', function(){
