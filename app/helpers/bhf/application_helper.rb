@@ -1,6 +1,10 @@
 module Bhf
   module ApplicationHelper
 
+    def show_t(platform)
+      t("bhf.helpers.entry.models.#{platform.model_name}.show", platform_name: platform.title_singular, default: t('bhf.helpers.entry.show'))
+    end
+
     def new_t(platform)
       t("bhf.helpers.entry.models.#{platform.model_name}.new", platform_name: platform.title_singular, default: t('bhf.helpers.entry.new'))
     end

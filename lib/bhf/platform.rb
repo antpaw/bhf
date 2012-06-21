@@ -96,6 +96,13 @@ module Bhf
       end
     end
 
+    def definitions
+      default_attrs(show_options(:definitions), @collection).
+      each_with_object([]) do |field, obj|
+        obj << Bhf::Data::Column.new(field)
+      end
+    end
+
     def entries_per_page
       table_options(:per_page)
     end
@@ -111,6 +118,10 @@ module Bhf
 
     def table
       @data['table']
+    end
+
+    def show
+      @data['show']
     end
 
     def form
@@ -129,6 +140,18 @@ module Bhf
 
     def sortable
       table_options 'sortable'
+    end
+
+    def display_edit
+      table_options 'display_edit'
+    end
+
+    def display_delete
+      table_options 'display_delete'
+    end
+    
+    def custom_link
+      table_options 'custom_link'
     end
 
     def custom_partial
@@ -233,6 +256,10 @@ module Bhf
 
       def table_options(key, attribute = nil)
         lookup_options table, key, attribute
+      end
+      
+      def show_options(key, attribute = nil)
+        lookup_options show, key, attribute
       end
 
       def lookup_options(main_key, key, attribute = nil)

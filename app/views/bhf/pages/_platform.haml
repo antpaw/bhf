@@ -30,6 +30,7 @@
       - if platform.objects.any?
         - platform.objects.each do |object|
           - edit_link = edit_bhf_entry_path(platform.name, object)
+          - custom_link = send(platform.custom_link, platform.name, object) if platform.custom_link
           %tr{id: "#{object.id}_#{platform.name}"}
             - if platform.sortable
               %td.drag
@@ -41,11 +42,13 @@
                   - '&nbsp;'
                 - else
                   - render(partial: "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", locals: {column: column, object: object})
-                = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, edit_link, class: 'quick_edit'
+                = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
 
             %td.action
-              = link_to edit_t(platform), edit_link, class: 'edit'
-              = link_to delete_t(platform), bhf_entry_path(platform.name, object), method: :delete, remote: true, class: :delete, confirm: t('bhf.helpers.promts.confirm')
+              - if platform.display_edit
+                = link_to edit_t(platform), edit_link, class: 'edit'
+              - if platform.display_delete
+                = link_to delete_t(platform), bhf_entry_path(platform.name, object), method: :delete, remote: true, class: :delete, confirm: t('bhf.helpers.promts.confirm')
       - else
         %td.no_entries{colspan: platform.columns_count}
           = t 'bhf.pagination.info', name_zero: platform.title, count: 0

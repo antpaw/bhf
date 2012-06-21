@@ -9,6 +9,7 @@ de:
       promts:
         confirm: Sind Sie sicher?
       entry:
+        show: "%{platform_name} anzeigen"
         new: "%{platform_name} anlegen"
         edit: "%{platform_name} editieren"
         delete: "%{platform_name} löschen"
