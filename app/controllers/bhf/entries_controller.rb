@@ -19,7 +19,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       manage_many_to_many
       after_save
 
-      redirect_back_or_default(bhf_entries_path(@platform.name), notice: set_message('create.success', @model))
+      redirect_back_or_default(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('create.success', @model))
     else
       @form_url = bhf_entries_path(@platform.name)
       render :new
@@ -35,7 +35,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(bhf_entries_path(@platform.name), notice: set_message('update.success', @model))
+        redirect_back_or_default(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('update.success', @model))
       end
     else
       @form_url = bhf_entry_path(@platform.name, @object)
