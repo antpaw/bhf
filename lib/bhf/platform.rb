@@ -142,12 +142,12 @@ module Bhf
       table_options 'sortable'
     end
 
-    def display_edit
-      table_options 'display_edit'
+    def hide_edit
+      table_options 'hide_edit'
     end
 
-    def display_delete
-      table_options 'display_delete'
+    def hide_delete
+      table_options('hide_delete')
     end
     
     def custom_link

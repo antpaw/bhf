@@ -45,9 +45,9 @@
                 = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
 
             %td.action
-              - if platform.display_edit
+              - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'edit'
-              - if platform.display_delete
+              - unless platform.hide_delete
                 = link_to delete_t(platform), bhf_entry_path(platform.name, object), method: :delete, remote: true, class: :delete, confirm: t('bhf.helpers.promts.confirm')
       - else
         %td.no_entries{colspan: platform.columns_count}
