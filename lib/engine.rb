@@ -10,7 +10,9 @@ module Bhf
     config.on_login_fail = :root_url
     config.logout_path = :logout_path
     config.session_auth_name = :is_admin
-    config.current_admin_account = nil
+    config.session_account_id = :admin_account_id
+    config.account_model = 'User'
+    config.account_model_find_method = 'find'
     config.css = []
     
     

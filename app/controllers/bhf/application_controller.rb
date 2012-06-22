@@ -20,10 +20,12 @@ class Bhf::ApplicationController < ActionController::Base
     end
 
     def setup_current_account
-      if Bhf::Engine.config.current_admin_account
-        # TODO: wtf ActionDispatch::Cookies::CookieOverflow
-        account = session[Bhf::Engine.config.current_admin_account.to_s]
-        @current_account = account.class.find(account.id)
+      if session[Bhf::Engine.config.session_account_id]
+        @current_account = Bhf::Engine.config.account_model.constantize.send(
+          Bhf::Engine.config.account_model_find_method.to_sym,
+          session[Bhf::Engine.config.session_account_id.to_s]
+        )
+        # => User.find(current_account.id)
       end
     end
 
