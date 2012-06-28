@@ -12,6 +12,7 @@ en:
       promts:
         confirm: Are you sure?
       entry:
+        new: "New %{platform_name}"
         show: "Show %{platform_name}"
         edit: "Edit %{platform_name}"
         delete: "Delete %{platform_name}"
