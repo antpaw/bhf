@@ -72,13 +72,13 @@ window.addEvent('domready', function(){
 			toggleHtmlPreview = new Element('span.toggle_html_preview', {text: 'HTML'})
 				.addEvent('click', togglePreview)
 				.inject(headline);
-			toggleLivePreview = new Element('span.toggle_live_preview.active', {text: 'Live'})
+			toggleLivePreview = new Element('span.toggle_live_preview', {text: 'Live'})
 				.addEvent('click', togglePreview)
 				.inject(headline);
 
 			headline.inject(mdTa, 'after');
 			
-			livePreview = new Element('div.wmd-preview').inject(headline, 'after');
+			livePreview = new Element('div.wmd-preview.hide').inject(headline, 'after');
 			htmlPreview = new Element('div.wmd-output.hide').inject(livePreview, 'after');
 			
 			new WMDEditor({
