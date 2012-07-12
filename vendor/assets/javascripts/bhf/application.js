@@ -318,7 +318,7 @@ window.addEvent('domready', function(){
 	
 	var fm = $('flash_massages');
 	if (fm) {
-		fm.addClass('show').removeClass.delay(4000, fm, 'show');
+		fm.removeClass.delay(4000, fm, 'show');
 	}
 	
 	new BrowserUpdate({vs:{i:8,f:7,o:10.01,s:4,n:9}});

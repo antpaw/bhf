@@ -108,7 +108,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
         ids = ids.values.reject(&:blank?)
 
-        return if ids.blank?
+        next if ids.blank?
 
         reflection.klass.find(ids).each do |relation_obj|
           @object.send(relation) << relation_obj

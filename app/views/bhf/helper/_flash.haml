@@ -1,4 +1,4 @@
 - unless flash.blank?
-  %ul#flash_massages
+  %ul#flash_massages.show
     - flash.each do |type, msg|
       %li{class: type}= msg
