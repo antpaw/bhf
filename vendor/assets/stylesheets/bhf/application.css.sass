@@ -293,6 +293,7 @@ table.data_table
     a
       display: block
       padding: 5px 3px
+      &.duplicate,
       &.edit,
       &.delete
         padding: 0
@@ -304,6 +305,12 @@ table.data_table
         background: url(pictos.png) no-repeat
         &.clicked
           background: url(small_ajax_loader.gif) no-repeat center center
+      &.duplicate
+        width: 24px
+      &.duplicate
+        background-position: -348px 0
+        &:active
+          background-position: -348px -101px
       &.edit
         &:active
           background-position: 0 -101px
@@ -325,6 +332,10 @@ table.data_table
         color: $w1
         box-shadow: inset 0 1px 0 $b2, inset 0 2px 0 rgba(#fff, 0.4)
         border-color: #EAEAEA
+        .duplicate
+          background-position: -348px -50px
+          &:hover
+            background-position: -348px -100px
         .edit
           background-position: 0 -50px
           &:hover
@@ -337,6 +348,7 @@ table.data_table
           background-position: -94px -50px
           &:hover
             background-position: -94px -100px
+        .duplicate,
         .edit,
         .delete
           &.clicked
@@ -369,6 +381,8 @@ table.data_table
       width: 30px
     .action
       width: 54px
+      &.wider
+        width: 88px
 
 
 .default_input

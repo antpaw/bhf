@@ -15,6 +15,10 @@ module Bhf
     config.account_model_find_method = 'find'
     config.css = []
     
+    config.routes = lambda {}
+
+    
+    config.remove_default_routes = false
     
     # config.bhf_logic = YAML::load(IO.read('config/bhf.yml'))
 

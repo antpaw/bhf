@@ -146,8 +146,12 @@ module Bhf
       table_options 'hide_edit'
     end
 
+    def show_duplicate
+      table_options 'show_duplicate'
+    end
+
     def hide_delete
-      table_options('hide_delete')
+      table_options 'hide_delete'
     end
     
     def custom_link

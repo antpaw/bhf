@@ -45,6 +45,16 @@ class Bhf::EntriesController < Bhf::ApplicationController
       render :edit, r_settings
     end
   end
+  
+  def duplicate
+    new_record = @object.dup
+    new_record.after_bhf_duplicate(@object) if new_record.respond_to?(:after_bhf_duplicate)
+    if new_record.save
+      redirect_to(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.success', @model))
+    else
+      redirect_to(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.error', @model))
+    end
+  end
 
   def sort
     return unless @platform.sortable

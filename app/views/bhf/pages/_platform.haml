@@ -44,7 +44,9 @@
                   - render(partial: "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", locals: {column: column, object: object})
                 = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
 
-            %td.action
+            %td.action{class: (:wider if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
+              - if platform.show_duplicate
+                = link_to duplicate_t(platform), duplicate_bhf_entry_path(platform.name, object), class: 'duplicate', method: :post
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'edit'
               - unless platform.hide_delete

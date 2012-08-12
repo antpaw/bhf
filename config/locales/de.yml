@@ -11,6 +11,7 @@ de:
       entry:
         show: "%{platform_name} anzeigen"
         new: "%{platform_name} anlegen"
+        duplicate: "%{platform_name} duplizieren"
         edit: "%{platform_name} editieren"
         delete: "%{platform_name} löschen"
         empty: Leer
@@ -55,6 +56,9 @@ de:
   activerecord:
     notices:
       messages:
+        duplicate:
+          success: "%{model} wurde erfolgreich dupliziert"
+          error: "%{model} Fehler"
         create:
           success: "%{model} wurde erfolgreich erstellt"
           error: "%{model} Fehler"

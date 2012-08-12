@@ -14,6 +14,7 @@ en:
       entry:
         new: "New %{platform_name}"
         show: "Show %{platform_name}"
+        duplicate: "Duplicate %{platform_name}"
         edit: "Edit %{platform_name}"
         delete: "Delete %{platform_name}"
         empty: Empty
@@ -68,6 +69,9 @@ en:
   activerecord:
     notices:
       messages:
+        duplicate:
+          success: "%{model} was duplicated successfuly"
+          error: "%{model} error"
         create:
           success: "%{model} was created successfuly"
           error: "%{model} error"
