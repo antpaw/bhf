@@ -8,6 +8,8 @@ class Bhf::EntriesController < Bhf::ApplicationController
   end
 
   def edit
+    render file: 'public/404.html', layout: false and return unless @object
+    
     @form_url = bhf_entry_path(@platform.name, @object)
 
     render layout: 'bhf/quick_edit' if @quick_edit
@@ -100,7 +102,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def load_object
-      @object = @model.find(params[:id])
+      @object = @model.find(params[:id]) rescue nil
       after_load
     end
 

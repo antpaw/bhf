@@ -145,13 +145,14 @@ window.addEvent('domready', function(){
 			new Request.HTML({
 				method: 'get',
 				url: href,
-				onSuccess: function(a, b, html){
+				onSuccess: function(a, b, html, js){
 					platform.innerHTML = html;
 					rails.applyEvents(platform);
 					if (callback) {
 						callback.call();
 					}
 					setupSortables(platform);
+					Browser.exec(js);
 					ajaxNote.success();
 					windowHight = document.body.clientHeight;
 				}
