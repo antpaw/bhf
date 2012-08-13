@@ -50,7 +50,7 @@
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'edit'
               - unless platform.hide_delete
-                = link_to delete_t(platform), bhf_entry_path(platform.name, object), method: :delete, remote: true, class: :delete, confirm: t('bhf.helpers.promts.confirm')
+                = link_to delete_t(platform), bhf_entry_path(platform.name, object), method: :delete, remote: true, class: :delete, data: {confirm: t('bhf.helpers.promts.confirm')}
       - else
         %td.no_entries{colspan: platform.columns_count}
           = t 'bhf.pagination.info', name_zero: platform.title, count: 0
