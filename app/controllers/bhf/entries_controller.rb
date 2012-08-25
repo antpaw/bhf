@@ -11,8 +11,12 @@ class Bhf::EntriesController < Bhf::ApplicationController
     render file: 'public/404.html', layout: false and return unless @object
     
     @form_url = bhf_entry_path(@platform.name, @object)
-
+    
     render layout: 'bhf/quick_edit' if @quick_edit
+  end
+  
+  def show
+    render file: 'public/404.html', layout: false and return unless @object
   end
 
   def create
@@ -29,6 +33,8 @@ class Bhf::EntriesController < Bhf::ApplicationController
   end
 
   def update
+    render file: 'public/404.html', layout: false and return unless @object
+    
     before_save
     if @object.update_attributes(params[@model_sym])
       manage_many_to_many

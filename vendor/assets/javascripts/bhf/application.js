@@ -86,7 +86,7 @@ window.addEvent('domready', function(){
 				button_bar: new Element('div').inject(mdTa, 'before'),
 				preview: livePreview,
 				output: htmlPreview,
-				buttons: "bold italic link image  ol ul heading hr  undo redo help",
+				buttons: 'bold italic link image  ol ul heading hr  undo redo help',
 				modifierKeys: false,
 				autoFormatting: false
 			});
