@@ -45,7 +45,7 @@ window.addEvent('domready', function(){
 			}
 			
 			var hiddenInput = input.clone();
-			input.value = new Date.parse(input.value).format(options.format);
+			input.value = new Date().parse(input.value).format(options.format);
 			input.erase('name');
 			hiddenInput.set('type', 'hidden').inject(input, 'after');
 			
