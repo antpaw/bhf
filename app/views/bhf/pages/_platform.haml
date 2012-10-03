@@ -13,12 +13,11 @@
         - if platform.sortable
           %th.drag
         - platform.columns.each do |column|
-          %th{class: "#{column.field.macro} #{column.field.display_type} #{order_class(column.name, platform.name)}"}
+          - db_column_name = platform.model.column_names.include?(column.name+'_id') ? column.name+'_id' : column.name
+          %th{class: "#{column.field.macro} #{column.field.display_type} #{order_class(db_column_name, platform.name)}"}
             - column_name = platform.model.human_attribute_name(column.name)
-            - # TODO: link only if column.name is a database column
-            - #   column_names = platform.model.column_names
-            - #   column_name = column_names.include?(column.name+'_id') ? column.name+'_id' : column.name
-            = link_to_if column.field.macro == :column, column_name, current_order_path(column.name, platform.name)
+            - can_sort = platform.model.column_names.include?(db_column_name)
+            = link_to_if can_sort, column_name, current_order_path(db_column_name, platform.name)
         %th.action
 
     %tfoot
@@ -46,7 +45,8 @@
 
             %td.action{class: (:wider if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
               - if platform.show_duplicate
-                = link_to duplicate_t(platform), duplicate_bhf_entry_path(platform.name, object), class: 'duplicate', method: :post
+                - dt = duplicate_t(platform)
+                = link_to dt, duplicate_bhf_entry_path(platform.name, object), class: 'duplicate', method: :post, title: dt
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'edit'
               - unless platform.hide_delete

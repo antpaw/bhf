@@ -59,7 +59,7 @@ module Bhf
       end
 
       if options[:order]
-        chain = chain.except(:order).order("#{options[:order]} #{options[:direction]}")
+        chain = chain.reorder("#{options[:order]} #{options[:direction]}")
       end
 
       if search? && options[:search].present?
