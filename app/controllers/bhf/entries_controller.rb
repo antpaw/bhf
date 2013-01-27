@@ -56,8 +56,9 @@ class Bhf::EntriesController < Bhf::ApplicationController
   
   def duplicate
     new_record = @object.dup
-    new_record.after_bhf_duplicate(@object) if new_record.respond_to?(:after_bhf_duplicate)
+    new_record.before_bhf_duplicate(@object) if new_record.respond_to?(:before_bhf_duplicate)
     if new_record.save
+      new_record.after_bhf_duplicate(@object) if new_record.respond_to?(:after_bhf_duplicate)
       redirect_to(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.success', @model))
     else
       redirect_to(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.error', @model))

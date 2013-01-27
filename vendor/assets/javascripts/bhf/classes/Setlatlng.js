@@ -39,7 +39,7 @@ var Setlatlng = new Class({
 		});
 		
 		if (latElem.value && lngElem.value) {
-			marker.position = new google.maps.LatLng(latElem.value, lngElem.value);
+			marker.setPosition(new google.maps.LatLng(latElem.value, lngElem.value));
 			marker.setMap(map);
 		}
 		else {
@@ -49,7 +49,7 @@ var Setlatlng = new Class({
 				});
 			}
 			google.maps.event.addListener(map, 'click', function(e){
-				marker.position = e.latLng;
+				marker.setPosition(e.latLng);
 				marker.setMap(map);
 				setValues(marker.getPosition().lat(), marker.getPosition().lng());
 				google.maps.event.clearListeners(map, 'click');
