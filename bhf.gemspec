@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "bhf"
-  s.version = "0.4.30"
+  s.version = "0.4.31"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = "2013-01-27"
+  s.date = "2013-02-16"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -101,7 +101,6 @@ Gem::Specification.new do |s|
     "lib/bhf/platform.rb",
     "lib/bhf/settings.rb",
     "lib/bhf/view_helpers.rb",
-    "lib/engine.rb",
     "lib/rails/generators/bhf/templates/initializer.rb",
     "vendor/assets/images/bhf/ajax_loader.gif",
     "vendor/assets/images/bhf/bg.png",
@@ -133,11 +132,11 @@ Gem::Specification.new do |s|
     "vendor/assets/stylesheets/bhf/reset.css.sass",
     "vendor/assets/stylesheets/bhf/typo.css.scss"
   ]
-  s.homepage = "http://github.com/antpaw/bahnhof"
+  s.homepage = "http://github.com/antpaw/bhf"
   s.require_paths = ["lib"]
   s.rubyforge_project = "nowarning"
   s.rubygems_version = "1.8.10"
-  s.summary = "Agnostic rails backend"
+  s.summary = "Agnostic Rails backend"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
