@@ -30,7 +30,12 @@ class Bhf::EntriesController < Bhf::ApplicationController
       redirect_back_or_default(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('create.success', @model))
     else
       @form_url = bhf_entries_path(@platform.name)
-      render :new
+      
+      if @quick_edit
+        render json: object_to_bhf_display_hash, status: :ok
+      else
+        render :new
+      end
     end
   end
 
@@ -93,7 +98,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   private
 
     def object_to_bhf_display_hash
-      @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s}) do |column, hash|
+      @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s, new_record: @object.new_record?}) do |column, hash|
         unless column.field.macro == :column && @object.send(column.name).blank?
           p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}.html"
           hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}
