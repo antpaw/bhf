@@ -146,6 +146,10 @@ module Bhf
       table_options 'hide_edit'
     end
 
+    def hide_create
+      table_options 'hide_create'
+    end
+
     def show_duplicate
       table_options 'show_duplicate'
     end

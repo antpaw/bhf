@@ -5,6 +5,8 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
   def new
     @form_url = bhf_entries_path(@platform.name)
+    
+    render layout: 'bhf/quick_edit' if @quick_edit
   end
 
   def edit
