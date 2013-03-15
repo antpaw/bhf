@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "bhf"
-  s.version = "0.4.31"
+  s.version = "0.4.32"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = "2013-02-16"
+  s.date = "2013-03-15"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -135,7 +135,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/antpaw/bhf"
   s.require_paths = ["lib"]
   s.rubyforge_project = "nowarning"
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "1.8.25"
   s.summary = "Agnostic Rails backend"
 
   if s.respond_to? :specification_version then
