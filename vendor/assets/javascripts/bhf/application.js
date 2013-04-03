@@ -2,7 +2,7 @@
 //= require ./mootools-more-1.4.0.1.js
 //= require mootools_ujs
 //= require_tree ./classes/
-
+var quickEdit;
 window.addEvent('domready', function(){
 	var ajaxNote = new Ajaxify();
 	var lang = document.html.get('lang');
@@ -98,7 +98,7 @@ window.addEvent('domready', function(){
 	};
 
 	// TODO: disable more ajax calls while ajax is loading
-	var quickEdit = new AjaxEdit({
+	quickEdit = new AjaxEdit({
 		holderParent: $('content'),
 		onStartRequest: function(form){
 			ajaxNote.loading();
