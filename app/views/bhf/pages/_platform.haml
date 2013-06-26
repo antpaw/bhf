@@ -55,7 +55,8 @@
       - else
         %td.no_entries{colspan: platform.columns_count}
           = t 'bhf.pagination.info', name_zero: platform.title, count: 0
-          = link_to new_t(platform), new_bhf_entry_path(platform.name)
+          - unless platform.hide_create
+            = link_to new_t(platform), new_bhf_entry_path(platform.name)
 
 - if platform.custom_partial
   = render partial: "bhf/pages/#{platform.custom_partial}"
