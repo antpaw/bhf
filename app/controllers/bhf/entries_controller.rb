@@ -45,7 +45,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     render file: 'public/404.html', layout: false and return unless @object
     
     before_save
-    if @object.update_attributes(params[@model_sym])
+    if @object.update_attributes(@permited_params)
       manage_many_to_many
       after_save
 
@@ -115,6 +115,8 @@ class Bhf::EntriesController < Bhf::ApplicationController
     def load_model
       @model = @platform.model
       @model_sym = ActiveModel::Naming.singular(@model).to_sym
+      @permited_params = ActionController::Parameters.new(params[@model_sym]).permit!
+      #params.require(@model_sym).permit! TODO: check this
     end
 
     def load_object
@@ -123,7 +125,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def load_new_object
-      @object = @model.new(params[@model_sym])
+      @object = @model.new(@permited_params)
       after_load
     end
 

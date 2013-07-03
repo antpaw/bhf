@@ -35,7 +35,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
 
   def update
     before_save
-    if @object.update_attributes(params[@model_sym])
+    if @object.update_attributes(@permited_params)
       manage_many_to_many
       after_save
 
@@ -61,7 +61,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
     end
 
     def load_new_object
-      @object = @model.bhf_new_embed(params[:entry_id], params[@model_sym])
+      @object = @model.bhf_new_embed(params[:entry_id], @permited_params)
       after_load
     end
 

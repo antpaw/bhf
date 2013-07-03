@@ -14,7 +14,7 @@ module Bhf
       @data = options.values[0] || {}
       @collection = get_collection
 
-      t_model_path = "activerecord.models.#{model.model_name.downcase}"
+      t_model_path = "activerecord.models.#{model.model_name.to_s.downcase}"
       model_name = I18n.t(t_model_path, count: 2, default: @name.pluralize.capitalize)
       @title = I18n.t("bhf.platforms.#{@name}.title", count: 2, default: model_name)
       model_name = I18n.t(t_model_path, count: 1, default: @name.singularize.capitalize)
