@@ -19,8 +19,6 @@ begin
     gem.homepage = 'http://github.com/antpaw/bhf'
     gem.rubyforge_project = 'nowarning'
     gem.add_dependency 'rails', '>= 4.0.0'
-    # gem.add_dependency 'strong_parameters', '>= 0.2.1'
-    gem.add_dependency 'rails', '>= 4.0.0'
     gem.add_dependency 'kaminari', '>= 0.12.4'
     gem.add_dependency 'haml-rails', '>= 0.4.0'
     gem.add_dependency 'sass-rails', '>= 4.0.0'

@@ -3,7 +3,7 @@
 
   - if f.object.errors.any?
     = render partial: 'bhf/entries/validation_errors', locals: {f: f}
-
+    
   - @platform.fields.each do |field|
     - unless field.form_type == :hidden
       = render partial: "bhf/entries/form/#{field.macro}/#{field.form_type}", locals: {f: f, field: field}
