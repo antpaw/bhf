@@ -10,7 +10,7 @@
 
   %body
     %header
-      %h1= link_to image_tag('logo_bhf.png'), root_url
+      %h1= link_to image_tag(asset_path('logo_bhf.png')), root_url
       - if @config && @config.pages.any?
         %nav
           %ul

@@ -15,7 +15,7 @@ html
   min-width: 700px
   height: 100%
   overflow-y: scroll
-  background: url(small_ajax_loader.gif) no-repeat -300px -300px, url(small_ajax_loader_h.gif) no-repeat -300px -300px, #303030 url(bg.png)
+  background: image-url('bhf/small_ajax_loader.gif') no-repeat -300px -300px, image-url('bhf/small_ajax_loader_h.gif') no-repeat -300px -300px, #303030 image-url('bhf/bg.png')
   
 
 body
@@ -174,7 +174,7 @@ header
         &.save_and_next
           border-left: 1px solid rgba(#fff, 0.3)
           text-indent: -9999px
-          background: url(pictos.png) no-repeat -140px -40px
+          background: image-url('bhf/pictos.png') no-repeat -140px -40px
           width: 40px
           &:focus,
           &:hover
@@ -308,9 +308,9 @@ table.data_table
         text-indent: -9999px
         width: 20px
         height: 20px
-        background: url(pictos.png) no-repeat
+        background: image-url('bhf/pictos.png') no-repeat
         &.clicked
-          background: url(small_ajax_loader.gif) no-repeat center center
+          background: image-url('bhf/small_ajax_loader.gif') no-repeat center center
       &.duplicate
         width: 24px
       &.duplicate
@@ -326,7 +326,7 @@ table.data_table
           background-position: -50px -101px
 
     .handle
-      background: url(pictos.png) no-repeat -94px 0
+      background: image-url('bhf/pictos.png') no-repeat -94px 0
       cursor: move
       display: block
     
@@ -358,7 +358,7 @@ table.data_table
         .edit,
         .delete
           &.clicked
-            background: url(small_ajax_loader_h.gif) no-repeat center center
+            background: image-url('bhf/small_ajax_loader_h.gif') no-repeat center center
       &.live_edit td
         +bg-gradient($b2, $b1)
         box-shadow: inset 0 -1px 0 $b2, inset 0 -2px 0 rgba(#fff, 0.4)
@@ -916,8 +916,8 @@ input[type="submit"].alt_button,
   left: 50%
   z-index: 4000
   +border-bottom-radius(4)
-  background: url(ajax_loader.gif) no-repeat center 16px, -webkit-gradient(linear, left top, left bottom, from($b1), to($b2))
-  background: url(ajax_loader.gif) no-repeat center 16px, -moz-linear-gradient(top, $b1, $b2)
+  background: image-url('bhf/ajax_loader.gif') no-repeat center 16px, -webkit-gradient(linear, left top, left bottom, from($b1), to($b2))
+  background: image-url('bhf/ajax_loader.gif') no-repeat center 16px, -moz-linear-gradient(top, $b1, $b2)
   border: 1px solid $b1
   +box-shadow(0, 1, 4)
   +transition-duration(0.6)
@@ -1004,7 +1004,7 @@ input[type="submit"].alt_button,
   margin-left: 5px
   margin-right: 5px
   position: relative
-  background-image: url(wmd-buttons.png)
+  background-image: image-url('bhf/wmd-buttons.png')
   background-repeat: no-repeat
   display: inline-block
   list-style: none
