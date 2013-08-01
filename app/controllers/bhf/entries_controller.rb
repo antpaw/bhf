@@ -120,7 +120,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def load_object
-      @object = @model.find(params[:id]) rescue nil
+      @object = @model.unscoped.find(params[:id]) rescue nil
       after_load
     end
 
@@ -140,7 +140,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
         next if ids.blank?
 
-        reflection.klass.find(ids).each do |relation_obj|
+        reflection.klass.unscoped.find(ids).each do |relation_obj|
           @object.send(relation) << relation_obj
         end
       end
