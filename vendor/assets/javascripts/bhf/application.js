@@ -1,6 +1,6 @@
-//= require mootools-compat
+//= require ./mootools-compat
 //= require ./mootools-more-1.4.0.1.js
-//= require mootools_ujs
+//= require ./mootools_ujs_ap
 //= require_tree ./classes/
 var quickEdit;
 window.addEvent('domready', function(){
