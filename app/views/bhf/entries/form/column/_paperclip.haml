@@ -1,0 +1,12 @@
+= node f, field do
+  - file = f.object.send(field.name)
+  - if file.file?
+    - if file
+      = image_tag file.url, class: 'uploaded_image'
+    - else
+      = link_to file.name, file.url, class: 'uploaded_file'
+    .file_delete
+      = f.check_box "#{field.name}_destroy"
+      = f.label "#{field.name}_destroy", t('bhf.helpers.file.delete')
+  - unless @quick_edit
+    = f.file_field field.name
