@@ -24,6 +24,9 @@ var Ajaxify = new Class({
 
 	initialize: function(_options) {
 		this.setOptions(_options);
+	},
+	
+	setup: function(){
 		this.holder = this.options.holder.inject(document.body);
 	},
 	

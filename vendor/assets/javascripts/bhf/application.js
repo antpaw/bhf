@@ -3,10 +3,11 @@
 //= require ./mootools_ujs_ap
 //= require turbolinks
 //= require_tree ./classes/
+var ajaxNote = new Ajaxify();
 var pageSetup = function(){
 	var quickEdit;
 	window.addEvent('domready', function(){
-		var ajaxNote = new Ajaxify();
+		ajaxNote.setup();
 		var lang = document.html.get('lang');
 		if (lang === 'en') {
 			lang = 'en-US';
@@ -329,8 +330,14 @@ var pageSetup = function(){
 
 pageSetup();
 if (document.addEventListener) {
+	document.addEventListener('page:fetch', function(){
+		ajaxNote.loading();
+		console.log(ajaxNote);
+	});
+	
 	document.addEventListener('page:load', function(){
 		pageSetup();
 		rails.applyEvents();
+		ajaxNote.success();
 	});
 }

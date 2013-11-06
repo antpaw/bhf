@@ -18,6 +18,7 @@ begin
     gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "vendor/assets/**/*"]
     gem.homepage = 'http://github.com/antpaw/bhf'
     gem.rubyforge_project = 'nowarning'
+    # TODO: check the gem, i dont think this works right, atleast not for "turbolinks"
     gem.add_dependency 'rails', '>= 4.0.0'
     gem.add_dependency 'turbolinks', '>= 1.3.0'
     gem.add_dependency 'kaminari', '>= 0.12.4'
