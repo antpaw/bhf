@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "bhf"
-  s.version = "0.5.10"
+  s.version = "0.5.11"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
@@ -136,6 +136,7 @@ Gem::Specification.new do |s|
     "vendor/assets/stylesheets/bhf/typo.css.scss"
   ]
   s.homepage = "http://github.com/antpaw/bhf"
+  s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubyforge_project = "nowarning"
   s.rubygems_version = "2.0.3"
