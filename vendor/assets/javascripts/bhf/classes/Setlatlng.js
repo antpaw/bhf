@@ -6,13 +6,24 @@ var Setlatlng = new Class({
 	},
 	
 	initialize: function(elem){
+		if (window.google) {
+			this.setup(elem);
+		}
+		else {
+			Setlatlng.GMapsCallback = function(){
+				this.setup(elem);
+			}.bind(this);
+			Asset.javascript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=Setlatlng.GMapsCallback');
+		}
+	},
+	
+	setup: function(elem){
 		var latElem = elem;
 		var lngElem = elem.getNext('.map_data_lng');
 		var	setValues = function(lat, lng){
 			latElem.value = lat;
 			lngElem.value = lng;
 		};
-		
 		var center = new google.maps.LatLng(
 			latElem.value ? latElem.value : latElem.get('data-default-lat'),
 			lngElem.value ? lngElem.value : latElem.get('data-default-lng')
@@ -63,3 +74,4 @@ var Setlatlng = new Class({
 		});
 	}
 });
+
