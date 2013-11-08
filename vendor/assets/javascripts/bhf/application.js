@@ -332,7 +332,6 @@ pageSetup();
 if (document.addEventListener) {
 	document.addEventListener('page:fetch', function(){
 		ajaxNote.loading();
-		console.log(ajaxNote);
 	});
 	
 	document.addEventListener('page:load', function(){
