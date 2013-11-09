@@ -63,6 +63,11 @@ en:
         one: "Displaying <strong>1</strong> %{name_singular}"
         zero: "No %{name_zero} found"
 
+    footer:
+      state: 'Page rendered in ~%{time} seconds'
+      copy: 'Made by <a href="http://twitter.com/antpaw">@antpaw</a> with <a href="http://rubyonrails.org">Rails</a> and <a href="http://mootools.net">MooTools</a>'
+      info: 'More information on <a href="http://github.com/antpaw/bhf">GitHub</a>'
+
   attributes:
     _id: 'id'
 

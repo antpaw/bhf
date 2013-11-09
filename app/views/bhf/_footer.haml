@@ -1,14 +1,6 @@
 - if @start_time
-  %p.stats= "Page rendered in ~#{(Time.now-@start_time).round(2)} seconds"
+  %p.state= I18n.t('bhf.footer.state', time: (Time.now-@start_time).round(2)).html_safe
 
-%p.copy
-  Made by
-  = link_to '@antpaw', 'http://twitter.com/antpaw'
-  with
-  = link_to 'Rails 3', 'http://twitter.com/antpaw'
-  and
-  = link_to 'MooTools', 'http://mootools.net/'
+%p.copy= I18n.t('bhf.footer.copy').html_safe
 
-%p.info
-  More information on 
-  = link_to 'GitHub', 'http://github.com/antpaw/bahnhof/'
+%p.info= I18n.t('bhf.footer.info').html_safe
