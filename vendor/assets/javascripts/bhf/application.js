@@ -3,7 +3,6 @@
 //= require ./mootools-more-1.4.0.1.js
 //= require ./mootools_ujs_ap
 //= require_tree ./classes/
-//= require ./extras
 
 var ajaxNote = new Ajaxify();
 var quickEdit = new AjaxEdit();
