@@ -9,9 +9,15 @@ var AjaxEdit = new Class({
 
 	holder: new Element('div.quick_edit_holder'),
 
-	initialize: function(_options) {
+	setup: function(_options) {
 		this.setOptions(_options);
-		this.holder.addEvents({
+		this.holder
+		.removeEvents('click:relay(.open)')
+		.removeEvents('click:relay(.cancel)')
+		.removeEvents('click:relay(.save_and_next)')
+		.removeEvents('click:relay(.save)')
+		.removeEvents('submit:relay(form)')
+		.addEvents({
 			'click:relay(.open)': function(e){
 				e.preventDefault();
 				location.href = (this.wrapElement.getElement('a') || this.wrapElement).get('href');

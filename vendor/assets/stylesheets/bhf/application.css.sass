@@ -91,19 +91,6 @@ header
     color: $g1
     
 
-#content
-  display: table
-  width: 100%
-  box-sizing: border-box
-  margin-top: -20px
-  border-spacing: 20px
-  h2,
-  h3
-    +text-shadow(#fff)
-  h6
-    color: $g3
-    +text-shadow(#fff)
-    
 .quick_edit_holder,
 #main
   display: table-cell
@@ -121,6 +108,17 @@ header
 
 
 #content
+  display: table
+  width: 100%
+  box-sizing: border-box
+  margin-top: -20px
+  border-spacing: 20px
+  h2,
+  h3
+    +text-shadow(#fff)
+  h6
+    color: $g3
+    +text-shadow(#fff)
   .quick_edit_holder
     +transition-duration(0.3)
     +transition-delay(0.2)
@@ -434,115 +432,125 @@ form
         .label
           label
             padding-top: 5px
-    .input,
-    .label
-      display: table-cell
-      vertical-align: top
-    .label
-      width: 200px
-      padding-top: 5px
-      p,
-      label
-        display: block
-        color: $g3
-        +text-shadow(#fff)
-      .field_with_errors
-        color: red
-    .input
-      input[type="password"],
-      input[type="text"],
-      .uploaded_image,
-      .uploaded_file,
-      textarea
-        @extend .default_input
-      textarea
-        width: 500px
-        height: 200px
-        line-height: 20px
-        &.wysiwyg
-          height: 400px
-      .errors
-        color: red
-      .field_with_errors
-        input
-          border-color: red
-      [disabled]
-        background: $g2 !important
-      input[type="submit"],
-      input[type="password"],
-      input[type="text"],
-      select,
-      textarea,
-      .uploaded_image,
-      .uploaded_file,
-      .mooeditable-container,
-      .wmd-button-row,
-      .map_canvas
-        margin-left: -6px
-      input[type="file"]
-        margin-left: -5px
-      select
-        font-size: 16px
-        margin-top: 5px
-      input[type="checkbox"]
-        margin-top: 9px
-      .multiple_field,
-      .array_fields
-        display: block
-      .add_field
-        display: block
-        font-size: 20px
-        font-weight: bold
-        width: 30px
-        margin-left: -8px
-        cursor: pointer
-        text-align: center
-        color: $k1 !important
-        text-decoration: none !important
-        &:hover
-          color: $b1 !important
-      .uploaded_file,
-      .uploaded_image
-        padding: 2px
-        width: auto
-        max-width: 400px
-        max-height: 200px
-        margin-bottom: 5px
-        display: block
-      .uploaded_file
-        padding: 7px 5px 8px 7px
-        background: #999
-        color: #fff
-        &:hover
-          background: #fff
-          color: $b1
-      .warning
-        font-weight: bold
-      .quick_edit
-        text-decoration: underline
-        color: $b2
-      .relation
-        li
-          &:hover
-            .delete
-              opacity: 1
-              +transition-duration(0.5)
-          .delete
-            opacity: 0
-            &:hover
-              color: $b1
-        
-    .cancel
-      margin-left: 20px
-      color: $g1
-      &:hover
-        color: $g3
-        text-decoration: underline
-    .info
-      font-style: italic
-      font-size: 12px
+  .input,
+  .label
+    display: table-cell
+    vertical-align: top
+  .label
+    width: 200px
+    padding-top: 5px
+    p,
+    label
+      display: block
       color: $g3
       +text-shadow(#fff)
+    .field_with_errors
+      color: red
+  .input
+    input[type="password"],
+    input[type="text"],
+    .uploaded_image,
+    .uploaded_file,
+    textarea
+      @extend .default_input
+    input[name*="headline"]  ,
+    input[name*="title"],
+    input[name*="name"]
+      font-size: 18px
+      width: 500px
+      margin-top: -4px
+      .quick_edit_holder &
+        width: 320px
+        margin-top: 0px
+    
+    textarea
+      width: 500px
+      height: 200px
+      line-height: 20px
+      &.wysiwyg
+        height: 400px
+    .errors
+      color: red
+    .field_with_errors
+      input
+        border-color: red
+    [disabled]
+      background: $g2 !important
+    input[type="submit"],
+    input[type="password"],
+    input[type="text"],
+    select,
+    textarea,
+    .uploaded_image,
+    .uploaded_file,
+    .mooeditable-container,
+    .wmd-button-row,
+    .map_canvas
+      margin-left: -6px
+    input[type="file"]
+      margin-left: -5px
+    select
+      font-size: 16px
+      margin-top: 5px
+    input[type="checkbox"]
+      margin-top: 9px
+    .multiple_field,
+    .array_fields
+      display: block
+    .add_field
+      display: block
+      font-size: 20px
+      font-weight: bold
+      width: 30px
+      margin-left: -8px
+      cursor: pointer
+      text-align: center
+      color: $k1 !important
+      text-decoration: none !important
+      &:hover
+        color: $b1 !important
+    .uploaded_file,
+    .uploaded_image
+      padding: 2px
+      width: auto
+      max-width: 400px
+      max-height: 200px
+      margin-bottom: 5px
+      display: block
+    .uploaded_file
+      padding: 7px 5px 8px 7px
+      background: #999
+      color: #fff
+      &:hover
+        background: #fff
+        color: $b1
+    .warning
+      font-weight: bold
+    .quick_edit
+      text-decoration: underline
+      color: $b2
+    .relation
+      li
+        &:hover
+          .delete
+            opacity: 1
+            +transition-duration(0.5)
+        .delete
+          opacity: 0
+          &:hover
+            color: $b1
+      
+  .cancel
+    margin-left: 20px
+    color: $g1
+    &:hover
+      color: $g3
+      text-decoration: underline
+  .info
+    font-style: italic
+    font-size: 12px
+    color: $g3
+    +text-shadow(#fff)
       
   .error_explanation
     margin-left: 20px
