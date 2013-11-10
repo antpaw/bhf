@@ -6,7 +6,8 @@
     %link{href: '/favicon.ico', rel: 'icon', type: 'image/x-icon'}
     - (['bhf/application'] + Bhf::Engine.config.css.to_a).each do |css|
       = stylesheet_link_tag css
-    = javascript_include_tag 'bhf/application', {:'data-turbolinks-eval' => false}
+    - (['bhf/application'] + Bhf::Engine.config.js.to_a).each do |js|
+      = javascript_include_tag js, {:'data-turbolinks-eval' => false}
 
   %body
     %header

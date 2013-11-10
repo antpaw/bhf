@@ -17,6 +17,7 @@ module Bhf
     config.account_model = 'User'
     config.account_model_find_method = 'find'
     config.css = []
+    config.js = []
     
     config.bhf_routes = lambda {
       namespace :bhf, path: Bhf::Engine.config.mount_at do
