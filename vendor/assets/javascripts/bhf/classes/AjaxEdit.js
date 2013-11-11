@@ -7,20 +7,12 @@ var AjaxEdit = new Class({
 
 	Implements: [Options, Events],
 
-	holder: new Element('div.quick_edit_holder'),
-
 	setup: function(_options) {
 		this.setOptions(_options);
-		this.holder
-		.removeEvents('click:relay(.open)')
-		.removeEvents('click:relay(.cancel)')
-		.removeEvents('click:relay(.save_and_next)')
-		.removeEvents('click:relay(.save)')
-		.removeEvents('submit:relay(form)')
-		.addEvents({
+		this.holder = new Element('div.quick_edit_holder').addEvents({
 			'click:relay(.open)': function(e){
 				e.preventDefault();
-				location.href = (this.wrapElement.getElement('a') || this.wrapElement).get('href');
+				Turbolinks.visit((this.wrapElement.getElement('a') || this.wrapElement).get('href'));
 			}.bind(this),
 			'click:relay(.cancel)': function(e){
 				e.preventDefault();
