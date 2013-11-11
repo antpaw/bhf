@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "bhf"
-  s.version = "0.6.2"
+  s.version = "0.6.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = "2013-11-10"
+  s.date = "2013-11-11"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -116,8 +116,8 @@ Gem::Specification.new do |s|
     "vendor/assets/javascripts/bhf/classes/Ajaxify.js",
     "vendor/assets/javascripts/bhf/classes/ArrayFields.js",
     "vendor/assets/javascripts/bhf/classes/BrowserUpdate.js",
-    "vendor/assets/javascripts/bhf/classes/Locale.de-DE.DatePicker.js",
-    "vendor/assets/javascripts/bhf/classes/Locale.en-US.DatePicker.js",
+    "vendor/assets/javascripts/bhf/classes/Locale.de-DE.js",
+    "vendor/assets/javascripts/bhf/classes/Locale.en-US.js",
     "vendor/assets/javascripts/bhf/classes/MooEditable.js",
     "vendor/assets/javascripts/bhf/classes/MultipleFields.js",
     "vendor/assets/javascripts/bhf/classes/Picker.js",
