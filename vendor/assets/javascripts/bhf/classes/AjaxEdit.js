@@ -47,6 +47,7 @@ var AjaxEdit = new Class({
 			onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript){
 				this.injectForm(responseHTML);
 				eval(responseJavaScript);
+				window.fireEvent('quickEditReady', [this.holder]);
 			}.bind(this)
 		}).send();
 	},

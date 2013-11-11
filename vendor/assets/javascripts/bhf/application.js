@@ -156,7 +156,7 @@ var bhfInit = function(){
 					Browser.exec(js);
 					ajaxNote.success();
 					windowHight = document.body.clientHeight;
-					document.body.fireEvent('platformUpdate');
+					window.fireEvent('platformUpdate', [platform]);
 				}
 			}).send();
 		};
@@ -345,3 +345,16 @@ if (document.addEventListener) {
 		ajaxNote.success();
 	});
 }
+
+var initHelper = function(callback){
+	var scopedCallback = function(){
+		callback(document.body);
+	};
+	if (document.addEventListener) {
+		document.addEventListener('page:load', scopedCallback);
+	}
+	window.addEvent('domready', scopedCallback);
+	window.addEvent('platformUpdate', callback);
+	window.addEvent('quickEditReady', callback);
+	
+};
