@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "bhf"
-  s.version = "0.6.4"
+  s.version = "0.6.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = "2013-11-11"
+  s.date = "2013-11-18"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -37,6 +37,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/column/_boolean.haml",
     "app/views/bhf/entries/form/column/_date.haml",
     "app/views/bhf/entries/form/column/_file.haml",
+    "app/views/bhf/entries/form/column/_hash.haml",
     "app/views/bhf/entries/form/column/_mappin.haml",
     "app/views/bhf/entries/form/column/_markdown.haml",
     "app/views/bhf/entries/form/column/_multiple_fields.haml",
@@ -70,6 +71,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/pages/macro/column/_boolean.haml",
     "app/views/bhf/pages/macro/column/_date.haml",
     "app/views/bhf/pages/macro/column/_file.haml",
+    "app/views/bhf/pages/macro/column/_hash.haml",
     "app/views/bhf/pages/macro/column/_image.haml",
     "app/views/bhf/pages/macro/column/_number.haml",
     "app/views/bhf/pages/macro/column/_primary_key.haml",
