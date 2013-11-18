@@ -74,8 +74,11 @@ module Bhf
           c
         end
         
+        def bhf_attribute_method?(column_name)
+          attribute_method?(column_name)
+        end
+        
         def bhf_primary_key
-          # TODO: still needed?
           '_id'
         end
         
@@ -115,18 +118,29 @@ module Bhf
 
         def bhf_new_embed(parent_id, params = nil)
           get_embedded_parent parent_id do |parent, meta|
-            if parent.relations[meta.inverse_of.to_s].macro == :embeds_one
-              parent.send("build_#{meta.inverse_of}", params)
+            key_name = if meta.inverse_of?
+              meta.inverse_of
             else
-              parent.send(meta.inverse_of).build(params)
+              meta.inverse_foreign_key.pluralize
+            end.to_s
+            if parent.relations[key_name].macro == :embeds_one
+              parent.send("build_#{key_name}", params)
+            else
+              parent.send(key_name).build(params)
             end
           end
         end
 
         def bhf_find_embed(parent_id, ref_id)
           get_embedded_parent parent_id do |parent, meta|
-            relation = parent.send(meta.inverse_of)
-            if parent.relations[meta.inverse_of.to_s].macro == :embeds_one
+            # :forced_nil_inverse?, :foreign_key, :foreign_key_check, :foreign_key_setter, :index, :indexed?, :inspect, :inverses, :inverse, :inverse_class_name, :inverse_class_name?, :inverse_foreign_key, :inverse_klass, :inverse_metadata, :inverse_of, :inverse_of?, :inverse_setter, :inverse_type, :inverse_type_setter
+            key_name = if meta.inverse_of?
+              meta.inverse_of
+            else
+              meta.inverse_foreign_key.pluralize
+            end.to_s
+            relation = parent.send(key_name)
+            if parent.relations[key_name].macro == :embeds_one
               relation
             else
               relation.find(ref_id)

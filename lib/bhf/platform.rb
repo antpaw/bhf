@@ -235,7 +235,7 @@ module Bhf
         output = []
 
         attrs.each_pair do |key, value|
-          if key == model.primary_key
+          if key == model.bhf_primary_key
             id << value
           elsif key == 'created_at' || key == 'updated_at'
             static_dates << value

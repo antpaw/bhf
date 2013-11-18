@@ -14,10 +14,10 @@
         - if platform.sortable
           %th.drag
         - platform.columns.each do |column|
-          - db_column_name = platform.model.column_names.include?(column.name+'_id') ? column.name+'_id' : column.name
+          - db_column_name = platform.model.bhf_attribute_method?(column.name+'_id') ? column.name+'_id' : column.name
           %th{class: "#{column.field.macro} #{column.field.display_type} #{order_class(db_column_name, platform.name)}"}
             - column_name = platform.model.human_attribute_name(column.name)
-            - can_sort = platform.model.column_names.include?(db_column_name)
+            - can_sort = platform.model.bhf_attribute_method?(db_column_name)
             = link_to_if can_sort, column_name, current_order_path(db_column_name, platform.name)
         %th.action
 

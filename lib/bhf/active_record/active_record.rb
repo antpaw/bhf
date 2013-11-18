@@ -45,6 +45,10 @@ module Bhf
           primary_key
         end
         
+        def bhf_attribute_method?(column_name)
+          column_names.include?(column_name)
+        end
+        
         def bhf_embedded?
           false
         end

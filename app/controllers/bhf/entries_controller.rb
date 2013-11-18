@@ -73,12 +73,12 @@ class Bhf::EntriesController < Bhf::ApplicationController
       redirect_to(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.error', @model))
     end
   end
-
+  
   def sort
     return unless @platform.sortable
     
     sort_attr = @platform.sortable.to_sym
-
+    
     params[:order].each do |order|
       @model.
         find(order[1].gsub("_#{@platform.name}", '')).
