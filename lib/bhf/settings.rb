@@ -27,6 +27,7 @@ module Bhf
     end
 
     def find_platform(platform_name, current_account = nil)
+      # TODO: error for platforms whit the same name
       pages.each do |page|
         content_for_page(page).each do |platform|
           bhf_platform = Bhf::Platform.new(platform, page, current_account)
