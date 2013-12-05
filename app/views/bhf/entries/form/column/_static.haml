@@ -1,4 +1,5 @@
 - if value = f.object.send(field.name)
+  - return if @quick_edit and field.display_type == :primary_key
   = node f, field do
     - if field.display_type == :primary_key
       %strong= value

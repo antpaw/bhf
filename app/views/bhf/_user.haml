@@ -2,4 +2,4 @@
   %p.user
     = t('bhf.helpers.user.login.as', user: current_account.to_bhf_s).html_safe
     - if self.respond_to?(Bhf::Engine.config.logout_path)
-      = link_to t('bhf.helpers.user.logout.link'), self.send(Bhf::Engine.config.logout_path), method: :delete
+      = link_to t('bhf.helpers.user.logout.link'), self.send(Bhf::Engine.config.logout_path), method: :delete, class: :alt_button

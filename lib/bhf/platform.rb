@@ -90,17 +90,21 @@ module Bhf
     end
 
     def columns
-      default_attrs(table_options(:columns), @collection[0..5]).
+      default_attrs(table_options(:display) || table_options(:columns), @collection[0..5]).
       each_with_object([]) do |field, obj|
         obj << Bhf::Data::Column.new(field)
       end
     end
 
     def definitions
-      default_attrs(show_options(:definitions), @collection).
+      default_attrs(show_options(:display) || show_options(:definitions), @collection, false).
       each_with_object([]) do |field, obj|
-        obj << Bhf::Data::Column.new(field)
+        obj << Bhf::Data::Show.new(field)
       end
+    end
+    
+    def show_extra_fields
+      show_options(:extra_fields)
     end
 
     def entries_per_page
@@ -169,7 +173,7 @@ module Bhf
     private
 
       def do_search(chain, search_params)
-        search_condition = if table_options(:search)
+        search_condition = if search?
           search_params
         else
           model.bhf_default_search(search_params)
@@ -179,7 +183,7 @@ module Bhf
       end
 
       def data_source
-        table_options(:source)
+        table_options(:source) || table_options(:scope)
       end
 
       def default_attrs(attrs, d_attrs, warning = true)
@@ -193,6 +197,7 @@ module Bhf
               name: attr_name,
               form_type: form_options(:types, attr_name) || attr_name,
               display_type: table_options(:types, attr_name) || attr_name,
+              show_type: show_options(:types, attr_name) || table_options(:types, attr_name) || attr_name,
               info: I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", default: '')
             })
           )
@@ -207,15 +212,18 @@ module Bhf
           all[name] = Bhf::Data::Field.new(props, {
             overwrite_type: form_options(:types, name),
             overwrite_display_type: table_options(:types, name),
+            overwrite_show_type: show_options(:types, name) || table_options(:types, name),
             info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: '')
           }, model.bhf_primary_key)
         end
 
         # TODO: test polymorphic
         model.reflections.each_pair do |name, props|
+          Bhf::Data::Reflection.new(props)
           all[name.to_s] = Bhf::Data::Reflection.new(props, {
             overwrite_type: form_options(:types, name),
             overwrite_display_type: table_options(:types, name),
+            overwrite_show_type: show_options(:types, name) || table_options(:types, name),
             info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: ''),
             link: form_options(:links, name)
           })

@@ -11,7 +11,9 @@
 
   %body
     %header
-      %h1= link_to image_tag(asset_path('logo_bhf.png')), root_url, :'data-no-turbolink' => true
+      %h1
+        - logo = Rails.application.assets.find_asset('logo_bhf.png') ? 'logo_bhf.png' : 'logo_bhf.svg'
+        = link_to image_tag(asset_path(logo)), root_url, :'data-no-turbolink' => true
       - if @config && @config.pages.any?
         %nav
           %ul

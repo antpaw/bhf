@@ -1,11 +1,13 @@
 module Bhf
   module Data
     class AbstractField
-      attr_reader :name, :info, :macro, :display_type, :form_type, :overwrite_type, :overwrite_display_type
+      attr_reader :name, :info, :macro, :display_type, :form_type, :show_type, :overwrite_type, :overwrite_display_type, :overwrite_show_type
       
       def initialize(props)
         @name = props[:name]
         @form_type = props[:form_type]
+        @show_type = props[:show_type]
+        @overwrite_show_type = props[:show_type]
         @display_type = props[:display_type]
         @overwrite_display_type = props[:display_type]
         @info = props[:info]
@@ -15,7 +17,7 @@ module Bhf
 
     class Field
 
-      attr_reader :info, :overwrite_display_type
+      attr_reader :info, :overwrite_display_type, :overwrite_show_type
 
       def initialize(props, options = {}, pk = 'id')
         @props = props
@@ -23,6 +25,7 @@ module Bhf
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
         @overwrite_display_type = options[:overwrite_display_type].to_sym if options[:overwrite_display_type]
+        @overwrite_show_type = options[:overwrite_show_type].to_sym if options[:overwrite_show_type]
 
         @primary_key = pk
       end
@@ -35,6 +38,10 @@ module Bhf
         return @overwrite_type if @overwrite_type
 
         @props.type
+      end
+      
+      def show_type
+        return @overwrite_show_type if @overwrite_show_type
       end
 
       def form_type
@@ -86,7 +93,7 @@ module Bhf
 
     class Reflection
       
-      attr_reader :reflection, :info, :link, :overwrite_display_type
+      attr_reader :reflection, :info, :link, :overwrite_display_type, :overwrite_show_type
       
       def initialize(reflection, options = {})
         @reflection = reflection
@@ -95,6 +102,7 @@ module Bhf
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
         @overwrite_display_type = options[:overwrite_display_type].to_sym if options[:overwrite_display_type]
+        @overwrite_show_type = options[:overwrite_show_type].to_sym if options[:overwrite_show_type]
       end
       
       def macro
@@ -122,6 +130,10 @@ module Bhf
         :default
       end
 
+      def show_type
+        return @overwrite_show_type if @overwrite_show_type
+      end
+
       def name
         @reflection.name.to_s
       end
@@ -132,6 +144,17 @@ module Bhf
     class Column
 
       attr_reader :name, :field, :overwrite_display_type
+
+      def initialize(field)
+        @name = field.name
+        @field = field
+      end
+
+    end
+
+    class Show
+
+      attr_reader :name, :field, :overwrite_show_type
 
       def initialize(field)
         @name = field.name

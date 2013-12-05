@@ -1,0 +1,4 @@
+%p
+  %span.dt= object.class.human_attribute_name(column.name) + ':'
+  %span.dd{class: "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
+    = content
