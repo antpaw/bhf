@@ -15,13 +15,16 @@ html
   min-width: 700px
   height: 100%
   overflow-y: scroll
-  background: image-url('bhf/small_ajax_loader.gif') no-repeat -300px -300px, image-url('bhf/small_ajax_loader_h.gif') no-repeat -300px -300px, #303030 image-url('bhf/bg.png')
-  
+  background: image-url('bhf/small_ajax_loader.gif') no-repeat -300px -300px, image-url('bhf/small_ajax_loader_h.gif') no-repeat -300px -300px, #303030
 
 body
   min-width: 960px
   min-height: 100%
-  +box-inner-shadow(0, 0, 8,#000)
+  //+box-inner-shadow(0, 0, 8,#000)
+  -webkit-font-smoothing: antialiased
+  -moz-font-smoothing: antialiased
+  -o-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
 
 a
   text-decoration: none
@@ -39,6 +42,12 @@ header
     float: right
     height: 83px
     overflow: hidden
+    a
+      padding: 16px 24px 0 0
+      display: block
+    img
+      display: block
+      height: 50px
   nav
     padding-top: 25px
     li
@@ -49,9 +58,8 @@ header
       &.active
         a
           +text-shadow(#fff)
-          +bg-gradient(#FFFFFF, #D5D5D5)
+          +bg-gradient(#eaeaea, #D5D5D5)
           +box-shadow(0, 1, 4)
-          border-color: #FFFFFF
           color: #414756
           &:hover
             +bg-gradient(#D5D5D5, #FFFFFF)
@@ -62,13 +70,11 @@ header
         text-decoration: none
         display: block
         padding: 5px 23px
-        border: 1px solid transparent
         color: #EAEAEA
         +text-shadow(#000, -1)
         &:hover
           +bg-gradient($b1, $b2)
           color: $w1
-          border-color: $b1
           +box-shadow(0, 1, 4)
           +text-shadow(#0068B3)
         &:active
@@ -83,12 +89,30 @@ header
   max-width: 400px
   max-height: 200px
 
+.content_box
+  margin: 10px 10px 20px 20px
 .dl
   +text-shadow(#fff)
   .dt
     display: inline-block
     min-width: 200px
     color: $g1
+  a
+    text-decoration: underline
+.default_table
+  width: 100%
+  td, th
+    padding: 2px 5px
+  thead
+    th
+      background: #3E3E3E
+      color: #C2C2C2
+      text-align: left
+  tbody
+    td
+      border-bottom: 1px solid #E0E0E0
+.font_size_bigger
+  font-size: 1.2em
     
 
 .quick_edit_holder,
@@ -96,26 +120,25 @@ header
   display: table-cell
   overflow: hidden
   background: #EAEAEA
-  border: 3px solid #FFFFFF
   box-sizing: border-box
-  padding: 10px 20px
   +box-shadow(0, 1, 4, rgba($k1, 0.5))
+  > h3
+    padding: 9px 20px
+    background: #dbdbdb
 
-#main_form
-  // TODO: wtf css?
-  margin-left: -20px
-    
+
 
 
 #content
   display: table
   width: 100%
   box-sizing: border-box
-  margin-top: -20px
-  border-spacing: 20px
+  form
+    border-spacing: 20px
   h2,
   h3
     +text-shadow(#fff)
+    color: #3e3e3e
   h6
     color: $g3
     +text-shadow(#fff)
@@ -142,14 +165,15 @@ header
       width: 300px
       height: 100px
     
+  .quick_edit_holder
+    padding: 0
+    form
+      padding: 10px 20px
     .group
+      margin-top: 0
+      margin-bottom: 10px
+      margin-left: 20px
       padding: 0
-      &:active
-        .save
-          border-right: 1px solid rgba(#fff, 0.4)
-        .save_and_next
-          border-left: 1px solid $b2
-        
       button
         border: none
         background: none
@@ -164,13 +188,9 @@ header
           outline: 0
         &.save
           border-right: 1px solid $b2
-          &.create
-            border-right: none
-          &:focus
-            color: $b2
-            text-shadow: 0 0px 3px #fff
+          &:hover
+            color: darken($b2, 15%)
         &.save_and_next
-          border-left: 1px solid rgba(#fff, 0.3)
           text-indent: -9999px
           background: image-url('bhf/pictos.png') no-repeat -140px -40px
           width: 40px
@@ -183,16 +203,12 @@ header
       &.cancel,
       &.open
         float: right
-        margin-top: 0
-      &.cancel
-        margin-right: -10px
-      &.open
+        margin-top: 10px
         margin-right: 10px
       &.save
         margin-right: 16px
 
 table.data_table
-  margin-top: 20px
   margin-bottom: 40px
   width: 100%
   caption
@@ -200,14 +216,7 @@ table.data_table
     height: 28px
     -moz-box-sizing: content-box
     padding: 10px 10px 10px 20px
-    +border-top-radius(4)
-    +box-shadow(0, 1, 4, #ccc)
-    background: #C9C9C9
-    background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), color-stop(50%, #CCCCCC), color-stop(51%, #DCDCDC), to(#DCDCDC))
-    background-size: 100% 2px
-    border: 1px solid #C4C4C4
-    border-bottom: 0
-    border-top: 0
+    background: #DBDBDB
     text-align: left
     h4,
     .info
@@ -223,6 +232,8 @@ table.data_table
       font-size: 12px
       color: $g1
       white-space: nowrap
+      strong
+        color: #3E3E3E
     form
       display: inline-block
     .create
@@ -233,26 +244,15 @@ table.data_table
   th:first-child
     padding-left: 20px
   
-  td
-    &:first-child
-      +border-left-radius(4)
-    &:last-child
-      +border-right-radius(4)
   thead
     th
       padding: 4px 0
       padding-left: 3px
       text-align: left
-      border-top: 1px solid #C6C6C6
-      border-bottom: 1px solid #1B1B1B
       white-space: nowrap
       background: #3E3E3E
       +text-shadow(#000, -1)
       color: #C2C2C2
-      &:first-child
-        +border-bottom-left-radius(4)
-      &:last-child
-        +border-bottom-right-radius(4)
       &.primary_key
         text-transform: uppercase
       &.sorted
@@ -274,8 +274,7 @@ table.data_table
 
   tbody
     td
-      border-top: 1px solid #FFFFFF
-      border-bottom: 1px solid #C6C6C6
+      border-bottom: 1px solid #E0E0E0
       &.has_many,
       &.has_and_belongs_to_many,
       &.text
@@ -333,9 +332,8 @@ table.data_table
       &:hover td,
       &.live_edit td
         +bg-gradient($b1, $b2)
+        border-bottom-color: $b1
         color: $w1
-        box-shadow: inset 0 1px 0 $b2, inset 0 2px 0 rgba(#fff, 0.4)
-        border-color: #EAEAEA
         .duplicate
           background-position: -348px -50px
           &:hover
@@ -359,7 +357,7 @@ table.data_table
             background: image-url('bhf/small_ajax_loader_h.gif') no-repeat center center
       &.live_edit td
         +bg-gradient($b2, $b1)
-        box-shadow: inset 0 -1px 0 $b2, inset 0 -2px 0 rgba(#fff, 0.4)
+        border-bottom-color: $b2
       &.dragged
         td
           opacity: 0.4
@@ -372,7 +370,6 @@ table.data_table
   tfoot
     td
       padding-top: 10px
-      border-top: 1px solid #FFFFFF
 
   thead,
   tbody
@@ -387,13 +384,14 @@ table.data_table
       width: 54px
       &.wider
         width: 88px
-
+  tbody
+    .primary_key
+      color: #999
 
 .default_input
-  border: 1px solid #BBB
+  border: 1px solid transparent
   background: #FFF
   +border-radius(2)
-  +box-shadow(0, 1, 0, #FFFFFF)
   padding: 2px 5px 2px 5px
   width: 300px
   +box-model
@@ -411,6 +409,9 @@ table.data_table
   input[type="text"]
     @extend .default_input
     width: 200px
+    min-height: 20px
+    padding-top: 5px
+    padding-bottom: 3px
 
 form
   .node
@@ -551,6 +552,8 @@ form
     font-size: 12px
     color: $g3
     +text-shadow(#fff)
+    a
+      text-decoration: underline
       
   .error_explanation
     margin-left: 20px
@@ -563,7 +566,7 @@ form
 
 
 footer
-  padding-bottom: 20px
+  padding: 20px 0
   +text-shadow(#000, -1)
   text-align: center
   color: gray
@@ -580,17 +583,14 @@ input[type="submit"],
   cursor: pointer
   display: inline-block
   padding: 6px 20px
-  border: 1px solid $b2
   margin: 20px 0 0
   background: $b1
   color: #fff
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4)
   font-weight: bold
   font-size: 18px
   text-decoration: none
+  border: 0
   +border-radius(5)
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.5), inset 0 12px rgba(255, 255, 255, 0.2), inset 0 10px 20px rgba(255, 255, 255, 0.25), inset 0 -12px 25px rgba(0, 0, 0, 0.3)
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.5), inset 0 18px 5px rgba(255, 255, 255, 0.2), inset 0 10px 10px rgba(255, 255, 255, 0.25), inset 0 -12px 25px rgba(0, 0, 0, 0.3)
   +transition-duration(0.3)
   +transition-property(background)
   &:hover
@@ -599,9 +599,8 @@ input[type="submit"],
   &:active
     outline: 0
     background: $b2
-    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.4)
-    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.4), inset 0 -1px rgba(255, 255, 255, 0.5), inset 0 -18px rgba(255, 255, 255, 0.1), inset 0 -10px 10px rgba(255, 255, 255, 0.25), inset 0 -12px 25px rgba(0, 0, 0, 0.3)
-    
+  &:active
+    background: darken($b2, 5%)
 
 
 input[type="submit"].alt_button,
@@ -610,26 +609,20 @@ input[type="submit"].alt_button,
   padding: 12px 50px
   +border-radius(4)
   text-decoration: none
-  border: 1px solid gray
   font-size: 13px
   cursor: pointer
   background: #666
   padding: 5px 10px
-  box-shadow: inset 0 1px 0 rgba(#AAABAA, 0.7), inset 0 -10px 20px rgba(#333, 0.6)
   color: $w1
+  border: 0
   +text-shadow(#444, -1)
+  +transition-duration(0.3)
   &:hover
-    border-color: $b2
-    box-shadow: inset 0 1px 0 rgba(#fff, 0.4), inset 0 -10px 20px rgba(#333, 0.4)
     background: $b1    
   &:active
-    box-shadow: inset 0 -1px 0 rgba(#fff, 0.4), inset 0 10px 20px rgba(#333, 0.4)
-    +text-shadow(#444)
+    background: darken($b2, 5%)
   &:focus
     outline: 0
-    +transition-duration(1)
-    +transition-property(box-shadow)
-    box-shadow: 0 1px 12px $b2
 
 #flash_massages
   display: block
@@ -667,7 +660,6 @@ input[type="submit"].alt_button,
     color: #3E3E3E
     border-color: #B7B7B7
     +text-shadow(#fff)
-    box-shadow: inset 0 1px 0 rgba(#fff, 0.4), inset 0 -10px 10px rgba(#333, 0.1)
     &:hover
       color: #fff
       +text-shadow(#999)
@@ -737,7 +729,6 @@ input[type="submit"].alt_button,
   button
     background: white !important
     padding: 2px 4px 4px 4px !important
-    box-shadow: none
     &:hover
       background: $g2 !important
       
@@ -748,16 +739,15 @@ input[type="submit"].alt_button,
   padding: 5px 10px
   background: #E5E5E5
   border: 1px solid #C1C2DC
-  +box-inner-shadow(0, 1, 0, #fff)
   +border-radius(2)
   +text-shadow(#fff)
   color: #535b6f
+  margin-top: -2px
   .header
     position: relative
     margin-bottom: 5px
     padding-bottom: 5px
     border-bottom: 1px solid #C1C2DC
-    +box-shadow(0, 1, 0, #fff)
     .title
       padding-top: 3px
       text-align: center
@@ -924,9 +914,7 @@ input[type="submit"].alt_button,
   left: 50%
   z-index: 4000
   +border-bottom-radius(4)
-  background: image-url('bhf/ajax_loader.gif') no-repeat center 16px, -webkit-gradient(linear, left top, left bottom, from($b1), to($b2))
-  background: image-url('bhf/ajax_loader.gif') no-repeat center 16px, -moz-linear-gradient(top, $b1, $b2)
-  border: 1px solid $b1
+  background: $b1 image-url('bhf/ajax_loader.gif') no-repeat center 16px
   +box-shadow(0, 1, 4)
   +transition-duration(0.6)
   &.loading
@@ -1070,18 +1058,40 @@ input[type="submit"].alt_button,
     font-family: arial, helvetica, sans-serif
   > form
     input[type="text"] 
-      border: 1px solid #999999
+      border: 0
       color: black
   > form
     input[type="button"]
-      border: 1px solid #888888
+      border: 0
       font-size: 0.8em
       font-weight: bold
 
 
-// TODO: bigger ration buttons
+// TODO: bigger radio buttons
 
 
 // TODO: remove me
 .translation_missing
   color: red !important
+  
+
+@media screen and (-webkit-min-device-pixel-ratio: 1.5), screen and (min--moz-device-pixel-ratio: 1.5), screen and (min-device-pixel-ratio: 1.5)
+  table.data_table
+    tbody
+      a
+        &.duplicate,
+        &.edit,
+        &.delete
+          background-image: image-url('bhf/pictos_2x.png')
+          background-size: 377px 152px
+      .handle
+        background-image: image-url('bhf/pictos_2x.png')
+        background-size: 377px 152px
+
+  #content
+    .quick_edit_holder
+      .group
+        button
+          &.save_and_next
+            background-image: image-url('bhf/pictos_2x.png')
+            background-size: 377px 152px
