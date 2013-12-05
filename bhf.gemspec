@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "bhf"
-  s.version = "0.6.6"
+  s.version = "0.6.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = "2013-11-21"
+  s.date = "2013-12-05"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -58,6 +58,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/has_one/_static.haml",
     "app/views/bhf/entries/new.haml",
     "app/views/bhf/entries/show.haml",
+    "app/views/bhf/helper/_definition_item.haml",
     "app/views/bhf/helper/_field_errors.haml",
     "app/views/bhf/helper/_flash.haml",
     "app/views/bhf/helper/_frontend_edit.haml",
@@ -109,10 +110,11 @@ Gem::Specification.new do |s|
     "vendor/assets/images/bhf/bg.png",
     "vendor/assets/images/bhf/mooeditable-toolbarbuttons-tango.png",
     "vendor/assets/images/bhf/pictos.png",
+    "vendor/assets/images/bhf/pictos_2x.png",
     "vendor/assets/images/bhf/small_ajax_loader.gif",
     "vendor/assets/images/bhf/small_ajax_loader_h.gif",
     "vendor/assets/images/bhf/wmd-buttons.png",
-    "vendor/assets/images/logo_bhf.png",
+    "vendor/assets/images/logo_bhf.svg",
     "vendor/assets/javascripts/bhf/application.js",
     "vendor/assets/javascripts/bhf/classes/AjaxEdit.js",
     "vendor/assets/javascripts/bhf/classes/Ajaxify.js",
