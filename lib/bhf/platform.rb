@@ -173,7 +173,7 @@ module Bhf
     private
 
       def do_search(chain, search_params)
-        search_condition = if search?
+        search_condition = if table_options(:search)
           search_params
         else
           model.bhf_default_search(search_params)
@@ -219,7 +219,6 @@ module Bhf
 
         # TODO: test polymorphic
         model.reflections.each_pair do |name, props|
-          Bhf::Data::Reflection.new(props)
           all[name.to_s] = Bhf::Data::Reflection.new(props, {
             overwrite_type: form_options(:types, name),
             overwrite_display_type: table_options(:types, name),
