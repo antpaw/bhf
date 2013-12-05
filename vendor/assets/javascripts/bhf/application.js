@@ -5,8 +5,8 @@
 //= require_tree ./classes/
 
 var ajaxNote = new Ajaxify();
-var quickEdit = new AjaxEdit();
 var bhfInit = function(){
+	var quickEdit = new AjaxEdit();
 	ajaxNote.setup();
 	var lang = document.html.get('lang');
 	if (lang === 'en') {
@@ -182,6 +182,7 @@ var bhfInit = function(){
 						parent.innerHTML = html;
 						setupSortables(parent);
 						ajaxNote.success();
+						window.fireEvent('platformUpdate', [parent]);
 					}
 				}).send({data: this});
 			},
@@ -339,7 +340,6 @@ if (document.addEventListener) {
 	});
 
 	document.addEventListener('page:load', function(){
-		quickEdit.removeEvents();
 		bhfInit();
 		rails.applyEvents();
 		ajaxNote.success();
