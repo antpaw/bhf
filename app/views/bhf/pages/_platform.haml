@@ -1,14 +1,16 @@
 - platform.pagination.template = self
-%table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
-  %caption
-    %h4= platform.title
-    %p.info= platform.pagination.info platform
-    - unless platform.hide_create
-      %p.create= link_to new_t(platform), new_bhf_entry_path(platform.name), class: :alt_button
-    - unless platform.custom_partial
-      = render partial: 'search', locals: {platform: platform} if platform.search?
+- if platform.custom_partial
+  = render partial: "bhf/pages/#{platform.custom_partial}"
+- else
+  %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
+    %caption
+      %h4= platform.title
+      %p.info= platform.pagination.info platform
+      - unless platform.hide_create
+        %p.create= link_to new_t(platform), new_bhf_entry_path(platform.name), class: :alt_button
+      - unless platform.custom_partial
+        = render partial: 'search', locals: {platform: platform} if platform.search?
 
-  - unless platform.custom_partial
     %thead
       %tr
         - if platform.sortable
@@ -58,5 +60,3 @@
           - unless platform.hide_create
             = link_to new_t(platform), new_bhf_entry_path(platform.name)
 
-- if platform.custom_partial
-  = render partial: "bhf/pages/#{platform.custom_partial}"

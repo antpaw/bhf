@@ -90,7 +90,7 @@ header
   max-height: 200px
 
 .content_box
-  margin: 10px 10px 20px 20px
+  margin: 10px 20px 20px 20px
 .dl
   +text-shadow(#fff)
   .dt
@@ -108,9 +108,16 @@ header
       background: #3E3E3E
       color: #C2C2C2
       text-align: left
+  tr
+    &:hover
+      td
+        background: #E0E0E0
   tbody
     td
       border-bottom: 1px solid #E0E0E0
+      &.no_content
+        border-color: transparent
+        background: transparent
 .font_size_bigger
   font-size: 1.2em
     
