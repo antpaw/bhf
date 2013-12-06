@@ -1,11 +1,13 @@
 %h3= show_t @platform
-.dl.content_box
-  - @platform.definitions.each do |column|
-    - tmp = column.field.show_type ? column.field.show_type : column.field.display_type
-    = definition_item @object, column do
-      = render(partial: "bhf/pages/macro/#{column.field.macro}/#{tmp}", locals: {column: column, object: @object})
+- if @platform.definitions.any?
+  .dl.content_box
+    - @platform.definitions.each do |column|
+      - tmp = column.field.show_type ? column.field.show_type : column.field.display_type
+      = definition_item @object, column do
+        = render(partial: "bhf/pages/macro/#{column.field.macro}/#{tmp}", locals: {column: column, object: @object})
 
-.content_box
-  - @platform.show_extra_fields.each do |name|
-    = render(partial: "bhf/pages/show/#{name}", locals: {name: name, object: @object})
+- if @platform.show_extra_fields and @platform.show_extra_fields.any?
+  .content_box
+    - @platform.show_extra_fields.each do |name|
+      = render(partial: "bhf/pages/show/#{name}", locals: {name: name, object: @object})
       
