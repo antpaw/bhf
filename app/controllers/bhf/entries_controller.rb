@@ -75,9 +75,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   end
   
   def sort
-    return unless @platform.sortable
-    
-    sort_attr = @platform.sortable.to_sym
+    sort_attr = (@platform.sortable_property || @platform.sortable).to_sym
     
     params[:order].each do |order|
       @model.

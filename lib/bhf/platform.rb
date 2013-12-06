@@ -146,6 +146,10 @@ module Bhf
       table_options 'sortable'
     end
 
+    def sortable_property
+      table_options 'sortable_property'
+    end
+
     def hide_edit
       table_options 'hide_edit'
     end

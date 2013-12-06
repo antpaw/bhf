@@ -1,6 +1,6 @@
 - platform.pagination.template = self
 - if platform.custom_partial
-  = render partial: "bhf/pages/#{platform.custom_partial}"
+  = render partial: "bhf/pages/#{platform.custom_partial}", locals: {platform: platform}
 - else
   %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
     %caption
@@ -36,7 +36,7 @@
           %tr{id: "#{object.id}_#{platform.name}"}
             - if platform.sortable
               %td.drag
-                %span.handle &nbsp;
+                %span.handle.icon &nbsp;
             -# TODO: external link partial from anpex
             - platform.columns.each do |column|
               %td{class: "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
@@ -49,11 +49,11 @@
             %td.action{class: (:wider if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
               - if platform.show_duplicate
                 - dt = duplicate_t(platform)
-                = link_to dt, duplicate_bhf_entry_path(platform.name, object), class: 'duplicate', method: :post, title: dt
+                = link_to dt, duplicate_bhf_entry_path(platform.name, object), class: 'icon duplicate', method: :post, title: dt
               - unless platform.hide_edit
-                = link_to edit_t(platform), edit_link, class: 'edit'
+                = link_to edit_t(platform), edit_link, class: 'icon edit'
               - unless platform.hide_delete
-                = link_to delete_t(platform), bhf_entry_path(platform.name, object), method: :delete, remote: true, class: :delete, data: {confirm: t('bhf.helpers.promts.confirm')}
+                = link_to delete_t(platform), bhf_entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete', data: {confirm: t('bhf.helpers.promts.confirm')}
       - else
         %td.no_entries{colspan: platform.columns_count}
           = t 'bhf.pagination.info', name_zero: platform.title, count: 0
