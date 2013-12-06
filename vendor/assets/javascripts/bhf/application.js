@@ -99,6 +99,18 @@ var bhfInit = function(){
 			new Setlatlng(lat);
 	    });
 	};
+	var windowHight = document.body.clientHeight;
+	window.onresize = function(e){
+		windowHight = document.body.clientHeight;
+	};
+	var scrollContent = function(){
+		var innerForm = quickEdit.holder.getElement('form');
+		if ( ! innerForm) { return; }
+		var scroll = document.body.scrollTop-83;
+		if (scroll + innerForm.getSize().y > windowHight) { return; }
+		quickEdit.holder.setStyle('padding-top', scroll);
+	};
+	// window.onscroll = scrollContent;
 
 	quickEdit.setup({
 		holderParent: $('content'),
@@ -307,25 +319,10 @@ var bhfInit = function(){
 			}
 		});
 	}
-	var windowHight = document.body.clientHeight;
-	window.onresize = function(e){
-		windowHight = document.body.clientHeight;
-	};
-	var scrollContent = function(){
-		var innerForm = quickEdit.holder.getElement('form');
-		if ( ! innerForm) { return; }
-		var scroll = document.body.scrollTop-70;
-		if (scroll < 10) {
-			scroll = 10;
-		}
-		if (scroll + innerForm.getSize().y > windowHight) { return; }
-		quickEdit.holder.setStyle('padding-top', scroll);
-	};
-	window.onscroll = scrollContent;
 
 	var fm = $('flash_massages');
 	if (fm) {
-		fm.removeClass.delay(4000, fm, 'show');
+		fm.removeClass.delay(10000, fm, 'show');
 	}
 
 	new BrowserUpdate({vs:{i:8,f:7,o:10.01,s:4,n:9}});

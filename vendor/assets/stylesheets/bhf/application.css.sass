@@ -263,13 +263,13 @@ table.data_table
       &.primary_key
         text-transform: uppercase
       &.sorted
-        +box-inner-shadow(0, -15, 50, #000)
+        background: #000
         & a:after,
         &.desc:hover a:after
-          content: ' ▼'
+          content: ' ▲'
         &:hover a:after,
         &.desc a:after
-          content: ' ▲'
+          content: ' ▼'
         a
           color: #FFFFFF
           +text-shadow
@@ -299,7 +299,6 @@ table.data_table
         a
           font-weight: bold
           display: inline
-			
     a
       display: block
       padding: 5px 3px
@@ -309,33 +308,12 @@ table.data_table
         padding: 0
         margin-right: 5px
         display: inline-block
-        text-indent: -9999px
-        width: 20px
-        height: 20px
-        background: image-url('bhf/pictos.png') no-repeat
-        &.clicked
-          background: image-url('bhf/small_ajax_loader.gif') no-repeat center center
-      &.duplicate
-        width: 24px
-      &.duplicate
-        background-position: -348px 0
-        &:active
-          background-position: -348px -101px
-      &.edit
-        &:active
-          background-position: 0 -101px
-      &.delete
-        background-position: -50px 0
-        &:active
-          background-position: -50px -101px
 
     .handle
-      background: image-url('bhf/pictos.png') no-repeat -94px 0
-      cursor: move
       display: block
     
 
-    tr      
+    tr
       &:hover td,
       &.live_edit td
         +bg-gradient($b1, $b2)
@@ -354,9 +332,9 @@ table.data_table
           &:hover
             background-position: -50px -100px
         .handle
-          background-position: -94px -50px
+          background-position: -98px -50px
           &:hover
-            background-position: -94px -100px
+            background-position: -98px -100px
         .duplicate,
         .edit,
         .delete
@@ -394,6 +372,25 @@ table.data_table
   tbody
     .primary_key
       color: #999
+.icon
+  text-indent: -9999px
+  display: inline-block
+  width: 20px
+  height: 20px
+  background: image-url('bhf/pictos.png') no-repeat
+  &.duplicate,
+  &.edit,
+  &.delete
+    &.clicked
+      background: image-url('bhf/small_ajax_loader.gif') no-repeat center center
+  &.duplicate
+    width: 24px
+    background-position: -348px 0
+  &.delete
+    background-position: -50px 0
+  &.handle
+    background-position: -98px 0
+    cursor: move
 
 .default_input
   border: 1px solid transparent
@@ -908,7 +905,12 @@ input[type="submit"].alt_button,
 
 .hide
   display: none !important
-  
+.float_left
+  float: left
+.float_right
+  float: right
+.clear
+  clear: both
   
 #ajax_holder
   text-indent: -9999px
@@ -1083,18 +1085,9 @@ input[type="submit"].alt_button,
   
 
 @media screen and (-webkit-min-device-pixel-ratio: 1.5), screen and (min--moz-device-pixel-ratio: 1.5), screen and (min-device-pixel-ratio: 1.5)
-  table.data_table
-    tbody
-      a
-        &.duplicate,
-        &.edit,
-        &.delete
-          background-image: image-url('bhf/pictos_2x.png')
-          background-size: 377px 152px
-      .handle
-        background-image: image-url('bhf/pictos_2x.png')
-        background-size: 377px 152px
-
+  .icon
+    background-image: image-url('bhf/pictos_2x.png')
+    background-size: 377px 152px
   #content
     .quick_edit_holder
       .group
