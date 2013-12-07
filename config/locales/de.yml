@@ -32,6 +32,8 @@ de:
       file:
         delete: Datei löschen
         reselect: Bitte die Datei noch mal auswählen
+      image:
+        delete: Bild löschen
 
     quick_edit:
       buttons:

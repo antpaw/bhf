@@ -35,6 +35,8 @@ en:
       file:
         delete: Delete file
         reselect: Please reselect the file
+      image:
+        delete: Delete image
       input:
         date_format:
           timestamp: '%Y-%m-%d %H:%M'
