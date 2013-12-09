@@ -6,7 +6,6 @@ require 'kaminari'
 
 module Bhf
   class Engine < Rails::Engine
-
     # Config defaults
     config.page_title = nil
     config.mount_at = 'bhf'

@@ -48,7 +48,7 @@ module Bhf
           else
             self.class.to_s.humanize
           end
-          return "#{klass_name} ID: #{send(self.class.primary_key)}" if attributes[self.class.primary_key]
+          return "#{klass_name} ID: #{send(self.class.bhf_primary_key)}" if attributes[self.class.bhf_primary_key]
         end
 
         self.to_s.humanize
