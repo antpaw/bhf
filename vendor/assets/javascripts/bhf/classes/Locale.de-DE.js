@@ -7,6 +7,7 @@ Locale.define('de-DE', 'DatePicker', {
 	week: 'W'
 });
 
-Locale.define('de-DE', 'Messages', {
-	warning: 'Etwas ist schief gelaufen!'
+Locale.define('de-DE', 'Notifications', {
+	failure: 'Etwas ist schief gelaufen!'
 });
+

@@ -8,6 +8,6 @@ Locale.define('en-US', 'DatePicker', {
 });
 
 
-Locale.define('de-DE', 'Messages', {
-	warning: 'Something went wrong!'
+Locale.define('de-DE', 'Notifications', {
+	failure: 'Something went wrong!'
 });

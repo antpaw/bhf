@@ -3,19 +3,19 @@
 //= require ./mootools-more-1.4.0.1.js
 //= require ./mootools_ujs_ap
 //= require_tree ./classes/
+var lang = document.html.get('lang');
+if (lang === 'en') {
+	lang = 'en-US';
+}
+else {
+	lang = lang+'-'+lang.toUpperCase();
+}
+Locale.use(lang);
 
 var ajaxNote = new Ajaxify();
 var bhfInit = function(){
 	var quickEdit = new AjaxEdit();
 	ajaxNote.setup();
-	var lang = document.html.get('lang');
-	if (lang === 'en') {
-		lang = 'en-US';
-	}
-	else {
-		lang = lang+'-'+lang.toUpperCase();
-	}
-	Locale.use(lang);
 	var wysiwyg = [];
 	var setupJsForm = function(scope){
 		scope.getElements('.wysiwyg').each(function(elem){
@@ -141,6 +141,9 @@ var bhfInit = function(){
 			scope.getElements('.sortable').each(function(sortableElems){
 				new Sortables(sortableElems, {
 					handle: '.handle',
+					onFailure: function(invalidForm){
+						ajaxNote.failure();
+					},
 					onStart: function(element, clone){
 						element.addClass('dragged');
 					},
@@ -159,6 +162,9 @@ var bhfInit = function(){
 			new Request.HTML({
 				method: 'get',
 				url: href,
+				onFailure: function(invalidForm){
+					ajaxNote.failure();
+				},
 				onSuccess: function(a, b, html, js){
 					platform.innerHTML = html;
 					if (callback) {
@@ -190,6 +196,9 @@ var bhfInit = function(){
 				new Request.HTML({
 					method: 'get',
 					url: this.get('action'),
+					onFailure: function(invalidForm){
+						ajaxNote.failure();
+					},
 					onSuccess: function(a, b, html){
 						parent.innerHTML = html;
 						setupSortables(parent);
@@ -221,6 +230,9 @@ var bhfInit = function(){
 		});
 
 		quickEdit.addEvents({
+			onFailure: function(invalidForm){
+				ajaxNote.failure();
+			},
 			successAndChange: function(json){
 				var tr = this.wrapElement;
 				tr.getElements('td').each(function(td){
@@ -288,6 +300,9 @@ var bhfInit = function(){
 		});
 
 		quickEdit.addEvents({
+			onFailure: function(invalidForm){
+				ajaxNote.failure();
+			},
 			successAndAdd: function(json){
 				var relation = this.wrapElement.getPrevious('.relation');
 				relation.getPrevious('.empty').addClass('hide');

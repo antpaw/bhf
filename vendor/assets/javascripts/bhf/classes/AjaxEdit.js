@@ -44,6 +44,9 @@ var AjaxEdit = new Class({
 			method: 'get',
 			evalScripts: false,
 			url: element.get('href'),
+			onFailure: function(invalidForm){
+				this.fireEvent('failure');
+			}.bind(this),
 			onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript){
 				this.injectForm(responseHTML);
 				eval(responseJavaScript);

@@ -4,7 +4,12 @@ var Ajaxify = new Class({
 	Implements: [Options, Events],
 
 	options: {
-		events: {
+		holder: new Element('div#ajax_holder'),
+		fadeOutDuration: 2000
+	},
+
+	initialize: function(_options) {
+		this.options.events = {
 			loading: {
 				name: 'ajax:loading',
 				text: 'Loading…'
@@ -15,14 +20,9 @@ var Ajaxify = new Class({
 			},
 			failure: {
 				name: 'ajax:failure',
-				text: 'Oops, something went wrong…'
+				text: Locale.get('Notifications.failure')
 			}
-		},
-		holder: new Element('div#ajax_holder'),
-		fadeOutDuration: 2000
-	},
-
-	initialize: function(_options) {
+		};
 		this.setOptions(_options);
 	},
 	
@@ -48,7 +48,7 @@ var Ajaxify = new Class({
 		this.setMessage('success', true);
 	},
 	failure: function(xhr){
-		this.setMessage('failure', true);
+		this.setMessage('failure', false);
 	},
 
 	setMessage: function(status, fadeOut) {
