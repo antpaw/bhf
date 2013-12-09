@@ -3,8 +3,9 @@
   .dl.content_box
     - @platform.definitions.each do |column|
       - tmp = column.field.show_type ? column.field.show_type : column.field.display_type
-      = definition_item @object, column do
-        = render(partial: "bhf/pages/macro/#{column.field.macro}/#{tmp}", locals: {column: column, object: @object})
+      - if ! @object.send(column.name).blank?
+        = definition_item @object, column do
+          = render(partial: "bhf/pages/macro/#{column.field.macro}/#{tmp}", locals: {column: column, object: @object})
 
 - if @platform.show_extra_fields and @platform.show_extra_fields.any?
   .content_box

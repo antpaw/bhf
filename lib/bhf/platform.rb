@@ -30,6 +30,10 @@ module Bhf
       table_options(:search) != false
     end
     
+    def table_hide?
+      table_options(:hide) == true
+    end
+    
     def search_field?
       table_options(:search_field) != false
     end
