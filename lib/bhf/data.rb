@@ -1,7 +1,7 @@
 module Bhf
   module Data
     class AbstractField
-      attr_reader :name, :info, :macro, :display_type, :form_type, :show_type, :overwrite_type, :overwrite_display_type, :overwrite_show_type
+      attr_reader :name, :info, :macro, :link, :display_type, :form_type, :show_type, :overwrite_type, :overwrite_display_type, :overwrite_show_type
       
       def initialize(props)
         @name = props[:name]
@@ -12,6 +12,7 @@ module Bhf
         @overwrite_display_type = props[:display_type]
         @info = props[:info]
         @macro = :column
+        @link = props[:link].downcase.to_sym unless props[:link].blank?
       end
     end
 

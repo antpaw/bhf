@@ -206,7 +206,8 @@ module Bhf
               form_type: form_options(:types, attr_name) || attr_name,
               display_type: table_options(:types, attr_name) || attr_name,
               show_type: show_options(:types, attr_name) || table_options(:types, attr_name) || attr_name,
-              info: I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", default: '')
+              info: I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", default: ''),
+              link: form_options(:links, attr_name)
             })
           )
         end
