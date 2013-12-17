@@ -132,6 +132,8 @@ header
   background: #EAEAEA
   box-sizing: border-box
   +box-shadow(0, 1, 4, rgba($k1, 0.5))
+.quick_edit_helper,
+#main
   > h3
     padding: 9px 20px
     background: #dbdbdb
@@ -153,14 +155,21 @@ header
     color: $g3
     +text-shadow(#fff)
   .quick_edit_holder
-    +transition-duration(0.3)
-    +transition-delay(0.2)
+    &.collapsed
+      width: 50px
+      max-width: auto
+      background: rgb(197, 197, 197)
+      .quick_edit_helper
+        display: none
+
     overflow-x: auto
     position: relative
     max-width: 400px
     width: 400px
     vertical-align: top
+    padding: 0
     form
+      padding: 10px 20px
       margin-left: 0
       padding-bottom: 10px
     .node,
@@ -175,10 +184,6 @@ header
       width: 300px
       height: 100px
     
-  .quick_edit_holder
-    padding: 0
-    form
-      padding: 10px 20px
     .group
       margin-top: 0
       margin-bottom: 10px
@@ -197,10 +202,10 @@ header
         &:focus
           outline: 0
         &.save
-          border-right: 1px solid $b2
           &:hover
             color: darken($b2, 15%)
         &.save_and_next
+          border-left: 1px solid $b2
           text-indent: -9999px
           background: image-url('bhf/pictos.png') no-repeat -140px -40px
           width: 40px
@@ -209,7 +214,7 @@ header
             background-position: -140px -90px
         
 
-    > button
+    .quick_edit_helper > a
       &.cancel,
       &.open
         float: right
@@ -626,7 +631,8 @@ input[type="submit"].alt_button,
   +text-shadow(#444, -1)
   +transition-duration(0.3)
   &:hover
-    background: $b1    
+    background: $b1
+    text-decoration: none
   &:active
     background: darken($b2, 5%)
   &:focus
@@ -947,8 +953,7 @@ input[type="submit"].alt_button,
     marign-left: -120px
     font-weight: bold
     
-  
-  
+
 
 .wmd-preview,
 .wmd-output 

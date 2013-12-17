@@ -22,6 +22,7 @@ module Bhf
       model_name = I18n.t(t_model_path, count: 0, default: @name.singularize.capitalize)
       @title_zero = I18n.t("bhf.platforms.#{@name}.title", count: 0, default: model_name)
 
+      @model = model
       @page_name = page_name
       @user = user
     end
@@ -31,7 +32,7 @@ module Bhf
     end
     
     def table_hide?
-      table_options(:hide) == true
+      table_options(:hide) == true || model.bhf_embedded?
     end
     
     def search_field?
@@ -81,6 +82,7 @@ module Bhf
     end
 
     def model
+      return @model if @model
       return @data['model'].constantize if @data['model']
       @name.singularize.camelize.constantize
     end

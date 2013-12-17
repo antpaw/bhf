@@ -1,13 +1,14 @@
 var AjaxEdit = new Class({
 	version: 0.2,
-
+	
 	options: {
-		holderParent: document.body
+		holderParent: 'content',
+		hideNext: false
 	},
-
+	
 	Implements: [Options, Events],
-
-	setup: function(_options) {
+	
+	initialize: function(_options){
 		this.setOptions(_options);
 		this.holder = new Element('div.quick_edit_holder').addEvents({
 			'click:relay(.open)': function(e){
@@ -32,7 +33,7 @@ var AjaxEdit = new Class({
 			}.bind(this)
 		});
 	},
-
+	
 	startEdit: function(element, wrapElement){
 		this.clean();
 		this.wrapElement = wrapElement ? wrapElement : element;
@@ -50,15 +51,20 @@ var AjaxEdit = new Class({
 			onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript){
 				this.injectForm(responseHTML);
 				eval(responseJavaScript);
+				
+				if (this.options.hideNext) {
+					this.holder.getElement('.save_and_next').addClass('hide');
+				}
+				
 				window.fireEvent('quickEditReady', [this.holder]);
 			}.bind(this)
 		}).send();
 	},
-
+	
 	submit: function(eventNames){
 		var form = this.holder.getElement('form');
 		this.fireEvent('beforeSubmit');
-
+		
 		new Request.JSON({
 			method: form.get('method'),
 			url: form.get('action'),
@@ -83,24 +89,33 @@ var AjaxEdit = new Class({
 			}.bind(this)
 		}).send({data: form});
 	},
-
+	
 	disableButtons: function(){
 		this.holder.getElements('.open, .cancel, .save_and_next, .save').set('disabled', 'disabled');
 	},
-
+	
 	clean: function(){
 		document.body.getElements('.live_edit').removeClass('live_edit');
 	},
-
+	
 	close: function(){
 		this.clean();
 		this.holder.dispose();
+		this.fireEvent('closed')
 	},
-
+	
 	injectForm: function(form){
 		this.holder.innerHTML = form;
-		this.holder.inject(this.options.holderParent);
+		this.holder.inject($(this.options.holderParent));
 		
 		this.fireEvent('formInjected', [this.holder]);		
+	},
+	
+	hide: function(){
+		this.holder.addClass('collapsed');
+	},
+	
+	show: function(){
+		this.holder.removeClass('collapsed');
 	}
 });

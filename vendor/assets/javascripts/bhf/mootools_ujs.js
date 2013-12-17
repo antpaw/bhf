@@ -37,7 +37,7 @@ window.addEvent('domready', function(){
     applyEvents: function(el){
       el = $(el || document.body);
       var apply = function(selector, action, callback){
-        el.addEvent(action + ':relay(' + selector + ')', callback);
+        el.getElements(selector).addEvent(action, callback);
       };
       
       apply('form[data-remote="true"]', 'submit', rails.handleRemote);
