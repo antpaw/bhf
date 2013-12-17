@@ -21,7 +21,13 @@ module Bhf
     config.js = []
     
     # config.bhf_logic = YAML::load(IO.read('config/bhf.yml'))
-
+    
+    initializer 'bhf.action_controller' do |app|
+      ActiveSupport.on_load :action_controller do
+        helper Bhf::FrontendHelper
+      end
+    end
+    
   end
 end
 
@@ -29,7 +35,6 @@ require 'bhf/i18n'
 require 'bhf/active_record/active_record'
 require 'bhf/active_record/upload'
 require 'bhf/mongoid/document'
-require 'bhf/view_helpers'
 require 'bhf/data'
 require 'bhf/platform'
 require 'bhf/settings'
@@ -45,4 +50,3 @@ if defined?(Mongoid)
   ::Mongoid::Document.send :include, Bhf::Mongoid::Document
 end
 
-::ActionView::Base.send :include, Bhf::ViewHelpers::ActionView

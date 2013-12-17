@@ -5,23 +5,58 @@
 
 Gem::Specification.new do |s|
   s.name = "bhf"
-  s.version = "0.6.15"
+  s.version = "0.6.20"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
-  s.date = "2013-12-09"
+  s.date = "2013-12-17"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
     "README.md"
   ]
   s.files = [
+    "app/assets/images/bhf/ajax_loader.gif",
+    "app/assets/images/bhf/bg.png",
+    "app/assets/images/bhf/mooeditable-toolbarbuttons-tango.png",
+    "app/assets/images/bhf/pictos.png",
+    "app/assets/images/bhf/pictos_2x.png",
+    "app/assets/images/bhf/small_ajax_loader.gif",
+    "app/assets/images/bhf/small_ajax_loader_h.gif",
+    "app/assets/images/bhf/wmd-buttons.png",
+    "app/assets/images/logo_bhf.svg",
+    "app/assets/javascripts/bhf/application.js",
+    "app/assets/javascripts/bhf/classes/AjaxEdit.js",
+    "app/assets/javascripts/bhf/classes/AjaxEditStack.js",
+    "app/assets/javascripts/bhf/classes/Ajaxify.js",
+    "app/assets/javascripts/bhf/classes/ArrayFields.js",
+    "app/assets/javascripts/bhf/classes/FormHelper.js",
+    "app/assets/javascripts/bhf/classes/Locale.de-DE.js",
+    "app/assets/javascripts/bhf/classes/Locale.en-US.js",
+    "app/assets/javascripts/bhf/classes/MooEditable.js",
+    "app/assets/javascripts/bhf/classes/MultipleFields.js",
+    "app/assets/javascripts/bhf/classes/Picker.js",
+    "app/assets/javascripts/bhf/classes/Picker_Attach.js",
+    "app/assets/javascripts/bhf/classes/Picker_Date.js",
+    "app/assets/javascripts/bhf/classes/PlatformHelper.js",
+    "app/assets/javascripts/bhf/classes/Setlatlng.js",
+    "app/assets/javascripts/bhf/classes/showdown.js",
+    "app/assets/javascripts/bhf/classes/wmd.js",
+    "app/assets/javascripts/bhf/mootools-core-1.4.5-full-compat.js",
+    "app/assets/javascripts/bhf/mootools-more-1.4.0.1.js",
+    "app/assets/javascripts/bhf/mootools_ujs.js",
+    "app/assets/stylesheets/bhf/MooEditable.css.scss",
+    "app/assets/stylesheets/bhf/application.css.sass",
+    "app/assets/stylesheets/bhf/functions.css.sass",
+    "app/assets/stylesheets/bhf/reset.css.sass",
+    "app/assets/stylesheets/bhf/typo.css.scss",
     "app/controllers/bhf/application_controller.rb",
     "app/controllers/bhf/embed_entries_controller.rb",
     "app/controllers/bhf/entries_controller.rb",
     "app/controllers/bhf/pages_controller.rb",
     "app/helpers/bhf/application_helper.rb",
     "app/helpers/bhf/entries_helper.rb",
+    "app/helpers/bhf/frontend_helper.rb",
     "app/helpers/bhf/pages_helper.rb",
     "app/views/bhf/_footer.haml",
     "app/views/bhf/_user.haml",
@@ -104,40 +139,8 @@ Gem::Specification.new do |s|
     "lib/bhf/pagination.rb",
     "lib/bhf/platform.rb",
     "lib/bhf/settings.rb",
-    "lib/bhf/view_helpers.rb",
-    "lib/rails/generators/bhf/templates/initializer.rb",
-    "vendor/assets/images/bhf/ajax_loader.gif",
-    "vendor/assets/images/bhf/bg.png",
-    "vendor/assets/images/bhf/mooeditable-toolbarbuttons-tango.png",
-    "vendor/assets/images/bhf/pictos.png",
-    "vendor/assets/images/bhf/pictos_2x.png",
-    "vendor/assets/images/bhf/small_ajax_loader.gif",
-    "vendor/assets/images/bhf/small_ajax_loader_h.gif",
-    "vendor/assets/images/bhf/wmd-buttons.png",
-    "vendor/assets/images/logo_bhf.svg",
-    "vendor/assets/javascripts/bhf/application.js",
-    "vendor/assets/javascripts/bhf/classes/AjaxEdit.js",
-    "vendor/assets/javascripts/bhf/classes/Ajaxify.js",
-    "vendor/assets/javascripts/bhf/classes/ArrayFields.js",
-    "vendor/assets/javascripts/bhf/classes/BrowserUpdate.js",
-    "vendor/assets/javascripts/bhf/classes/Locale.de-DE.js",
-    "vendor/assets/javascripts/bhf/classes/Locale.en-US.js",
-    "vendor/assets/javascripts/bhf/classes/MooEditable.js",
-    "vendor/assets/javascripts/bhf/classes/MultipleFields.js",
-    "vendor/assets/javascripts/bhf/classes/Picker.js",
-    "vendor/assets/javascripts/bhf/classes/Picker_Attach.js",
-    "vendor/assets/javascripts/bhf/classes/Picker_Date.js",
-    "vendor/assets/javascripts/bhf/classes/Setlatlng.js",
-    "vendor/assets/javascripts/bhf/classes/showdown.js",
-    "vendor/assets/javascripts/bhf/classes/wmd.js",
-    "vendor/assets/javascripts/bhf/mootools-core-1.4.5-full-compat.js",
-    "vendor/assets/javascripts/bhf/mootools-more-1.4.0.1.js",
-    "vendor/assets/javascripts/bhf/mootools_ujs_ap.js",
-    "vendor/assets/stylesheets/bhf/MooEditable.css.scss",
-    "vendor/assets/stylesheets/bhf/application.css.sass",
-    "vendor/assets/stylesheets/bhf/functions.css.sass",
-    "vendor/assets/stylesheets/bhf/reset.css.sass",
-    "vendor/assets/stylesheets/bhf/typo.css.scss"
+    "lib/initializer/bhf.rb",
+    "lib/rails/generators/bhf/templates/initializer.rb"
   ]
   s.homepage = "http://github.com/antpaw/bhf"
   s.licenses = ["MIT"]
