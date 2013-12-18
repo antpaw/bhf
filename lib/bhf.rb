@@ -6,9 +6,11 @@ require 'kaminari'
 
 module Bhf
   class Engine < Rails::Engine
+    
+    isolate_namespace Bhf
+    
     # Config defaults
     config.page_title = nil
-    config.mount_at = 'bhf'
     config.on_login_fail = :root_url
     config.logout_path = :logout_path
     config.session_auth_name = :is_admin
@@ -18,29 +20,14 @@ module Bhf
     config.css = []
     config.js = []
     
-    config.bhf_routes = lambda {
-      namespace :bhf, path: Bhf::Engine.config.mount_at do
-        root to: 'application#index'
-
-        get 'page/:page', to: 'pages#show', as: :page
-
-        scope ':platform' do
-          resources :entries, except: [:index] do
-            put :sort, on: :collection
-
-            resources :embed_entries, except: [:index, :show], as: :embed
-            post :duplicate, on: :member
-          end
-        end
-
-      end
-    }
-
-    
-    config.remove_default_routes = false
-    
     # config.bhf_logic = YAML::load(IO.read('config/bhf.yml'))
-
+    
+    initializer 'bhf.action_controller' do |app|
+      ActiveSupport.on_load :action_controller do
+        helper Bhf::FrontendHelper
+      end
+    end
+    
   end
 end
 
@@ -48,7 +35,6 @@ require 'bhf/i18n'
 require 'bhf/active_record/active_record'
 require 'bhf/active_record/upload'
 require 'bhf/mongoid/document'
-require 'bhf/view_helpers'
 require 'bhf/data'
 require 'bhf/platform'
 require 'bhf/settings'
@@ -64,4 +50,3 @@ if defined?(Mongoid)
   ::Mongoid::Document.send :include, Bhf::Mongoid::Document
 end
 
-::ActionView::Base.send :include, Bhf::ViewHelpers::ActionView

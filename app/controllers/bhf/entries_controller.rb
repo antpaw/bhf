@@ -4,7 +4,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   before_filter :load_new_object, only: [:create, :new]
 
   def new
-    @form_url = bhf_entries_path(@platform.name)
+    @form_url = entries_path(@platform.name)
     
     render layout: 'bhf/quick_edit' if @quick_edit
   end
@@ -12,7 +12,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   def edit
     render file: 'public/404.html', layout: false and return unless @object
     
-    @form_url = bhf_entry_path(@platform.name, @object)
+    @form_url = entry_path(@platform.name, @object)
     
     render layout: 'bhf/quick_edit' if @quick_edit
   end
@@ -30,10 +30,10 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('create.success', @model))
+        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('create.success', @model))
       end
     else
-      @form_url = bhf_entries_path(@platform.name)
+      @form_url = entries_path(@platform.name)
 
       r_settings = {status: :unprocessable_entity}
       r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
@@ -52,10 +52,10 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('update.success', @model))
+        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('update.success', @model))
       end
     else
-      @form_url = bhf_entry_path(@platform.name, @object)
+      @form_url = entry_path(@platform.name, @object)
 
       r_settings = {status: :unprocessable_entity}
       r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
@@ -68,9 +68,9 @@ class Bhf::EntriesController < Bhf::ApplicationController
     new_record.before_bhf_duplicate(@object) if new_record.respond_to?(:before_bhf_duplicate)
     if new_record.save
       new_record.after_bhf_duplicate(@object) if new_record.respond_to?(:after_bhf_duplicate)
-      redirect_to(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.success', @model))
+      redirect_to(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.success', @model))
     else
-      redirect_to(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.error', @model))
+      redirect_to(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.error', @model))
     end
   end
   
@@ -91,14 +91,14 @@ class Bhf::EntriesController < Bhf::ApplicationController
     if @quick_edit
       head :ok
     else
-      redirect_back_or_default(bhf_page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('destory.success', @model))
+      redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('destory.success', @model))
     end
   end
 
   private
 
     def object_to_bhf_display_hash
-      @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s, edit_path: edit_bhf_entry_path(@platform.name, @object), object_id: @object.id}) do |column, hash|
+      @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s, edit_path: edit_entry_path(@platform.name, @object), object_id: @object.id}) do |column, hash|
         unless column.field.macro == :column && @object.send(column.name).blank?
           p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
           hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}

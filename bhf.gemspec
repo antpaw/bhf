@@ -56,6 +56,7 @@ Gem::Specification.new do |s|
     "app/controllers/bhf/pages_controller.rb",
     "app/helpers/bhf/application_helper.rb",
     "app/helpers/bhf/entries_helper.rb",
+    "app/helpers/bhf/frontend_helper.rb",
     "app/helpers/bhf/pages_helper.rb",
     "app/views/bhf/_footer.haml",
     "app/views/bhf/_user.haml",
@@ -138,6 +139,10 @@ Gem::Specification.new do |s|
     "lib/bhf/pagination.rb",
     "lib/bhf/platform.rb",
     "lib/bhf/settings.rb",
+<<<<<<< HEAD
+=======
+    "lib/initializer/bhf.rb",
+>>>>>>> routes
     "lib/rails/generators/bhf/templates/initializer.rb"
   ]
   s.homepage = "http://github.com/antpaw/bhf"

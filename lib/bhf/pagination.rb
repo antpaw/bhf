@@ -93,7 +93,7 @@ module Bhf
       direction = plus ? 'more' : 'less'
       template.link_to(
         I18n.t("bhf.pagination.load_#{direction}"),
-        template.bhf_page_path(
+        template.page_path(
           platform.page_name,
           template.params.merge(platform.name => platform_params)
         ), attributes.merge(class: "load_#{direction}")
