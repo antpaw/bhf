@@ -1,4 +1,4 @@
 .content_box
   %ul.basic_info_list
     - @config.pages.each do |page|
-      %li= link_to t("bhf.pages.navigation.#{page}", default: page.capitalize), bhf_page_path(page)
+      %li= link_to t("bhf.pages.navigation.#{page}", default: page.capitalize), page_path(page)

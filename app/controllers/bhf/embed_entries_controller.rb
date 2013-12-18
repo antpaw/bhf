@@ -1,13 +1,13 @@
 class Bhf::EmbedEntriesController < Bhf::EntriesController
 
   def new
-    @form_url = bhf_entry_embed_index_path(@platform.name, @model.get_embedded_parent(params[:entry_id]))
+    @form_url = entry_embed_index_path(@platform.name, @model.get_embedded_parent(params[:entry_id]))
 
     render 'bhf/entries/new', ({layout: 'bhf/quick_edit'} if @quick_edit) || {}
   end
 
   def edit
-    @form_url = bhf_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
+    @form_url = entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
 
     render 'bhf/entries/edit', ({layout: 'bhf/quick_edit'} if @quick_edit) || {}
   end
@@ -18,14 +18,14 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       manage_many_to_many
       after_save
 
-      edit_path = edit_bhf_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
+      edit_path = edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
       if @quick_edit
-        render json: object_to_bhf_display_hash.merge(edit_path: edit_path), status: :ok
+        render json: object_to_display_hash.merge(edit_path: edit_path), status: :ok
       else
         redirect_back_or_default(edit_path, notice: set_message('create.success', @model))
       end
     else
-      @form_url = bhf_entry_embed_index_path(@platform.name, @model.get_embedded_parent(params[:entry_id]))
+      @form_url = entry_embed_index_path(@platform.name, @model.get_embedded_parent(params[:entry_id]))
 
       r_settings = {status: :unprocessable_entity}
       r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
@@ -42,10 +42,10 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(edit_bhf_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object), notice: set_message('update.success', @model))
+        redirect_back_or_default(edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object), notice: set_message('update.success', @model))
       end
     else
-      @form_url = bhf_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
+      @form_url = entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
 
       r_settings = {status: :unprocessable_entity}
       r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
