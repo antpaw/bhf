@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "bhf"
-  s.version = "0.6.20"
+  s.version = "0.6.21"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Anton Pawlik"]
@@ -139,10 +139,6 @@ Gem::Specification.new do |s|
     "lib/bhf/pagination.rb",
     "lib/bhf/platform.rb",
     "lib/bhf/settings.rb",
-<<<<<<< HEAD
-=======
-    "lib/initializer/bhf.rb",
->>>>>>> routes
     "lib/rails/generators/bhf/templates/initializer.rb"
   ]
   s.homepage = "http://github.com/antpaw/bhf"
