@@ -13,7 +13,7 @@
         = link_to image_tag(asset_path(logo)), main_app.root_url, :'data-no-turbolink' => true
       - if @config && @config.pages.any?
         %nav
-          %ul
+          %ul{class: ('shrink_space' if @config.pages.count > 7)}
             - @config.pages.each do |page|
               %li{class: ('active' if @page == page)}
                 = link_to t("bhf.pages.navigation.#{page}", default: page.capitalize), page_path(page)
