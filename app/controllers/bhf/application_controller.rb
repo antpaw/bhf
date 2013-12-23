@@ -45,11 +45,23 @@ class Bhf::ApplicationController < ActionController::Base
           pages = load_yml("/#{r}")['pages']
           account_roles['pages'] += pages if pages
         end
-        # TODO: merge platforms of the same pages rather the replace them 
-        files['pages'].uniq! do |a|
-          a.keys
+        
+        merged_files = {'pages' => []}
+        files['pages'].each do |pages|
+          merged = false
+          pages.each do |page|
+            merged_files['pages'].each do |m_page|
+              if m_page.include?(page[0])
+                merged = true
+                m_page[page[0]] << page[1]
+              end
+            end
+          end
+          if !merged
+            merged_files['pages'] << pages
+          end
         end
-        files
+        merged_files
       else
         load_yml
       end

@@ -3,13 +3,13 @@ module Kaminari
     class Tag
       def initialize(template, options = {}) #:nodoc:
         @template, @options = template, options.dup
-        @param_name = @options.delete(:param_name)
+        @param_name = @options.delete(:param_name) || Kaminari.config.param_name
         @theme = @options[:theme] ? "#{@options.delete(:theme)}/" : ''
         @params = @options[:params] ? template.params.merge(@options.delete :params) : template.params
       end
 
       def to_s(locals = {}) #:nodoc:
-        @template.render partial: "kaminari/#{@theme}#{self.class.name.demodulize.underscore}", locals: @options.merge(locals)
+        @template.render :partial => "kaminari/#{@theme}#{self.class.name.demodulize.underscore}", :locals => @options.merge(locals), :formats => [:html]
       end
 
       def page_url_for(page)
@@ -23,8 +23,8 @@ module Kaminari
     end
   end
 end
-# TODO: lets hope they'll fix nested params and we can remove this
-# https://github.com/amatsuda/kaminari/issues/152
+# TODO: let's hope this pull request gets merged and we can remove this
+# https://github.com/amatsuda/kaminari/pull/491
 
 
 module Bhf

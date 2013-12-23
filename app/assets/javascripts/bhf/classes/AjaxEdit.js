@@ -15,9 +15,7 @@ var AjaxEdit = new Class({
 	},
 	
 	startEdit: function(element, wrapElement){
-		this.clean();
 		this.wrapElement = wrapElement ? wrapElement : element;
-		this.wrapElement.addClass('live_edit');
 		this.newEntry = this.wrapElement.hasClass('add_field');
 		
 		this.fireEvent('startRequest');
@@ -74,12 +72,7 @@ var AjaxEdit = new Class({
 		this.holder.getElements('.open, .cancel, .save_and_next, .save').set('disabled', 'disabled');
 	},
 	
-	clean: function(){
-		document.body.getElements('.live_edit').removeClass('live_edit');
-	},
-	
 	close: function(){
-		this.clean();
 		this.holder.dispose();
 		this.fireEvent('closed')
 	},

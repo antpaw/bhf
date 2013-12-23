@@ -28,6 +28,24 @@ var AjaxEditStack = new Class({
 			}
 		});
 		
+		var fadeTm;
+		qe.addEvents({
+			startRequest: function(){
+				this.wrapElement.addClass('live_edit');
+				setTimeout(function(){
+					this.wrapElement.addClass('live_edit');
+				}.bind(this), 10);
+			},
+			closed: function(){
+				this.wrapElement.addClass('animate');
+				setTimeout(function(){
+					this.wrapElement.removeClass('live_edit');
+				}.bind(this));
+				setTimeout(function(){
+					this.wrapElement.removeClass('animate');
+				}.bind(this), 600);
+			}
+		});
 		qe.startEdit(link, linkParent);
 	},
 	addStack: function(){

@@ -4,10 +4,20 @@ module Bhf
 
     def initialize(options)
       @options = options
+      
+      t = pages.each_with_object([]) do |page, obj|
+        content_for_page(page).each do |platform|
+          obj << platform.keys.flatten
+        end
+      end.flatten!
+      if t.uniq.length != t.length
+        raise Exception.new("Platforms with identical names: '#{t.detect{ |e| t.count(e) > 1 }}'")
+      end
     end
 
     def pages
-      @options['pages'].each_with_object([]) do |page, obj|
+      return @pages if @pages
+      @pages = @options['pages'].each_with_object([]) do |page, obj|
         if page.is_a?(String)
           page = {page => nil}
         end
@@ -27,7 +37,6 @@ module Bhf
     end
 
     def find_platform(platform_name, current_account = nil)
-      # TODO: error for platforms whit the same name
       pages.each do |page|
         content_for_page(page).each do |platform|
           bhf_platform = Bhf::Platform.new(platform, page, current_account)

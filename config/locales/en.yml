@@ -1,12 +1,10 @@
 en:  
   bhf:
-    pages:
-      headline: Content
-    
     helpers:
       boolean:
-        a: 'yes'
-        b: 'no'
+        a: yes
+        b: no
+      link: Link ⬀
       searchform:
         placeholder: Search
       promts:

@@ -82,13 +82,6 @@ module Bhf
           '_id'
         end
         
-        def except(key)
-          if key == :order || key == :sort
-            #order_by.extras(sort: []) #TODO: drop default_scope criteria
-          end
-          self
-        end
-        
         def order(a)
           field, direction = a.split(' ')
           return self if field.blank? or direction.blank?

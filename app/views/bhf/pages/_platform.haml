@@ -37,7 +37,6 @@
             - if platform.sortable
               %td.drag
                 %span.handle.icon &nbsp;
-            -# TODO: external link partial from anpex
             - platform.columns.each do |column|
               %td{class: "#{column.field.macro} #{column.field.display_type}", :'data-column-name' => column.name}
                 - a = if column.field.display_type != :boolean && object.send(column.name).blank?

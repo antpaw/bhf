@@ -4,6 +4,7 @@ de:
       boolean:
         a: ja
         b: nein
+      link: Link ⬀
       searchform:
         placeholder: Suche
       promts:

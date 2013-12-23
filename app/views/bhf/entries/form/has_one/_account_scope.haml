@@ -1,3 +1,2 @@
-- # TODO: this doesnt work
-- data_source = current_account.send(field.reflection.name.to_s.pluralize)
-= render partial: 'bhf/entries/form/belongs_to/select', locals: {data_source: data_source, field: field, f: f}
+- data_source = current_account.send(field.reflection.name)
+= render partial: 'bhf/entries/form/has_one/static', locals: {ref_object: ref_object, field: field, f: f}

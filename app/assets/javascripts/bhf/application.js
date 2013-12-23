@@ -52,8 +52,6 @@ var initHelper = function(callback){
 				ajaxNote.success();
 			},
 			onSave: function(form){
-				// TODO: visual flash of the quick_edit content on success
-				// also after update, create and duplicate
 				ajaxNote.success();
 			},
 			onBeforeSubmit: function(){

@@ -114,7 +114,6 @@ class Bhf::EntriesController < Bhf::ApplicationController
       @model = @platform.model
       @model_sym = ActiveModel::Naming.singular(@model).to_sym
       @permited_params = ActionController::Parameters.new(params[@model_sym]).permit!
-      #params.require(@model_sym).permit! TODO: check this
     end
 
     def load_object
@@ -129,17 +128,21 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def manage_many_to_many
       return unless params[:has_and_belongs_to_many]
-      params[:has_and_belongs_to_many].each_pair do |relation, ids|
+      params[:has_and_belongs_to_many].each_pair do |relation, all_ids|
         reflection = @model.reflections[relation.to_sym]
 
-        @object.send(reflection.name).delete_all # TODO: drop only the diff
 
-        ids = ids.values.reject(&:blank?)
-
-        next if ids.blank?
-
-        reflection.klass.unscoped.find(ids).each do |relation_obj|
-          @object.send(relation) << relation_obj
+        if all_ids.any?
+          reflection.klass.unscoped.find(all_ids.keys).each do |relation_obj|
+            @object.send(relation).delete(relation_obj)
+          end
+          
+          ids = all_ids.values.reject(&:blank?)
+          if ids.any?
+            reflection.klass.unscoped.find(ids).each do |relation_obj|
+              @object.send(relation) << relation_obj
+            end
+          end
         end
       end
     end

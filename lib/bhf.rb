@@ -28,6 +28,17 @@ module Bhf
       end
     end
     
+    initializer 'bhf.hooks' do
+      if defined?(::I18n)
+        ::I18n.send :include, Bhf::I18nTranslationFallbackHelper
+      end
+      if defined?(::ActiveRecord)
+        ::ActiveRecord::Base.send :include, Bhf::ActiveRecord::Object
+      end
+      if defined?(::Mongoid)
+        ::Mongoid::Document.send :include, Bhf::Mongoid::Document
+      end
+    end
   end
 end
 
@@ -41,12 +52,4 @@ require 'bhf/settings'
 require 'bhf/pagination'
 require 'bhf/form'
 
-::I18n.send :include, Bhf::I18nTranslationFallbackHelper
-
-if defined?(ActiveRecord)
-  ::ActiveRecord::Base.send :include, Bhf::ActiveRecord::Object
-end
-if defined?(Mongoid)
-  ::Mongoid::Document.send :include, Bhf::Mongoid::Document
-end
 

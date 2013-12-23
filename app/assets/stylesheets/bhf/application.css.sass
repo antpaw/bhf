@@ -329,32 +329,36 @@ table.data_table
     
 
     tr
-      &:hover td,
-      &.live_edit td
-        +bg-gradient($b1, $b2)
-        border-bottom-color: $b1
-        color: $w1
-        .duplicate
-          background-position: -348px -50px
-          &:hover
-            background-position: -348px -100px
-        .edit
-          background-position: 0 -50px
-          &:hover
-            background-position: 0 -100px
-        .delete
-          background-position: -50px -50px
-          &:hover
-            background-position: -50px -100px
-        .handle
-          background-position: -98px -50px
-          &:hover
-            background-position: -98px -100px
-        .duplicate,
-        .edit,
-        .delete
-          &.clicked
-            background: image-url('bhf/small_ajax_loader_h.gif') no-repeat center center
+      &.animate td
+        +transition-duration(.3)
+        +transition-delay(.28)
+      &:hover,
+      &.live_edit
+        td
+          +bg-gradient($b1, $b2)
+          border-bottom-color: $b1
+          color: $w1
+          .duplicate
+            background-position: -348px -50px
+            &:hover
+              background-position: -348px -100px
+          .edit
+            background-position: 0 -50px
+            &:hover
+              background-position: 0 -100px
+          .delete
+            background-position: -50px -50px
+            &:hover
+              background-position: -50px -100px
+          .handle
+            background-position: -98px -50px
+            &:hover
+              background-position: -98px -100px
+          .duplicate,
+          .edit,
+          .delete
+            &.clicked
+              background: image-url('bhf/small_ajax_loader_h.gif') no-repeat center center
       &.live_edit td
         +bg-gradient($b2, $b1)
         border-bottom-color: $b2
@@ -366,11 +370,9 @@ table.data_table
   thead
     th.drag
       width: 24px
-
   tfoot
     td
       padding-top: 10px
-
   thead,
   tbody
     .primary_key,
@@ -387,6 +389,7 @@ table.data_table
   tbody
     .primary_key
       color: #999
+
 .icon
   text-indent: -9999px
   display: inline-block
@@ -541,7 +544,7 @@ form
     text-decoration: none
     border: 2px solid $b1
     background: white
-    padding: 3px 6px
+    padding: 3px 4px
     border-radius: 4px
     margin-left: -6px
     display: inline-block
@@ -553,6 +556,9 @@ form
       color: white
       background-color: $b2
       border-color: $b2
+    &.animate
+      +transition-duration(.3)
+      +transition-delay(.28)
   .add_field
     font-size: 20px
     font-weight: bold
@@ -941,6 +947,8 @@ input[type="submit"].alt_button,
   float: right
 .clear
   clear: both
+.animate
+  +transition-duration
   
 #ajax_holder
   text-indent: -9999px
@@ -1108,17 +1116,13 @@ input[type="submit"].alt_button,
     input[type="text"] 
       border: 0
       color: black
-  > form
     input[type="button"]
       border: 0
       font-size: 0.8em
       font-weight: bold
 
 
-// TODO: bigger radio buttons
 
-
-// TODO: remove me
 .translation_missing
   color: red !important
   
