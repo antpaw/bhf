@@ -10,28 +10,8 @@ var AjaxEdit = new Class({
 	
 	initialize: function(_options){
 		this.setOptions(_options);
-		this.holder = new Element('div.quick_edit_holder').addEvents({
-			'click:relay(.open)': function(e){
-				e.preventDefault();
-				Turbolinks.visit((this.wrapElement.getElement('a') || this.wrapElement).get('href'));
-			}.bind(this),
-			'click:relay(.cancel)': function(e){
-				e.preventDefault();
-				this.close();
-			}.bind(this),
-			'click:relay(.save_and_next)': function(e){
-				e.preventDefault();
-				this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange', 'successAndNext']);
-			}.bind(this),
-			'click:relay(.save)': function(e){
-				e.preventDefault();
-				this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange']);
-			}.bind(this),
-			'submit:relay(form)': function(e){
-				e.preventDefault();
-				this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange']);
-			}.bind(this)
-		});
+		this.holder = new Element('div.quick_edit_holder');
+		
 	},
 	
 	startEdit: function(element, wrapElement){
@@ -106,9 +86,31 @@ var AjaxEdit = new Class({
 	
 	injectForm: function(form){
 		this.holder.innerHTML = form;
+		
+		this.holder.getElements('.open').addEvent('click', function(e){
+			e.preventDefault();
+			Turbolinks.visit((this.wrapElement.getElement('a') || this.wrapElement).get('href'));
+		}.bind(this));
+		this.holder.getElements('.cancel').addEvent('click', function(e){
+			e.preventDefault();
+			this.close();
+		}.bind(this));
+		this.holder.getElements('.save_and_next').addEvent('click', function(e){
+			e.preventDefault();
+			this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange', 'successAndNext']);
+		}.bind(this));
+		this.holder.getElements('.save').addEvent('click', function(e){
+			e.preventDefault();
+			this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange']);
+		}.bind(this));
+		this.holder.getElements('form').addEvent('submit', function(e){
+			e.preventDefault();
+			this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange']);
+		}.bind(this));
+		
 		this.holder.inject($(this.options.holderParent));
 		
-		this.fireEvent('formInjected', [this.holder]);		
+		this.fireEvent('formInjected', [this.holder]);
 	},
 	
 	hide: function(){

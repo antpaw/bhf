@@ -24,7 +24,7 @@ window.addEvent('domready', function(){
     param: rails.getCsrf('param')
   };
   
-  rails.applyEvents();
+  // rails.applyEvents();
 });
 
 (function($){

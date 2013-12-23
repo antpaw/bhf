@@ -207,7 +207,7 @@ var initHelper = function(callback){
 						e.target.getParent('li').dispose();
 					},
 					'ajax:failure': function(html){
-						alert(Locale.get('Messages.warning'));
+						alert(Locale.get('Notifications.failure'));
 					}
 				});
 			});

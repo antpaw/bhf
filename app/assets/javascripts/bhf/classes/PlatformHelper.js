@@ -51,7 +51,7 @@ var PlatformHelper = new Class({
 					this.getParent('tr').dispose();
 				},
 				'ajax:failure': function(html){
-					alert(Locale.get('Messages.warning'));
+					alert(Locale.get('Notifications.failure'));
 				}
 			});
 		});
