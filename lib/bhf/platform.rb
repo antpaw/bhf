@@ -51,10 +51,6 @@ module Bhf
       @user && table_options(:user_scope)
     end
 
-    def search_source
-      table_options(:search) || :where
-    end
-
     def prepare_objects(options, paginate_options = nil)
       if user_scope?
         chain = @user.send(table_options(:user_scope).to_sym)
@@ -63,7 +59,7 @@ module Bhf
         chain = chain.send data_source if data_source
       end
 
-      if options[:order]
+      unless options[:order].blank?
         chain = chain.reorder("#{options[:order]} #{options[:direction]}")
       end
 
@@ -183,13 +179,11 @@ module Bhf
     private
 
       def do_search(chain, search_params)
-        search_condition = if table_options(:search)
-          search_params
+        if table_options(:search)
+          chain.send table_options(:search), search_params
         else
-          model.bhf_default_search(search_params)
+          chain.bhf_default_search(search_params)
         end
-
-        chain.send search_source, search_condition
       end
 
       def data_source

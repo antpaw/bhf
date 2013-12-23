@@ -83,17 +83,32 @@ module Bhf
         end
         
         def order(a)
-          field, direction = a.split(' ')
-          return self if field.blank? or direction.blank?
-          self.send(direction.downcase, field)
+          order_by(a)
+        end
+        
+        def reorder(a)
+          order_by(a)
         end
         
         def bhf_default_search(search_params)
-          return if (search_term = search_params[:text]).blank?
-          
-          # TODO: add mongoid search
-          return where(name: /^antp/i)
-          #return where("this.nick == 'antpaw'")
+          return self if (search_term = search_params[:text]).blank?
+
+          arr = []
+          columns_hash.each_pair do |column, props|
+            is_number = search_term.to_i.to_s == search_term || search_term.to_f.to_s == search_term
+
+            if props.type == :primary_key
+              arr << {props.name.to_sym => search_term}
+            elsif props.type == :string || props.type == :text
+              arr << {props.name.to_sym => /#{search_term}/i}
+            elsif props.type == :integer && is_number
+              arr << {props.name.to_sym => search_term.to_i}
+            elsif props.type == :float && is_number
+              arr << {props.name.to_sym => search_term.to_f}
+            end
+
+          end
+          self.or(arr)
         end
 
         def get_embedded_parent(parent_id, &block)

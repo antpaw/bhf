@@ -23,7 +23,7 @@ module Kaminari
     end
   end
 end
-# TODO: let's hope this pull request gets merged and we can remove this
+# TODO: check for support here
 # https://github.com/amatsuda/kaminari/pull/491
 
 
