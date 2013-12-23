@@ -161,7 +161,7 @@ module Bhf
     end
 
     def hide_create
-      table_options 'hide_create'
+      table_options('hide_create') || table_options('hide_new')
     end
 
     def show_duplicate

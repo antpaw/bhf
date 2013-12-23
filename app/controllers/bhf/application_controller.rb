@@ -71,8 +71,8 @@ class Bhf::ApplicationController < ActionController::Base
 
 
     def set_title
-      @title = Bhf::Engine.config.page_title ||
-               (Rails.application.class.to_s.split('::').first+' &ndash; Admin').html_safe
+      @app_title = Rails.application.class.to_s.split('::').first
+      @title = Bhf::Engine.config.page_title || ("#{@app_title} &ndash; Admin").html_safe
     end
 
     def set_message(type, model = nil)

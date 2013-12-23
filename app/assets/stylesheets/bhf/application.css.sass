@@ -6,6 +6,7 @@ $w1: #fff
 $w2: #F1F1F1
 $k1: #000
 $b1: #38A5E9
+$r1: #E93838
 $b2: #0F8FDD
 $g1: #7F7F7F
 $g2: #ccc
@@ -66,10 +67,10 @@ header
           +text-shadow(#fff)
           +bg-gradient(#eaeaea, #D5D5D5)
           +box-shadow(0, 1, 4)
-          color: #414756
+          color: #3e3e3e
           &:hover
-            +bg-gradient(#D5D5D5, #FFFFFF)
-            color: #414756
+            +bg-gradient(#FFFFFF, #FFFFFF)
+            color: $b2
             border-color: #FFFFFF
             +text-shadow(#fff)
       a
@@ -248,7 +249,7 @@ table.data_table
       color: #3E3E3E
     .info
       margin: 0 20px 0 10px
-      width: 290px
+      min-width: 290px
       text-transform: uppercase
       font-size: 12px
       color: $g1
@@ -464,7 +465,7 @@ form
       color: $g3
       +text-shadow(#fff)
     .field_with_errors
-      color: red
+      color: $r1
   .input
     input[type="password"],
     input[type="text"],
@@ -516,18 +517,6 @@ form
     .multiple_field,
     .array_fields
       display: block
-    .add_field
-      display: block
-      font-size: 20px
-      font-weight: bold
-      width: 30px
-      margin-left: -8px
-      cursor: pointer
-      text-align: center
-      color: $k1 !important
-      text-decoration: none !important
-      &:hover
-        color: $b1 !important
     .uploaded_file,
     .uploaded_image
       padding: 2px
@@ -546,19 +535,44 @@ form
         color: $b1
     .warning
       font-weight: bold
-    .quick_edit
-      text-decoration: underline
-      color: $b2
-    .relation
-      li
-        &:hover
-          .delete
-            opacity: 1
-            +transition-duration(0.5)
+  .add_field,
+  .relation .quick_edit
+    color: $b1
+    text-decoration: none
+    border: 2px solid $b1
+    background: white
+    padding: 3px 6px
+    border-radius: 4px
+    margin-left: -6px
+    display: inline-block
+    margin-bottom: 8px
+    &:hover
+      color: white
+      background-color: $b1
+    &.live_edit
+      color: white
+      background-color: $b2
+      border-color: $b2
+  .add_field
+    font-size: 20px
+    font-weight: bold
+    padding: 0 8px 6px 8px
+    line-height: 20px
+    cursor: pointer
+  .relation
+    li
+      &:hover
         .delete
-          opacity: 0
-          &:hover
-            color: $b1
+          opacity: 1
+          +transition-duration(0.5)
+      .delete
+        opacity: 0
+        font-size: 20px
+        font-weight: bold
+        padding: 0 8px 6px 8px
+        line-height: 20px
+        &:hover
+          color: $r1
       
   .cancel
     margin-left: 20px
