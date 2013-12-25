@@ -1,30 +1,14 @@
-module Kaminari
-  module Helpers
-    class Tag
-      def initialize(template, options = {}) #:nodoc:
-        @template, @options = template, options.dup
-        @param_name = @options.delete(:param_name) || Kaminari.config.param_name
-        @theme = @options[:theme] ? "#{@options.delete(:theme)}/" : ''
-        @params = @options[:params] ? template.params.merge(@options.delete :params) : template.params
-      end
-
-      def to_s(locals = {}) #:nodoc:
-        @template.render :partial => "kaminari/#{@theme}#{self.class.name.demodulize.underscore}", :locals => @options.merge(locals), :formats => [:html]
-      end
-
-      def page_url_for(page)
-        if @param_name.is_a?(Array)
-          @params[@param_name[0]] = (@params[@param_name[0]] || {}).merge(@param_name[1] => (page <= 1 ? nil : page))
-          return @template.url_for @params
-        end
-        
-        @template.url_for @params.merge(@param_name => (page <= 1 ? nil : page))
-      end
+Kaminari::Helpers::Tag.class_eval do
+  def page_url_for(page)
+    if @param_name.is_a?(Array)
+      @params[@param_name[0]] = (@params[@param_name[0]] || {}).merge(@param_name[1] => (page <= 1 ? nil : page))
+      return @template.url_for @params
     end
+    
+    @template.url_for @params.merge(@param_name => (page <= 1 ? nil : page))
   end
 end
-# TODO: check for support here
-# https://github.com/amatsuda/kaminari/pull/491
+# TODO: check for support here https://github.com/amatsuda/kaminari/pull/491
 
 
 module Bhf

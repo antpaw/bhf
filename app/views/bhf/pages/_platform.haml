@@ -1,4 +1,8 @@
 - platform.pagination.template = self
+- referral_id = nil
+- if flash[:referral_entry]
+  - referral_id = flash[:referral_entry][:platform] == platform.name && flash[:referral_entry][:id]
+
 - if platform.custom_partial
   = render partial: "bhf/pages/#{platform.custom_partial}", locals: {platform: platform}
 - else
@@ -33,7 +37,7 @@
         - platform.objects.each do |object|
           - edit_link = edit_entry_path(platform.name, object)
           - custom_link = send(platform.custom_link, platform.name, object) if platform.custom_link
-          %tr{id: "#{object.id}_#{platform.name}"}
+          %tr{id: "#{object.id}_#{platform.name}", class: ('animate live_edit initial_referral' if referral_id == object.id)}
             - if platform.sortable
               %td.drag
                 %span.handle.icon &nbsp;

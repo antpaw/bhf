@@ -28,7 +28,7 @@ de:
         success: "%{model} wurde erfolgreich aktiviert"
         error: "%{model} Fehler"
       validation:
-        header: "Durch diese Fehler konnte %{name} nicht gespeichert werden:"
+        header: 'Durch diese Fehler konnte "%{name}" nicht gespeichert werden:'
         error: Fehler
       file:
         delete: Datei löschen

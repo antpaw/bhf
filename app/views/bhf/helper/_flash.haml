@@ -1,4 +1,5 @@
-- unless flash.blank?
+- f = {notice: (flash[:notice] if flash[:notice]), error: (flash[:error] if flash[:error])}.reject {|k, v| v.blank?}
+- unless f.blank?
   %ul#flash_massages.show
-    - flash.each do |type, msg|
-      %li{class: type}= msg.html_safe
+    - f.each do |type, msg|
+      %li{class: type}= msg.to_s.html_safe

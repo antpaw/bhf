@@ -19,7 +19,7 @@ var AjaxEdit = new Class({
 		this.newEntry = this.wrapElement.hasClass('add_field');
 		
 		this.fireEvent('startRequest');
-		new Request.HTML({
+		this.currentRequest = new Request.HTML({
 			method: 'get',
 			evalScripts: false,
 			url: element.get('href'),
@@ -73,8 +73,11 @@ var AjaxEdit = new Class({
 	},
 	
 	close: function(){
+		if (this.currentRequest) {
+			this.currentRequest.cancel();
+		}
 		this.holder.dispose();
-		this.fireEvent('closed')
+		this.fireEvent('closed');
 	},
 	
 	injectForm: function(form){

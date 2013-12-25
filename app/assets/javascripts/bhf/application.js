@@ -278,6 +278,15 @@ var initHelper = function(callback){
 			fm.removeClass.delay(10000, fm, 'show');
 		}
 		
+		mainScope.getElements('.initial_referral').each(function(elem){
+			setTimeout(function(){
+				elem.removeClass('live_edit');
+				setTimeout(function(){
+					elem.removeClass('animate');
+				}, 600);
+			}, 500);
+		});
+		
 		ajaxNote.success();
 	});
 })();

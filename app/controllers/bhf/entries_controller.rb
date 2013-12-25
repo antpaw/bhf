@@ -30,7 +30,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('create.success', @model))
+        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), {notice: set_message('create.success', @model), referral_entry: {id: @object.id, platform: @platform.name}})
       end
     else
       @form_url = entries_path(@platform.name)
@@ -52,7 +52,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('update.success', @model))
+        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), {notice: set_message('update.success', @model), referral_entry: {id: @object.id, platform: @platform.name}})
       end
     else
       @form_url = entry_path(@platform.name, @object)
@@ -128,20 +128,15 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def manage_many_to_many
       return unless params[:has_and_belongs_to_many]
-      params[:has_and_belongs_to_many].each_pair do |relation, all_ids|
+      params[:has_and_belongs_to_many].each_pair do |relation, ids|
         reflection = @model.reflections[relation.to_sym]
 
-
-        if all_ids.any?
-          reflection.klass.unscoped.find(all_ids.keys).each do |relation_obj|
+        next unless ids.any?
+        reflection.klass.unscoped.find(ids.keys).each do |relation_obj|
+          if ids[relation_obj.id.to_s].blank?
             @object.send(relation).delete(relation_obj)
-          end
-          
-          ids = all_ids.values.reject(&:blank?)
-          if ids.any?
-            reflection.klass.unscoped.find(ids).each do |relation_obj|
-              @object.send(relation) << relation_obj
-            end
+          else
+            @object.send(relation) << relation_obj
           end
         end
       end
