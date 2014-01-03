@@ -47,7 +47,6 @@ var initHelper = function(callback){
 				ajaxNote.loading();
 			},
 			onFormInjected: function(form){
-				jsForm.setup(form);
 				scrollContent();
 				ajaxNote.success();
 			},
