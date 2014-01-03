@@ -10,6 +10,9 @@ module Bhf
           obj << platform.keys.flatten
         end
       end.flatten!
+      if t.nil?
+        raise Exception.new("No Bhf Pages found")
+      end
       if t.uniq.length != t.length
         raise Exception.new("Platforms with identical names: '#{t.detect{ |e| t.count(e) > 1 }}'")
       end

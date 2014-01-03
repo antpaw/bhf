@@ -118,8 +118,8 @@ module Bhf
             parent = parent.find(parent_id) rescue nil
             
             if parent
-              return parent unless block_given?
-              return block.call(parent, meta)
+              return block.call(parent, meta) if block_given?
+              return parent
             end
           end
         end
@@ -131,7 +131,7 @@ module Bhf
             else
               meta.inverse_foreign_key.pluralize
             end.to_s
-            if parent.relations[key_name].macro == :embeds_one
+            if parent.relations[key_name] and parent.relations[key_name].macro == :embeds_one
               parent.send("build_#{key_name}", params)
             else
               parent.send(key_name).build(params)

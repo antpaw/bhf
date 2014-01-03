@@ -153,7 +153,7 @@ var initHelper = function(callback){
 		}
 		else if (mainForm) {
 			ajaxEditOptions = Object.merge({
-				successAndAdd: function(json){
+				onSuccessAndAdd: function(json){
 					var relation = this.wrapElement.getPrevious('.relation');
 					relation.getPrevious('.empty').addClass('hide');
 					if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
@@ -165,10 +165,10 @@ var initHelper = function(callback){
 						)
 					);
 				},
-				successAndChange: function(json){
+				onSuccessAndChange: function(json){
 					this.wrapElement.set('text', json.to_bhf_s || '');
 				},
-				successAndNext: function(json){
+				onSuccessAndNext: function(json){
 					var a = this.wrapElement;
 					var li = a.getParent('li');
 					if ( ! li) { 
@@ -212,7 +212,7 @@ var initHelper = function(callback){
 		}
 		else if (mainScope.hasClass('quick_edit_holder')) {
 			ajaxEditOptions = Object.merge({
-				successAndAdd: function(json){
+				onSuccessAndAdd: function(json){
 					var relation = this.wrapElement.getPrevious('.relation');
 					relation.getPrevious('.empty').addClass('hide');
 					if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {

@@ -11,7 +11,6 @@ var AjaxEdit = new Class({
 	initialize: function(_options){
 		this.setOptions(_options);
 		this.holder = new Element('div.quick_edit_holder');
-		
 	},
 	
 	startEdit: function(element, wrapElement){

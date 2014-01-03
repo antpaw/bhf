@@ -132,11 +132,18 @@ class Bhf::EntriesController < Bhf::ApplicationController
         reflection = @model.reflections[relation.to_sym]
 
         next unless ids.any?
+        relation_array = @object.send(relation)
         reflection.klass.unscoped.find(ids.keys).each do |relation_obj|
+          has_relation = relation_array.include?(relation_obj)
+          
           if ids[relation_obj.id.to_s].blank?
-            @object.send(relation).delete(relation_obj)
+            if has_relation
+              relation_array.delete(relation_obj)
+            end
           else
-            @object.send(relation) << relation_obj
+            if ! has_relation
+              relation_array << relation_obj
+            end
           end
         end
       end
