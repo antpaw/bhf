@@ -29,8 +29,9 @@ var AjaxEdit = new Class({
 				this.injectForm(responseHTML);
 				eval(responseJavaScript);
 				
-				if (this.options.hideNext) {
-					this.holder.getElement('.save_and_next').addClass('hide');
+				var nextElem = this.holder.getElement('.save_and_next');
+				if (this.options.hideNext && nextElem) {
+					nextElem.addClass('hide');
 				}
 				
 				window.fireEvent('quickEditReady', [this.holder]);

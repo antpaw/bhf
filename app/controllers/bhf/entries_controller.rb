@@ -98,7 +98,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   private
 
     def object_to_bhf_display_hash
-      @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s, edit_path: edit_entry_path(@platform.name, @object), object_id: @object.id}) do |column, hash|
+      @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s, edit_path: edit_entry_path(@platform.name, @object), object_id: @object.id.to_s}) do |column, hash|
         unless column.field.macro == :column && @object.send(column.name).blank?
           p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
           hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}
