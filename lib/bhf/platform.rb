@@ -176,6 +176,10 @@ module Bhf
       table_options 'partial'
     end
 
+    def return_to
+      form_options 'return_to'
+    end
+
     private
 
       def do_search(chain, search_params)

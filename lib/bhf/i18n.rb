@@ -1,3 +1,4 @@
+# TODO: get rid of this
 module Bhf
   module I18nTranslationFallbackHelper
     def self.included(base) 

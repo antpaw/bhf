@@ -22,7 +22,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       if @quick_edit
         render json: object_to_bhf_display_hash.merge(edit_path: edit_path), status: :ok
       else
-        redirect_back_or_default(edit_path, notice: set_message('create.success', @model))
+        redirect_to(edit_path, notice: set_message('create.success', @model))
       end
     else
       @form_url = entry_embed_index_path(@platform.name, @model.get_embedded_parent(params[:entry_id]))
@@ -42,7 +42,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object), notice: set_message('update.success', @model))
+        redirect_to(edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object), notice: set_message('update.success', @model))
       end
     else
       @form_url = entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)

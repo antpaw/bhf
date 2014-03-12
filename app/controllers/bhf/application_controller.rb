@@ -103,8 +103,7 @@ class Bhf::ApplicationController < ActionController::Base
     end
 
     def redirect_back_or_default(default, msg)
-      redirect_to(session[:return_to] || default, flash: msg)
-      session[:return_to] = nil
+      redirect_to(params[:return_to] || default, flash: msg)
     end
 
 end
