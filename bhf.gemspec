@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Anton Pawlik"]
-  s.date = "2014-03-12"
+  s.date = "2014-03-14"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -73,7 +73,6 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/column/_array.haml",
     "app/views/bhf/entries/form/column/_boolean.haml",
     "app/views/bhf/entries/form/column/_date.haml",
-    "app/views/bhf/entries/form/column/_file.haml",
     "app/views/bhf/entries/form/column/_hash.haml",
     "app/views/bhf/entries/form/column/_mappin.haml",
     "app/views/bhf/entries/form/column/_markdown.haml",
@@ -84,6 +83,7 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/form/column/_static.haml",
     "app/views/bhf/entries/form/column/_string.haml",
     "app/views/bhf/entries/form/column/_text.haml",
+    "app/views/bhf/entries/form/column/_upload_file.haml",
     "app/views/bhf/entries/form/column/_wysiwyg.haml",
     "app/views/bhf/entries/form/embeds_many/_static.haml",
     "app/views/bhf/entries/form/embeds_one/_static.haml",
