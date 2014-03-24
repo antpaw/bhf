@@ -29,9 +29,6 @@ module Bhf
     end
     
     initializer 'bhf.hooks' do
-      if defined?(::I18n)
-        ::I18n.send :include, Bhf::I18nTranslationFallbackHelper
-      end
       if defined?(::ActiveRecord)
         ::ActiveRecord::Base.send :include, Bhf::ActiveRecord::Object
       end
@@ -42,7 +39,6 @@ module Bhf
   end
 end
 
-require 'bhf/i18n'
 require 'bhf/active_record/active_record'
 require 'bhf/active_record/upload'
 require 'bhf/mongoid/document'
