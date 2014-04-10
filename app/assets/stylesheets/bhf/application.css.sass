@@ -88,14 +88,6 @@ header
           +bg-gradient($b2, $b1)
           +text-shadow(#0068B3, -1)
             
-.preview_image
-  @extend .default_input
-  vertical-align: middle
-  padding: 2px
-  width: auto
-  max-width: 400px
-  max-height: 200px
-
 .content_box
   margin: 10px 20px 20px 20px
 .dl
@@ -410,6 +402,7 @@ table.data_table
     background-position: -98px 0
     cursor: move
 
+
 .default_input
   border: 1px solid transparent
   background: #FFF
@@ -426,6 +419,14 @@ table.data_table
     box-shadow: 0 1px 12px $b2
     -moz-box-shadow: 0 1px 12px $b2
     border-color: $b2
+
+.preview_image
+  @extend .default_input
+  vertical-align: middle
+  padding: 2px
+  width: auto
+  max-width: 400px
+  max-height: 200px
 
 .search
   input[type="text"]
