@@ -27,6 +27,13 @@ var initHelper = function(callback){
 	var editStack = new AjaxEditStack();
 	
 	initHelper(function(mainScope){
+		var areaSelect = mainScope.getElement('#area_select');
+		if (areaSelect) {
+			areaSelect.addEvent('change', function(){
+				location.href = this.value;
+			});
+		}
+		
 		var quickEditArray = [];
 		var ajaxEditOptions;
 		

@@ -19,6 +19,7 @@ module Bhf
     config.account_model_find_method = 'find'
     config.css = []
     config.js = []
+    config.abstract_config = []
     
     # config.bhf_logic = YAML::load(IO.read('config/bhf.yml'))
     
