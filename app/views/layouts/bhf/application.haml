@@ -13,9 +13,9 @@
         - logo = Rails.application.assets.find_asset('logo_bhf.png') ? 'logo_bhf.png' : 'logo_bhf.svg'
         = link_to image_tag(asset_path(logo)), main_app.root_url, :'data-no-turbolink' => true
 
-      - if @areas and @areas.any?
-        = select_tag :area_select, options_from_collection_for_select(@areas, 'path', 'name', main_app.bhf_path(params[:bhf_area]))
-
+      - if @areas and @areas.length > 1
+        = select_tag :area_select, options_from_collection_for_select(@areas, 'path', 'name', main_app.bhf_path(params[:bhf_area])), class: 'icon'
+        
       - if @config && @config.pages.any?
         %nav
           %ul{class: ('shrink_space' if @config.pages.count > 7)}

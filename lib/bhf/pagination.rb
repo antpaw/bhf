@@ -1,3 +1,14 @@
+Kaminari::Helpers::Tag.class_eval do
+  def page_url_for(page)
+    if @param_name.is_a?(Array)
+      @params[@param_name[0]] = (@params[@param_name[0]] || {}).merge(@param_name[1] => (page <= 1 ? 1 : page))
+      return @template.url_for @params
+    end
+
+    @template.url_for @params.merge(@param_name => (page <= 1 ? 1 : page))
+  end
+end
+
 module Bhf
 
   class Pagination
@@ -15,7 +26,7 @@ module Bhf
 
       links = if !(page_links = template.paginate(platform.objects, {
         theme: 'bhf',
-        param_name: "#{platform.name}[page]",
+        param_name: [platform.name, :page],
         params: template.params
       })).blank?
         "#{load_more(platform)} #{page_links}"
