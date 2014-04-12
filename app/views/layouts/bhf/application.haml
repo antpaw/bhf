@@ -13,7 +13,7 @@
         - logo = Rails.application.assets.find_asset('logo_bhf.png') ? 'logo_bhf.png' : 'logo_bhf.svg'
         = link_to image_tag(asset_path(logo)), main_app.root_url, :'data-no-turbolink' => true
 
-      - if @areas.any?
+      - if @areas and @areas.any?
         = select_tag :area_select, options_from_collection_for_select(@areas, 'path', 'name', main_app.bhf_path(params[:bhf_area]))
 
       - if @config && @config.pages.any?
