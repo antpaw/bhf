@@ -57,7 +57,23 @@ class Bhf::ApplicationController < ActionController::Base
 
     def set_title
       @app_title = Rails.application.class.to_s.split('::').first
-      @title = Bhf::Engine.config.page_title || ("#{@app_title} &ndash; Admin").html_safe
+      # TODO: add area i18ned title
+      @title = if Bhf::Engine.config.page_title
+        Bhf::Engine.config.page_title
+      else
+        if params[:bhf_area]
+          t("bhf.areas.page_title.#{params[:bhf_area]}", 
+            area: params[:bhf_area],
+            title: @app_title,
+            default: t('bhf.areas.default_page_title', 
+              title: @app_title,
+              area: t("bhf.areas.links.#{params[:bhf_area]}", default: params[:bhf_area])
+            )
+          )
+        else
+          t('bhf.default_page_title', title: @app_title)
+        end
+      end.html_safe
     end
     
     def set_areas
