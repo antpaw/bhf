@@ -17,5 +17,5 @@
     .node
       .label
       .input
-        = f.submit f.object.new_record? ? new_t(@platform) : edit_t(@platform)
+        = f.submit t('bhf.helpers.form.submit.button', default: f.object.new_record? ? new_t(@platform) : edit_t(@platform))
         = link_to t('bhf.helpers.entry.cancel'), page_path(@platform.page_name), class: 'cancel'
