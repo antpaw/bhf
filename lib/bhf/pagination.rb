@@ -8,6 +8,7 @@ Kaminari::Helpers::Tag.class_eval do
     @template.url_for @params.merge(@param_name => (page <= 1 ? 1 : page))
   end
 end
+# TODO: monitor https://github.com/amatsuda/kaminari/issues/542#issuecomment-40294388
 
 module Bhf
 

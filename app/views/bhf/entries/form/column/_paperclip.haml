@@ -1,12 +1,17 @@
-= node f, field do
-  - file = f.object.send(field.name)
-  - if file.file?
-    - if ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif'].include?(f.object.send("#{field.name}_content_type"))
-      = image_tag file.url, class: 'uploaded_image'
-    - else
-      = link_to f.object.send("#{field.name}_file_name"), file.url, class: 'uploaded_file'
-    .file_delete
-      = f.check_box "#{field.name}_destroy"
-      = f.label "#{field.name}_destroy", t('bhf.helpers.file.delete')
-  - unless @quick_edit
-    = f.file_field field.name
+- # no file upload on ajax submit :(
+- unless @quick_edit
+  = node f, field do
+    - file = f.object.send(field.name)
+    - if file.file?
+      - if ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif'].include?(f.object.send("#{field.name}_content_type"))
+        = image_tag file.url, class: 'uploaded_image'
+      - else
+        = link_to f.object.send("#{field.name}_file_name"), file.url, class: 'uploaded_file'
+
+      - if f.object.respond_to?(:"#{field.name}_destroy")
+        .file_delete
+          = f.check_box "#{field.name}_destroy"
+          = f.label "#{field.name}_destroy", t('bhf.helpers.file.delete')
+
+    - unless @quick_edit
+      = f.file_field field.name

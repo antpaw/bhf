@@ -65,13 +65,13 @@ class Bhf::ApplicationController < ActionController::Base
           t("bhf.areas.page_title.#{params[:bhf_area]}", 
             area: params[:bhf_area],
             title: @app_title,
-            default: t('bhf.areas.default_page_title', 
+            default: t('bhf.areas.page_title', 
               title: @app_title,
               area: t("bhf.areas.links.#{params[:bhf_area]}", default: params[:bhf_area])
             )
           )
         else
-          t('bhf.default_page_title', title: @app_title)
+          t('bhf.page_title', title: @app_title)
         end
       end.html_safe
     end

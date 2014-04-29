@@ -1,8 +1,8 @@
 en:  
   bhf:
-    default_page_title: "%{title} &ndash; Admin"
+    page_title: "%{title} &ndash; Admin"
     areas:
-      default_page_title: "%{area} &ndash; %{title} &ndash; Admin"
+      page_title: "%{area} &ndash; %{title} &ndash; Admin"
     helpers:
       boolean:
         a: yes

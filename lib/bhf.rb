@@ -41,7 +41,6 @@ module Bhf
 end
 
 require 'bhf/active_record/active_record'
-require 'bhf/active_record/upload'
 require 'bhf/mongoid/document'
 require 'bhf/data'
 require 'bhf/platform'
