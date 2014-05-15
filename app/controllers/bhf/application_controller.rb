@@ -57,7 +57,7 @@ class Bhf::ApplicationController < ActionController::Base
 
     def set_title
       @app_title = Rails.application.class.to_s.split('::').first
-      # TODO: add area i18ned title
+      
       @title = if Bhf::Engine.config.page_title
         Bhf::Engine.config.page_title
       else

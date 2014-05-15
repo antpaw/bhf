@@ -19,6 +19,11 @@ class Bhf::EntriesController < Bhf::ApplicationController
   
   def show
     render file: 'public/404.html', layout: false and return unless @object
+    
+    respond_to do |format|
+      format.html
+      format.json  { render json: @object }
+    end
   end
 
   def create

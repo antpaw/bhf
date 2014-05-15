@@ -9,7 +9,7 @@ Bhf::Engine.routes.draw do
       put :sort, on: :collection
       post :duplicate, on: :member
       
-      resources :embed_entries, except: [:index, :show], as: :embed
+      resources :embed_entries, except: [:index], as: :embed
     end
   end
   
