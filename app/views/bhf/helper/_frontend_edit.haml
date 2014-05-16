@@ -1,4 +1,4 @@
 - link_title = t('bhf.helpers.entry.edit', platform_name: object.to_bhf_s)
 
-= link_to bhf.edit_entry_path(platform_name, object, area ? {bhf_area: area} : {}), class: 'bhf_edit', data: {:'no-turbolink' => true}, title: link_title do
+= link_to bhf.edit_entry_url(platform_name, object, {return_to: request.original_url}.merge(area ? {bhf_area: area} : {})), class: 'bhf_edit', data: {:'no-turbolink' => true}, title: link_title do
   = block ? block : link_title
