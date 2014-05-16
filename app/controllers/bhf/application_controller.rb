@@ -40,14 +40,14 @@ class Bhf::ApplicationController < ActionController::Base
         if current_account.respond_to?(:area_role)
           return current_account.area_role(area)
         elsif current_account.respond_to?(:area_roles)
-          return current_account.area_roles(area).collect(&:to_bhf_s)
+          return current_account.area_roles(area).collect(&:identifier)
         end
       end
 
       if current_account.respond_to?(:role)
-        current_account.role.is_a?(String) ? current_account.role : current_account.role.to_bhf_s
+        current_account.role.is_a?(String) ? current_account.role : current_account.role.identifier
       elsif current_account.respond_to?(:roles)
-        current_account.roles.collect(&:to_bhf_s)
+        current_account.roles.collect(&:identifier)
       end
     end
 
@@ -80,11 +80,13 @@ class Bhf::ApplicationController < ActionController::Base
       @areas = []
       if current_account and current_account.respond_to?(:bhf_areas)
         current_account.bhf_areas.each do |area|
+          selected = params[:bhf_area] == area.identifier
           @areas << OpenStruct.new(
-            name: t("bhf.areas.links.#{area.to_bhf_s}", default: area.to_bhf_s),
-            selected: params[:bhf_area] == area.to_bhf_s,
-            path: main_app.bhf_path(area.to_bhf_s)
+            name: area.to_bhf_s,
+            selected: selected,
+            path: main_app.bhf_path(area.identifier)
           )
+          @root_link = area.link if selected
         end
       end
     end
