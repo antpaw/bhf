@@ -10,10 +10,10 @@ module Bhf
         return unless object.bhf_can_edit?(options)
       end
       
-      area = if object.respond_to?(:bhf_area, true)
+      area = if options[:area]
+        options[:area]
+      elsif object.respond_to?(:bhf_area, true)
         object.bhf_area(options)
-      else
-        nil
       end
 
       render partial: 'bhf/helper/frontend_edit', locals: { area: area, platform_name: options[:platform_name], object: object, block: (with_output_buffer(&block) if block_given?)}

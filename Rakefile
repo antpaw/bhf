@@ -11,11 +11,11 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = 'http://github.com/antpaw/bhf'
   gem.rubyforge_project = 'nowarning'
 
-  gem.add_dependency 'rails', '>= 4.0.0'
-  gem.add_dependency 'turbolinks', '>= 2.1.0'
-  gem.add_dependency 'kaminari', '>= 0.15.1'
-  gem.add_dependency 'haml-rails', '>= 0.4.0'
-  gem.add_dependency 'sass-rails', '>= 4.0.0'
+  gem.add_dependency 'rails', '~> 4.0'
+  gem.add_dependency 'turbolinks', '~> 2.1'
+  gem.add_dependency 'kaminari', '~> 0.15'
+  gem.add_dependency 'haml-rails', '~> 0.4'
+  gem.add_dependency 'sass-rails', '~> 4.0'
   # gem.add_dependency 'mootools-rails'#, '>= 1.0.1'
 end
 

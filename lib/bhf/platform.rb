@@ -226,7 +226,6 @@ module Bhf
           }, model.bhf_primary_key)
         end
 
-        # TODO: test polymorphic
         model.reflections.each_pair do |name, props|
           all[name.to_s] = Bhf::Data::Reflection.new(props, {
             overwrite_type: form_options(:types, name),

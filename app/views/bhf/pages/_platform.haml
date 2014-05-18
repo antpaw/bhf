@@ -49,7 +49,7 @@
                   - render(partial: "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", locals: {column: column, object: object})
                 = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
 
-            %td.action{class: (:wider if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
+            %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
               - if platform.show_duplicate
                 - dt = duplicate_t(platform)
                 = link_to dt, duplicate_entry_path(platform.name, object), class: 'icon duplicate', method: :post, title: dt
