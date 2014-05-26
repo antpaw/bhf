@@ -12,18 +12,17 @@ class Bhf::ApplicationController < ActionController::Base
   private
 
     def check_admin_account
-      if session[Bhf::Engine.config.session_auth_name.to_s] == true
+      if session[Bhf::Engine.config.bhf.session_auth_name.to_s] == true
         return true
       end
-
-      redirect_to(main_app.send(Bhf::Engine.config.on_login_fail.to_sym), error: t('bhf.helpers.user.login.error')) and return false
+      redirect_to(main_app.send(Bhf::Engine.config.bhf.on_login_fail.to_sym), error: t('bhf.helpers.user.login.error')) and return false
     end
 
     def setup_current_account
-      if session[Bhf::Engine.config.session_account_id]
-        @current_account = Bhf::Engine.config.account_model.constantize.send(
-          Bhf::Engine.config.account_model_find_method.to_sym,
-          session[Bhf::Engine.config.session_account_id.to_s]
+      if session[Bhf::Engine.config.bhf.session_account_id]
+        @current_account = Bhf::Engine.config.bhf.account_model.constantize.send(
+          Bhf::Engine.config.bhf.account_model_find_method.to_sym,
+          session[Bhf::Engine.config.bhf.session_account_id.to_s]
         )
         # => User.find(current_account.id)
       end
@@ -37,17 +36,17 @@ class Bhf::ApplicationController < ActionController::Base
       return unless current_account
       
       if area
-        if current_account.respond_to?(:area_role)
-          return current_account.area_role(area)
-        elsif current_account.respond_to?(:area_roles)
-          return current_account.area_roles(area).collect(&:identifier)
+        if current_account.respond_to?(:bhf_area_role)
+          return current_account.bhf_area_role(area)
+        elsif current_account.respond_to?(:bhf_area_roles)
+          return current_account.bhf_area_roles(area).collect(&:identifier)
         end
       end
 
-      if current_account.respond_to?(:role)
-        current_account.role.is_a?(String) ? current_account.role : current_account.role.identifier
-      elsif current_account.respond_to?(:roles)
-        current_account.roles.collect(&:identifier)
+      if current_account.respond_to?(:bhf_role)
+        current_account.bhf_role.is_a?(String) ? current_account.bhf_role : current_account.bhf_role.identifier
+      elsif current_account.respond_to?(:bhf_roles)
+        current_account.bhf_roles.collect(&:identifier)
       end
     end
 
@@ -58,21 +57,17 @@ class Bhf::ApplicationController < ActionController::Base
     def set_title
       @app_title = Rails.application.class.to_s.split('::').first
       
-      @title = if Bhf::Engine.config.page_title
-        Bhf::Engine.config.page_title
-      else
-        if params[:bhf_area]
-          t("bhf.areas.page_title.#{params[:bhf_area]}",
-            area: params[:bhf_area],
+      @title = if params[:bhf_area]
+        t("bhf.areas.page_title.#{params[:bhf_area]}", 
+          area: params[:bhf_area],
+          title: @app_title,
+          default: t('bhf.areas.page_title', 
             title: @app_title,
-            default: t('bhf.areas.page_title',
-              title: @app_title,
-              area: t("bhf.areas.links.#{params[:bhf_area]}", default: params[:bhf_area])
-            )
+            area: t("bhf.areas.links.#{params[:bhf_area]}", default: params[:bhf_area])
           )
-        else
-          t('bhf.page_title', title: @app_title)
-        end
+        )
+      else
+        t('bhf.page_title', title: @app_title)
       end.html_safe
     end
 

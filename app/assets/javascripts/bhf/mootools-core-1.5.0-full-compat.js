@@ -3,10 +3,10 @@
 MooTools: the javascript framework
 
 web build:
- - http://mootools.net/core/76bf47062d6c1983d66ce47ad66aa0e0
+ - http://mootools.net/core/8423c12ffd6a6bfcde9ea22554aec795
 
 packager build:
- - packager build Core/Core Core/Array Core/String Core/Number Core/Function Core/Object Core/Event Core/Browser Core/Class Core/Class.Extras Core/Slick.Parser Core/Slick.Finder Core/Element Core/Element.Style Core/Element.Event Core/Element.Delegation Core/Element.Dimensions Core/Fx Core/Fx.CSS Core/Fx.Tween Core/Fx.Morph Core/Fx.Transitions Core/Request Core/Request.HTML Core/Request.JSON Core/Cookie Core/JSON Core/DOMReady Core/Swiff
+ - packager build Core/Core Core/Array Core/String Core/Number Core/Function Core/Object Core/Event Core/Browser Core/Class Core/Class.Extras Core/Slick.Parser Core/Slick.Finder Core/Element Core/Element.Style Core/Element.Event Core/Element.Delegation Core/Element.Dimensions Core/Fx Core/Fx.CSS Core/Fx.Tween Core/Fx.Morph Core/Fx.Transitions Core/Request Core/Request.HTML Core/Request.JSON Core/Cookie Core/JSON Core/DOMReady
 
 ...
 */
@@ -20,7 +20,7 @@ description: The heart of MooTools.
 
 license: MIT-style license.
 
-copyright: Copyright (c) 2006-2012 [Valerio Proietti](http://mad4milk.net/).
+copyright: Copyright (c) 2006-2014 [Valerio Proietti](http://mad4milk.net/).
 
 authors: The MooTools production team (http://mootools.net/developers/)
 
@@ -36,8 +36,8 @@ provides: [Core, MooTools, Type, typeOf, instanceOf, Native]
 (function(){
 
 this.MooTools = {
-	version: '1.4.5',
-	build: 'ab8ea8824dc3b24b6666867a2c4ed58ebb762cf0'
+	version: '1.5.0',
+	build: '0f7b690afee9349b15909f33016a25d2e4d9f4e3'
 };
 
 // typeOf, instanceOf
@@ -50,7 +50,7 @@ var typeOf = this.typeOf = function(item){
 		if (item.nodeType == 1) return 'element';
 		if (item.nodeType == 3) return (/\S/).test(item.nodeValue) ? 'textnode' : 'whitespace';
 	} else if (typeof item.length == 'number'){
-		if (item.callee) return 'arguments';
+		if ('callee' in item) return 'arguments';
 		if ('item' in item) return 'collection';
 	}
 
@@ -269,7 +269,7 @@ var force = function(name, object, methods){
 			if (!methodsEnumerable) for (var i = 0, l = methods.length; i < l; i++){
 				fn.call(prototype, prototype[methods[i]], methods[i]);
 			}
-			for (var key in prototype) fn.call(prototype, prototype[key], key)
+			for (var key in prototype) fn.call(prototype, prototype[key], key);
 		};
 	}
 
@@ -277,7 +277,7 @@ var force = function(name, object, methods){
 };
 
 force('String', String, [
-	'charAt', 'charCodeAt', 'concat', 'indexOf', 'lastIndexOf', 'match', 'quote', 'replace', 'search',
+	'charAt', 'charCodeAt', 'concat', 'contains', 'indexOf', 'lastIndexOf', 'match', 'quote', 'replace', 'search',
 	'slice', 'split', 'substr', 'substring', 'trim', 'toLowerCase', 'toUpperCase'
 ])('Array', Array, [
 	'pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift', 'concat', 'join', 'slice',
@@ -327,11 +327,13 @@ Object.each = Object.forEach;
 
 Array.implement({
 
+	/*<!ES5>*/
 	forEach: function(fn, bind){
 		for (var i = 0, l = this.length; i < l; i++){
 			if (i in this) fn.call(bind, this[i], i, this);
 		}
 	},
+	/*</!ES5>*/
 
 	each: function(fn, bind){
 		Array.forEach(this, fn, bind);
@@ -541,7 +543,7 @@ description: Contains Array Prototypes like each, contains, and erase.
 
 license: MIT-style license.
 
-requires: Type
+requires: [Type]
 
 provides: Array
 
@@ -684,7 +686,7 @@ Array.implement({
 		if (this.length != 3) return null;
 		var rgb = this.map(function(value){
 			if (value.length == 1) value += value;
-			return value.toInt(16);
+			return parseInt(value, 16);
 		});
 		return (array) ? rgb : 'rgb(' + rgb + ')';
 	},
@@ -722,7 +724,7 @@ description: Contains String Prototypes like camelCase, capitalize, test, and to
 
 license: MIT-style license.
 
-requires: Type
+requires: [Type, Array]
 
 provides: String
 
@@ -731,12 +733,14 @@ provides: String
 
 String.implement({
 
+	//<!ES6>
+	contains: function(string, index){
+		return (index ? String(this).slice(index) : String(this)).indexOf(string) > -1;
+	},
+	//</!ES6>
+
 	test: function(regex, params){
 		return ((typeOf(regex) == 'regexp') ? regex : new RegExp('' + regex, params)).test(this);
-	},
-
-	contains: function(string, separator){
-		return (separator) ? (separator + this + separator).indexOf(separator + string + separator) > -1 : String(this).indexOf(string) > -1;
 	},
 
 	trim: function(){
@@ -795,6 +799,12 @@ String.implement({
 	}
 
 });
+
+//<1.4compat>
+String.prototype.contains = function(string, separator){
+	return (separator) ? (separator + this + separator).indexOf(separator + string + separator) > -1 : String(this).indexOf(string) > -1;
+};
+//</1.4compat>
 
 
 /*
@@ -1213,37 +1223,63 @@ provides: [Browser, Window, Document]
 var document = this.document;
 var window = document.window = this;
 
-var ua = navigator.userAgent.toLowerCase(),
-	platform = navigator.platform.toLowerCase(),
-	UA = ua.match(/(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/) || [null, 'unknown', 0],
-	mode = UA[1] == 'ie' && document.documentMode;
+var parse = function(ua, platform){
+	ua = ua.toLowerCase();
+	platform = (platform ? platform.toLowerCase() : '');
 
-var Browser = this.Browser = {
+	var UA = ua.match(/(opera|ie|firefox|chrome|trident|crios|version)[\s\/:]([\w\d\.]+)?.*?(safari|(?:rv[\s\/:]|version[\s\/:])([\w\d\.]+)|$)/) || [null, 'unknown', 0];
 
-	extend: Function.prototype.extend,
+	if (UA[1] == 'trident'){
+		UA[1] = 'ie';
+		if (UA[4]) UA[2] = UA[4];
+	} else if (UA[1] == 'crios') {
+		UA[1] = 'chrome';
+	}
 
-	name: (UA[1] == 'version') ? UA[3] : UA[1],
+	var platform = ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || ['other'])[0];
+	if (platform == 'win') platform = 'windows';
 
-	version: mode || parseFloat((UA[1] == 'opera' && UA[4]) ? UA[4] : UA[2]),
+	return {
+		extend: Function.prototype.extend,
+		name: (UA[1] == 'version') ? UA[3] : UA[1],
+		version: parseFloat((UA[1] == 'opera' && UA[4]) ? UA[4] : UA[2]),
+		platform: platform
+	};
+};
 
-	Platform: {
-		name: ua.match(/ip(?:ad|od|hone)/) ? 'ios' : (ua.match(/(?:webos|android)/) || platform.match(/mac|win|linux/) || ['other'])[0]
-	},
+var Browser = this.Browser = parse(navigator.userAgent, navigator.platform);
 
+if (Browser.ie){
+	Browser.version = document.documentMode;
+}
+
+Browser.extend({
 	Features: {
 		xpath: !!(document.evaluate),
 		air: !!(window.runtime),
 		query: !!(document.querySelector),
 		json: !!(window.JSON)
 	},
+	parseUA: parse
+});
 
-	Plugins: {}
-
-};
-
+//<1.4compat>
 Browser[Browser.name] = true;
 Browser[Browser.name + parseInt(Browser.version, 10)] = true;
-Browser.Platform[Browser.Platform.name] = true;
+
+if (Browser.name == 'ie' && Browser.version >= '11') {
+	delete Browser.ie;
+}
+
+var platform = Browser.platform;
+if (platform == 'windows'){
+	platform = 'win';
+}
+Browser.Platform = {
+	name: platform
+};
+Browser.Platform[platform] = true;
+//</1.4compat>
 
 // Request
 
@@ -1276,6 +1312,8 @@ Browser.Request = (function(){
 
 Browser.Features.xhr = !!(Browser.Request);
 
+//<1.4compat>
+
 // Flash detection
 
 var version = (Function.attempt(function(){
@@ -1284,10 +1322,14 @@ var version = (Function.attempt(function(){
 	return new ActiveXObject('ShockwaveFlash.ShockwaveFlash').GetVariable('$version');
 }) || '0 r0').match(/\d+/g);
 
-Browser.Plugins.Flash = {
-	version: Number(version[0] || '0.' + version[1]) || 0,
-	build: Number(version[2]) || 0
+Browser.Plugins = {
+	Flash: {
+		version: Number(version[0] || '0.' + version[1]) || 0,
+		build: Number(version[2]) || 0
+	}
 };
+
+//</1.4compat>
 
 // String scripts
 
@@ -1430,7 +1472,7 @@ if (Browser.opera){
 }
 
 if (Browser.name == 'unknown'){
-	switch ((ua.match(/(?:webkit|khtml|gecko)/) || [])[0]){
+	switch ((navigator.userAgent.toLowerCase().match(/(?:webkit|khtml|gecko)/) || [])[0]){
 		case 'webkit':
 		case 'khtml':
 			Browser.Engine.webkit = true;
@@ -1485,7 +1527,7 @@ var DOMEvent = this.DOMEvent = new Type('DOMEvent', function(event, win){
 	if (type.indexOf('key') == 0){
 		var code = this.code = (event.which || event.keyCode);
 		this.key = _keys[code]/*<1.3compat>*/ || Object.keyOf(Event.Keys, code)/*</1.3compat>*/;
-		if (type == 'keydown'){
+		if (type == 'keydown' || type == 'keyup'){
 			if (code > 111 && code < 124) this.key = 'f' + (code - 111);
 			else if (code > 95 && code < 106) this.key = code - 96;
 		}
@@ -2210,7 +2252,7 @@ local.setDocument = function(document){
 
 		// native matchesSelector function
 
-		features.nativeMatchesSelector = root.matchesSelector || /*root.msMatchesSelector ||*/ root.mozMatchesSelector || root.webkitMatchesSelector;
+		features.nativeMatchesSelector = root.matches || /*root.msMatchesSelector ||*/ root.mozMatchesSelector || root.webkitMatchesSelector;
 		if (features.nativeMatchesSelector) try {
 			// if matchesSelector trows errors on incorrect sintaxes we can use it
 			features.nativeMatchesSelector.call(root, ':slick');
@@ -3044,12 +3086,12 @@ license: MIT-style license.
 
 requires: [Window, Document, Array, String, Function, Object, Number, Slick.Parser, Slick.Finder]
 
-provides: [Element, Elements, $, $$, Iframe, Selectors]
+provides: [Element, Elements, $, $$, IFrame, Selectors]
 
 ...
 */
 
-var Element = function(tag, props){
+var Element = this.Element = function(tag, props){
 	var konstructor = Element.Constructors[tag];
 	if (konstructor) return konstructor(props);
 	if (typeof tag != 'string') return document.id(tag).set(props);
@@ -3241,7 +3283,7 @@ Array.mirror(Elements);
 /*<ltIE8>*/
 var createElementAcceptsHTML;
 try {
-    createElementAcceptsHTML = (document.createElement('<input name=x>').name == 'x');
+	createElementAcceptsHTML = (document.createElement('<input name=x>').name == 'x');
 } catch (e){}
 
 var escapeQuotes = function(html){
@@ -3647,7 +3689,28 @@ var pollutesGetAttribute = (function(div){
 	return (div.getAttribute('random') == 'attribute');
 })(document.createElement('div'));
 
-/* <ltIE9> */
+var hasCloneBug = (function(test){
+	test.innerHTML = '<object><param name="should_fix" value="the unknown"></object>';
+	return test.cloneNode(true).firstChild.childNodes.length != 1;
+})(document.createElement('div'));
+/* </ltIE9> */
+
+var hasClassList = !!document.createElement('div').classList;
+
+var classes = function(className){
+	var classNames = (className || '').clean().split(" "), uniques = {};
+	return classNames.filter(function(className){
+		if (className !== "" && !uniques[className]) return uniques[className] = className;
+	});
+};
+
+var addToClassList = function(name){
+	this.classList.add(name);
+};
+
+var removeFromClassList = function(name){
+	this.classList.remove(name);
+};
 
 Element.implement({
 
@@ -3657,7 +3720,8 @@ Element.implement({
 			setter(this, value);
 		} else {
 			/* <ltIE9> */
-			if (pollutesGetAttribute) var attributeWhiteList = this.retrieve('$attributeWhiteList', {});
+			var attributeWhiteList;
+			if (pollutesGetAttribute) attributeWhiteList = this.retrieve('$attributeWhiteList', {});
 			/* </ltIE9> */
 
 			if (value == null){
@@ -3729,17 +3793,27 @@ Element.implement({
 		return this;
 	},
 
-	hasClass: function(className){
+	hasClass: hasClassList ? function(className){
+		return this.classList.contains(className);
+	} : function(className){
 		return this.className.clean().contains(className, ' ');
 	},
 
-	addClass: function(className){
-		if (!this.hasClass(className)) this.className = (this.className + ' ' + className).clean();
+	addClass: hasClassList ? function(className){
+		classes(className).forEach(addToClassList, this);
+		return this;
+	} : function(className){
+		this.className = classes(className + ' ' + this.className).join(' ');
 		return this;
 	},
 
-	removeClass: function(className){
-		this.className = this.className.replace(new RegExp('(^|\\s)' + className + '(?:\\s|$)'), '$1');
+	removeClass: hasClassList ? function(className){
+		classes(className).forEach(removeFromClassList, this);
+		return this;
+	} : function(className){
+		var classNames = classes(this.className);
+		classes(className).forEach(classNames.erase, classNames);
+		this.className = classNames.join(' ');
 		return this;
 	},
 
@@ -3814,6 +3888,37 @@ Element.implement({
 
 });
 
+
+// appendHTML
+
+var appendInserters = {
+	before: 'beforeBegin',
+	after: 'afterEnd',
+	bottom: 'beforeEnd',
+	top: 'afterBegin',
+	inside: 'beforeEnd'
+};
+
+Element.implement('appendHTML', ('insertAdjacentHTML' in document.createElement('div')) ? function(html, where){
+	this.insertAdjacentHTML(appendInserters[where || 'bottom'], html);
+	return this;
+} : function(html, where){
+	var temp = new Element('div', {html: html}),
+		children = temp.childNodes,
+		fragment = temp.firstChild;
+
+	if (!fragment) return this;
+	if (children.length > 1){
+		fragment = document.createDocumentFragment();
+		for (var i = 0, l = children.length; i < l; i++){
+			fragment.appendChild(children[i]);
+		}
+	}
+
+	inserters[where || 'bottom'](fragment, this);
+	return this;
+});
+
 var collected = {}, storage = {};
 
 var get = function(uid){
@@ -3879,7 +3984,7 @@ Element.implement({
 		}
 
 		/*<ltIE9>*/
-		if (Browser.ie){
+		if (hasCloneBug){
 			var co = clone.getElementsByTagName('object'), to = this.getElementsByTagName('object');
 			for (i = co.length; i--;) co[i].outerHTML = to[i].outerHTML;
 		}
@@ -3892,13 +3997,7 @@ Element.implement({
 [Element, Window, Document].invoke('implement', {
 
 	addListener: function(type, fn){
-		if (type == 'unload'){
-			var old = fn, self = this;
-			fn = function(){
-				self.removeListener('unload', fn);
-				old();
-			};
-		} else {
+		if (window.attachEvent && !window.addEventListener){
 			collected[Slick.uidOf(this)] = this;
 		}
 		if (this.addEventListener) this.addEventListener(type, fn, !!arguments[2]);
@@ -3933,10 +4032,14 @@ Element.implement({
 });
 
 /*<ltIE9>*/
-if (window.attachEvent && !window.addEventListener) window.addListener('unload', function(){
-	Object.each(collected, clean);
-	if (window.CollectGarbage) CollectGarbage();
-});
+if (window.attachEvent && !window.addEventListener){
+	var gc = function(){
+		Object.each(collected, clean);
+		if (window.CollectGarbage) CollectGarbage();
+		window.removeListener('unload', gc);
+	}
+	window.addListener('unload', gc);
+}
 /*</ltIE9>*/
 
 Element.Properties = {};
@@ -3985,11 +4088,13 @@ Element.Properties.html = {
 
 };
 
+var supportsHTML5Elements = true, supportsTableInnerHTML = true, supportsTRInnerHTML = true;
+
 /*<ltIE9>*/
 // technique by jdbarlett - http://jdbartlett.com/innershiv/
 var div = document.createElement('div');
 div.innerHTML = '<nav></nav>';
-var supportsHTML5Elements = (div.childNodes.length == 1);
+supportsHTML5Elements = (div.childNodes.length == 1);
 if (!supportsHTML5Elements){
 	var tags = 'abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video'.split(' '),
 		fragment = document.createDocumentFragment(), l = tags.length;
@@ -3999,7 +4104,7 @@ div = null;
 /*</ltIE9>*/
 
 /*<IE>*/
-var supportsTableInnerHTML = Function.attempt(function(){
+supportsTableInnerHTML = Function.attempt(function(){
 	var table = document.createElement('table');
 	table.innerHTML = '<tr><td></td></tr>';
 	return true;
@@ -4008,7 +4113,7 @@ var supportsTableInnerHTML = Function.attempt(function(){
 /*<ltFF4>*/
 var tr = document.createElement('tr'), html = '<td></td>';
 tr.innerHTML = html;
-var supportsTRInnerHTML = (tr.innerHTML == html);
+supportsTRInnerHTML = (tr.innerHTML == html);
 tr = null;
 /*</ltFF4>*/
 
@@ -4053,11 +4158,12 @@ if (testForm.firstChild.value != 's') Element.Properties.value = {
 		var tag = this.get('tag');
 		if (tag != 'select') return this.setProperty('value', value);
 		var options = this.getElements('option');
+		value = String(value);
 		for (var i = 0; i < options.length; i++){
 			var option = options[i],
 				attr = option.getAttributeNode('value'),
 				optionValue = (attr && attr.specified) ? option.value : option.get('text');
-			if (optionValue == value) return option.selected = true;
+			if (optionValue === value) return option.selected = true;
 		}
 	},
 
@@ -4111,16 +4217,23 @@ provides: Element.Style
 
 (function(){
 
-var html = document.html;
+var html = document.html, el;
 
 //<ltIE9>
 // Check for oldIE, which does not remove styles when they're set to null
-var el = document.createElement('div');
+el = document.createElement('div');
 el.style.color = 'red';
 el.style.color = null;
 var doesNotRemoveStyles = el.style.color == 'red';
+
+// check for oldIE, which returns border* shorthand styles in the wrong order (color-width-style instead of width-style-color)
+var border = '1px solid #123abc';
+el.style.border = border;
+var returnsBordersInWrongOrder = el.style.border != border;
 el = null;
 //</ltIE9>
+
+var hasGetComputedStyle = !!window.getComputedStyle;
 
 Element.Properties.styles = {set: function(styles){
 	this.setStyles(styles);
@@ -4135,16 +4248,25 @@ var setVisibility = function(element, opacity){
 	element.style.visibility = opacity > 0 || opacity == null ? 'visible' : 'hidden';
 };
 
+//<ltIE9>
+var setFilter = function(element, regexp, value){
+	var style = element.style,
+		filter = style.filter || element.getComputedStyle('filter') || '';
+	style.filter = (regexp.test(filter) ? filter.replace(regexp, value) : filter + ' ' + value).trim();
+	if (!style.filter) style.removeAttribute('filter');
+};
+//</ltIE9>
+
 var setOpacity = (hasOpacity ? function(element, opacity){
 	element.style.opacity = opacity;
 } : (hasFilter ? function(element, opacity){
-	var style = element.style;
-	if (!element.currentStyle || !element.currentStyle.hasLayout) style.zoom = 1;
-	if (opacity == null || opacity == 1) opacity = '';
-	else opacity = 'alpha(opacity=' + (opacity * 100).limit(0, 100).round() + ')';
-	var filter = style.filter || element.getComputedStyle('filter') || '';
-	style.filter = reAlpha.test(filter) ? filter.replace(reAlpha, opacity) : filter + opacity;
-	if (!style.filter) style.removeAttribute('filter');
+	if (!element.currentStyle || !element.currentStyle.hasLayout) element.style.zoom = 1;
+	if (opacity == null || opacity == 1){
+		setFilter(element, reAlpha, '');
+		if (opacity == 1 && getOpacity(element) != 1) setFilter(element, reAlpha, 'alpha(opacity=100)');
+	} else {
+		setFilter(element, reAlpha, 'alpha(opacity=' + (opacity * 100).limit(0, 100).round() + ')');
+	}
 } : setVisibility));
 
 var getOpacity = (hasOpacity ? function(element){
@@ -4161,15 +4283,27 @@ var getOpacity = (hasOpacity ? function(element){
 	return opacity;
 }));
 
-var floatName = (html.style.cssFloat == null) ? 'styleFloat' : 'cssFloat';
+var floatName = (html.style.cssFloat == null) ? 'styleFloat' : 'cssFloat',
+	namedPositions = {left: '0%', top: '0%', center: '50%', right: '100%', bottom: '100%'},
+	hasBackgroundPositionXY = (html.style.backgroundPositionX != null);
+
+//<ltIE9>
+var removeStyle = function(style, property){
+	if (property == 'backgroundPosition'){
+		style.removeAttribute(property + 'X');
+		property += 'Y';
+	}
+	style.removeAttribute(property);
+};
+//</ltIE9>
 
 Element.implement({
 
 	getComputedStyle: function(property){
-		if (this.currentStyle) return this.currentStyle[property.camelCase()];
+		if (!hasGetComputedStyle && this.currentStyle) return this.currentStyle[property.camelCase()];
 		var defaultView = Element.getDocument(this).defaultView,
 			computed = defaultView ? defaultView.getComputedStyle(this, null) : null;
-		return (computed) ? computed.getPropertyValue((property == floatName) ? 'float' : property.hyphenate()) : null;
+		return (computed) ? computed.getPropertyValue((property == floatName) ? 'float' : property.hyphenate()) : '';
 	},
 
 	setStyle: function(property, value){
@@ -4191,7 +4325,7 @@ Element.implement({
 		this.style[property] = value;
 		//<ltIE9>
 		if ((value == '' || value == null) && doesNotRemoveStyles && this.style.removeAttribute){
-			this.style.removeAttribute(property);
+			removeStyle(this.style, property);
 		}
 		//</ltIE9>
 		return this;
@@ -4202,20 +4336,25 @@ Element.implement({
 		property = (property == 'float' ? floatName : property).camelCase();
 		var result = this.style[property];
 		if (!result || property == 'zIndex'){
-			result = [];
-			for (var style in Element.ShortStyles){
-				if (property != style) continue;
-				for (var s in Element.ShortStyles[style]) result.push(this.getStyle(s));
+			if (Element.ShortStyles.hasOwnProperty(property)){
+				result = [];
+				for (var s in Element.ShortStyles[property]) result.push(this.getStyle(s));
 				return result.join(' ');
 			}
 			result = this.getComputedStyle(property);
 		}
+		if (hasBackgroundPositionXY && /^backgroundPosition[XY]?$/.test(property)){
+			return result.replace(/(top|right|bottom|left)/g, function(position){
+				return namedPositions[position];
+			}) || '0px';
+		}
+		if (!result && property == 'backgroundPosition') return '0px 0px';
 		if (result){
 			result = String(result);
 			var color = result.match(/rgba?\([\d\s,]+\)/);
 			if (color) result = result.replace(color[0], color[0].rgbToHex());
 		}
-		if (Browser.opera || Browser.ie){
+		if (!hasGetComputedStyle && !this.style[property]){
 			if ((/^(height|width)$/).test(property) && !(/px$/.test(result))){
 				var values = (property == 'width') ? ['left', 'right'] : ['top', 'bottom'], size = 0;
 				values.each(function(value){
@@ -4223,10 +4362,15 @@ Element.implement({
 				}, this);
 				return this['offset' + property.capitalize()] - size + 'px';
 			}
-			if (Browser.ie && (/^border(.+)Width|margin|padding/).test(property) && isNaN(parseFloat(result))){
+			if ((/^border(.+)Width|margin|padding/).test(property) && isNaN(parseFloat(result))){
 				return '0px';
 			}
 		}
+		//<ltIE9>
+		if (returnsBordersInWrongOrder && /^border(Top|Right|Bottom|Left)?$/.test(property) && /^#/.test(result)){
+			return result.replace(/^(.+)\s(.+)\s(.+)$/, '$2 $3 $1');
+		}
+		//</ltIE9>
 		return result;
 	},
 
@@ -4248,7 +4392,7 @@ Element.implement({
 Element.Styles = {
 	left: '@px', top: '@px', bottom: '@px', right: '@px',
 	width: '@px', height: '@px', maxWidth: '@px', maxHeight: '@px', minWidth: '@px', minHeight: '@px',
-	backgroundColor: 'rgb(@, @, @)', backgroundPosition: '@px @px', color: 'rgb(@, @, @)',
+	backgroundColor: 'rgb(@, @, @)', backgroundSize: '@px', backgroundPosition: '@px @px', color: 'rgb(@, @, @)',
 	fontSize: '@px', letterSpacing: '@px', lineHeight: '@px', clip: 'rect(@px @px @px @px)',
 	margin: '@px @px @px @px', padding: '@px @px @px @px', border: '@px @ rgb(@, @, @) @px @ rgb(@, @, @) @px @ rgb(@, @, @)',
 	borderWidth: '@px @px @px @px', borderStyle: '@ @ @ @', borderColor: 'rgb(@, @, @) rgb(@, @, @) rgb(@, @, @) rgb(@, @, @)',
@@ -4309,6 +4453,7 @@ Element.ShortStyles = {margin: {}, padding: {}, border: {}, borderWidth: {}, bor
 	Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = 'rgb(@, @, @)';
 });
 
+if (hasBackgroundPositionXY) Element.ShortStyles.backgroundPosition = {backgroundPositionX: '@', backgroundPositionY: '@'};
 })();
 
 
@@ -4452,23 +4597,27 @@ Element.NativeEvents = {
 	gesturestart: 2, gesturechange: 2, gestureend: 2, // gesture
 	focus: 2, blur: 2, change: 2, reset: 2, select: 2, submit: 2, paste: 2, input: 2, //form elements
 	load: 2, unload: 1, beforeunload: 2, resize: 1, move: 1, DOMContentLoaded: 1, readystatechange: 1, //window
+	hashchange: 1, popstate: 2, // history
 	error: 1, abort: 1, scroll: 1 //misc
 };
 
-Element.Events = {mousewheel: {
-	base: (Browser.firefox) ? 'DOMMouseScroll' : 'mousewheel'
-}};
+Element.Events = {
+	mousewheel: {
+		base: 'onwheel' in document ? 'wheel' : 'onmousewheel' in document ? 'mousewheel' : 'DOMMouseScroll'
+	}
+};
+
+var check = function(event){
+	var related = event.relatedTarget;
+	if (related == null) return true;
+	if (!related) return false;
+	return (related != this && related.prefix != 'xul' && typeOf(this) != 'document' && !this.contains(related));
+};
 
 if ('onmouseenter' in document.documentElement){
 	Element.NativeEvents.mouseenter = Element.NativeEvents.mouseleave = 2;
+	Element.MouseenterCheck = check;
 } else {
-	var check = function(event){
-		var related = event.relatedTarget;
-		if (related == null) return true;
-		if (!related) return false;
-		return (related != this && related.prefix != 'xul' && typeOf(this) != 'document' && !this.contains(related));
-	};
-
 	Element.Events.mouseenter = {
 		base: 'mouseover',
 		condition: check
@@ -4486,12 +4635,12 @@ if (!window.addEventListener){
 	Element.Events.change = {
 		base: function(){
 			var type = this.type;
-			return (this.get('tag') == 'input' && (type == 'radio' || type == 'checkbox')) ? 'propertychange' : 'change'
+			return (this.get('tag') == 'input' && (type == 'radio' || type == 'checkbox')) ? 'propertychange' : 'change';
 		},
 		condition: function(event){
-			return this.type != 'radio' || (event.event.propertyName == 'checked' && this.checked);
+			return event.type != 'propertychange' || event.event.propertyName == 'checked';
 		}
-	}
+	};
 }
 /*</ltIE9>*/
 
@@ -4535,10 +4684,12 @@ var bubbleUp = function(self, match, fn, event, target){
 
 var map = {
 	mouseenter: {
-		base: 'mouseover'
+		base: 'mouseover',
+		condition: Element.MouseenterCheck
 	},
 	mouseleave: {
-		base: 'mouseout'
+		base: 'mouseout',
+		condition: Element.MouseenterCheck
 	},
 	focus: {
 		base: 'focus' + (eventListenerSupport ? '' : 'in'),
@@ -4645,8 +4796,8 @@ var delegation = {
 		};
 
 		var elementEvent = Element.Events[_type];
-		if (elementEvent && elementEvent.condition){
-			var __match = match, condition = elementEvent.condition;
+		if (_map.condition || elementEvent && elementEvent.condition){
+			var __match = match, condition = _map.condition || elementEvent.condition;
 			match = function(target, event){
 				return __match(target, event) && condition.call(target, event, type);
 			};
@@ -4681,7 +4832,7 @@ var delegation = {
 			if (_map.remove) _map.remove(this, _uid);
 			delete stored[_uid];
 			storage[_type] = stored;
-			return removeEvent.call(this, type, delegator);
+			return removeEvent.call(this, type, delegator, _map.capture);
 		}
 
 		var __uid, s;
@@ -4799,7 +4950,11 @@ Element.implement({
 	},
 
 	getOffsets: function(){
-		if (this.getBoundingClientRect && !Browser.Platform.ios){
+		var hasGetBoundingClientRect = this.getBoundingClientRect;
+//<1.4compat>
+		hasGetBoundingClientRect = hasGetBoundingClientRect && !Browser.Platform.ios
+//</1.4compat>
+		if (hasGetBoundingClientRect){
 			var bound = this.getBoundingClientRect(),
 				html = document.id(this.getDocument().documentElement),
 				htmlScroll = html.getScroll(),
@@ -4818,7 +4973,7 @@ Element.implement({
 		while (element && !isBody(element)){
 			position.x += element.offsetLeft;
 			position.y += element.offsetTop;
-
+//<1.4compat>
 			if (Browser.firefox){
 				if (!borderBox(element)){
 					position.x += leftBorder(element);
@@ -4833,13 +4988,15 @@ Element.implement({
 				position.x += leftBorder(element);
 				position.y += topBorder(element);
 			}
-
+//</1.4compat>
 			element = element.offsetParent;
 		}
+//<1.4compat>
 		if (Browser.firefox && !borderBox(this)){
 			position.x -= leftBorder(this);
 			position.y -= topBorder(this);
 		}
+//</1.4compat>
 		return position;
 	},
 
@@ -5121,13 +5278,17 @@ var Fx = this.Fx = new Class({
 	},
 
 	resume: function(){
-		if ((this.frame < this.frames) && !this.isRunning()) pushInstance.call(this, this.options.fps);
+		if (this.isPaused()) pushInstance.call(this, this.options.fps);
 		return this;
 	},
 
 	isRunning: function(){
 		var list = instances[this.options.fps];
 		return list && list.contains(this);
+	},
+
+	isPaused: function(){
+		return (this.frame < this.frames) && !this.isRunning();
 	}
 
 });
@@ -5200,7 +5361,7 @@ Fx.CSS = new Class({
 			from = element.getStyle(property);
 			var unit = this.options.unit;
 			// adapted from: https://github.com/ryanmorr/fx/blob/master/fx.js#L299
-			if (unit && from.slice(-unit.length) != unit && parseFloat(from) != 0){
+			if (unit && from && typeof from == 'string' && from.slice(-unit.length) != unit && parseFloat(from) != 0){
 				element.setStyle(property, to + unit);
 				var value = element.getComputedStyle(property);
 				// IE and Opera support pixelLeft or pixelWidth
@@ -5272,11 +5433,13 @@ Fx.CSS = new Class({
 	search: function(selector){
 		if (Fx.CSS.Cache[selector]) return Fx.CSS.Cache[selector];
 		var to = {}, selectorTest = new RegExp('^' + selector.escapeRegExp() + '$');
-		Array.each(document.styleSheets, function(sheet, j){
-			var href = sheet.href;
-			if (href && href.contains('://') && !href.contains(document.domain)) return;
-			var rules = sheet.rules || sheet.cssRules;
+
+		var searchStyles = function(rules){
 			Array.each(rules, function(rule, i){
+				if (rule.media){
+					searchStyles(rule.rules || rule.cssRules);
+					return;
+				}
 				if (!rule.style) return;
 				var selectorText = (rule.selectorText) ? rule.selectorText.replace(/^\w+/, function(m){
 					return m.toLowerCase();
@@ -5288,6 +5451,13 @@ Fx.CSS = new Class({
 					to[style] = ((/^rgb/).test(value)) ? value.rgbToHex() : value;
 				});
 			});
+		};
+
+		Array.each(document.styleSheets, function(sheet, j){
+			var href = sheet.href;
+			if (href && href.indexOf('://') > -1 && href.indexOf(document.domain) == -1) return;
+			var rules = sheet.rules || sheet.cssRules;
+			searchStyles(rules);
 		});
 		return Fx.CSS.Cache[selector] = to;
 	}
@@ -5832,10 +6002,10 @@ var Request = this.Request = new Class({
 		if (trimPosition > -1 && (trimPosition = url.indexOf('#')) > -1) url = url.substr(0, trimPosition);
 
 		if (this.options.noCache)
-			url += (url.contains('?') ? '&' : '?') + String.uniqueID();
+			url += (url.indexOf('?') > -1 ? '&' : '?') + String.uniqueID();
 
-		if (data && method == 'get'){
-			url += (url.contains('?') ? '&' : '?') + data;
+		if (data && (method == 'get' || method == 'delete')){
+			url += (url.indexOf('?') > -1 ? '&' : '?') + data;
 			data = null;
 		}
 
@@ -6086,10 +6256,16 @@ JSON.encode = JSON.stringify ? function(obj){
 	return null;
 };
 
+JSON.secure = true;
+//<1.4compat>
+JSON.secure = false;
+//</1.4compat>
+
 JSON.decode = function(string, secure){
 	if (!string || typeOf(string) != 'string') return null;
-
-	if (secure || JSON.secure){
+    
+	if (secure == null) secure = JSON.secure; 
+	if (secure){
 		if (JSON.parse) return JSON.parse(string);
 		if (!JSON.validate(string)) throw new Error('JSON could not decode the input; security is enabled and the value is not secure.');
 	}
@@ -6329,119 +6505,4 @@ window.addEvent('load', function(){
 });
 
 })(window, document);
-
-
-/*
----
-
-name: Swiff
-
-description: Wrapper for embedding SWF movies. Supports External Interface Communication.
-
-license: MIT-style license.
-
-credits:
-  - Flash detection & Internet Explorer + Flash Player 9 fix inspired by SWFObject.
-
-requires: [Options, Object, Element]
-
-provides: Swiff
-
-...
-*/
-
-(function(){
-
-var Swiff = this.Swiff = new Class({
-
-	Implements: Options,
-
-	options: {
-		id: null,
-		height: 1,
-		width: 1,
-		container: null,
-		properties: {},
-		params: {
-			quality: 'high',
-			allowScriptAccess: 'always',
-			wMode: 'window',
-			swLiveConnect: true
-		},
-		callBacks: {},
-		vars: {}
-	},
-
-	toElement: function(){
-		return this.object;
-	},
-
-	initialize: function(path, options){
-		this.instance = 'Swiff_' + String.uniqueID();
-
-		this.setOptions(options);
-		options = this.options;
-		var id = this.id = options.id || this.instance;
-		var container = document.id(options.container);
-
-		Swiff.CallBacks[this.instance] = {};
-
-		var params = options.params, vars = options.vars, callBacks = options.callBacks;
-		var properties = Object.append({height: options.height, width: options.width}, options.properties);
-
-		var self = this;
-
-		for (var callBack in callBacks){
-			Swiff.CallBacks[this.instance][callBack] = (function(option){
-				return function(){
-					return option.apply(self.object, arguments);
-				};
-			})(callBacks[callBack]);
-			vars[callBack] = 'Swiff.CallBacks.' + this.instance + '.' + callBack;
-		}
-
-		params.flashVars = Object.toQueryString(vars);
-		if (Browser.ie){
-			properties.classid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
-			params.movie = path;
-		} else {
-			properties.type = 'application/x-shockwave-flash';
-		}
-		properties.data = path;
-
-		var build = '<object id="' + id + '"';
-		for (var property in properties) build += ' ' + property + '="' + properties[property] + '"';
-		build += '>';
-		for (var param in params){
-			if (params[param]) build += '<param name="' + param + '" value="' + params[param] + '" />';
-		}
-		build += '</object>';
-		this.object = ((container) ? container.empty() : new Element('div')).set('html', build).firstChild;
-	},
-
-	replaces: function(element){
-		element = document.id(element, true);
-		element.parentNode.replaceChild(this.toElement(), element);
-		return this;
-	},
-
-	inject: function(element){
-		document.id(element, true).appendChild(this.toElement());
-		return this;
-	},
-
-	remote: function(){
-		return Swiff.remote.apply(Swiff, [this.toElement()].append(arguments));
-	}
-
-});
-
-Swiff.CallBacks = {};
-
-Swiff.remote = function(obj, fn){
-	var rs = obj.CallFunction('<invoke name="' + fn + '" returntype="javascript">' + __flash__argumentsToXML(arguments, 2) + '</invoke>');
-	return eval(rs);
-};
-
-})();
 

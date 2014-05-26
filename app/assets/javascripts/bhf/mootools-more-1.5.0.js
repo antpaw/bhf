@@ -1,6 +1,16 @@
-// MooTools: the javascript framework.
-// Load this file's selection again by visiting: http://mootools.net/more/335fff3ee615958016e5569b21c1d4cf 
-// Or build this file again with packager using: packager build More/Date More/String.Extras More/Sortables More/Assets More/IframeShim More/Locale More/Locale.en-US.Date More/Locale.de-DE.Date
+/*
+---
+MooTools: the javascript framework
+
+web build:
+ - http://mootools.net/more/335fff3ee615958016e5569b21c1d4cf
+
+packager build:
+ - packager build More/Date More/String.Extras More/Sortables More/Assets More/IframeShim More/Locale More/Locale.en-US.Date More/Locale.de-DE.Date
+
+...
+*/
+
 /*
 ---
 
@@ -31,8 +41,8 @@ provides: [MooTools.More]
 */
 
 MooTools.More = {
-	'version': '1.4.0.1',
-	'build': 'a4244edf2aa97ac8a196fc96082dd35af1abab87'
+	version: '1.5.0',
+	build: '73db5e24e6e9c5c87b3a27aebef2248053f7db37'
 };
 
 
@@ -52,7 +62,7 @@ authors:
 
 requires:
   - Core/Object
-  - /MooTools.More
+  - MooTools.More
 
 provides: [Object.Extras]
 
@@ -121,8 +131,8 @@ authors:
 
 requires:
   - Core/Events
-  - /Object.Extras
-  - /MooTools.More
+  - Object.Extras
+  - MooTools.More
 
 provides: [Locale, Lang]
 
@@ -285,7 +295,7 @@ authors:
   - Aaron Newton
 
 requires:
-  - /Locale
+  - Locale
 
 provides: [Locale.en-US.Date]
 
@@ -957,10 +967,8 @@ var special = {
 	'S': /[ŠŞŚ]/g,
 	't': /[ťţ]/g,
 	'T': /[ŤŢ]/g,
-	'ue': /[ü]/g,
-	'UE': /[Ü]/g,
-	'u': /[ùúûůµ]/g,
-	'U': /[ÙÚÛŮ]/g,
+	'u': /[ùúûůüµ]/g,
+	'U': /[ÙÚÛŮÜ]/g,
 	'y': /[ÿý]/g,
 	'Y': /[ŸÝ]/g,
 	'z': /[žźż]/g,
@@ -985,7 +993,16 @@ tidy = {
 	'-': /[\u2013]/g,
 //	'--': /[\u2014]/g,
 	'&raquo;': /[\uFFFD]/g
-};
+},
+
+conversions = {
+	ms: 1,
+	s: 1000,
+	m: 6e4,
+	h: 36e5
+},
+
+findUnits = /(\d*.?\d+)([msh]+)/;
 
 var walk = function(string, replacements){
 	var result = string, key;
@@ -1047,6 +1064,13 @@ String.implement({
 			if (trail) string += trail;
 		}
 		return string;
+	},
+
+	ms: function(){
+	  // "Borrowed" from https://gist.github.com/1503944
+		var units = findUnits.exec(this);
+		if (units == null) return Number(this);
+		return Number(units[1]) * conversions[units[2]];
 	}
 
 });
@@ -1076,7 +1100,7 @@ requires:
   - Core/Element.Event
   - Core/Element.Style
   - Core/Element.Dimensions
-  - /MooTools.More
+  - MooTools.More
 
 provides: [Drag]
 ...
@@ -1122,10 +1146,10 @@ var Drag = new Class({
 		this.mouse = {'now': {}, 'pos': {}};
 		this.value = {'start': {}, 'now': {}};
 
-		this.selection = (Browser.ie) ? 'selectstart' : 'mousedown';
+		this.selection = 'selectstart' in document ? 'selectstart' : 'mousedown';
 
 
-		if (Browser.ie && !Drag.ondragstartFixed){
+		if ('ondragstart' in document && !('FileReader' in window) && !Drag.ondragstartFixed){
 			document.ondragstart = Function.from(false);
 			Drag.ondragstartFixed = true;
 		}
@@ -1310,7 +1334,7 @@ authors:
 
 requires:
   - Core/Element.Dimensions
-  - /Drag
+  - Drag
 
 provides: [Drag.Move]
 
@@ -1337,10 +1361,7 @@ Drag.Move = new Class({
 		element = this.element;
 
 		this.droppables = $$(this.options.droppables);
-		this.container = document.id(this.options.container);
-
-		if (this.container && typeOf(this.container) != 'element')
-			this.container = document.id(this.container.getDocument().body);
+		this.setContainer(this.options.container);
 
 		if (this.options.style){
 			if (this.options.modifiers.x == 'left' && this.options.modifiers.y == 'top'){
@@ -1356,6 +1377,13 @@ Drag.Move = new Class({
 
 		this.addEvent('start', this.checkDroppables, true);
 		this.overed = null;
+	},
+	
+	setContainer: function(container) {
+		this.container = document.id(container);
+		if (this.container && typeOf(this.container) != 'element'){
+			this.container = document.id(this.container.getDocument().body);
+		}
 	},
 
 	start: function(event){
@@ -1421,7 +1449,9 @@ Drag.Move = new Class({
 
 			if (container != offsetParent){
 				left += containerMargin.left + offsetParentPadding.left;
-				top += ((Browser.ie6 || Browser.ie7) ? 0 : containerMargin.top) + offsetParentPadding.top;
+				if (!offsetParentPadding.left && left < 0) left = 0;
+				top += offsetParent == document.body ? 0 : containerMargin.top + offsetParentPadding.top;
+				if (!offsetParentPadding.top && top < 0) top = 0;
 			}
 		} else {
 			left -= elementMargin.left;
@@ -1505,7 +1535,7 @@ authors:
 
 requires:
   - Core/Fx.Morph
-  - /Drag.Move
+  - Drag.Move
 
 provides: [Sortables]
 
@@ -1524,7 +1554,8 @@ var Sortables = new Class({
 		clone: false,
 		revert: false,
 		handle: false,
-		dragOptions: {}
+		dragOptions: {},
+		unDraggableTags: ['button', 'input', 'a', 'textarea', 'select', 'option']
 	},
 
 	initialize: function(lists, options){
@@ -1590,6 +1621,24 @@ var Sortables = new Class({
 			return list;
 		}, this));
 	},
+    
+	getDroppableCoordinates: function (element){
+		var offsetParent = element.getOffsetParent();
+		var position = element.getPosition(offsetParent);
+		var scroll = {
+			w: window.getScroll(),
+			offsetParent: offsetParent.getScroll()
+		};
+		position.x += scroll.offsetParent.x;
+		position.y += scroll.offsetParent.y;
+
+		if (offsetParent.getStyle('position') == 'fixed'){
+			position.x -= scroll.w.x;
+			position.y -= scroll.w.y;
+		}
+
+        return position;
+	},
 
 	getClone: function(event, element){
 		if (!this.options.clone) return new Element(element.tagName).inject(document.body);
@@ -1610,7 +1659,7 @@ var Sortables = new Class({
 			});
 		}
 
-		return clone.inject(this.list).setPosition(element.getPosition(element.getOffsetParent()));
+		return clone.inject(this.list).setPosition(this.getDroppableCoordinates(this.element));
 	},
 
 	getDroppables: function(){
@@ -1635,7 +1684,7 @@ var Sortables = new Class({
 		if (
 			!this.idle ||
 			event.rightClick ||
-			['button', 'input', 'a', 'textarea'].contains(event.target.get('tag'))
+			(!this.options.handle && this.options.unDraggableTags.contains(event.target.get('tag')))
 		) return;
 
 		this.idle = false;
@@ -1666,14 +1715,16 @@ var Sortables = new Class({
 	end: function(){
 		this.drag.detach();
 		this.element.setStyle('opacity', this.opacity);
+		var self = this;
 		if (this.effect){
 			var dim = this.element.getStyles('width', 'height'),
 				clone = this.clone,
-				pos = clone.computePosition(this.element.getPosition(this.clone.getOffsetParent()));
+				pos = clone.computePosition(this.getDroppableCoordinates(clone));
 
 			var destroy = function(){
 				this.removeEvent('cancel', destroy);
 				clone.destroy();
+				self.reset();
 			};
 
 			this.effect.element = clone;
@@ -1686,8 +1737,9 @@ var Sortables = new Class({
 			}).addEvent('cancel', destroy).chain(destroy);
 		} else {
 			this.clone.destroy();
+			self.reset();
 		}
-		this.reset();
+		
 	},
 
 	reset: function(){
@@ -1732,7 +1784,7 @@ authors:
 
 requires:
   - Core/Element.Event
-  - /MooTools.More
+  - MooTools.More
 
 provides: [Assets]
 
@@ -1753,7 +1805,7 @@ var Asset = {
 		delete properties.document;
 
 		if (load){
-			if (typeof script.onreadystatechange != 'undefined'){
+			if (!script.addEventListener){
 				script.addEvent('readystatechange', function(){
 					if (['loaded', 'complete'].contains(this.readyState)) load.call(this);
 				});
@@ -1868,7 +1920,7 @@ authors:
 requires:
   - Core/Element.Style
   - Core/Element.Dimensions
-  - /MooTools.More
+  - MooTools.More
 
 provides: [Element.Measure]
 
@@ -2085,13 +2137,15 @@ var local = Element.Position = {
 	},
 
 	setOffsetOption: function(element, options){
-		var parentOffset = {x: 0, y: 0},
-			offsetParent = element.measure(function(){
-				return document.id(this.getOffsetParent());
-			}),
-			parentScroll = offsetParent.getScroll();
+		var parentOffset = {x: 0, y: 0};
+		var parentScroll = {x: 0, y: 0};
+		var offsetParent = element.measure(function(){
+			return document.id(this.getOffsetParent());
+		});
 
 		if (!offsetParent || offsetParent == element.getDocument().body) return;
+
+		parentScroll = offsetParent.getScroll();
 		parentOffset = offsetParent.measure(function(){
 			var position = this.getPosition();
 			if (this.getStyle('position') == 'fixed'){
@@ -2272,7 +2326,7 @@ authors:
 requires:
   - Core/Class
   - Core/Element
-  - /MooTools.More
+  - MooTools.More
 
 provides: [Class.Occlude]
 
@@ -2314,15 +2368,20 @@ requires:
   - Core/Element.Style
   - Core/Options
   - Core/Events
-  - /Element.Position
-  - /Class.Occlude
+  - Element.Position
+  - Class.Occlude
 
 provides: [IframeShim]
 
 ...
 */
 
-var IframeShim = new Class({
+(function(){
+
+var browsers = false;
+
+
+this.IframeShim = new Class({
 
 	Implements: [Options, Events, Class.Occlude],
 
@@ -2333,7 +2392,7 @@ var IframeShim = new Class({
 		zIndex: null,
 		margin: 0,
 		offset: {x: 0, y: 0},
-		browsers: (Browser.ie6 || (Browser.firefox && Browser.version < 3 && Browser.Platform.mac))
+		browsers: browsers
 	},
 
 	property: 'IframeShim',
@@ -2422,6 +2481,8 @@ var IframeShim = new Class({
 
 });
 
+})();
+
 window.addEvent('load', function(){
 	IframeShim.ready = true;
 });
@@ -2443,7 +2504,7 @@ authors:
   - Fabian Beiner
 
 requires:
-  - /Locale
+  - Locale
 
 provides: [Locale.de-DE.Date]
 
@@ -2455,7 +2516,7 @@ Locale.define('de-DE', 'Date', {
 	months: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
 	months_abbr: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
 	days: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
-	days_abbr: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
+	days_abbr: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
 
 	// Culture's date order: DD.MM.YYYY
 	dateOrder: ['date', 'month', 'year'],

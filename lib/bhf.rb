@@ -9,19 +9,20 @@ module Bhf
     
     isolate_namespace Bhf
     
-    # Config defaults
-    config.page_title = nil
-    config.on_login_fail = :root_url
-    config.logout_path = :logout_path
-    config.session_auth_name = :is_admin
-    config.session_account_id = :admin_account_id
-    config.account_model = 'User'
-    config.account_model_find_method = 'find'
-    config.css = []
-    config.js = []
-    config.abstract_config = []
+    # config.bhf defaults
+    config.bhf = OpenStruct.new
+    config.bhf.page_title = nil
+    config.bhf.on_login_fail = :root_url
+    config.bhf.logout_path = :logout_path
+    config.bhf.session_auth_name = :is_admin
+    config.bhf.session_account_id = :admin_account_id
+    config.bhf.account_model = 'User'
+    config.bhf.account_model_find_method = 'find'
+    config.bhf.css = []
+    config.bhf.js = []
+    config.bhf.abstract_config = []
     
-    # config.bhf_logic = YAML::load(IO.read('config/bhf.yml'))
+    # config.bhf.bhf_logic = YAML::load(IO.read('config/bhf.yml'))
     
     initializer 'bhf.action_controller' do |app|
       ActiveSupport.on_load :action_controller do
