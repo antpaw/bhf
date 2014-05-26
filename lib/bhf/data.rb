@@ -107,6 +107,7 @@ module Bhf
       end
       
       def macro
+        return :has_and_belongs_to_many if @reflection.macro == :has_many && @reflection.options[:through]
         @reflection.macro
       end
       

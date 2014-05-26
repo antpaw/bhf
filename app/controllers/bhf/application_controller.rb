@@ -15,7 +15,6 @@ class Bhf::ApplicationController < ActionController::Base
       if session[Bhf::Engine.config.session_auth_name.to_s] == true
         return true
       end
-
       redirect_to(main_app.send(Bhf::Engine.config.on_login_fail.to_sym), error: t('bhf.helpers.user.login.error')) and return false
     end
 
@@ -107,7 +106,7 @@ class Bhf::ApplicationController < ActionController::Base
     end
 
     def redirect_back_or_default(default, msg)
-      redirect_to(params[:return_to] || default, flash: msg)
+      redirect_via_turbolinks_to(params[:return_to] || default, flash: msg)
     end
 
 end
