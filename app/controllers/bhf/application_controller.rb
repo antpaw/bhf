@@ -62,10 +62,10 @@ class Bhf::ApplicationController < ActionController::Base
         Bhf::Engine.config.page_title
       else
         if params[:bhf_area]
-          t("bhf.areas.page_title.#{params[:bhf_area]}", 
+          t("bhf.areas.page_title.#{params[:bhf_area]}",
             area: params[:bhf_area],
             title: @app_title,
-            default: t('bhf.areas.page_title', 
+            default: t('bhf.areas.page_title',
               title: @app_title,
               area: t("bhf.areas.links.#{params[:bhf_area]}", default: params[:bhf_area])
             )
@@ -75,7 +75,7 @@ class Bhf::ApplicationController < ActionController::Base
         end
       end.html_safe
     end
-    
+
     def set_areas
       @areas = []
       if current_account and current_account.respond_to?(:bhf_areas)
