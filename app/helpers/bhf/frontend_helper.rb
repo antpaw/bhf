@@ -2,7 +2,7 @@ module Bhf
   module FrontendHelper
 
     def bhf_edit(object, options = {}, &block)
-      return unless session[Bhf::Engine.config.session_auth_name.to_s] == true
+      return unless session[Bhf::Engine.config.bhf.session_auth_name.to_s] == true
 
       options[:platform_name] ||= object.class.to_s.pluralize.downcase
       

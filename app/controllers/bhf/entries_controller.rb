@@ -73,9 +73,9 @@ class Bhf::EntriesController < Bhf::ApplicationController
     new_record.before_bhf_duplicate(@object) if new_record.respond_to?(:before_bhf_duplicate)
     if new_record.save
       new_record.after_bhf_duplicate(@object) if new_record.respond_to?(:after_bhf_duplicate)
-      redirect_via_turbolinks_to(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.success', @model))
+      redirect_to(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.success', @model))
     else
-      redirect_via_turbolinks_to(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.error', @model))
+      redirect_to(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.error', @model))
     end
   end
   
