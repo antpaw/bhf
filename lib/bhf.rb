@@ -22,7 +22,7 @@ module Bhf
     config.bhf.js = []
     config.bhf.abstract_config = []
     
-    # config.bhf.bhf_logic = YAML::load(IO.read('config/bhf.yml'))
+    # config.bhf.config = YAML::load(IO.read('config/bhf.yml'))
     
     initializer 'bhf.action_controller' do |app|
       ActiveSupport.on_load :action_controller do
