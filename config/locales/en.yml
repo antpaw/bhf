@@ -1,4 +1,4 @@
-en:  
+en:
   bhf:
     page_title: "%{title} &ndash; Admin"
     areas:
@@ -41,10 +41,9 @@ en:
       input:
         date_format:
           timestamp: '%Y-%m-%d %H:%M'
-          datetime:  '%Y-%m-%d %H:%M'
+          datetime: '%Y-%m-%d %H:%M'
           date: '%Y-%m-%d'
           time: '%H:%M'
-      
     quick_edit:
       buttons:
         cancel: Cancel
