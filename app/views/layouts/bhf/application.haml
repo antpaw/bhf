@@ -4,11 +4,11 @@
     %meta{charset: 'utf-8'}
     %title= @title
     %link{href: "/favicon.ico?#{@app_title.to_s.downcase}", rel: 'icon', type: 'image/x-icon'}
-    - (['bhf/application'] + Bhf::Engine.config.bhf.css.to_a).each do |css|
+    - Bhf::Engine.config.bhf.css.each do |css|
       = stylesheet_link_tag css
   %body
+    
     %header
-      
       %h1
         - logo = if params[:bhf_area] && Rails.application.assets.find_asset("logo_#{params[:bhf_area]}_bhf.svg")
           - "logo_#{params[:bhf_area]}_bhf.svg"
@@ -17,7 +17,7 @@
         
         = link_to image_tag(logo), @root_link ? @root_link : main_app.root_url, :'data-no-turbolink' => true
 
-      - if @areas and @areas.length > 1
+      - if @areas && @areas.length > 1
         = select_tag :area_select, options_from_collection_for_select(@areas, 'path', 'name', main_app.bhf_path(params[:bhf_area])), class: 'icon'
         
       - if @config && @config.pages.any?
@@ -36,5 +36,5 @@
       = render 'bhf/user'
       = render 'bhf/footer'
 
-    - (['bhf/application'] + Bhf::Engine.config.bhf.js.to_a).each do |js|
+    - Bhf::Engine.config.bhf.js.each do |js|
       = javascript_include_tag js, {:'data-turbolinks-eval' => false}
