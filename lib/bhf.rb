@@ -15,7 +15,7 @@ module Bhf
       abstract_config: []
     )
     
-    initializer 'bhf.helper' do |app|
+    initializer 'bhf.helper' do
       ActiveSupport.on_load :action_controller do
         helper Bhf::FrontendHelper
       end
