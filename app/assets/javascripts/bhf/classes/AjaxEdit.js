@@ -27,7 +27,6 @@ var AjaxEdit = new Class({
 			}.bind(this),
 			onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript){
 				this.injectForm(responseHTML);
-				eval(responseJavaScript);
 				
 				var nextElem = this.holder.getElement('.save_and_next');
 				if (this.options.hideNext && nextElem) {
@@ -52,9 +51,7 @@ var AjaxEdit = new Class({
 			}.bind(this),
 			onFailure: function(invalidForm){
 				this.injectForm(invalidForm.response);
-				invalidForm.response.stripScripts(function(script){
-					eval(script);
-				});
+				window.fireEvent('quickEditReady', [this.holder]);
 			}.bind(this),
 			onSuccess: function(json){
 				if ( ! eventNames.contains('successAndNext')) {

@@ -28,7 +28,6 @@ var AjaxEditStack = new Class({
 			}
 		});
 		
-		var fadeTm;
 		qe.addEvents({
 			startRequest: function(){
 				this.wrapElement.addClass('live_edit');

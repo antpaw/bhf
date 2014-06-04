@@ -1,3 +1,3 @@
 = node f, field do
-  = f.hidden_field :lat, :'data-default-lat' => 42.6259285, class: 'map_data_lat'
-  = f.hidden_field :lng, :'data-default-lng' => -70.6519888, class: 'map_data_lng'
+  = f.hidden_field :lat, class: 'map_data_lat', data: {default_lat: 42.6259285}
+  = f.hidden_field :lng, class: 'map_data_lng', data: {default_lng: -70.6519888}
