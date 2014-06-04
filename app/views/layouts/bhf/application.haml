@@ -8,6 +8,7 @@
       = stylesheet_link_tag css
   %body
     
+    = render partial: 'bhf/helper/flash', locals: {flash: flash}
     %header
       %h1
         - logo = if params[:bhf_area] && Rails.application.assets.find_asset("logo_#{params[:bhf_area]}_bhf.svg")
@@ -29,7 +30,6 @@
 
     #content
       #main
-        = render partial: 'bhf/helper/flash', locals: {flash: flash}
         = yield
 
     %footer

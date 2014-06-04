@@ -1,3 +1,17 @@
+require 'haml'
+require 'sass'
+require 'turbolinks'
+require 'kaminari'
+require 'bhf/active_record/active_record'
+require 'bhf/mongoid/document'
+require 'bhf/data'
+require 'bhf/platform'
+require 'bhf/config_parser'
+require 'bhf/settings'
+require 'bhf/pagination'
+require 'bhf/form'
+
+
 module Bhf
   class Engine < Rails::Engine
     
@@ -31,14 +45,3 @@ module Bhf
     end
   end
 end
-
-require 'haml'
-require 'kaminari'
-require 'bhf/active_record/active_record'
-require 'bhf/mongoid/document'
-require 'bhf/data'
-require 'bhf/platform'
-require 'bhf/config_parser'
-require 'bhf/settings'
-require 'bhf/pagination'
-require 'bhf/form'

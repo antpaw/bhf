@@ -1,6 +1,6 @@
-@import reset
-@import typo
-@import functions
+@import "reset.css"
+@import "typo.css"
+@import "functions.css.sass"
 
 $w1: #fff
 $w2: #F1F1F1
@@ -625,7 +625,7 @@ form
 
 
 footer
-  padding: 20px 0
+  padding: 20px 0 60px 0
   +text-shadow(#000, -1)
   text-align: center
   color: gray
@@ -689,21 +689,22 @@ input[type="submit"].alt_button,
     outline: 0
 
 #flash_massages
-  display: block
-  padding: 5px 20px
-  margin: -45px 0 10px 0
-  border: 1px solid $b1
-  +bg-gradient($b1, $b2)
-  color: $w1
-  +text-shadow(#0068B3)
-  overflow: hidden
-  height: 100%
+  position: fixed
   +transition-duration(0.6)
-  +transition-delay
+  bottom: -45px
   opacity: 0
+  width: 100%
+  font-size: 1.2em
   &.show
+    bottom: 0
     opacity: 1
-    margin-top: 0px
+  ul
+    display: block
+    padding: 15px 20px 15px 20px
+    border: 1px solid $b1
+    +bg-gradient($b1, $b2)
+    color: $w1
+    +text-shadow(#0068B3)
 
 
 .pagination
@@ -779,7 +780,7 @@ input[type="submit"].alt_button,
 
 // MooEditable
 
-@import MooEditable
+@import "MooEditable.css"
 
 .mooeditable-container
   @extend .default_input

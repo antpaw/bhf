@@ -1,7 +1,7 @@
 - platform.pagination.template = self
 - referral_id = nil
 - if flash[:referral_entry]
-  - referral_id = flash[:referral_entry][:platform] == platform.name && flash[:referral_entry][:id]
+  - referral_id = (flash[:referral_entry][:platform] == platform.name && flash[:referral_entry][:id])
 
 - if platform.custom_partial
   = render partial: "bhf/pages/#{platform.custom_partial}", locals: {platform: platform}

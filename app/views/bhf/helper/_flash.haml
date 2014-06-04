@@ -1,5 +1,6 @@
 - f = {notice: (flash[:notice] if flash[:notice]), error: (flash[:error] if flash[:error])}.reject {|k, v| v.blank?}
 - unless f.blank?
-  %ul#flash_massages.show
-    - f.each do |type, msg|
-      %li{class: type}= msg.to_s.html_safe
+  #flash_massages.show
+    %ul
+      - f.each do |type, msg|
+        %li{class: type}= msg.to_s.html_safe

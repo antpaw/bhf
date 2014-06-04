@@ -28,7 +28,7 @@ en:
         logout:
           link: Logout
       activated:
-        success: "%{model} was activated successfuly"
+        success: "%{model} was activated successfully"
         error: "%{model} error"
       validation:
         header: '%{error} prohibited this "%{name}" from being saved:'
@@ -77,14 +77,14 @@ en:
     notices:
       messages:
         duplicate:
-          success: "%{model} was duplicated successfuly"
+          success: "%{model} was duplicated successfully"
           error: "%{model} error"
         create:
-          success: "%{model} was created successfuly"
+          success: "%{model} was created successfully"
           error: "%{model} error"
         update:
-          success: "%{model} was updated successfuly"
+          success: "%{model} was updated successfully"
           error: "%{model} error"
         destory:
-          success: "%{model} was deleted successfuly"
+          success: "%{model} was deleted successfully"
           error: "%{model} error"
