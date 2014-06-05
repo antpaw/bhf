@@ -3,13 +3,22 @@
 	<title>{{ page.title }}</title>
 	<link rel="stylesheet" href="/css/bootstrap.css">
 	<link rel="stylesheet" href="/css/bootstrap-theme.css">
+	<link rel="stylesheet" href="/css/doc.css">
+	<link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+	<div class="bs-docs-header" id="content">
+		<div class="container">
+			<h1>bhf</h1>
+			<p>Agnostic Ruby on Rails backend. <br>Easy integratable and highly configurable.</p>
+		</div>
+	</div>
+	
 	<div class="container bs-docs-container">
 	      <div class="row">
 	        <div class="col-md-9" role="main">
 				<div class="bs-docs-section">
-					{{ content }}
+					{{ content }}{{name}}
 				</div>
 			</div>
 		</div>
