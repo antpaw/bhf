@@ -44,4 +44,5 @@ module Bhf
       end
     end
   end
+  PAPERCLIP_IMAGE_TYPES = ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif']
 end

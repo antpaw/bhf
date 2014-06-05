@@ -31,5 +31,9 @@ module Bhf
       end
     end
 
+    def type_is_image?(type)
+      Bhf::PAPERCLIP_IMAGE_TYPES.include?(type)
+    end
+    
   end
 end

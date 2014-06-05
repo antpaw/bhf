@@ -3,10 +3,10 @@
   = node f, field do
     - file = f.object.send(field.name)
     - if file.file?
-      - if ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif'].include?(f.object.send("#{field.name}_content_type"))
+      - if type_is_image?(file.content_type)
         = image_tag find_smallest_size_url_for_file(file), class: 'uploaded_image'
       - else
-        = link_to f.object.send("#{field.name}_file_name"), file.url, class: 'uploaded_file'
+        = link_to file.original_filename, file.url, class: 'uploaded_file'
 
       - if f.object.respond_to?(:"#{field.name}_destroy")
         .file_delete

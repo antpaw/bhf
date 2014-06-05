@@ -1,5 +1,6 @@
 - unless object.send(column.name).blank?
-  - if ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif'].include?(object.send("#{column.name}_content_type"))
-    = image_tag object.send(column.name), alt: object.send(column.name), class: 'preview_image'
+  - file = object.send(column.name)
+  - if type_is_image?(file.content_type)
+    = image_tag find_smallest_size_url_for_file(file), alt: object.send(column.name), class: 'preview_image'
   - else
-    = link_to object.send("#{column.name}_file_name"), object.send(column.name).url
+    = file.original_filename

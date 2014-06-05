@@ -16,10 +16,6 @@ module Bhf
       }
     end
     
-    def is_image?(file)
-      ! file.match(/\.png|\.jpg|\.jpeg|\.gif|\.svg/i).nil?
-    end
-    
     def reflection_title(f, field)
       title = f.object.class.human_attribute_name(field.reflection.name)
       if field.link
