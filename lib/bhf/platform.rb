@@ -140,16 +140,16 @@ module Bhf
       end
     end
 
-    def columns_count
-      columns.count + (sortable ? 2 : 1)
-    end
-
     def sortable
       table_options 'sortable'
     end
 
     def sortable_property
-      table_options 'sortable_property'
+      (@data['sortable_property'] || :position).to_sym
+    end
+
+    def columns_count
+      columns.count + (sortable ? 2 : 1)
     end
 
     def hide_edit

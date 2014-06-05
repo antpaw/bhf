@@ -80,12 +80,10 @@ class Bhf::EntriesController < Bhf::ApplicationController
   end
   
   def sort
-    sort_attr = (@platform.sortable_property || @platform.sortable).to_sym
-    
     params[:order].each do |order|
       @model.
         find(order[1].gsub("_#{@platform.name}", '')).
-        update_attribute(sort_attr, order[0].to_i)
+        update_attribute(@platform.sortable_property, order[0].to_i)
     end
     
     head :ok
