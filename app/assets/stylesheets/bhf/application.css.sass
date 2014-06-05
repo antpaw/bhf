@@ -3,25 +3,36 @@
 @import "functions.css.sass"
 
 $w1: #fff
-$w2: #F1F1F1
+
 $k1: #000
+$k2: #303030
+
+$g1: #F5F5F5
+$g2: #eee
+$g3: #E0E0E0
+$g4: #C2C2C2
+$g5: #7F7F7F
+$g6: #3e3e3e
+
 $b1: #38A5E9
-$r1: #E93838
 $b2: #0F8FDD
-$g1: #7F7F7F
-$g2: #ccc
-$g3: #424242
+$b3: #2F4D7B
+
+$r1: #E93838
+$r2: #fbb
+
+$orange: #ff9900
+
 
 html
   min-width: 700px
   height: 100%
   overflow-y: scroll
-  background: image-url('bhf/small_ajax_loader.gif') no-repeat -300px -300px, image-url('bhf/small_ajax_loader_h.gif') no-repeat -300px -300px, #303030
+  background: image-url('bhf/small_ajax_loader.gif') no-repeat -300px -300px, image-url('bhf/small_ajax_loader_h.gif') no-repeat -300px -300px, $k2
 
 body
   min-width: 960px
   min-height: 100%
-  //+box-inner-shadow(0, 0, 8,#000)
   -webkit-font-smoothing: antialiased
   -moz-font-smoothing: antialiased
   -o-font-smoothing: antialiased
@@ -64,38 +75,32 @@ header
       margin-bottom: 10px
       &.active
         a
-          +text-shadow(#fff)
-          +bg-gradient(#eaeaea, #D5D5D5)
+          background: $g2
           +box-shadow(0, 1, 4)
-          color: #3e3e3e
+          color: $g6
           &:hover
-            +bg-gradient(#FFFFFF, #FFFFFF)
+            background: $w1
             color: $b2
-            border-color: #FFFFFF
-            +text-shadow(#fff)
+            border-color: $w1
       a
         text-decoration: none
         display: block
         padding: 5px 23px
-        color: #EAEAEA
-        +text-shadow(#000, -1)
+        color: $g2
         &:hover
-          +bg-gradient($b1, $b2)
+          background: $b1
           color: $w1
           +box-shadow(0, 1, 4)
-          +text-shadow(#0068B3)
         &:active
-          +bg-gradient($b2, $b1)
-          +text-shadow(#0068B3, -1)
+          background: $b2
             
 .content_box
   margin: 10px 20px 20px 20px
 .dl
-  +text-shadow(#fff)
   .dt
     display: inline-block
     min-width: 200px
-    color: $g1
+    color: $g5
   a
     text-decoration: underline
   .text
@@ -107,19 +112,20 @@ header
     padding: 2px 5px
   thead
     th
-      background: #3E3E3E
-      color: #C2C2C2
+      background: $g6
+      color: $g4
       text-align: left
   tr
     &:hover
       td
-        background: #E0E0E0
+        background: $g2
   tbody
     td
-      border-bottom: 1px solid #E0E0E0
+      border-bottom: 1px solid $g2
       &.no_content
         border-color: transparent
         background: transparent
+
 .font_size_bigger
   font-size: 1.2em
     
@@ -128,14 +134,15 @@ header
 #main
   display: table-cell
   overflow: hidden
-  background: #EAEAEA
+  background: $g2
   box-sizing: border-box
   +box-shadow(0, 1, 4, rgba($k1, 0.5))
 .quick_edit_helper,
 #main
   > h3
     padding: 9px 20px
-    background: #dbdbdb
+    background: $g3
+    
 
 #area_select
   -webkit-appearance: none
@@ -166,11 +173,9 @@ header
     border-spacing: 20px
   h2,
   h3
-    +text-shadow(#fff)
-    color: #3e3e3e
+    color: $g6
   h6
-    color: $g3
-    +text-shadow(#fff)
+    color: $g6
   .quick_edit_holder
     &.collapsed
       width: 50px
@@ -208,24 +213,21 @@ header
       padding: 0
       button
         border: none
-        background: none
+        background-color: transparent
         color: inherit
         font: inherit
-        text-shadow: inherit
         margin: 0
         float: left
         cursor: pointer
         padding: 6px 20px
         &:focus
           outline: 0
-        &.save
-          &:hover
-            color: darken($b2, 15%)
         &.save_and_next
           border-left: 1px solid $b2
           text-indent: -9999px
-          background: image-url('bhf/pictos.png') no-repeat -140px -40px
+          background-position: -140px -40px
           width: 40px
+          height: 40px
           &:focus,
           &:hover
             background-position: -140px -90px
@@ -247,25 +249,24 @@ table.data_table
     overflow: hidden
     height: 28px
     -moz-box-sizing: content-box
-    padding: 10px 10px 10px 20px
-    background: #DBDBDB
+    padding: 10px 20px 10px 20px
+    background: $g3
     text-align: left
     h4,
     .info
       display: inline-block
-      +text-shadow(#fff)
       padding-bottom: 20px
     h4
-      color: #3E3E3E
+      color: $g6
     .info
       margin: 0 20px 0 10px
       min-width: 290px
       text-transform: uppercase
       font-size: 12px
-      color: $g1
+      color: $g5
       white-space: nowrap
       strong
-        color: #3E3E3E
+        color: $g6
     form
       display: inline-block
     .create
@@ -282,23 +283,22 @@ table.data_table
       padding-left: 3px
       text-align: left
       white-space: nowrap
-      background: #3E3E3E
-      +text-shadow(#000, -1)
-      color: #C2C2C2
+      color: $g5
       &.primary_key
         text-transform: uppercase
-      &.sorted
-        background: #000
+      &.sorted 
         & a:after,
         &.desc:hover a:after
           content: ' ▲'
         &:hover a:after,
         &.desc a:after
           content: ' ▼'
+        a:after
+          color: $g4
+        &:hover a:after
+          color: $b1
         a
-          color: #FFFFFF
-          +text-shadow
-
+          color: $b1
   th,
   td
     &.drag
@@ -306,7 +306,7 @@ table.data_table
 
   tbody
     td
-      border-bottom: 1px solid #E0E0E0
+      border-bottom: 1px solid $g3
       &.has_many,
       &.has_and_belongs_to_many,
       &.text
@@ -320,7 +320,7 @@ table.data_table
         text-align: center
         text-transform: uppercase
         padding: 10px 0
-        color: $g1
+        color: $g5
         a
           font-weight: bold
           display: inline
@@ -344,7 +344,7 @@ table.data_table
       &:hover,
       &.live_edit
         td
-          +bg-gradient($b1, $b2)
+          background: $b1
           border-bottom-color: $b1
           color: $w1
           .duplicate
@@ -369,7 +369,7 @@ table.data_table
             &.clicked
               background: image-url('bhf/small_ajax_loader_h.gif') no-repeat center center
       &.live_edit td
-        +bg-gradient($b2, $b1)
+        background: $b2
         border-bottom-color: $b2
       &.dragged
         td
@@ -392,14 +392,14 @@ table.data_table
       padding-left: 10px
       width: 30px
     .action
-      padding-right: 3px
+      padding-right: 15px
       width: 54px
       text-align: right
       &.wider
         width: 88px
   tbody
     .primary_key
-      color: #999
+      color: $g5
 
 .icon
   text-indent: -9999px
@@ -424,7 +424,7 @@ table.data_table
 
 .default_input
   border: 1px solid transparent
-  background: #FFF
+  background: $w1
   +border-radius(2)
   padding: 2px 5px 2px 5px
   width: 300px
@@ -464,17 +464,6 @@ form
     &.static
       .input
         padding-top: 5px
-    //
-      &.string,
-      &.number,
-      &.text,
-      &.password
-        .input,
-        .label
-          padding-top: 0
-        .label
-          label
-            padding-top: 5px
   .input,
   .label
     display: table-cell
@@ -485,8 +474,7 @@ form
     p,
     label
       display: block
-      color: $g3
-      +text-shadow(#fff)
+      color: $g6
     .field_with_errors
       color: $r1
   .input
@@ -496,7 +484,7 @@ form
     .uploaded_file,
     textarea
       @extend .default_input
-    input[name*="headline"]  ,
+    input[name*="headline"],
     input[name*="title"],
     input[name*="name"]
       font-size: 18px
@@ -518,7 +506,7 @@ form
       input
         border-color: $r1
     [disabled]
-      background: $g2 !important
+      background: $g4 !important
     input[type="submit"],
     input[type="password"],
     input[type="text"],
@@ -551,10 +539,10 @@ form
     .uploaded_file
       overflow: hidden
       padding: 7px 5px 8px 7px
-      background: #999
-      color: #fff
+      background: $g5
+      color: $w1
       &:hover
-        background: #fff
+        background: $w1
         color: $b1
     .warning
       font-weight: bold
@@ -601,15 +589,14 @@ form
       
   .cancel
     margin-left: 20px
-    color: $g1
+    color: $g5
     &:hover
-      color: $g3
+      color: $g6
       text-decoration: underline
   .info
     font-style: italic
     font-size: 12px
-    color: $g3
-    +text-shadow(#fff)
+    color: $g6
     a
       text-decoration: underline
       
@@ -620,12 +607,11 @@ form
       cursor: pointer
       display: block
       &:hover
-        color: #ff9900
+        color: $orange
 
 
 footer
   padding: 20px 0 60px 0
-  +text-shadow(#000, -1)
   text-align: center
   color: gray
   font-size: 12px
@@ -645,7 +631,7 @@ input[type="submit"],
   padding: 6px 20px
   margin: 20px 0 0
   background: $b1
-  color: #fff
+  color: $w1
   font-weight: bold
   font-size: 18px
   text-decoration: none
@@ -673,11 +659,10 @@ input[type="submit"].alt_button,
   text-decoration: none
   font-size: 13px
   cursor: pointer
-  background: #666
+  background: $g5
   padding: 5px 10px
   color: $w1
   border: 0
-  +text-shadow(#444, -1)
   +transition-duration(0.3)
   &:hover
     background: $b1
@@ -701,9 +686,8 @@ input[type="submit"].alt_button,
     display: block
     padding: 15px 20px 15px 20px
     border: 1px solid $b1
-    +bg-gradient($b1, $b2)
+    background: $b1
     color: $w1
-    +text-shadow(#0068B3)
 
 
 .pagination
@@ -714,35 +698,32 @@ input[type="submit"].alt_button,
     @extend .alt_button
   
   span
-    color: gray
+    color: $g4
     cursor: default
     &:hover
-      background: #666
-      border-color: #999
+      background: $g5
+      border-color: $g5
   .page_number
     background: transparent
-    color: #3E3E3E
-    border-color: #B7B7B7
-    +text-shadow(#fff)
+    color: $g6
+    border-color: $g4
     &:hover
-      color: #fff
-      +text-shadow(#999)
+      color: $w1
       
   em
     font-style: normal
     font-weight: bold
     cursor: default
-    background: #B1B1B1
+    background: $g6
 
 .basic_info_list
   font-size: 20px
   font-weight: bold
   line-height: 40px
-  color: $g3
-  +text-shadow(#fff)
+  color: $g6
   li
     padding-left: 10px
-    border-top: 1px solid $g2
+    border-top: 1px solid $g4
     +transition-duration
     &:first-child
       border: none
@@ -757,8 +738,6 @@ input[type="submit"].alt_button,
     a
       +transition-duration
       display: block
-
-@media (max-width: 800px)
 
 
 @media (max-width: 960px)
@@ -784,9 +763,9 @@ input[type="submit"].alt_button,
 .mooeditable-container
   @extend .default_input
   background: white
-  border: 1px solid #BBB
+  border: 1px solid $g4
   .toolbar-separator
-    background: $g2
+    background: $g4
   .mooeditable-ui-toolbar
     +border-radius(2)
     margin-top: 2px
@@ -794,24 +773,23 @@ input[type="submit"].alt_button,
     background: white !important
     padding: 2px 4px 4px 4px !important
     &:hover
-      background: $g2 !important
+      background: $g4 !important
       
       
 .datepicker
   position: absolute
   width: 172px
   padding: 5px 10px
-  background: #E5E5E5
-  border: 1px solid #C1C2DC
+  background: $g2
+  border: 1px solid $g4
   +border-radius(2)
-  +text-shadow(#fff)
-  color: #535b6f
+  color: $b3
   margin-top: -2px
   .header
     position: relative
     margin-bottom: 5px
     padding-bottom: 5px
-    border-bottom: 1px solid #C1C2DC
+    border-bottom: 1px solid $g4
     .title
       padding-top: 3px
       text-align: center
@@ -824,7 +802,7 @@ input[type="submit"].alt_button,
       top: 2px
       font-weight: bold
       &:hover
-        color: #2F4D7B
+        color: $b2
     .previous
       left: 4px
     .next
@@ -837,7 +815,7 @@ input[type="submit"].alt_button,
     font-weight: bold
     font-size: 12px
     .title.day
-      color: #535b6f
+      color: $g4
   .body
     position: relative
     top: 0px
@@ -856,20 +834,19 @@ input[type="submit"].alt_button,
       position: absolute
     .hour,
     .minutes
-      left: 15px
+      left: 23px
       font-size: 26px
       height: 48px
       width: 40px
-      font-weight: bold
-      color: $g3
+      color: $g6
       text-align: center
       @extend .default_input
     .separator
       width: 10px
       font-size: 34px
-      left: 76px
+      left: 78px
     .minutes
-      left: 95px
+      left: 103px
     .ok
       position: absolute
       cursor: pointer
@@ -885,7 +862,7 @@ input[type="submit"].alt_button,
       overflow: hidden
       width: 23px
       margin: 0 1px 1px 0
-      color: #262626
+      color: $g6
     .day0
       margin-right: 0
     .week5 .day
@@ -893,20 +870,18 @@ input[type="submit"].alt_button,
     .week .day
       cursor: pointer
       &:hover
-        +box-shadow(0, 0, 1, #2F4D7B)
-        background-color: #fff
-        color: #2F4D7B
-        +text-shadow(#ccc)
+        +box-shadow(0, 0, 1, $b2)
+        background-color: $w1
+        color: $b2
         +border-radius(2)
         
     .otherMonth
-      color: #aaa
+      color: $g5
     .selected
       +border-radius(2)
-      background-color: #2F4D7B
-      color: #fff
-      +text-shadow(#000)
-      +box-shadow(0, 0, 1, #fff)
+      background-color: $b2
+      color: $w1
+      +box-shadow(0, 0, 1, $w1)
   .months
     .month
       float: left
@@ -923,15 +898,13 @@ input[type="submit"].alt_button,
     .month10, .month11, .month12
       margin-bottom: 0
     .month:hover
-      +box-shadow(0, 0, 1, #2F4D7B)
-      background-color: #fff
-      color: #2F4D7B
-      +text-shadow(#ccc)
+      +box-shadow(0, 0, 1, $b2)
+      background-color: $w1
+      color: $b2
     .selected
-      background-color: #2F4D7B
-      color: #fff
-      +text-shadow(#000)
-      +box-shadow(0, 0, 1, #fff)
+      background-color: $b2
+      color: $w1
+      +box-shadow(0, 0, 1, $w1)
   .years
     .year
       float: left
@@ -949,18 +922,16 @@ input[type="submit"].alt_button,
     .year15, .year16, .year17, .year18, .year19
       margin-bottom: 0
     .year:hover
-      +box-shadow(0, 0, 1, #2F4D7B)
-      background-color: #fff
-      color: #2F4D7B
-      +text-shadow(#ccc)
+      +box-shadow(0, 0, 1, $b2)
+      background-color: $w1
+      color: $b2
     .selected
-      background-color: #2F4D7B
-      color: #fff
-      +text-shadow(#000)
-      +box-shadow(0, 0, 1, #fff)
+      background-color: $b2
+      color: $w1
+      +box-shadow(0, 0, 1, $w1)
   .unavailable
     background: none !important
-    color: #fbb !important
+    color: $r2 !important
     cursor: default !important
 
 .hide
@@ -1012,7 +983,7 @@ input[type="submit"].alt_button,
   @extend .default_input
   width: 700px
   margin: 0 -6px 0 -6px
-  background-color: #F5F5F5
+  background-color: $w1
   padding: 3px 5px 2px 5px
   margin-bottom: 10px
   line-height: 22px
@@ -1048,8 +1019,8 @@ input[type="submit"].alt_button,
 .wmd-output 
   font-size: 12px
   line-height: 16px
-  background: $g3
-  color: $w2
+  background: $g6
+  color: $w1
   code
     font-family: Monaco,Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Courier New",Courier,monospace
     white-space: pre-wrap
@@ -1086,7 +1057,7 @@ input[type="submit"].alt_button,
   list-style: none
   border: 1px solid transparent
   &:hover
-    border-color: $g2
+    border-color: $g4
 
 
 .wmd-spacer
@@ -1095,7 +1066,7 @@ input[type="submit"].alt_button,
   margin-left: 7px
   margin-right: 7px
   position: relative
-  background-color: $g2
+  background-color: $g4
   display: inline-block
   list-style: none
 
@@ -1128,11 +1099,11 @@ input[type="submit"].alt_button,
     background-position: -240px 0
 
 .wmd-prompt-background
-  background-color: #000
+  background-color: $k1
 
 .wmd-prompt-dialog
-  border: 1px solid #999999
-  background-color: #F5F5F5
+  border: 1px solid $g5
+  background-color: $g1
   > div 
     font-size: 0.8em
     font-family: arial, helvetica, sans-serif
@@ -1155,10 +1126,3 @@ input[type="submit"].alt_button,
   .icon
     background-image: image-url('bhf/pictos_2x.png')
     background-size: 440px 152px
-  #content
-    .quick_edit_holder
-      .group
-        button
-          &.save_and_next
-            background-image: image-url('bhf/pictos_2x.png')
-            background-size: 440px 152px

@@ -6,4 +6,4 @@
   .button.group
     %button.save{class: ('create' if @object.new_record?)}= @object.new_record? ? t('bhf.quick_edit.buttons.create') : t('bhf.quick_edit.buttons.save')
     - unless @object.new_record?
-      %button.save_and_next{title: t('bhf.quick_edit.buttons.save_and_next')}= t('bhf.quick_edit.buttons.save_and_next')
+      %button.save_and_next.icon{title: t('bhf.quick_edit.buttons.save_and_next')}= t('bhf.quick_edit.buttons.save_and_next')
