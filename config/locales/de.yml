@@ -2,8 +2,8 @@ de:
   bhf:
     helpers:
       boolean:
-        a: ja
-        b: nein
+        'true': 'ja'
+        'false': 'nein'
       link: Link ⬀
       searchform:
         placeholder: Suche

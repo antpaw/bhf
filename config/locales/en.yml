@@ -5,8 +5,8 @@ en:
       page_title: "%{area} &ndash; %{title} &ndash; Admin"
     helpers:
       boolean:
-        a: yes
-        b: no
+        'true': 'yes'
+        'false': 'no'
       link: Link ⬀
       searchform:
         placeholder: Search

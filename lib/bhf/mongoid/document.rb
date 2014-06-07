@@ -9,7 +9,7 @@ module Bhf
 
         def initialize(mongoid_field)
           @name = mongoid_field.name
-          @type = mongoid_field.type.to_s.downcase.to_sym
+          @type = mongoid_field.type.to_s.downcase.gsub('mongoid::', '').to_sym
           @type = :primary_key if @type == :'bson::objectid'
         end
       end
@@ -141,7 +141,6 @@ module Bhf
 
         def bhf_find_embed(parent_id, ref_id)
           get_embedded_parent parent_id do |parent, meta|
-            # :forced_nil_inverse?, :foreign_key, :foreign_key_check, :foreign_key_setter, :index, :indexed?, :inspect, :inverses, :inverse, :inverse_class_name, :inverse_class_name?, :inverse_foreign_key, :inverse_klass, :inverse_metadata, :inverse_of, :inverse_of?, :inverse_setter, :inverse_type, :inverse_type_setter
             key_name = if meta.inverse_of?
               meta.inverse_of
             else
