@@ -101,7 +101,14 @@ class Bhf::EntriesController < Bhf::ApplicationController
   private
 
     def object_to_bhf_display_hash
-      @platform.columns.each_with_object({to_bhf_s: @object.to_bhf_s, edit_path: edit_entry_path(@platform.name, @object), object_id: @object.id.to_s}) do |column, hash|
+      extra_data = {
+        to_bhf_s: @object.to_bhf_s, 
+        object_id: @object.send(@object.class.bhf_primary_key).to_s,
+        edit_path: edit_entry_path(@platform.name, @object), 
+        delete_path: entry_path(@platform.name, @object), 
+        delete_confirm: t('bhf.helpers.promts.confirm')
+      }
+      @platform.columns.each_with_object(extra_data) do |column, hash|
         unless column.field.macro == :column && @object.send(column.name).blank?
           p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
           hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}
@@ -139,7 +146,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
         reflection.klass.unscoped.find(ids.keys).each do |relation_obj|
           has_relation = relation_array.include?(relation_obj)
           
-          if ids[relation_obj.id.to_s].blank?
+          if ids[relation_obj.send(relation_obj.class.bhf_primary_key).to_s].blank?
             if has_relation
               relation_array.delete(relation_obj)
             end

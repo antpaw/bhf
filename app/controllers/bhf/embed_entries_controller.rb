@@ -17,10 +17,13 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
     if @object.save
       manage_many_to_many
       after_save
-
-      edit_path = edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
+      
+      extra_data = {
+        edit_path: edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object),
+        delete_path: entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
+      }
       if @quick_edit
-        render json: object_to_bhf_display_hash.merge(edit_path: edit_path), status: :ok
+        render json: object_to_bhf_display_hash.merge(extra_data), status: :ok
       else
         redirect_back_or_default(edit_path, notice: set_message('create.success', @model))
       end

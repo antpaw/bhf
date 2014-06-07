@@ -12,6 +12,7 @@ var initHelper = function(callback){
 	window.addEvent('domready', scopedCallback);
 	window.addEvent('platformUpdate', callback);
 	window.addEvent('quickEditReady', callback);
+	window.addEvent('newQuickEditLink', callback);
 };
 
 (function(){
@@ -26,6 +27,34 @@ var initHelper = function(callback){
 
 	var editStack = new AjaxEditStack();
 	
+	var insertNewLi = function(relation, json){
+		console.log(4444);
+		var newLi = new Element('li').adopt([
+			new Element('a.quick_edit', {text: json.to_bhf_s || '', href: json.edit_path}),
+			new Element('a.delete', {html: '&times;' || '', href: json.delete_path, 'data-confirm': json.delete_confirm, 'data-remote': 'true'})
+		]);
+		relation.adopt(newLi);
+		window.fireEvent('newQuickEditLink', [newLi]);
+	}
+	var setupDefaultDeleteQuickEditEvents = function(scope, options){		
+		scope.addEvent('click:relay(.delete)', function(e){
+			e.target.addEvents({
+				'ajax:success': function(html){
+					var relation = e.target.getParent('.relation');
+					if (relation.getElements('li').length < 2) {
+						relation.getPrevious('.empty').removeClass('hide');
+						if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
+							relation.getNext('.add_field').removeClass('hide');
+						}
+					}
+					e.target.getParent('li').dispose();
+				},
+				'ajax:failure': function(html){
+					alert(Locale.get('Notifications.failure'));
+				}
+			});
+		});
+	}
 	
 	initHelper(function(mainScope){
 		var areaSelect = mainScope.getElement('#area_select');
@@ -166,11 +195,7 @@ var initHelper = function(callback){
 					if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
 						relation.getNext('.add_field').addClass('hide');
 					}
-					relation.adopt(
-						new Element('li').adopt(
-							new Element('a.quick_edit', {text: json.to_bhf_s || '', href: json.edit_path})
-						)
-					);
+					insertNewLi(relation, json);
 				},
 				onSuccessAndChange: function(json){
 					this.wrapElement.set('text', json.to_bhf_s || '');
@@ -193,28 +218,11 @@ var initHelper = function(callback){
 				}
 			}, sharedAjaxEditOptions);
 			
-			mainForm.getElements('.quick_edit').addEvent('click', function(e){
+			setupDefaultDeleteQuickEditEvents(mainForm, ajaxEditOptions);
+			mainForm.addEvent('click:relay(.quick_edit)', function(e){
 				e.preventDefault();
-				
 				editStack.removeAllStacks();
 				editStack.addEditBrick(ajaxEditOptions, this);
-			});
-			mainForm.getElements('.delete').addEvent('click', function(e){
-				e.target.addEvents({
-					'ajax:success': function(html){
-						var relation = e.target.getParent('.relation');
-						if (relation.getElements('li').length < 2) {
-							relation.getPrevious('.empty').removeClass('hide');
-							if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
-								relation.getNext('.add_field').removeClass('hide');
-							}
-						}
-						e.target.getParent('li').dispose();
-					},
-					'ajax:failure': function(html){
-						alert(Locale.get('Notifications.failure'));
-					}
-				});
 			});
 		}
 		else if (mainScope.hasClass('quick_edit_holder')) {
@@ -225,11 +233,7 @@ var initHelper = function(callback){
 					if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
 						relation.getNext('.add_field').addClass('hide');
 					}
-					relation.adopt(
-						new Element('li').adopt(
-							new Element('a.quick_edit', {text: json.to_bhf_s || '', href: json.edit_path})
-						)
-					);
+					insertNewLi(relation, json);
 				},
 				onSuccessAndChange: function(json){
 					this.wrapElement.set('text', json.to_bhf_s || '');
@@ -240,7 +244,8 @@ var initHelper = function(callback){
 				hideNext: true
 			}, sharedAjaxEditOptions);
 			
-			mainScope.getElements('.quick_edit').addEvent('click', function(e){
+			setupDefaultDeleteQuickEditEvents(mainScope, ajaxEditOptions);
+			mainScope.addEvent('click:relay(.quick_edit)', function(e){
 				e.preventDefault();
 				editStack.addStack();
 				editStack.addEditBrick(ajaxEditOptions, this);
