@@ -4,7 +4,7 @@
   - referral_id = (referral_entry[:platform] == platform.name && referral_entry[:id])
 
 - if platform.custom_partial
-  = render partial: "bhf/pages/#{platform.custom_partial}", locals: {platform: platform}
+  = render partial: "bhf/pages/#{platform.custom_partial}", locals: {platform: platform, referral_id: referral_id}
 - else
   %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
     %caption

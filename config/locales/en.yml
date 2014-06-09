@@ -8,6 +8,11 @@ en:
         'true': 'yes'
         'false': 'no'
       link: Link ⬀
+      form:
+        buttons:
+          save: 'Save %{platform_name}'
+          and_edit: and edit
+          and_add: and add another
       searchform:
         placeholder: Search
       promts:
@@ -68,7 +73,7 @@ en:
     footer:
       state: 'Page rendered in ~%{time} seconds'
       copy: 'Made by <a href="http://twitter.com/antpaw">@antpaw</a> with <a href="http://rubyonrails.org">Rails</a> and <a href="http://mootools.net">MooTools</a>'
-      info: 'More information on <a href="http://github.com/antpaw/bhf">GitHub</a>'
+      info: 'More information on <a href="http://http://antpaw.github.io/bhf">GitHub</a>'
 
   attributes:
     _id: 'id'

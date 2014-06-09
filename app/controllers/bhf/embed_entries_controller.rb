@@ -25,7 +25,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       if @quick_edit
         render json: object_to_bhf_display_hash.merge(extra_data), status: :ok
       else
-        redirect_back_or_default(edit_path, notice: set_message('create.success', @model))
+        redirect_after_save(notice: set_message('update.success', @model))
       end
     else
       @form_url = entry_embed_index_path(@platform.name, @model.get_embedded_parent(params[:entry_id]))
@@ -45,7 +45,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object), notice: set_message('update.success', @model))
+        redirect_after_save(notice: set_message('update.success', @model))
       end
     else
       @form_url = entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
@@ -66,6 +66,14 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
     def load_new_object
       @object = @model.bhf_new_embed(params[:entry_id], @permited_params)
       after_load
+    end
+    
+    def redirect_after_save(flash)
+      if params[:return_to_new]
+        redirect_to new_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id])), flash
+      else
+        redirect_back_or_default(edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object), flash)
+      end
     end
 
 end

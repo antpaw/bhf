@@ -8,7 +8,7 @@ Jeweler::Tasks.new do |gem|
   gem.authors = ['Anton Pawlik']
   gem.licenses = 'MIT'
   gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "vendor/assets/**/*"]
-  gem.homepage = 'http://github.com/antpaw/bhf'
+  gem.homepage = 'http://antpaw.github.io/bhf'
   gem.rubyforge_project = 'nowarning'
 
   gem.add_dependency 'rails', '~> 4.0'

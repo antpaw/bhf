@@ -586,9 +586,18 @@ form
         line-height: 20px
         &:hover
           color: $r1
-      
+  
+  input[type="submit"]
+    margin-right: 20px
+  input[type="submit"].alt_button
+    background: $w1
+    color: $b2
+    font-weight: normal
+    +transition-duration(0)
+    &:active,
+    &:hover
+      color: $w1
   .cancel
-    margin-left: 20px
     color: $g5
     &:hover
       color: $g6

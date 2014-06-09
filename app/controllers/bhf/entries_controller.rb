@@ -35,7 +35,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), {notice: set_message('create.success', @model), referral_entry: {id: @object.id, platform: @platform.name}})
+        redirect_after_save(notice: set_message('create.success', @model), referral_entry: {id: @object.id, platform: @platform.name})
       end
     else
       @form_url = entries_path(@platform.name)
@@ -57,7 +57,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       if @quick_edit
         render json: object_to_bhf_display_hash, status: :ok
       else
-        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), {notice: set_message('update.success', @model), referral_entry: {id: @object.id, platform: @platform.name}})
+        redirect_after_save(notice: set_message('update.success', @model), referral_entry: {id: @object.id, platform: @platform.name})
       end
     else
       @form_url = entry_path(@platform.name, @object)
@@ -179,4 +179,13 @@ class Bhf::EntriesController < Bhf::ApplicationController
       @quick_edit = request.xhr?
     end
     
+    def redirect_after_save(flash)
+      if params[:return_to_edit]
+        redirect_to edit_entry_path(@platform.name, @object), flash
+      elsif params[:return_to_new]
+        redirect_to new_entry_path(@platform.name), flash
+      else
+        redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), flash)
+      end
+    end
 end

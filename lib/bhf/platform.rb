@@ -157,7 +157,7 @@ module Bhf
     end
 
     def hide_create
-      table_options('hide_create') || table_options('hide_new')
+      table_options('hide_create') || table_options('hide_new') || table_options('hide_add')
     end
 
     def show_duplicate
@@ -165,7 +165,7 @@ module Bhf
     end
 
     def hide_delete
-      table_options 'hide_delete'
+      table_options('hide_delete') || table_options('hide_destroy')
     end
     
     def custom_link

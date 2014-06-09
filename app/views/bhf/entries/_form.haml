@@ -15,5 +15,11 @@
     .node
       .label
       .input
-        = f.submit t('bhf.helpers.form.submit.button', default: f.object.new_record? ? new_t(@platform) : edit_t(@platform))
+        - unless @object.class.bhf_embedded?
+          = f.submit t('bhf.helpers.form.buttons.save', platform_name: @platform.title_singular)
+        - unless @platform.hide_edit
+          = f.submit t('bhf.helpers.form.buttons.and_edit'), name: :return_to_edit, class: 'alt_button'
+        - unless @platform.hide_create
+          = f.submit t('bhf.helpers.form.buttons.and_add'), name: :return_to_new, class: 'alt_button'
+        
         = link_to t('bhf.helpers.entry.cancel'), page_path(@platform.page_name), class: 'cancel'
