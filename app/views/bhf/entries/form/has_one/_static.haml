@@ -3,7 +3,7 @@
   %p.empty{class: ('hide' if ref_object)}= t 'bhf.helpers.entry.empty', count: 1
   %ul.relation{class: field.macro}
     - if ref_object
-      %li= link_to_if field.link, ref_object.to_bhf_s, edit_entry_path(field.link || 0, ref_object), class: :quick_edit
+      %li= link_to_if field.link && ! field.link.hide_edit, ref_object.to_bhf_s, edit_entry_path(field.link || 0, ref_object), class: :quick_edit
 
   -# if field.link
     = link_to '+', new_entry_path(field.link), class: 'add_field quick_edit'

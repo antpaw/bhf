@@ -1,5 +1,5 @@
 class Bhf::PagesController < Bhf::ApplicationController
-  before_filter :set_page, :store_location
+  before_filter :set_page
 
   def show
     unless platform_options = @config.content_for_page(@page)
@@ -13,7 +13,7 @@ class Bhf::PagesController < Bhf::ApplicationController
     end
 
     @platforms = platform_options.each_with_object([]) do |opts, obj|
-      platform = Bhf::Platform.new(opts, @page, current_account)
+      platform = Bhf::Platform.new(opts, @page, @config, current_account)
       next if platform.table_hide?
       platform.pagination = Bhf::Pagination.new(platform.entries_per_page)
       paginate_platform_objects(platform)

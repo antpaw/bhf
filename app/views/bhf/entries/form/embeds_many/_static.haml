@@ -4,9 +4,9 @@
   %ul.relation{class: field.macro}
     - ref_objects.each do |ref_object|
       %li
-        = link_to_if field.link, ref_object.to_bhf_s, edit_entry_embed_path(field.link || 0, f.object, ref_object), class: :quick_edit
-        - if field.link
+        = link_to_if field.link && ! field.link.hide_edit, ref_object.to_bhf_s, edit_entry_embed_path(field.link || 0, f.object, ref_object), class: :quick_edit
+        - if field.link && ! field.link.hide_delete
           = link_to '&times;'.html_safe, entry_embed_path(field.link, f.object, ref_object), method: :delete, class: :delete, remote: true, data: {confirm: t('bhf.helpers.promts.confirm')}
 
-  - if field.link
+  - if field.link && ! field.link.hide_create
     = link_to '+', new_entry_embed_path(field.link, f.object), class: 'add_field quick_edit'

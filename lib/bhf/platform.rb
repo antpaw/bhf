@@ -4,7 +4,7 @@ module Bhf
     attr_accessor :pagination
     attr_reader :name, :objects, :page_name, :title, :title_zero, :title_singular
 
-    def initialize(options, page_name, user = nil)
+    def initialize(options, page_name, config, user = nil)
       @objects = []
 
       if options.is_a?(String)
@@ -12,6 +12,8 @@ module Bhf
       end
       @name = options.keys[0]
       @data = options.values[0] || {}
+      @user = user
+      @config = config
       @collection = get_collection
 
       t_model_path = "activerecord.models.#{model.model_name.to_s.downcase}"
@@ -24,7 +26,6 @@ module Bhf
 
       @model = model
       @page_name = page_name
-      @user = user
     end
 
     def search?
@@ -179,6 +180,10 @@ module Bhf
     def return_to
       form_options 'return_to'
     end
+    
+    def to_s
+      @name
+    end
 
     private
 
@@ -207,7 +212,7 @@ module Bhf
               display_type: table_options(:types, attr_name) || attr_name,
               show_type: show_options(:types, attr_name) || table_options(:types, attr_name) || attr_name,
               info: I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", default: ''),
-              link: form_options(:links, attr_name)
+              link: (@config.find_platform(form_options(:links, attr_name), @user, false) if @config && form_options(:links, attr_name))
             })
           )
         end
@@ -232,7 +237,7 @@ module Bhf
             overwrite_display_type: table_options(:types, name),
             overwrite_show_type: show_options(:types, name) || table_options(:types, name),
             info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: ''),
-            link: form_options(:links, name)
+            link: (@config.find_platform(form_options(:links, name), @user, false) if @config && form_options(:links, name))
           })
 
           fk = all[name.to_s].reflection.foreign_key

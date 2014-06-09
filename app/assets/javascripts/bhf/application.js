@@ -28,11 +28,17 @@ var initHelper = function(callback){
 	var editStack = new AjaxEditStack();
 	
 	var insertNewLi = function(relation, json){
-		console.log(4444);
-		var newLi = new Element('li').adopt([
-			new Element('a.quick_edit', {text: json.to_bhf_s || '', href: json.edit_path}),
-			new Element('a.delete', {html: '&times;' || '', href: json.delete_path, 'data-confirm': json.delete_confirm, 'data-remote': 'true'})
-		]);
+		var elems = [];
+		if (json.can_edit) {
+			elems.push(new Element('a.quick_edit', {text: json.to_bhf_s || '', href: json.edit_path}));
+		}
+		else {
+			elems.push(new Element('a', {text: json.to_bhf_s}));
+		}
+		if (json.can_delete) {
+			elems.push(new Element('a.delete', {html: '&times;' || '', href: json.delete_path, 'data-confirm': json.delete_confirm, 'data-remote': 'true'}))
+		}
+		var newLi = new Element('li').adopt(elems);
 		relation.adopt(newLi);
 		window.fireEvent('newQuickEditLink', [newLi]);
 	}

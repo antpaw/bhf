@@ -70,7 +70,7 @@ module Bhf
           end
           merged_files
         else
-          load_yml
+          load_yml("/#{area}/bhf" if area.present?)
         end
       end
 

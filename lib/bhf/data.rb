@@ -12,7 +12,7 @@ module Bhf
         @overwrite_display_type = props[:display_type]
         @info = props[:info]
         @macro = :column
-        @link = props[:link].downcase.to_sym unless props[:link].blank?
+        @link = props[:link] unless props[:link].blank?
       end
     end
 
@@ -99,7 +99,7 @@ module Bhf
       def initialize(reflection, options = {})
         @reflection = reflection
         @info = options[:info]
-        @link = options[:link].downcase.to_sym unless options[:link].blank?
+        @link = options[:link] unless options[:link].blank?
 
         @overwrite_type = options[:overwrite_type].to_sym if options[:overwrite_type]
         @overwrite_display_type = options[:overwrite_display_type].to_sym if options[:overwrite_display_type]

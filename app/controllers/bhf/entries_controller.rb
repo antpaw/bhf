@@ -104,8 +104,10 @@ class Bhf::EntriesController < Bhf::ApplicationController
       extra_data = {
         to_bhf_s: @object.to_bhf_s, 
         object_id: @object.send(@object.class.bhf_primary_key).to_s,
-        edit_path: edit_entry_path(@platform.name, @object), 
-        delete_path: entry_path(@platform.name, @object), 
+        edit_path: edit_entry_path(@platform.name, @object),
+        can_edit: ! @platform.hide_edit,
+        delete_path: entry_path(@platform.name, @object),
+        can_delete: ! @platform.hide_delete,
         delete_confirm: t('bhf.helpers.promts.confirm')
       }
       @platform.columns.each_with_object(extra_data) do |column, hash|

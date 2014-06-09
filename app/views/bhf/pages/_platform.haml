@@ -42,7 +42,10 @@
               %td.drag
                 %span.handle.icon &nbsp;
             - platform.columns.each do |column|
-              %td{class: "#{column.field.macro} #{column.field.display_type}", data: {column_name: column.name}}
+              - css_classes = [column.field.macro, column.field.display_type]
+              - if column.field.display_type == :primary_key && object.send(column.name).to_s.length > 6
+                - css_classes << :key_long
+              %td{class: css_classes, data: {column_name: column.name}}
                 - a = if column.field.display_type != :boolean && object.send(column.name).blank?
                   - '&nbsp;'
                 - else

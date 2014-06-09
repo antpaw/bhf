@@ -309,13 +309,19 @@ table.data_table
       border-bottom: 1px solid $g3
       &.has_many,
       &.has_and_belongs_to_many,
-      &.text
+      &.text,
+      &.primary_key.key_long
         max-width: 200px
         white-space: nowrap
         overflow: hidden
         a
           -webkit-mask-image: -webkit-gradient(linear, left top, right top, color-stop(70%,rgba($k1,1)), color-stop(95%,rgba($w1,0)))
-          
+      &.primary_key.key_long
+        max-width: 50px
+        &:hover
+          max-width: none
+          a
+            -webkit-mask-image: none
       &.no_entries
         text-align: center
         text-transform: uppercase
@@ -453,7 +459,6 @@ table.data_table
     width: 200px
     min-height: 20px
     padding-top: 5px
-    padding-bottom: 3px
 
 form
   .node
@@ -591,7 +596,7 @@ form
     margin-right: 20px
   input[type="submit"].alt_button
     background: $w1
-    color: $b2
+    color: $b1
     font-weight: normal
     +transition-duration(0)
     &:active,
