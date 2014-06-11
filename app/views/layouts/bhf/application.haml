@@ -4,7 +4,7 @@
     %meta{charset: 'utf-8'}
     %title= @title
     %link{href: "/favicon.ico?#{@app_title.to_s.downcase}", rel: 'icon', type: 'image/x-icon'}
-    - Bhf::Engine.config.bhf.css.each do |css|
+    - Bhf.configuration.css.each do |css|
       = stylesheet_link_tag css
   %body
     
@@ -21,10 +21,10 @@
       - if @areas && @areas.length > 1
         = select_tag :area_select, options_from_collection_for_select(@areas, 'path', 'name', main_app.bhf_path(params[:bhf_area])), class: 'icon'
         
-      - if @config && @config.pages.any?
+      - if @settings && @settings.pages.any?
         %nav
-          %ul{class: ('shrink_space' if @config.pages.count > 7)}
-            - @config.pages.each do |page|
+          %ul{class: ('shrink_space' if @settings.pages.count > 7)}
+            - @settings.pages.each do |page|
               %li{class: ('active' if @page == page)}
                 = link_to t("bhf.pages.navigation.#{page}", default: page.capitalize), page_path(page)
 
@@ -36,5 +36,7 @@
       = render 'bhf/user'
       = render 'bhf/footer'
 
-    - Bhf::Engine.config.bhf.js.each do |js|
+    - Bhf.configuration.js.each do |js|
       = javascript_include_tag js, data: {turbolinks_eval: false}
+
+

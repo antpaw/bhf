@@ -1,14 +1,14 @@
 module Bhf
 
-  module ConfigParser
+  module SettingsParser
     
     class << self
       def parse(roles_array, area = nil)
         roles_config = roles_yml(roles_array, area)
   
-        if Bhf::Engine.config.bhf.abstract_config.any?
+        if Bhf.configuration.abstract_config.any?
     
-          tmp_pages = get_config_array(Bhf::Engine.config.bhf.abstract_config, '/abstract')['pages']
+          tmp_pages = get_config_array(Bhf.configuration.abstract_config, '/abstract')['pages']
           abstract_platform_config = tmp_pages.each_with_object({}) do |abstract_pages, hash|
             abstract_pages.each do |abstract_page|
               abstract_page[1].each do |abstract_platform|
@@ -70,7 +70,7 @@ module Bhf
           end
           merged_files
         else
-          load_yml("/#{area}/bhf" if area.present?)
+          load_yml(area.present? ? "/#{area}/bhf" : nil)
         end
       end
 

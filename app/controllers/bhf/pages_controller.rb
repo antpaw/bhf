@@ -2,7 +2,7 @@ class Bhf::PagesController < Bhf::ApplicationController
   before_filter :set_page
 
   def show
-    unless platform_options = @config.content_for_page(@page)
+    unless platform_options = @settings.content_for_page(@page)
       raise Exception.new("Page '#{@page}' could not be found")
     end
 
@@ -13,7 +13,7 @@ class Bhf::PagesController < Bhf::ApplicationController
     end
 
     @platforms = platform_options.each_with_object([]) do |opts, obj|
-      platform = Bhf::Platform.new(opts, @page, @config, current_account)
+      platform = Bhf::Platform.new(opts, @page, @settings, current_account)
       next if platform.table_hide?
       platform.pagination = Bhf::Pagination.new(platform.entries_per_page)
       paginate_platform_objects(platform)
@@ -28,7 +28,7 @@ class Bhf::PagesController < Bhf::ApplicationController
     end
 
     def render_platform(platform_name)
-      platform = @config.find_platform(platform_name, current_account)
+      platform = @settings.find_platform(platform_name, current_account)
 
       platform.pagination = Bhf::Pagination.new(platform.entries_per_page)
       paginate_platform_objects(platform)

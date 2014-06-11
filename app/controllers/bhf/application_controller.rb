@@ -12,17 +12,17 @@ class Bhf::ApplicationController < ActionController::Base
   private
 
     def check_admin_account
-      if session[Bhf::Engine.config.bhf.session_auth_name.to_s] == true
+      if session[Bhf.configuration.session_auth_name.to_s] == true
         return true
       end
-      redirect_to(main_app.send(Bhf::Engine.config.bhf.on_login_fail.to_sym), error: t('bhf.helpers.user.login.error')) and return false
+      redirect_to(main_app.send(Bhf.configuration.on_login_fail.to_sym), error: t('bhf.helpers.user.login.error')) and return false
     end
 
     def setup_current_account
-      if session[Bhf::Engine.config.bhf.session_account_id]
-        @current_account = Bhf::Engine.config.bhf.account_model.constantize.send(
-          Bhf::Engine.config.bhf.account_model_find_method.to_sym,
-          session[Bhf::Engine.config.bhf.session_account_id.to_s]
+      if session[Bhf.configuration.session_account_id]
+        @current_account = Bhf.configuration.account_model.constantize.send(
+          Bhf.configuration.account_model_find_method.to_sym,
+          session[Bhf.configuration.session_account_id.to_s]
         )
         # => User.find(current_account.id)
       end
@@ -51,7 +51,7 @@ class Bhf::ApplicationController < ActionController::Base
     end
 
     def load_config
-      @config = Bhf::ConfigParser::parse(get_account_roles(params[:bhf_area]), params[:bhf_area])
+      @settings = Bhf::SettingsParser::parse(get_account_roles(params[:bhf_area]), params[:bhf_area])
     end
 
     def set_title

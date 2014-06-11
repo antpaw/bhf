@@ -13,7 +13,7 @@ module Bhf
       @name = options.keys[0]
       @data = options.values[0] || {}
       @user = user
-      @config = config
+      @settings = config
       @collection = get_collection
 
       t_model_path = "activerecord.models.#{model.model_name.to_s.downcase}"
@@ -26,30 +26,6 @@ module Bhf
 
       @model = model
       @page_name = page_name
-    end
-
-    def search?
-      table_options(:search) != false
-    end
-    
-    def table_hide?
-      table_options(:hide) == true || model.bhf_embedded?
-    end
-    
-    def search_field?
-      table_options(:search_field) != false
-    end
-    
-    def custom_search
-      table_options(:custom_search)
-    end
-
-    def custom_columns?
-      table_options(:columns).is_a?(Array)
-    end
-    
-    def user_scope?
-      @user && table_options(:user_scope)
     end
 
     def prepare_objects(options, paginate_options = nil)
@@ -93,7 +69,7 @@ module Bhf
     end
 
     def columns
-      default_attrs(table_options(:display) || table_options(:columns), @collection[0..5]).
+      default_attrs(table_columns, @collection[0..5]).
       each_with_object([]) do |field, obj|
         obj << Bhf::Data::Column.new(field)
       end
@@ -121,6 +97,34 @@ module Bhf
         return true if field.form_type.to_sym == :file
       end
       false
+    end
+
+    def search?
+      table_options(:search) != false
+    end
+    
+    def table_hide?
+      table_options(:hide) == true || model.bhf_embedded?
+    end
+    
+    def search_field?
+      table_options(:search_field) != false
+    end
+    
+    def custom_search
+      table_options(:custom_search)
+    end
+
+    def table_columns
+      table_options(:display) || table_options(:columns)
+    end
+    
+    def custom_columns?
+      table_columns.is_a?(Array)
+    end
+    
+    def user_scope?
+      @user && table_options(:user_scope)
     end
 
     def table
@@ -212,7 +216,7 @@ module Bhf
               display_type: table_options(:types, attr_name) || attr_name,
               show_type: show_options(:types, attr_name) || table_options(:types, attr_name) || attr_name,
               info: I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", default: ''),
-              link: (@config.find_platform(form_options(:links, attr_name), @user, false) if @config && form_options(:links, attr_name))
+              link: (@settings.find_platform(form_options(:links, attr_name), @user, false) if @settings && form_options(:links, attr_name))
             })
           )
         end
@@ -237,7 +241,7 @@ module Bhf
             overwrite_display_type: table_options(:types, name),
             overwrite_show_type: show_options(:types, name) || table_options(:types, name),
             info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: ''),
-            link: (@config.find_platform(form_options(:links, name), @user, false) if @config && form_options(:links, name))
+            link: (@settings.find_platform(form_options(:links, name), @user, false) if @settings && form_options(:links, name))
           })
 
           fk = all[name.to_s].reflection.foreign_key
