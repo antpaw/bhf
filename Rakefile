@@ -1,22 +1,49 @@
-require 'jeweler'
+# encoding: utf-8
 
+require 'rubygems'
+require 'bundler'
+begin
+  Bundler.setup(:default, :development)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
+end
+require 'rake'
+
+require 'jeweler'
 Jeweler::Tasks.new do |gem|
   gem.name = 'bhf'
+  gem.homepage = 'http://antpaw.github.io/bhf'
+  gem.licenses = 'MIT'
   gem.summary = 'Agnostic Rails backend'
   gem.description = 'Gets you there on time'
   gem.email = 'anton.pawlik@gmail.com'
   gem.authors = ['Anton Pawlik']
-  gem.licenses = 'MIT'
-  gem.files = Dir["{lib}/**/*", "{app}/**/*", "{config}/**/*", "vendor/assets/**/*"]
-  gem.homepage = 'http://antpaw.github.io/bhf'
-  gem.rubyforge_project = 'nowarning'
+end
+Jeweler::RubygemsDotOrgTasks.new
 
-  gem.add_dependency 'rails', '~> 4.0'
-  gem.add_dependency 'turbolinks', '~> 2.1'
-  gem.add_dependency 'kaminari', '~> 0.15'
-  gem.add_dependency 'haml-rails', '~> 0.4'
-  gem.add_dependency 'sass-rails', '~> 4.0'
-  # gem.add_dependency 'mootools-rails'#, '>= 1.0.1'
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
 end
 
-Jeweler::GemcutterTasks.new
+desc "Code coverage detail"
+task :simplecov do
+  ENV['COVERAGE'] = "true"
+  Rake::Task['test'].execute
+end
+
+task :default => :test
+
+require 'rdoc/task'
+Rake::RDocTask.new do |rdoc|
+  version = File.exist?('VERSION') ? File.read('VERSION') : ""
+
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "bhf #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
