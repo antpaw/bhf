@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails',        '~> 4.1.1'
+gem 'rails',        '~> 4.1'
 gem 'turbolinks',   '~> 2.1'
 gem 'kaminari',     '~> 0.15'
 gem 'haml-rails',   '~> 0.4'

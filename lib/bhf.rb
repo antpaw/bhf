@@ -11,15 +11,7 @@ require 'bhf/settings'
 require 'bhf/pagination'
 require 'bhf/form'
 
-
 module Bhf
-  def self.configuration
-    @configuration ||= Bhf::Configuration.new
-  end
-  def self.configure
-    yield configuration
-  end
-  
   class Engine < Rails::Engine
     
     isolate_namespace Bhf
@@ -39,8 +31,14 @@ module Bhf
       end
     end
   end
-  PAPERCLIP_IMAGE_TYPES = ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif']
   
+  
+  def self.configuration
+    @configuration ||= Bhf::Configuration.new
+  end
+  def self.configure
+    yield configuration
+  end
   class Configuration
     include ActiveSupport::Configurable
 
@@ -52,7 +50,9 @@ module Bhf
     config_accessor(:account_model_find_method) { 'find'              }
     config_accessor(:css)                       { ['bhf/application'] }
     config_accessor(:js)                        { ['bhf/application'] }
-    config_accessor(:abstract_config)           { []                  }
+    config_accessor(:abstract_settings)         { []                  }
+    config_accessor(:paperclip_image_types)     {
+      ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif']
+    }
   end
-  
 end
