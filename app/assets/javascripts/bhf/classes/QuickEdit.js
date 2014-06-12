@@ -1,4 +1,4 @@
-var AjaxEdit = new Class({
+var QuickEdit = new Class({
 	version: 0.2,
 	
 	options: {
@@ -14,8 +14,8 @@ var AjaxEdit = new Class({
 	},
 	
 	startEdit: function(element, wrapElement){
-		this.wrapElement = wrapElement ? wrapElement : element;
-		this.newEntry = this.wrapElement.hasClass('add_field');
+		this.linkElem = wrapElement ? wrapElement : element;
+		this.newEntry = this.linkElem.hasClass('add_field');
 		
 		this.fireEvent('startRequest');
 		this.currentRequest = new Request.HTML({
@@ -54,6 +54,15 @@ var AjaxEdit = new Class({
 				window.fireEvent('quickEditReady', [this.holder]);
 			}.bind(this),
 			onSuccess: function(json){
+				if (eventNames.contains('successAndAdd')) {
+					
+				}
+				else if (eventNames.contains('successAndChange')) {
+					console.log(this, this.linkElem, json);
+					this.linkElem.set('text', json.to_bhf_s || '');
+				}
+				
+				
 				if ( ! eventNames.contains('successAndNext')) {
 					this.close();
 				}
@@ -82,7 +91,7 @@ var AjaxEdit = new Class({
 		
 		this.holder.getElements('.open').addEvent('click', function(e){
 			e.preventDefault();
-			Turbolinks.visit((this.wrapElement.getElement('a') || this.wrapElement).get('href'));
+			Turbolinks.visit((this.linkElem.getElement('a') || this.linkElem).get('href'));
 		}.bind(this));
 		this.holder.getElements('.cancel').addEvent('click', function(e){
 			e.preventDefault();

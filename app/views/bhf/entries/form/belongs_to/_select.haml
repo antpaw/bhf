@@ -1,7 +1,10 @@
 - data_source ||= field.reflection.klass.all
 - fk = field.reflection.foreign_key
 .node
-  .label= f.label fk, reflection_title(f, field)
+  .label= f.label fk, reflection_title(f, field, 1)
   .input
     = f.select fk, options_from_collection_for_select(data_source, :id, :to_bhf_s, f.object.send(fk)), include_blank: true
     = render partial: 'bhf/helper/field_errors', locals: {f: f, field: fk}
+    
+    - if field.link && ! field.link.hide_create
+      = link_to '+', new_entry_path(field.link), class: 'add_field quick_edit'

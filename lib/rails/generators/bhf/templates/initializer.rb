@@ -1,7 +1,7 @@
 Bhf.configure do |config|
   # config.css << 'bhf'
   # config.js << 'bhf'
-  # config.abstract_config << 'abstract'
+  # config.abstract_settings << 'abstract'
   
   # config.on_login_fail = :root_url
   # config.logout_path = :logout_path

@@ -16,10 +16,10 @@ module Bhf
       }
     end
     
-    def reflection_title(f, field)
+    def reflection_title(f, field, count = 2)
       title = f.object.class.human_attribute_name(field.reflection.name)
       if field.link
-        title = t("bhf.platforms.#{field.link}.title", count: f.object.send(field.reflection.name).to_a.count, default: title)
+        title = t("bhf.platforms.#{field.link}.title", count: count, default: title)
       end
       title
     end

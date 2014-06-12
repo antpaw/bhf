@@ -23,7 +23,7 @@ var PlatformHelper = new Class({
 			if (hidden_search) {
 				hidden_search.destroy();
 			}
-			new Request.HTML({
+			var a = new Request.HTML({
 				method: 'get',
 				url: e.target.get('action'),
 				onFailure: function(){
@@ -34,6 +34,7 @@ var PlatformHelper = new Class({
 					_this.fireEvent('searchSuccess')
 				}
 			}).send({data: e.target});
+			window.history.pushState({ turbolinks: true, url: a.url }, '', a.url);
 		});
 		scope.getElements('.quick_edit').addEvent('click', function(e){
 			e.preventDefault();

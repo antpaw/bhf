@@ -96,7 +96,10 @@ class Bhf::ApplicationController < ActionController::Base
     def init_time
       @start_time = Time.now
     end
-
+    
+    def find_platform(platform_name)
+      Bhf::Platform::Base.new(@settings.find_platform_settings(platform_name))
+    end
 
     def redirect_back_or_default(default, msg)
       redirect_to(params[:return_to] || default, flash: msg)

@@ -1,4 +1,4 @@
-var AjaxEditStack = new Class({
+var QuickEditStack = new Class({
 	version: 0.1,
 
 	options: {
@@ -15,7 +15,7 @@ var AjaxEditStack = new Class({
 		var qi = this.bricksIndex;
 		var qe = this.bricksArray[qi];
 		if ( ! qe) {
-			qe = new AjaxEdit(editOptions);
+			qe = new QuickEdit(editOptions);
 			this.bricksArray.push(qe);
 		}
 		
@@ -30,18 +30,18 @@ var AjaxEditStack = new Class({
 		
 		qe.addEvents({
 			startRequest: function(){
-				this.wrapElement.addClass('live_edit');
+				this.linkElem.addClass('live_edit');
 				setTimeout(function(){
-					this.wrapElement.addClass('live_edit');
+					this.linkElem.addClass('live_edit');
 				}.bind(this), 10);
 			},
 			closed: function(){
-				this.wrapElement.addClass('animate');
+				this.linkElem.addClass('animate');
 				setTimeout(function(){
-					this.wrapElement.removeClass('live_edit');
+					this.linkElem.removeClass('live_edit');
 				}.bind(this));
 				setTimeout(function(){
-					this.wrapElement.removeClass('animate');
+					this.linkElem.removeClass('animate');
 				}.bind(this), 600);
 			}
 		});

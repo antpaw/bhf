@@ -4,6 +4,9 @@
 //= require ./mootools_ujs
 //= require_tree ./classes/
 
+// Turbolinks bugs out on popState if you add own pushState events, so we cancel it
+Turbolinks.pagesCached(0);
+
 var initHelper = function(callback){
 	var scopedCallback = function(){
 		callback(document.body);
@@ -25,7 +28,7 @@ var initHelper = function(callback){
 		ajaxNote.loading();
 	});
 
-	var editStack = new AjaxEditStack();
+	var editStack = new QuickEditStack();
 	
 	var insertNewLi = function(relation, json){
 		var elems = [];
@@ -71,7 +74,7 @@ var initHelper = function(callback){
 		}
 		
 		var quickEditArray = [];
-		var ajaxEditOptions;
+		var quickEditOptions;
 		
 		ajaxNote.setup();
 
@@ -82,7 +85,7 @@ var initHelper = function(callback){
 			jsForm.setup(form);
 		});
 		
-		var sharedAjaxEditOptions = {
+		var sharedQuickEditOptions = {
 			onFailure: function(){
 				ajaxNote.failure();
 			},
@@ -108,9 +111,9 @@ var initHelper = function(callback){
 		var mainForm = mainScope.getElementById('main_form');
 
 		if (platforms.length) {
-			ajaxEditOptions = Object.merge({
+			quickEditOptions = Object.merge({
 				onSuccessAndChange: function(json){
-					var tr = this.wrapElement;
+					var tr = this.linkElem;
 					tr.getElements('td').each(function(td){
 						var name = td.get('data-column-name');
 						if ( ! name) { return; }
@@ -119,13 +122,13 @@ var initHelper = function(callback){
 					});
 				},
 				onSuccessAndNext: function(json){
-					var tr = this.wrapElement;
+					var tr = this.linkElem;
 					var qe;
 					var nextTr = tr.getNext('tr');
 
 					if (nextTr) {
 						editStack.removeAllStacks();
-						editStack.addEditBrick(ajaxEditOptions, nextTr.getElement('a'), nextTr);
+						editStack.addEditBrick(quickEditOptions, nextTr.getElement('a'), nextTr);
 					}
 					else {
 						var platform = tr.getParent('.platform');
@@ -138,7 +141,7 @@ var initHelper = function(callback){
 										nextTr = newTr.getNext('tr');
 										
 										editStack.removeAllStacks();
-										editStack.addEditBrick(ajaxEditOptions, nextTr.getElement('a'), nextTr);
+										editStack.addEditBrick(quickEditOptions, nextTr.getElement('a'), nextTr);
 									}
 								});
 							});
@@ -147,14 +150,15 @@ var initHelper = function(callback){
 							nextTr = platform.getElements('tbody tr')[0];
 							
 							editStack.removeAllStacks();
-							editStack.addEditBrick(ajaxEditOptions, nextTr.getElement('a'), nextTr);
+							editStack.addEditBrick(quickEditOptions, nextTr.getElement('a'), nextTr);
 						}
 					}
 				}
-			}, sharedAjaxEditOptions);
+			}, sharedQuickEditOptions);
 			
 			
-			var updatePlatform = function(href, platform, callback){
+			var updatePlatform = function(href, platform, callback){				
+				window.history.pushState({ turbolinks: true, url: href }, '', href);
 				ajaxNote.loading();
 				new Request.HTML({
 					method: 'get',
@@ -179,7 +183,7 @@ var initHelper = function(callback){
 					},
 					onQuickEditStart: function(link){
 						editStack.removeAllStacks();
-						editStack.addEditBrick(ajaxEditOptions, link, link.getParent('tr'));
+						editStack.addEditBrick(quickEditOptions, link, link.getParent('tr'));
 					},
 					onSearch: function(){
 						ajaxNote.loading();
@@ -194,9 +198,9 @@ var initHelper = function(callback){
 			});
 		}
 		else if (mainForm) {
-			ajaxEditOptions = Object.merge({
+			quickEditOptions = Object.merge({
 				onSuccessAndAdd: function(json){
-					var relation = this.wrapElement.getPrevious('.relation');
+					var relation = this.linkElem.getPrevious('.relation');
 					relation.getPrevious('.empty').addClass('hide');
 					if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
 						relation.getNext('.add_field').addClass('hide');
@@ -204,10 +208,10 @@ var initHelper = function(callback){
 					insertNewLi(relation, json);
 				},
 				onSuccessAndChange: function(json){
-					this.wrapElement.set('text', json.to_bhf_s || '');
+					this.linkElem.set('text', json.to_bhf_s || '');
 				},
 				onSuccessAndNext: function(json){
-					var a = this.wrapElement;
+					var a = this.linkElem;
 					var li = a.getParent('li');
 					if ( ! li) { 
 						this.close();
@@ -220,21 +224,21 @@ var initHelper = function(callback){
 					}
 					
 					editStack.removeAllStacks();
-					editStack.addEditBrick(ajaxEditOptions, holder.getElement('a'));
+					editStack.addEditBrick(quickEditOptions, holder.getElement('a'));
 				}
-			}, sharedAjaxEditOptions);
+			}, sharedQuickEditOptions);
 			
-			setupDefaultDeleteQuickEditEvents(mainForm, ajaxEditOptions);
+			setupDefaultDeleteQuickEditEvents(mainForm, quickEditOptions);
 			mainForm.addEvent('click:relay(.quick_edit)', function(e){
 				e.preventDefault();
 				editStack.removeAllStacks();
-				editStack.addEditBrick(ajaxEditOptions, this);
+				editStack.addEditBrick(quickEditOptions, this);
 			});
 		}
 		else if (mainScope.hasClass('quick_edit_holder')) {
-			ajaxEditOptions = Object.merge({
+			quickEditOptions = Object.merge({
 				onSuccessAndAdd: function(json){
-					var relation = this.wrapElement.getPrevious('.relation');
+					var relation = this.linkElem.getPrevious('.relation');
 					relation.getPrevious('.empty').addClass('hide');
 					if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
 						relation.getNext('.add_field').addClass('hide');
@@ -242,19 +246,19 @@ var initHelper = function(callback){
 					insertNewLi(relation, json);
 				},
 				onSuccessAndChange: function(json){
-					this.wrapElement.set('text', json.to_bhf_s || '');
+					this.linkElem.set('text', json.to_bhf_s || '');
 				},
 				onClosed: function(){
 					editStack.removeStack();
 				},
 				hideNext: true
-			}, sharedAjaxEditOptions);
+			}, sharedQuickEditOptions);
 			
-			setupDefaultDeleteQuickEditEvents(mainScope, ajaxEditOptions);
+			setupDefaultDeleteQuickEditEvents(mainScope, quickEditOptions);
 			mainScope.addEvent('click:relay(.quick_edit)', function(e){
 				e.preventDefault();
 				editStack.addStack();
-				editStack.addEditBrick(ajaxEditOptions, this);
+				editStack.addEditBrick(quickEditOptions, this);
 			});
 		}
 		

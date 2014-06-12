@@ -9,9 +9,10 @@
       = render partial: "bhf/entries/form/#{field.macro}/#{field.form_type}", locals: {f: f, field: field}
 
   - unless @quick_edit
+    
     - if params[:return_to]
       = hidden_field :return, :to, name: :return_to, value: params[:return_to]
-      
+    
     .node
       .label
       .input

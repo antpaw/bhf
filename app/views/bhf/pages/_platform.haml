@@ -1,60 +1,68 @@
-%table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
-  %caption
-    %h4= platform.title
-    %p.info= platform.pagination.info platform
-    - unless platform.hide_create
-      %p.create= link_to new_t(platform), new_entry_path(platform.name), class: :alt_button
-    - unless platform.custom_partial
-      = render partial: 'search', locals: {platform: platform} if platform.search?
+- platform.pagination.template = self
+- referral_id = nil
+- if flash[:referral_entry] && referral_entry = flash[:referral_entry].clone.symbolize_keys
+  - referral_id = (referral_entry[:platform] == platform.name && referral_entry[:id])
 
-  %thead
-    %tr
-      - if platform.sortable
-        %th.drag
-      - platform.columns.each do |column|
-        - db_column_name = platform.model.bhf_attribute_method?(column.name+'_id') ? column.name+'_id' : column.name
-        %th{class: "#{column.field.macro} #{column.field.display_type} #{order_class(db_column_name, platform.name)}"}
-          - column_name = platform.model.human_attribute_name(column.name)
-          - can_sort = platform.model.bhf_attribute_method?(db_column_name)
-          = link_to_if can_sort, column_name, current_order_path(db_column_name, platform.name)
-      %th.action
+- if platform.custom_partial
+  = render partial: "bhf/pages/#{platform.custom_partial}", locals: {platform: platform, referral_id: referral_id}
+- else
+  %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
+    %caption
+      %h4= platform.title
+      %p.info= platform.pagination.info platform
+      - unless platform.hide_create
+        %p.create= link_to new_t(platform), new_entry_path(platform.name), class: :alt_button
+      - unless platform.custom_partial
+        = render partial: 'search', locals: {platform: platform} if platform.search?
 
-  %tfoot
-    %tr
-      %td{colspan: platform.columns_count}
-        = platform.pagination.create(platform) unless platform.sortable
+    %thead
+      %tr
+        - if platform.sortable
+          %th.drag
+        - platform.columns.each do |column|
+          - db_column_name = platform.model.bhf_attribute_method?(column.name+'_id') ? column.name+'_id' : column.name
+          %th{class: "#{column.field.macro} #{column.field.display_type} #{order_class(db_column_name, platform.name)}"}
+            - column_name = platform.model.human_attribute_name(column.name)
+            - can_sort = platform.model.bhf_attribute_method?(db_column_name)
+            = link_to_if can_sort, column_name, current_order_path(db_column_name, platform.name)
+        %th.action
 
-  %tbody{class: (:sortable if platform.sortable), data: {sort_url: sort_entries_path(platform.name)}}
-    - if platform.objects.any?
-      - platform.objects.each do |object|
-        - edit_link = edit_entry_path(platform.name, object)
-        - custom_link = send(platform.custom_link, platform.name, object) if platform.custom_link
-        %tr{id: "#{object.id}_#{platform.name}", class: ('animate live_edit initial_referral' if referral_id == object.id)}
-          - if platform.sortable
-            %td.drag
-              %span.handle.icon &nbsp;
-          - platform.columns.each do |column|
-            - css_classes = [column.field.macro, column.field.display_type]
-            - if column.field.display_type == :primary_key && object.send(column.name).to_s.length > 6
-              - css_classes << :key_long
-            %td{class: css_classes, data: {column_name: column.name}}
-              - a = if column.field.display_type != :boolean && object.send(column.name).blank?
-                - '&nbsp;'
-              - else
-                - render(partial: "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", locals: {column: column, object: object})
-              = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
+    %tfoot
+      %tr
+        %td{colspan: platform.columns_count}
+          = platform.pagination.create(platform) unless platform.sortable
 
-          %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
-            - if platform.show_duplicate
-              - dt = duplicate_t(platform)
-              = link_to dt, duplicate_entry_path(platform.name, object), class: 'icon duplicate', method: :post, title: dt
-            - unless platform.hide_edit
-              = link_to edit_t(platform), edit_link, class: 'icon edit'
-            - unless platform.hide_delete
-              = link_to delete_t(platform), entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete', data: {confirm: t('bhf.helpers.promts.confirm')}
-    - else
-      %td.no_entries{colspan: platform.columns_count}
-        = t 'bhf.pagination.info', name_zero: platform.title, count: 0
-        - unless platform.hide_create
-          = link_to new_t(platform), new_entry_path(platform.name)
+    %tbody{class: (:sortable if platform.sortable), data: {sort_url: sort_entries_path(platform.name)}}
+      - if platform.objects.any?
+        - platform.objects.each do |object|
+          - edit_link = edit_entry_path(platform.name, object)
+          - custom_link = send(platform.custom_link, platform.name, object) if platform.custom_link
+          %tr{id: "#{object.id}_#{platform.name}", class: ('animate live_edit initial_referral' if referral_id == object.id)}
+            - if platform.sortable
+              %td.drag
+                %span.handle.icon &nbsp;
+            - platform.columns.each do |column|
+              - css_classes = [column.field.macro, column.field.display_type]
+              - if column.field.display_type == :primary_key && object.send(column.name).to_s.length > 6
+                - css_classes << :key_long
+              %td{class: css_classes, data: {column_name: column.name}}
+                - a = if column.field.display_type != :boolean && object.send(column.name).blank?
+                  - '&nbsp;'
+                - else
+                  - render(partial: "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", locals: {column: column, object: object})
+                = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
+
+            %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
+              - if platform.show_duplicate
+                - dt = duplicate_t(platform)
+                = link_to dt, duplicate_entry_path(platform.name, object), class: 'icon duplicate', method: :post, title: dt
+              - unless platform.hide_edit
+                = link_to edit_t(platform), edit_link, class: 'icon edit'
+              - unless platform.hide_delete
+                = link_to delete_t(platform), entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete', data: {confirm: t('bhf.helpers.promts.confirm')}
+      - else
+        %td.no_entries{colspan: platform.columns_count}
+          = t 'bhf.pagination.info', name_zero: platform.title, count: 0
+          - unless platform.hide_create
+            = link_to new_t(platform), new_entry_path(platform.name)
 

@@ -119,13 +119,12 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def load_platform
-      @platform = Bhf::Platform::Base.new(@settings.find_platform_settings(params[:platform]))
+      @platform = find_platform(params[:platform])
     end
 
     def load_model
       @model = @platform.model
-      @model_sym = ActiveModel::Naming.singular(@model).to_sym
-      @permited_params = ActionController::Parameters.new(params[@model_sym]).permit!
+      @permited_params = ActionController::Parameters.new(params[@platform.model_name.to_sym]).permit!
     end
 
     def load_object

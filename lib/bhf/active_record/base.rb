@@ -6,6 +6,7 @@ module Bhf::ActiveRecord
     def to_bhf_s
       return title if self.respond_to? :title
       return name if self.respond_to? :name
+      return headline if self.respond_to? :headline
 
       if self.respond_to?(:attributes)
         return title if attributes['title']

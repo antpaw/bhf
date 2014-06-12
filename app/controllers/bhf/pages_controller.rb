@@ -2,6 +2,7 @@ class Bhf::PagesController < Bhf::ApplicationController
   before_filter :set_page
 
   def show
+    @edit_params = {}
     unless platform_options = @settings.content_for_page(@page)
       raise Exception.new("Page '#{@page}' could not be found")
     end
@@ -13,7 +14,7 @@ class Bhf::PagesController < Bhf::ApplicationController
     end
 
     @platforms = platform_options.each_with_object([]) do |opts, obj|
-      platform = Bhf::Platform::Base.new(@settings.find_platform_settings(opts.keys[0]))
+      platform = find_platform(opts.keys[0])
       
       next if platform.table_hide?
       paginate_platform_objects(platform)
@@ -28,29 +29,30 @@ class Bhf::PagesController < Bhf::ApplicationController
     end
 
     def render_platform(platform_name)
-      platform = Bhf::Platform::Base.new(@settings.find_platform_settings(platform_name))
+      platform = find_platform(platform_name)
 
       paginate_platform_objects(platform)
 
       render layout: false, partial: 'platform', locals: {platform: platform}
     end
 
-    def check_params(platform)
+    def paginate_platform_objects(platform)
+      p = (params[platform.name] || {})
       page = 1
-      if params[platform.name] && !params[platform.name][:page].blank?
-        page = params[platform.name][:page].to_i
+      unless p[:page].blank?
+        page = p[:page].to_i
       end
       
       per_page = platform.pagination.offset_per_page
-      if params[platform.name] && !params[platform.name][:per_page].blank?
-        per_page = params[platform.name][:per_page].to_i
+      unless p[:per_page].blank?
+        per_page = p[:per_page].to_i
       end
 
-      return { page: page, per_page: per_page }
-    end
+      page_params = { page: page, per_page: per_page }
 
-    def paginate_platform_objects(platform)
-      platform.prepare_objects(params[platform.name] || {}, check_params(platform))
+      @edit_params[platform.name] = page_params
+
+      platform.prepare_objects(p, page_params)
     end
 
 end

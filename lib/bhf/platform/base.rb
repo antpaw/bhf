@@ -207,6 +207,12 @@ module Bhf::Platform
           chain.bhf_default_search(search_params)
         end
       end
+      
+      def find_platform_settings_for_link(link_name)
+        if form_value(:links, link_name) != false
+          @settings.find_platform_settings(form_value(:links, link_name) || link_name)
+        end
+      end
 
       def default_attrs(attrs, d_attrs, warning = true)
         return d_attrs unless attrs
@@ -221,7 +227,7 @@ module Bhf::Platform
               display_type: table_value(:types, attr_name) || attr_name,
               show_type: show_value(:types, attr_name) || table_value(:types, attr_name) || attr_name,
               info: I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", default: ''),
-              link: (@settings.find_platform_settings(form_value(:links, attr_name)) if form_value(:links, attr_name))
+              link: find_platform_settings_for_link(attr_name)
             })
           )
         end
@@ -248,7 +254,7 @@ module Bhf::Platform
             overwrite_display_type: table_value(:types, name),
             overwrite_show_type: show_value(:types, name) || table_value(:types, name),
             info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: ''),
-            link: (@settings.find_platform_settings(form_value(:links, name)) if form_value(:links, name))
+            link: find_platform_settings_for_link(name)
           })
 
           fk = all[name.to_s].reflection.foreign_key
