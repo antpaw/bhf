@@ -2,14 +2,6 @@ require 'haml'
 require 'sass'
 require 'turbolinks'
 require 'kaminari'
-require 'bhf/active_record/active_record'
-require 'bhf/mongoid/document'
-require 'bhf/data'
-require 'bhf/platform'
-require 'bhf/settings_parser'
-require 'bhf/settings'
-require 'bhf/pagination'
-require 'bhf/form'
 
 module Bhf
   class Engine < Rails::Engine
@@ -24,7 +16,7 @@ module Bhf
     
     initializer 'bhf.model_hooks' do
       ActiveSupport.on_load :active_record do
-        include Bhf::ActiveRecord::Object
+        include Bhf::ActiveRecord::Base
       end
       ActiveSupport.on_load :mongoid do
         include Bhf::Mongoid::Document
@@ -56,3 +48,17 @@ module Bhf
     }
   end
 end
+
+require 'bhf/settings/base'
+require 'bhf/settings/platform'
+require 'bhf/settings/yaml_parser'
+require 'bhf/platform/base'
+require 'bhf/platform/pagination'
+require 'bhf/platform/data/abstract_field'
+require 'bhf/platform/data/field'
+require 'bhf/platform/data/reflection'
+require 'bhf/platform/data/column'
+require 'bhf/platform/data/show'
+require 'bhf/active_record/base'
+require 'bhf/mongoid/document'
+require 'bhf/action_view/form_builder'

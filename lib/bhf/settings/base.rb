@@ -1,9 +1,12 @@
-module Bhf
+module Bhf::Settings
 
-  class Settings
+  class Base
+    
+    attr_accessor :user
 
-    def initialize(options)
-      @options = options
+    def initialize(settings_hash, user = nil)
+      @settings_hash = settings_hash
+      @user = user
       
       t = pages.each_with_object([]) do |page, obj|
         content_for_page(page).each do |platform|
@@ -19,8 +22,7 @@ module Bhf
     end
 
     def pages
-      return @pages if @pages
-      @pages = @options['pages'].each_with_object([]) do |page, obj|
+      @pages ||= @settings_hash['pages'].each_with_object([]) do |page, obj|
         if page.is_a?(String)
           page = {page => nil}
         end
@@ -29,7 +31,7 @@ module Bhf
     end
 
     def content_for_page(selected_page)
-      @options['pages'].each do |page|
+      @settings_hash['pages'].each do |page|
         page = {page => nil} if page.is_a?(String)
         
         if selected_page == page.keys[0]
@@ -39,11 +41,12 @@ module Bhf
       nil
     end
 
-    def find_platform(platform_name, current_account = nil, config = nil)
+    def find_platform_settings(platform_name)
       pages.each do |page|
-        content_for_page(page).each do |platform|
-          bhf_platform = Bhf::Platform.new(platform, page, config == nil ? self : config, current_account)
-          return bhf_platform if bhf_platform.name.to_s == platform_name.to_s
+        content_for_page(page).each do |platform_hash|
+          if platform_hash.keys[0] == platform_name.to_s
+            return Bhf::Settings::Platform.new(platform_hash, page, self)
+          end
         end
       end
       nil

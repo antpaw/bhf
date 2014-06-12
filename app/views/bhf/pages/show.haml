@@ -1,2 +1,9 @@
 - @platforms.each do |platform|
-  .platform= render partial: 'platform', locals: {platform: platform}
+  .platform
+    - platform.pagination.template = self
+    - referral_id = nil
+    - if flash[:referral_entry] && referral_entry = flash[:referral_entry].clone.symbolize_keys
+      - referral_id = (referral_entry[:platform] == platform.name && referral_entry[:id])
+    
+    - partial = platform.custom_partial ? "bhf/pages/#{platform.custom_partial}" : 'platform'
+    = render partial: partial, locals: {platform: platform, referral_id: referral_id}

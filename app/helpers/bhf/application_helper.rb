@@ -32,7 +32,7 @@ module Bhf
     end
 
     def type_is_image?(type)
-      Bhf::PAPERCLIP_IMAGE_TYPES.include?(type)
+      Bhf.configuration.paperclip_image_types.include?(type)
     end
     
   end

@@ -1,5 +1,5 @@
 - html = { id: (:main_form unless @quick_edit), multipart: (!@quick_edit && @platform.has_file_upload?), class: 'js_bhf_form' }
-= form_for @object, url: @form_url, builder: Bhf::Form::Builder, html: html do |f|
+= form_for @object, url: @form_url, builder: Bhf::ActionView::FormBuilder, html: html do |f|
 
   - if f.object.errors.any?
     = render partial: 'bhf/entries/validation_errors', locals: {f: f}

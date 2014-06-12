@@ -119,7 +119,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def load_platform
-      @platform = @settings.find_platform(params[:platform], current_account)
+      @platform = Bhf::Platform::Base.new(@settings.find_platform_settings(params[:platform]))
     end
 
     def load_model

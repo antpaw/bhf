@@ -10,7 +10,7 @@ Kaminari::Helpers::Tag.class_eval do
 end
 # TODO: monitor https://github.com/amatsuda/kaminari/issues/542#issuecomment-40294388
 
-module Bhf
+module Bhf::Platform
 
   class Pagination
 

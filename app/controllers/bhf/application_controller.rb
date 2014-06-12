@@ -1,6 +1,6 @@
 class Bhf::ApplicationController < ActionController::Base
 
-  before_filter :init_time, :check_admin_account, :setup_current_account, :load_config, :set_title, :set_areas
+  before_filter :init_time, :check_admin_account, :setup_current_account, :load_settings, :set_title, :set_areas
 
   helper_method :current_account
   layout 'bhf/application'
@@ -50,8 +50,9 @@ class Bhf::ApplicationController < ActionController::Base
       end
     end
 
-    def load_config
-      @settings = Bhf::SettingsParser::parse(get_account_roles(params[:bhf_area]), params[:bhf_area])
+    def load_settings
+      yaml_parser = Bhf::Settings::YAMLParser.new(get_account_roles(params[:bhf_area]), params[:bhf_area])
+      @settings = Bhf::Settings::Base.new(yaml_parser.settings_hash, current_account)
     end
 
     def set_title
