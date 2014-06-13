@@ -32,12 +32,12 @@
         %td{colspan: platform.columns_count}
           = platform.pagination.create(platform) unless platform.sortable
 
-    %tbody{class: (:sortable if platform.sortable), data: {sort_url: sort_entries_path(platform.name)}}
+    %tbody.quick_edit_block{class: ('js_sortable' if platform.sortable), data: {sort_url: sort_entries_path(platform.name)}}
       - if platform.objects.any?
         - platform.objects.each do |object|
           - edit_link = edit_entry_path(platform.name, object)
           - custom_link = send(platform.custom_link, platform.name, object) if platform.custom_link
-          %tr{id: "#{object.id}_#{platform.name}", class: ('animate live_edit initial_referral' if referral_id == object.id)}
+          %tr.quick_edit_entry{id: "#{object.id}_#{platform.name}", class: ('animate live_edit initial_referral' if referral_id == object.id)}
             - if platform.sortable
               %td.drag
                 %span.handle.icon &nbsp;
@@ -45,12 +45,12 @@
               - css_classes = [column.field.macro, column.field.display_type]
               - if column.field.display_type == :primary_key && object.send(column.name).to_s.length > 6
                 - css_classes << :key_long
-              %td{class: css_classes, data: {column_name: column.name}}
-                - a = if column.field.display_type != :boolean && object.send(column.name).blank?
+              %td{class: css_classes}
+                - value = if column.field.display_type != :boolean && object.send(column.name).blank?
                   - '&nbsp;'
                 - else
                   - render(partial: "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", locals: {column: column, object: object})
-                = link_to_if !has_link?(column.field.overwrite_display_type), a.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
+                = link_to_if !has_link?(column.field.overwrite_display_type), value.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
 
             %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
               - if platform.show_duplicate
@@ -59,10 +59,31 @@
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'icon edit'
               - unless platform.hide_delete
-                = link_to delete_t(platform), entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete', data: {confirm: t('bhf.helpers.promts.confirm')}
+                = link_to delete_t(platform), entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete js_delete', data: {confirm: t('bhf.helpers.promts.confirm')}
       - else
         %td.no_entries{colspan: platform.columns_count}
           = t 'bhf.pagination.info', name_zero: platform.title, count: 0
           - unless platform.hide_create
             = link_to new_t(platform), new_entry_path(platform.name)
 
+    
+      %script.quick_edit_template{type: 'text/template'}
+        %tr.quick_edit_entry{id: "{object_id}_#{platform.name}"}
+          - edit_link = edit_entry_path(platform.name, '{object_id}')
+          - if platform.sortable
+            %td.drag
+              %span.handle.icon &nbsp;
+          - platform.columns.each do |column|
+            - css_classes = [column.field.macro, column.field.display_type]
+            - custom_link = send(platform.custom_link, platform.name, '{object_id}') if platform.custom_link
+            %td{class: css_classes}
+              = link_to_if !has_link?(column.field.overwrite_display_type), "{#{column.name}}", (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
+
+          %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
+            - if platform.show_duplicate
+              - dt = duplicate_t(platform)
+              = link_to dt, duplicate_entry_path(platform.name, '{object_id}'), class: 'icon duplicate', method: :post, title: dt
+            - unless platform.hide_edit
+              = link_to edit_t(platform), edit_link, class: 'icon edit'
+            - unless platform.hide_delete
+              = link_to delete_t(platform), entry_path(platform.name, '{object_id}'), method: :delete, remote: true, class: 'icon delete js_delete', data: {confirm: t('bhf.helpers.promts.confirm')}

@@ -45,7 +45,7 @@ var QuickEditStack = new Class({
 				}.bind(this), 600);
 			}
 		});
-		qe.startEdit(link, linkParent);
+		qe.startEdit(link);
 	},
 	addStack: function(){
 		this.bricksIndex = this.bricksIndex + 1;

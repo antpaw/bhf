@@ -14,8 +14,7 @@ var initHelper = function(callback){
 	document.addEventListener('page:load', scopedCallback);
 	window.addEvent('domready', scopedCallback);
 	window.addEvent('platformUpdate', callback);
-	window.addEvent('quickEditReady', callback);
-	window.addEvent('newQuickEditLink', callback);
+	window.addEvent('quickEditFormInject', callback);
 };
 
 (function(){
@@ -29,43 +28,75 @@ var initHelper = function(callback){
 	});
 
 	var editStack = new QuickEditStack();
-	
-	var insertNewLi = function(relation, json){
-		var elems = [];
-		if (json.can_edit) {
-			elems.push(new Element('a.quick_edit', {text: json.to_bhf_s || '', href: json.edit_path}));
-		}
-		else {
-			elems.push(new Element('a', {text: json.to_bhf_s}));
-		}
-		if (json.can_delete) {
-			elems.push(new Element('a.delete', {html: '&times;' || '', href: json.delete_path, 'data-confirm': json.delete_confirm, 'data-remote': 'true'}))
-		}
-		var newLi = new Element('li').adopt(elems);
-		relation.adopt(newLi);
-		window.fireEvent('newQuickEditLink', [newLi]);
-	}
-	var setupDefaultDeleteQuickEditEvents = function(scope, options){		
-		scope.addEvent('click:relay(.delete)', function(e){
-			e.target.addEvents({
-				'ajax:success': function(html){
-					var relation = e.target.getParent('.relation');
-					if (relation.getElements('li').length < 2) {
-						relation.getPrevious('.empty').removeClass('hide');
-						if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
-							relation.getNext('.add_field').removeClass('hide');
-						}
-					}
-					e.target.getParent('li').dispose();
-				},
-				'ajax:failure': function(html){
-					alert(Locale.get('Notifications.failure'));
+			
+	var triggerPlatformPagination = function(href, platform, callback){
+		window.history.pushState({ turbolinks: true, url: href }, '', href);
+		ajaxNote.loading();
+		new Request.HTML({
+			method: 'get',
+			url: href,
+			onFailure: function(){
+				ajaxNote.failure();
+			},
+			onSuccess: function(a, b, html){
+				platform.innerHTML = html;
+				if (callback) {
+					callback.call();
 				}
-			});
-		});
-	}
+				window.fireEvent('platformUpdate', [platform.getParent()]);
+			}
+		}).send();
+	};
+
+	var updateElementsAfterQuickEditSuccess = function(eventNames, linkElem, json){
+		var parent = linkElem.getParent('.quick_edit_block');
+		var entryTemplate = parent.getElement('.quick_edit_template');
+		var newEntryInjectArea = parent.getElement('.quick_edit_inject');
+		var relation = parent.getElement('.relation');
+		var entry = linkElem.getParent('.quick_edit_entry');
+		if ( ! entry) {
+			entry = parent.getElement('.quick_edit_active');
+		}
+		
+		if (json) {
+			var parsedTemplate = entryTemplate.innerHTML.replace(new RegExp('%7Bobject_id%7D', 'g'), '{object_id}').substitute(json)
+		}
+		
+		if (eventNames.contains('successAndAdd')) {
+			if (newEntryInjectArea && entryTemplate) {
+				newEntryInjectArea.appendHTML(parsedTemplate);
+				if (newEntryInjectArea) {
+					newEntryInjectArea.fireEvent('quickEditEntryAdded');
+				}
+			}
+			
+			if (relation) {
+				if (relation.getPrevious('.empty')) {
+					relation.getPrevious('.empty').addClass('hide');
+				}
+				if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
+					relation.getNext('.js_add_field').addClass('hide');
+				}
+			}
+		}
+		if (eventNames.contains('successAndChange')) {
+			if (entry) {
+				entry.innerHTML = parsedTemplate;
+			}
+		}
+		if (eventNames.contains('successAndRemove')) {
+			if (entry) {
+				entry.dispose();
+			}
+			if (newEntryInjectArea) {
+				newEntryInjectArea.fireEvent('quickEditEntryRemoved');
+			}
+			
+		}
+	};
 	
 	initHelper(function(mainScope){
+		
 		var areaSelect = mainScope.getElement('#area_select');
 		if (areaSelect) {
 			areaSelect.addEvent('change', function(){
@@ -78,8 +109,6 @@ var initHelper = function(callback){
 		
 		ajaxNote.setup();
 
-		rails.applyEvents(mainScope);
-		
 		var jsForm = new FormHelper();
 		mainScope.getElements('.js_bhf_form').each(function(form){
 			jsForm.setup(form);
@@ -96,7 +125,8 @@ var initHelper = function(callback){
 				scrollContent();
 				ajaxNote.success();
 			},
-			onSave: function(form){
+			onSave: function(eventNames, linkElem, json){
+				updateElementsAfterQuickEditSuccess(eventNames, linkElem, json);
 				ajaxNote.success();
 			},
 			onBeforeSubmit: function(){
@@ -109,18 +139,42 @@ var initHelper = function(callback){
 
 		var platforms = mainScope.getElements('.platform');
 		var mainForm = mainScope.getElementById('main_form');
+		
+		mainScope.getElements('.quick_edit_select').addEvent('change', function(e){
+			var parent = this.getParent('.quick_edit_block');
+			var optionElem = this.options[this.selectedIndex];
+			var editElem = parent.getElement('.js_edit_field');
+			if (editElem) {
+				editElem.href = optionElem.get('data-edit');
+			}
+			var deleteElem = parent.getElement('.js_delete');
+			if (deleteElem) {
+				deleteElem.href = optionElem.get('data-delete');
+			}
+			this.getElements('.quick_edit_active').removeClass('quick_edit_active');
+			optionElem.addClass('quick_edit_active');
+		}).addEvent('quickEditEntryAdded', function(){
+			this.selectedIndex = this.options.length - 1;
+			this.fireEvent('change');
+		}).addEvent('quickEditEntryRemoved', function(){
+			this.selectedIndex = 0;
+			this.fireEvent('change');
+		}).fireEvent('change');
+		
+		mainScope.addEvent('click:relay(.js_delete)', function(e){
+			e.target.addEvents({
+				'ajax:success': function(html){
+					updateElementsAfterQuickEditSuccess(['successAndRemove'], e.target);
+				},
+				'ajax:failure': function(html){
+					alert(Locale.get('Notifications.failure'));
+				}
+			});
+		});
+		
 
 		if (platforms.length) {
 			quickEditOptions = Object.merge({
-				onSuccessAndChange: function(json){
-					var tr = this.linkElem;
-					tr.getElements('td').each(function(td){
-						var name = td.get('data-column-name');
-						if ( ! name) { return; }
-						var a = td.getElement('a.quick_edit');
-						(a ? a : td).innerHTML = json[name] || '';
-					});
-				},
 				onSuccessAndNext: function(json){
 					var tr = this.linkElem;
 					var qe;
@@ -135,7 +189,7 @@ var initHelper = function(callback){
 						var loadMore = platform.getElement('.load_more');
 						if (loadMore) {
 							trIndex = tr.getParent('tbody').getElements('tr').indexOf(tr);
-							updatePlatform(loadMore.get('href'), platform, function(){
+							triggerPlatformPagination(loadMore.get('href'), platform, function(){
 								platform.getElements('tbody tr').each(function(newTr, index){
 									if (trIndex === index) {
 										nextTr = newTr.getNext('tr');
@@ -156,30 +210,11 @@ var initHelper = function(callback){
 				}
 			}, sharedQuickEditOptions);
 			
-			
-			var updatePlatform = function(href, platform, callback){				
-				window.history.pushState({ turbolinks: true, url: href }, '', href);
-				ajaxNote.loading();
-				new Request.HTML({
-					method: 'get',
-					url: href,
-					onFailure: function(){
-						ajaxNote.failure();
-					},
-					onSuccess: function(a, b, html){
-						platform.innerHTML = html;
-						if (callback) {
-							callback.call();
-						}
-						window.fireEvent('platformUpdate', [platform.getParent()]);
-					}
-				}).send();
-			};
 
 			platforms.each(function(p){
 				new PlatformHelper(p, {
 					onPaginationStart: function(link){
-						updatePlatform(link.get('href'), link.getParent('.platform'));
+						triggerPlatformPagination(link.get('href'), link.getParent('.platform'));
 					},
 					onQuickEditStart: function(link){
 						editStack.removeAllStacks();
@@ -191,25 +226,16 @@ var initHelper = function(callback){
 					onSearchFailure: function(){
 						ajaxNote.failure();
 					},
-					onSearchSuccess: function(){
+					onSearchSuccess: function(request){
 						window.fireEvent('platformUpdate', [p.getParent()]);
+						// TODO: remove the mootools hack for request.url don't 
+						window.history.pushState({ turbolinks: true, url: request.url }, '', request.url);
 					}
 				});
 			});
 		}
 		else if (mainForm) {
 			quickEditOptions = Object.merge({
-				onSuccessAndAdd: function(json){
-					var relation = this.linkElem.getPrevious('.relation');
-					relation.getPrevious('.empty').addClass('hide');
-					if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
-						relation.getNext('.add_field').addClass('hide');
-					}
-					insertNewLi(relation, json);
-				},
-				onSuccessAndChange: function(json){
-					this.linkElem.set('text', json.to_bhf_s || '');
-				},
 				onSuccessAndNext: function(json){
 					var a = this.linkElem;
 					var li = a.getParent('li');
@@ -218,7 +244,6 @@ var initHelper = function(callback){
 						return;
 					}
 					var holder = li.getNext('li');
-
 					if ( ! holder) {
 						holder = li.getParent('ul');
 					}
@@ -228,7 +253,6 @@ var initHelper = function(callback){
 				}
 			}, sharedQuickEditOptions);
 			
-			setupDefaultDeleteQuickEditEvents(mainForm, quickEditOptions);
 			mainForm.addEvent('click:relay(.quick_edit)', function(e){
 				e.preventDefault();
 				editStack.removeAllStacks();
@@ -237,24 +261,12 @@ var initHelper = function(callback){
 		}
 		else if (mainScope.hasClass('quick_edit_holder')) {
 			quickEditOptions = Object.merge({
-				onSuccessAndAdd: function(json){
-					var relation = this.linkElem.getPrevious('.relation');
-					relation.getPrevious('.empty').addClass('hide');
-					if (relation.hasClass('has_one') || relation.hasClass('embeds_one')) {
-						relation.getNext('.add_field').addClass('hide');
-					}
-					insertNewLi(relation, json);
-				},
-				onSuccessAndChange: function(json){
-					this.linkElem.set('text', json.to_bhf_s || '');
-				},
 				onClosed: function(){
 					editStack.removeStack();
 				},
 				hideNext: true
 			}, sharedQuickEditOptions);
 			
-			setupDefaultDeleteQuickEditEvents(mainScope, quickEditOptions);
 			mainScope.addEvent('click:relay(.quick_edit)', function(e){
 				e.preventDefault();
 				editStack.addStack();
@@ -263,23 +275,19 @@ var initHelper = function(callback){
 		}
 		
 		
-		var windowHight = document.body.clientHeight;
-		window.onresize = function(e){
-			windowHight = document.body.clientHeight;
-		};
 		var scrollContent = function(){
 			quickEditArray.each(function(quickEdit){
 				var innerForm = quickEdit.holder.getElement('form');
 				if ( ! innerForm) { return; }
 				var scroll = document.body.scrollTop - 83;
-				if (scroll + innerForm.getSize().y > windowHight) { return; }
+				if (scroll + innerForm.getSize().y > document.body.clientHeight) { return; }
 				quickEdit.holder.setStyle('padding-top', scroll);
 			});
 		};
 		// window.onscroll = scrollContent;
 		
 		
-		mainScope.getElements('.sortable').each(function(sortableElems){
+		mainScope.getElements('.js_sortable').each(function(sortableElems){
 			new Sortables(sortableElems, {
 				handle: '.handle',
 				onStart: function(element, clone){
@@ -289,7 +297,7 @@ var initHelper = function(callback){
 					element.removeClass('dragged');
 					new Request({
 						method: 'put',
-						url: this.element.getParent('tbody').get('data-sort-url')
+						url: sortableElems.get('data-sort-url')
 					}).send({data: {order: this.serialize()}});
 				}
 			});

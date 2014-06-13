@@ -1,8 +1,28 @@
-- data_source ||= field.reflection.klass.all
+- data_source ||= field.link ? field.link.get_objects : field.reflection.klass.all 
+- fk = field.reflection.foreign_key
 = reflection_node f, field do
-  - fk = field.reflection.foreign_key
-  %ul
-    - data_source.each do |obj|
+  .quick_edit_block
+    %ul.relation.quick_edit_inject
+      - data_source.each do |obj|
+        %li
+          = f.radio_button fk, obj.id, id: "belongs_to_#{fk}_#{obj.id}"
+          - if field.link && ! field.link.hide_edit
+            = link_to obj.to_bhf_s, edit_entry_path(field.link.name, obj), class: 'quick_edit'
+          - else
+            = label_tag "belongs_to_#{fk}_#{obj.id}", obj.to_bhf_s
+          - if field.link && ! field.link.hide_delete
+            = link_to '&times;'.html_safe, entry_path(field.link.name, obj), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm')}
+    
+    %script.quick_edit_template{type: 'text/template'}
       %li
-        = f.radio_button fk, obj.id, id: "belongs_to_#{fk}_#{obj.id}"
-        = label_tag "belongs_to_#{fk}_#{obj.id}", obj.to_bhf_s
+        = f.radio_button fk, '{object_id}', id: "belongs_to_#{fk}_{object_id}"
+        - if field.link && ! field.link.hide_edit
+          = link_to '{to_bhf_s}', edit_entry_path(field.link.name, '{object_id}'), class: 'quick_edit'
+        - else
+          = label_tag "belongs_to_#{fk}_#{obj.id}", obj.to_bhf_s
+        - if field.link && ! field.link.hide_delete
+          = link_to '&times;'.html_safe, entry_path(field.link.name, '{object_id}'), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm')}
+        
+      
+    - if field.link && ! field.link.hide_create
+      = link_to '+', new_entry_path(field.link), class: 'js_add_field plus_button qe_button quick_edit'

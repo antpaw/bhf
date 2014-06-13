@@ -33,7 +33,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       after_save
 
       if @quick_edit
-        render json: object_to_bhf_display_hash, status: :ok
+        render json: object_to_bhf_hash, status: :ok
       else
         redirect_after_save(notice: set_message('create.success', @model), referral_entry: {id: @object.id, platform: @platform.name})
       end
@@ -55,7 +55,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       after_save
 
       if @quick_edit
-        render json: object_to_bhf_display_hash, status: :ok
+        render json: object_to_bhf_hash, status: :ok
       else
         redirect_after_save(notice: set_message('update.success', @model), referral_entry: {id: @object.id, platform: @platform.name})
       end
@@ -100,16 +100,13 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
   private
 
-    def object_to_bhf_display_hash
+    def object_to_bhf_hash
       extra_data = {
-        to_bhf_s: @object.to_bhf_s, 
-        object_id: @object.send(@object.class.bhf_primary_key).to_s,
-        edit_path: edit_entry_path(@platform.name, @object),
-        can_edit: ! @platform.hide_edit,
-        delete_path: entry_path(@platform.name, @object),
-        can_delete: ! @platform.hide_delete,
-        delete_confirm: t('bhf.helpers.promts.confirm')
+        to_bhf_s:    @object.to_bhf_s, 
+        object_id:   @object.send(@object.class.bhf_primary_key).to_s
       }
+      extra_data.merge!(@object.to_bhf_hash) if @object.respond_to?(:to_bhf_hash)
+      
       @platform.columns.each_with_object(extra_data) do |column, hash|
         unless column.field.macro == :column && @object.send(column.name).blank?
           p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"

@@ -21,7 +21,7 @@ var MultipleFields = new Class({
 
 		elem.set('type', 'hidden');
 
-		new Element('span.add_field', {text: '+'})
+		new Element('span.plus_button.qe_button', {text: '+'})
 			.inject(elem, 'after')
 			.addEvent('click', function(e){
 				this.addField(elem, template);
@@ -45,6 +45,6 @@ var MultipleFields = new Class({
 				});
 				elem.set('value', values.join(this.options.spliter));
 			}.bind(this))
-			.inject(elem.getParent('.input').getElement('.add_field'), 'before');
+			.inject(elem.getParent('.input').getElement('.plus_button'), 'before');
 	}
 });

@@ -126,6 +126,7 @@ header
         border-color: transparent
         background: transparent
 
+
 .font_size_bigger
   font-size: 1.2em
     
@@ -239,6 +240,8 @@ header
         float: right
         margin-top: 10px
         margin-right: 10px
+      &.cancel:hover
+        background: $r1
       &.save
         margin-right: 16px
 
@@ -377,6 +380,9 @@ table.data_table
       &.live_edit td
         background: $b2
         border-bottom-color: $b2
+      &.background_delete td
+        background: $r1
+        border-bottom-color: $r1
       &.dragged
         td
           opacity: 0.4
@@ -460,6 +466,10 @@ table.data_table
     min-height: 20px
     padding-top: 5px
 
+.quick_edit_holder
+  .error_explanation
+    margin-left: 0
+
 form
   .node
     display: table-row
@@ -482,6 +492,12 @@ form
       color: $g6
     .field_with_errors
       color: $r1
+  .select_input
+    .quick_edit.js_edit_field,
+    .qe_delete.js_delete
+      margin-left: 10px
+    .plus_button
+      margin-left: 20px
   .input
     input[type="password"],
     input[type="text"],
@@ -551,46 +567,6 @@ form
         color: $b1
     .warning
       font-weight: bold
-  .add_field,
-  .relation .quick_edit
-    color: $b1
-    text-decoration: none
-    border: 2px solid $b1
-    background: white
-    padding: 3px 4px
-    border-radius: 4px
-    margin-left: -6px
-    display: inline-block
-    margin-bottom: 8px
-    &:hover
-      color: white
-      background-color: $b1
-    &.live_edit
-      color: white
-      background-color: $b2
-      border-color: $b2
-    &.animate
-      +transition-duration(.3)
-  .add_field
-    font-size: 20px
-    font-weight: bold
-    padding: 0 8px 6px 8px
-    line-height: 20px
-    cursor: pointer
-  .relation
-    li
-      &:hover
-        .delete
-          opacity: 1
-          +transition-duration(0.5)
-      .delete
-        opacity: 0
-        font-size: 20px
-        font-weight: bold
-        padding: 0 8px 6px 8px
-        line-height: 20px
-        &:hover
-          color: $r1
   
   input[type="submit"]
     margin-right: 20px
@@ -612,7 +588,7 @@ form
     color: $g6
     a
       text-decoration: underline
-      
+  
   .error_explanation
     margin-left: 20px
     label
@@ -621,6 +597,56 @@ form
       display: block
       &:hover
         color: $orange
+
+.qe_button
+  color: $b1
+  text-decoration: none
+  border: 2px solid $b1
+  background: white
+  padding: 3px 4px
+  border-radius: 4px
+  display: inline-block
+  margin-bottom: 8px
+  &:hover
+    color: white
+    background-color: $b1
+  &.live_edit
+    color: white
+    background-color: $b2
+    border-color: $b2
+  &.animate
+    +transition-duration(.3)
+  &.plus_button
+    font-size: 20px
+    font-weight: bold
+    padding: 0 8px 6px 8px
+    line-height: 20px
+    cursor: pointer
+
+a
+  &[href='null'],
+  &[href='']
+    opacity: 0.3
+    pointer-events: none
+
+.relation
+  margin-left: -6px
+  input
+    margin-right: 5px
+  li:hover
+    .qe_delete
+      opacity: 1
+      //+transition-duration(0.5)
+  .qe_delete
+    opacity: 0
+
+.qe_delete
+  font-size: 20px
+  font-weight: bold
+  padding: 0 8px 6px 8px
+  line-height: 20px
+  &:hover
+    color: $r1
 
 
 footer
@@ -1071,7 +1097,8 @@ input[type="submit"].alt_button,
   border: 1px solid transparent
   &:hover
     border-color: $g4
-
+  &:active
+    border-color: $b2
 
 .wmd-spacer
   width: 1px

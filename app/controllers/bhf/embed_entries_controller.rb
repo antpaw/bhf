@@ -18,12 +18,8 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       manage_many_to_many
       after_save
       
-      extra_data = {
-        edit_path: edit_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object),
-        delete_path: entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
-      }
       if @quick_edit
-        render json: object_to_bhf_display_hash.merge(extra_data), status: :ok
+        render json: object_to_bhf_hash, status: :ok
       else
         redirect_after_save(notice: set_message('update.success', @model))
       end
@@ -43,7 +39,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       after_save
 
       if @quick_edit
-        render json: object_to_bhf_display_hash, status: :ok
+        render json: object_to_bhf_hash, status: :ok
       else
         redirect_after_save(notice: set_message('update.success', @model))
       end

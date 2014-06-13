@@ -13,9 +13,9 @@ var QuickEdit = new Class({
 		this.holder = new Element('div.quick_edit_holder');
 	},
 	
-	startEdit: function(element, wrapElement){
-		this.linkElem = wrapElement ? wrapElement : element;
-		this.newEntry = this.linkElem.hasClass('add_field');
+	startEdit: function(element){
+		this.linkElem = element;
+		this.newEntry = this.linkElem.hasClass('js_add_field');
 		
 		this.fireEvent('startRequest');
 		this.currentRequest = new Request.HTML({
@@ -33,7 +33,7 @@ var QuickEdit = new Class({
 					nextElem.addClass('hide');
 				}
 				
-				window.fireEvent('quickEditReady', [this.holder]);
+				window.fireEvent('quickEditFormInject', [this.holder]);
 			}.bind(this)
 		}).send();
 	},
@@ -51,29 +51,20 @@ var QuickEdit = new Class({
 			}.bind(this),
 			onFailure: function(invalidForm){
 				this.injectForm(invalidForm.response);
-				window.fireEvent('quickEditReady', [this.holder]);
+				window.fireEvent('quickEditFormInject', [this.holder]);
 			}.bind(this),
 			onSuccess: function(json){
-				if (eventNames.contains('successAndAdd')) {
-					
-				}
-				else if (eventNames.contains('successAndChange')) {
-					console.log(this, this.linkElem, json);
-					this.linkElem.set('text', json.to_bhf_s || '');
-				}
-				
-				
 				if ( ! eventNames.contains('successAndNext')) {
 					this.close();
 				}
 				eventNames.each(function(eventName){
 					this.fireEvent(eventName, [json]);
 				}.bind(this));
-				this.fireEvent('save');
+				this.fireEvent('save', [eventNames, this.linkElem, json]);
 			}.bind(this)
 		}).send({data: form});
 	},
-	
+		
 	disableButtons: function(){
 		this.holder.getElements('.open, .cancel, .save_and_next, .save').set('disabled', 'disabled');
 	},

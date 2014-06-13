@@ -1,1 +1,2 @@
-= t("bhf.helpers.boolean.#{object.send(column.name)}")
+- unless object.send(column.name).nil?
+  = t("bhf.helpers.boolean.#{object.send(column.name)}", default: '')

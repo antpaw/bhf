@@ -17,18 +17,18 @@ provides:
 ...
 */
 
-window.addEvent('domready', function(){
-  
-  rails.csrf = {
-    token: rails.getCsrf('token'),
-    param: rails.getCsrf('param')
-  };
-  
-  // rails.applyEvents();
-});
-
 (function($){
+  var domReadyCallback = function(){
+    rails.csrf = {
+      token: rails.getCsrf('token'),
+      param: rails.getCsrf('param')
+    };
   
+    rails.applyEvents();
+  };
+  window.addEvent('domready', domReadyCallback);
+  document.addEventListener('page:load', domReadyCallback);
+
   window.rails = {
     /**
      * If el is passed as argument, events will only be applied to
@@ -37,7 +37,7 @@ window.addEvent('domready', function(){
     applyEvents: function(el){
       el = $(el || document.body);
       var apply = function(selector, action, callback){
-        el.getElements(selector).addEvent(action, callback);
+        el.addEvent(action + ':relay(' + selector + ')', callback);
       };
       
       apply('form[data-remote="true"]', 'submit', rails.handleRemote);

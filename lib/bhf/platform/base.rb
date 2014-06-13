@@ -4,7 +4,7 @@ module Bhf::Platform
 
     def initialize(options)
       @objects = []
-
+      
       @name = options.name
       @data = options.hash
       @settings = options.settings_base
@@ -26,7 +26,7 @@ module Bhf::Platform
       @pagination ||= Bhf::Platform::Pagination.new(entries_per_page)
     end
 
-    def prepare_objects(options, paginate_options = nil)
+    def get_objects(options = {}, paginate_options = nil)
       if user_scope?
         chain = @user.send(table_value(:user_scope).to_sym)
       else
@@ -48,7 +48,7 @@ module Bhf::Platform
       elsif chain == model
         chain = chain.all
       end
-
+      
       @objects = chain
     end
 
@@ -94,11 +94,6 @@ module Bhf::Platform
       end
       false
     end
-
-    def to_s
-      @name
-    end
-
 
 
 

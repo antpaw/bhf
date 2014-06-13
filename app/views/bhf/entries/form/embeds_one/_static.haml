@@ -2,11 +2,14 @@
   - ref_object = f.object.send(field.reflection.name)
   %p.empty{class: ('hide' if ref_object)}= t 'bhf.helpers.entry.empty', count: 1
   %ul.relation{class: field.macro}
-    %li
-      - if ref_object
-        = link_to_if field.link && ! field.link.hide_edit, ref_object.to_bhf_s, edit_entry_embed_path(field.link || 0, f.object, ref_object), class: :quick_edit
+    - if ref_object
+      %li
+        - if field.link && ! field.link.hide_edit
+          = link_to ref_object.to_bhf_s, edit_entry_embed_path(field.link.name, f.object, ref_object), class: 'js_edit_field qe_button quick_edit'
+        - else
+          = ref_object.to_bhf_s
         - if field.link && ! field.link.hide_delete
-          = link_to '&times;'.html_safe, entry_embed_path(field.link, f.object, ref_object), method: :delete, class: :delete, remote: true, data: {confirm: t('bhf.helpers.promts.confirm')}
+          = link_to '&times;'.html_safe, entry_embed_path(field.link.name, f.object, ref_object), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm')}
 
-  - if field.link && ! field.link.hide_create
-    = link_to '+', new_entry_embed_path(field.link, f.object), class: "add_field quick_edit #{('hide' if ref_object)}"
+  - if !ref_object && field.link && ! field.link.hide_create
+    = link_to '+', new_entry_embed_path(field.link.name, f.object), class: "js_add_field plus_button qe_button quick_edit #{('hide' if ref_object)}"

@@ -52,7 +52,7 @@ class Bhf::PagesController < Bhf::ApplicationController
 
       @edit_params[platform.name] = page_params
 
-      platform.prepare_objects(p, page_params)
+      platform.get_objects(p, page_params)
     end
 
 end

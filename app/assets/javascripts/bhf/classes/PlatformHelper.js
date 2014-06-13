@@ -23,7 +23,7 @@ var PlatformHelper = new Class({
 			if (hidden_search) {
 				hidden_search.destroy();
 			}
-			var a = new Request.HTML({
+			var request = new Request.HTML({
 				method: 'get',
 				url: e.target.get('action'),
 				onFailure: function(){
@@ -31,10 +31,9 @@ var PlatformHelper = new Class({
 				},
 				onSuccess: function(a, b, html){
 					scope.innerHTML = html;
-					_this.fireEvent('searchSuccess')
+					_this.fireEvent('searchSuccess', [request])
 				}
 			}).send({data: e.target});
-			window.history.pushState({ turbolinks: true, url: a.url }, '', a.url);
 		});
 		scope.getElements('.quick_edit').addEvent('click', function(e){
 			e.preventDefault();
@@ -46,15 +45,10 @@ var PlatformHelper = new Class({
 				this.removeClass('clicked');
 			}.bind(this), 1500);
 		});
-		scope.getElements('.delete').addEvent('click', function(e){
-			e.target.addEvents({
-				'ajax:success': function(html){
-					this.getParent('tr').dispose();
-				},
-				'ajax:failure': function(html){
-					alert(Locale.get('Notifications.failure'));
-				}
-			});
+		scope.getElements('.js_delete').addEvent('mouseenter', function(){
+			this.getParent('tr').addClass('background_delete');
+		}).addEvent('mouseleave', function(){
+			this.getParent('tr').removeClass('background_delete');
 		});
 	}
 });
