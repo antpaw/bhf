@@ -498,7 +498,18 @@ form
       margin-left: 10px
     .plus_button
       margin-left: 20px
+    .icon.edit
+      position: relative
+      top: -2px
+      background-position: 0 -150px
+      &.live_edit,
+      &:hover
+        background-position: 0 -200px
+      
   .input
+    input[type="file"]
+      display: block
+      padding: 3px 0 6px 0
     input[type="password"],
     input[type="text"],
     .uploaded_image,
@@ -599,11 +610,9 @@ form
         color: $orange
 
 .qe_button
-  color: $b1
   text-decoration: none
-  border: 2px solid $b1
   background: white
-  padding: 3px 4px
+  padding: 3px 6px
   border-radius: 4px
   display: inline-block
   margin-bottom: 8px
@@ -622,6 +631,9 @@ form
     padding: 0 8px 6px 8px
     line-height: 20px
     cursor: pointer
+
+.default_form_align
+  margin-left: -6px
 
 a
   &[href='null'],
@@ -996,7 +1008,7 @@ input[type="submit"].alt_button,
   z-index: 4000
   +border-bottom-radius(4)
   background: $b1 image-url('bhf/ajax_loader.gif') no-repeat center 16px
-  +box-shadow(0, 1, 4)
+  +box-shadow(0, 3, 8, #333)
   +transition-duration(0.6)
   &.loading
     height: 100px

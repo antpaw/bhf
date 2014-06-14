@@ -27,7 +27,32 @@ var initHelper = function(callback){
 		ajaxNote.loading();
 	});
 
-	var editStack = new QuickEditStack();
+	var editStack = new QuickEditStack({
+		permanentQuickEditEvents: {
+			startRequest: function(){
+				var linkElem = this.linkElem;
+				var rowElem = this.linkElem.getParent('tr');
+				if (rowElem) {
+					linkElem = rowElem;
+				}
+				linkElem.addClass('live_edit');
+			},
+			closed: function(){
+				var linkElem = this.linkElem;
+				var rowElem = this.linkElem.getParent('tr');
+				if (rowElem) {
+					linkElem = rowElem;
+				}
+				linkElem.addClass('animate');
+				setTimeout(function(){
+					linkElem.removeClass('live_edit');
+				});
+				setTimeout(function(){
+					linkElem.removeClass('animate');
+				}, 600);
+			}
+		}
+	});
 			
 	var triggerPlatformPagination = function(href, platform, callback){
 		window.history.pushState({ turbolinks: true, url: href }, '', href);

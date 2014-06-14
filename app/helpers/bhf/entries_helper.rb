@@ -1,5 +1,6 @@
 module Bhf
   module EntriesHelper
+    include Bhf::ActionView::FormOptions
     
     def node(f, field, &block)
       render partial: 'bhf/helper/node', locals: {f: f, field: field, input: with_output_buffer(&block)}
@@ -23,5 +24,6 @@ module Bhf
       end
       title
     end
+    
   end
 end

@@ -28,23 +28,7 @@ var QuickEditStack = new Class({
 			}
 		});
 		
-		qe.addEvents({
-			startRequest: function(){
-				this.linkElem.addClass('live_edit');
-				setTimeout(function(){
-					this.linkElem.addClass('live_edit');
-				}.bind(this), 10);
-			},
-			closed: function(){
-				this.linkElem.addClass('animate');
-				setTimeout(function(){
-					this.linkElem.removeClass('live_edit');
-				}.bind(this));
-				setTimeout(function(){
-					this.linkElem.removeClass('animate');
-				}.bind(this), 600);
-			}
-		});
+		qe.addEvents(this.options.permanentQuickEditEvents);
 		qe.startEdit(link);
 	},
 	addStack: function(){

@@ -1,10 +1,2 @@
-= reflection_node f, field do
-  - ref_object ||= f.object.send(field.reflection.name)
-  %p.empty{class: ('hide' if ref_object)}= t 'bhf.helpers.entry.empty', count: 1
-  %ul.relation{class: field.macro}
-    - if ref_object
-      %li
-        - if field.link && ! field.link.hide_edit
-          = link_to ref_object.to_bhf_s, edit_entry_path(field.link.name, ref_object), class: 'js_edit_field qe_button quick_edit'
-        - else
-          = ref_object.to_bhf_s
+- ref_object ||= f.object.send(field.reflection.name)
+= render partial: 'bhf/entries/form/has_many/static', locals: {ref_objects: [ref_object], field: field, f: f}

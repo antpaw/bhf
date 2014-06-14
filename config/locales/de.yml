@@ -4,22 +4,22 @@ de:
       boolean:
         'true': 'ja'
         'false': 'nein'
-      link: Link ⬀
+      link: 'Link ⬀'
       form:
         buttons:
-          save: '%{platform_name} speichern'
+          save: '%{platform_title} speichern'
           and_edit: und editieren
           and_add: und anlegen
       searchform:
         placeholder: Suche
       promts:
-        confirm: Sind Sie sicher?
+        confirm: 'Wollen Sie diesen %{platform_title}-Eintrag löschen?'
       entry:
-        show: "%{platform_name} anzeigen"
-        new: "%{platform_name} anlegen"
-        duplicate: "%{platform_name} duplizieren"
-        edit: "%{platform_name} editieren"
-        delete: "%{platform_name} löschen"
+        show: "%{platform_title} anzeigen"
+        new: "%{platform_title} anlegen"
+        duplicate: "%{platform_title} duplizieren"
+        edit: "%{platform_title} editieren"
+        delete: "%{platform_title} löschen"
         empty: Leer
         cancel: Abbrechen
       user:
