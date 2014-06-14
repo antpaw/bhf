@@ -4,9 +4,9 @@
   .label= f.label fk, reflection_title(f, field, 1)
   .input.select_input.quick_edit_block
     - if field.link
-      %script.quick_edit_template{type: 'text/template'}
+      %template.quick_edit_template{type: 'text/template'}
         = options_for_select([['{to_bhf_s}', '{object_id}', {data: {edit: edit_entry_path(field.link.name, '{object_id}'), delete: entry_path(field.link.name, '{object_id}')}}]])
-      - select_options ||= f.options_from_collection_for_select_with_link_data(data_source, :id, :to_bhf_s, f.object.send(fk), Proc.new {|obj| {data: {edit: edit_entry_path(field.link.name, obj), delete: entry_path(field.link.name, obj)}}})
+      - select_options ||= options_from_collection_for_select_with_html_attrs(data_source, :id, :to_bhf_s, f.object.send(fk), Proc.new {|obj| {data: {edit: edit_entry_path(field.link.name, obj), delete: entry_path(field.link.name, obj)}}})
     - else
       - select_options ||= options_from_collection_for_select(data_source, :id, :to_bhf_s, f.object.send(fk))
     
@@ -14,8 +14,8 @@
     = render partial: 'bhf/helper/field_errors', locals: {f: f, field: fk}
     
     - if field.link && ! field.link.hide_edit
-      = link_to 'edit', '', class: 'js_edit_field quick_edit'
+      = link_to edit_t(field.link), '', class: 'js_edit_field icon edit quick_edit'
     - if field.link && ! field.link.hide_delete
-      = link_to '&times;'.html_safe, '', method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm')}
+      = link_to '&times;'.html_safe, '', method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm', platform_title: field.link.title_singular)}
     - if field.link && ! field.link.hide_create
-      = link_to '+', new_entry_path(field.link), class: 'js_add_field plus_button qe_button quick_edit'
+      = link_to '+', new_entry_path(field.link.name), class: 'js_add_field plus_button qe_button quick_edit'

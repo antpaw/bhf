@@ -10,7 +10,7 @@ var ArrayFields = new Class({
 		var template = elem.getElement('input').clone().erase('value');
 		var currentNr = 0;
 		
-		new Element('span.plus_button.qe_button', {text: '+'})
+		new Element('span.plus_button.qe_button.default_form_align', {text: '+'})
 			.inject(elem)
 			.addEvent('click', function(e){
 				var newInput = template.clone();

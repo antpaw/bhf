@@ -17,7 +17,7 @@
       .label
       .input
         - unless @object.class.bhf_embedded?
-          = f.submit t('bhf.helpers.form.buttons.save', platform_name: @platform.title_singular)
+          = f.submit t('bhf.helpers.form.buttons.save', platform_title: @platform.title_singular)
         - unless @platform.hide_edit
           = f.submit t('bhf.helpers.form.buttons.and_edit'), name: :return_to_edit, class: 'alt_button'
         - unless @platform.hide_create

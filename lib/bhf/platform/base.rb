@@ -205,7 +205,11 @@ module Bhf::Platform
       
       def find_platform_settings_for_link(link_name)
         if form_value(:links, link_name) != false
-          @settings.find_platform_settings(form_value(:links, link_name) || link_name)
+          if form_value(:links, link_name)
+            @settings.find_platform_settings(form_value(:links, link_name))
+          else
+            @settings.find_platform_settings(link_name.to_s.pluralize) || @settings.find_platform_settings(link_name.to_s.singularize)
+          end
         end
       end
 

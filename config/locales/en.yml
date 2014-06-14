@@ -10,19 +10,19 @@ en:
       link: Link ⬀
       form:
         buttons:
-          save: 'Save %{platform_name}'
+          save: 'Save %{platform_title}'
           and_edit: and edit
           and_add: and add another
       searchform:
         placeholder: Search
       promts:
-        confirm: Are you sure?
+        confirm: 'Do you want to delete this %{platform_title}-entry?'
       entry:
-        new: "New %{platform_name}"
-        show: "Show %{platform_name}"
-        duplicate: "Duplicate %{platform_name}"
-        edit: "Edit %{platform_name}"
-        delete: "Delete %{platform_name}"
+        new: "New %{platform_title}"
+        show: "Show %{platform_title}"
+        duplicate: "Duplicate %{platform_title}"
+        edit: "Edit %{platform_title}"
+        delete: "Delete %{platform_title}"
         empty: Empty
         cancel: Cancel
       user:

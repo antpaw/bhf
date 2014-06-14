@@ -21,7 +21,7 @@ var MultipleFields = new Class({
 
 		elem.set('type', 'hidden');
 
-		new Element('span.plus_button.qe_button', {text: '+'})
+		new Element('span.plus_button.qe_button.default_form_align', {text: '+'})
 			.inject(elem, 'after')
 			.addEvent('click', function(e){
 				this.addField(elem, template);
