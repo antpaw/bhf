@@ -84,8 +84,8 @@ module Bhf::Platform
       return @columns if @columns
       
       tmp = default_attrs(table_columns, collection[0..5], true)
-      tmp = tmp.each_with_object([]) do |field, obj|
-        obj << Bhf::Platform::Data::Column.new(field)
+      tmp = tmp.each_with_object([]) do |attribute, obj|
+        obj << Bhf::Platform::Data::Column.new(attribute, model)
       end
       @columns = remove_excludes(tmp, table_value(:exclude))
     end
@@ -94,8 +94,8 @@ module Bhf::Platform
       return @definitions if @definitions
       
       tmp = default_attrs(show_value(:display) || show_value(:definitions), collection)
-      tmp = tmp.each_with_object([]) do |field, obj|
-        obj << Bhf::Platform::Data::Show.new(field)
+      tmp = tmp.each_with_object([]) do |attribute, obj|
+        obj << Bhf::Platform::Data::Show.new(attribute)
       end
       @definitions = remove_excludes(tmp, show_value(:exclude))
     end
@@ -252,7 +252,7 @@ module Bhf::Platform
         all = {}
 
         model.columns_hash.each_pair do |name, props|
-          next if name == sortable
+          next if sortable && name == sortable_property
           all[name] = Bhf::Platform::Data::Field.new(props, {
             overwrite_type: form_value(:types, name),
             overwrite_display_type: table_value(:types, name),

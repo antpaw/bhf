@@ -1,7 +1,12 @@
 module Bhf::Platform::Data
-  class Show < Bhf::Platform::Data::Column
+  class Show
 
-    attr_reader :overwrite_show_type
-
+    attr_reader :name, :field
+    
+    def initialize(field)
+      @name = field.name
+      @field = field
+    end
+    
   end
 end
