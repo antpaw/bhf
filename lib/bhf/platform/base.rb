@@ -68,22 +68,36 @@ module Bhf::Platform
       table_value(:hide) == true || model.bhf_embedded?
     end
 
+    def remove_excludes(attrs, excludes)
+      return attrs unless excludes
+      attrs.each_with_object([]) do |attribute, obj|
+        next if excludes.include?(attribute.name.to_s)
+        obj << attribute
+      end
+    end
+
     def fields
-      default_attrs(form_value(:display), collection, false)
+      @fields ||= remove_excludes(default_attrs(form_value(:display), collection), form_value(:exclude))
     end
 
     def columns
-      default_attrs(table_columns, collection[0..5]).
-      each_with_object([]) do |field, obj|
+      return @columns if @columns
+      
+      tmp = default_attrs(table_columns, collection[0..5], true)
+      tmp = tmp.each_with_object([]) do |field, obj|
         obj << Bhf::Platform::Data::Column.new(field)
       end
+      @columns = remove_excludes(tmp, table_value(:exclude))
     end
 
     def definitions
-      default_attrs(show_value(:display) || show_value(:definitions), collection, false).
-      each_with_object([]) do |field, obj|
+      return @definitions if @definitions
+      
+      tmp = default_attrs(show_value(:display) || show_value(:definitions), collection)
+      tmp = tmp.each_with_object([]) do |field, obj|
         obj << Bhf::Platform::Data::Show.new(field)
       end
+      @definitions = remove_excludes(tmp, show_value(:exclude))
     end
 
     def has_file_upload?
@@ -213,7 +227,7 @@ module Bhf::Platform
         end
       end
 
-      def default_attrs(attrs, d_attrs, warning = true)
+      def default_attrs(attrs, d_attrs, warning = false)
         return d_attrs unless attrs
 
         model_respond_to?(attrs) if warning
@@ -283,11 +297,11 @@ module Bhf::Platform
         id + output.sort_by(&:name) + static_dates
       end
 
-      def model_respond_to?(field_names)
+      def model_respond_to?(attrs)
         new_obj = model.new
-        field_names.each do |field_name|
-          unless new_obj.respond_to?(field_name)
-            raise Exception.new("Model '#{model}' does not respond to '#{field_name}'")
+        attrs.each do |attribute|
+          unless new_obj.respond_to?(attribute)
+            raise Exception.new("Model '#{model}' does not respond to '#{attribute}'")
             return false
           end
         end
