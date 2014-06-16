@@ -162,7 +162,7 @@ DEPENDENCIES
   haml-rails (~> 0.4)
   jeweler (~> 2.0)
   kaminari (~> 0.15)
-  rails (~> 4.0)
+  rails (~> 4)
   rdoc (~> 3.12)
   sass-rails (~> 4.0)
   shoulda (~> 3.5)

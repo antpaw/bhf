@@ -84,9 +84,6 @@ module Bhf::Platform
       return @columns if @columns
       
       tmp = default_attrs(table_columns, collection[0..5], true)
-      tmp = tmp.each_with_object([]) do |attribute, obj|
-        obj << Bhf::Platform::Data::Column.new(attribute, model)
-      end
       @columns = remove_excludes(tmp, table_value(:exclude))
     end
 
@@ -94,9 +91,6 @@ module Bhf::Platform
       return @definitions if @definitions
       
       tmp = default_attrs(show_value(:display) || show_value(:definitions), collection)
-      tmp = tmp.each_with_object([]) do |attribute, obj|
-        obj << Bhf::Platform::Data::Show.new(attribute)
-      end
       @definitions = remove_excludes(tmp, show_value(:exclude))
     end
 
@@ -104,7 +98,7 @@ module Bhf::Platform
       return true if form_value(:multipart) == true
       
       fields.each do |field|
-        return true if field.form_type.to_sym == :file
+        return true if field.form_type == :file
       end
       false
     end
@@ -231,17 +225,13 @@ module Bhf::Platform
         return d_attrs unless attrs
 
         model_respond_to?(attrs) if warning
-        attrs.each_with_object([]) do |attr_name, obj|
+        attrs.each_with_object([]) do |name, obj|
           obj << (
-            collection.select{ |field| attr_name == field.name }[0] ||
-            Bhf::Platform::Data::AbstractField.new({
-              name: attr_name,
-              form_type: form_value(:types, attr_name) || attr_name,
-              display_type: table_value(:types, attr_name) || attr_name,
-              show_type: show_value(:types, attr_name) || table_value(:types, attr_name) || attr_name,
-              info: I18n.t("bhf.platforms.#{@name}.infos.#{attr_name}", default: ''),
-              link: find_platform_settings_for_link(attr_name)
-            })
+            collection.select{ |field| name == field.name }[0] ||
+            Bhf::Platform::Attribute::Abstract.new(default_attribute_options(name).merge({
+              name: name,
+              link: find_platform_settings_for_link(name)
+            }), model)
           )
         end
       end
@@ -253,22 +243,13 @@ module Bhf::Platform
 
         model.columns_hash.each_pair do |name, props|
           next if sortable && name == sortable_property
-          all[name] = Bhf::Platform::Data::Field.new(props, {
-            overwrite_type: form_value(:types, name),
-            overwrite_display_type: table_value(:types, name),
-            overwrite_show_type: show_value(:types, name) || table_value(:types, name),
-            info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: '')
-          }, model.bhf_primary_key)
+          all[name] = Bhf::Platform::Attribute::Column.new(props, default_attribute_options(name), model)
         end
 
         model.reflections.each_pair do |name, props|
-          all[name.to_s] = Bhf::Platform::Data::Reflection.new(props, {
-            overwrite_type: form_value(:types, name),
-            overwrite_display_type: table_value(:types, name),
-            overwrite_show_type: show_value(:types, name) || table_value(:types, name),
-            info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: ''),
+          all[name.to_s] = Bhf::Platform::Attribute::Reflection.new(props, default_attribute_options(name).merge({
             link: find_platform_settings_for_link(name)
-          })
+          }), model)
 
           fk = all[name.to_s].reflection.foreign_key
           if all.has_key?(fk) and fk != name.to_s
@@ -306,6 +287,15 @@ module Bhf::Platform
           end
         end
         true
+      end
+
+      def default_attribute_options(name)
+        {
+          form_type: form_value(:types, name),
+          display_type: table_value(:types, name),
+          show_type: show_value(:types, name),
+          info: I18n.t("bhf.platforms.#{@name}.infos.#{name}", default: '')
+        }
       end
 
 

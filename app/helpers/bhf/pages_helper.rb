@@ -30,9 +30,5 @@ module Bhf
       params_platfrom['direction'] == 'desc' ? 'sorted desc' : 'sorted asc'
     end
     
-    def has_link?(display_type)
-      display_type.to_s.include? '_link'
-    end
-
   end
 end

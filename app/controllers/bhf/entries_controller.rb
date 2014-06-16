@@ -108,8 +108,8 @@ class Bhf::EntriesController < Bhf::ApplicationController
       extra_data.merge!(@object.to_bhf_hash) if @object.respond_to?(:to_bhf_hash)
       
       @platform.columns.each_with_object(extra_data) do |column, hash|
-        unless column.field.macro == :column && @object.send(column.name).blank?
-          p = "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}"
+        unless column.macro == :column && @object.send(column.name).blank?
+          p = "bhf/pages/macro/#{column.macro}/#{column.display_type}"
           hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}
         end
       end

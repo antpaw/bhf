@@ -1,6 +1,0 @@
-- unless object.send(column.name).blank?
-  - file = object.send(column.name)
-  - if type_is_image?(file.content_type)
-    = image_tag find_smallest_size_url_for_file(file), alt: object.send(column.name), class: 'preview_image'
-  - else
-    = file.original_filename

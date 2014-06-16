@@ -1,0 +1,2 @@
+- ref_object ||= f.object.send(field.reflection.name)
+= render partial: 'bhf/form/has_many/static', locals: {ref_objects: [ref_object], field: field, f: f}

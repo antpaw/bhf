@@ -2,13 +2,12 @@
 - if @platform.definitions.any?
   .dl.content_box
     - @platform.definitions.each do |column|
-      - tmp = column.field.show_type ? column.field.show_type : column.field.display_type
-      - if ! @object.send(column.name).blank?
+      - column_value = @object.send(column.name)
+      - if ! column_value.blank?
         = definition_item @object, column do
-          = render(partial: "bhf/pages/macro/#{column.field.macro}/#{tmp}", locals: {column: column, object: @object})
+          = render(partial: "bhf/table/#{column.macro}/#{column.show_type}", locals: {column_value: column_value, object: @object})
 
 - if @platform.show_extra_fields and @platform.show_extra_fields.any?
   .content_box
     - @platform.show_extra_fields.each do |name|
       = render(partial: "bhf/pages/show/#{name}", locals: {name: name, object: @object})
-      

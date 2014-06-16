@@ -20,7 +20,7 @@
         - if platform.sortable
           %th.drag
         - platform.columns.each do |column|
-          %th{class: "#{column.field.macro} #{column.field.display_type} #{order_class(column.db_name, platform.name)}"}
+          %th{class: "#{column.macro} #{column.display_type} #{order_class(column.db_name, platform.name)}"}
             = link_to_if column.reorderble, column.title, current_order_path(column.db_name, platform.name)
         %th.action
 
@@ -39,15 +39,19 @@
               %td.drag
                 %span.handle.icon &nbsp;
             - platform.columns.each do |column|
-              - css_classes = [column.field.macro, column.field.display_type]
-              - if column.field.display_type == :primary_key && object.send(column.name).to_s.length > 6
+              - css_classes = [column.macro, column.display_type]
+              - column_value = object.send(column.name)
+              - if column.display_type == :primary_key && column_value.to_s.length > 6
                 - css_classes << :key_long
               %td{class: css_classes}
-                - value = if column.field.display_type != :boolean && object.send(column.name).blank?
-                  - '&nbsp;'
+                - value = if column.display_type != :boolean && column_value.blank?
+                  - '&nbsp;'.html_safe
                 - else
-                  - render(partial: "bhf/pages/macro/#{column.field.macro}/#{column.field.display_type}", locals: {column: column, object: object})
-                = link_to_if !has_link?(column.field.overwrite_display_type), value.html_safe, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
+                  - if column.display_type == :string
+                    - column_value
+                  - else
+                    - render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
+                = link_to value, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
 
             %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
               - if platform.show_duplicate
@@ -71,10 +75,10 @@
             %td.drag
               %span.handle.icon &nbsp;
           - platform.columns.each do |column|
-            - css_classes = [column.field.macro, column.field.display_type]
+            - css_classes = [column.macro, column.display_type]
             - custom_link = send(platform.custom_link, platform.name, '{object_id}') if platform.custom_link
             %td{class: css_classes}
-              = link_to_if !has_link?(column.field.overwrite_display_type), "{#{column.name}}", (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
+              = link_to "{#{column.name}}", (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
 
           %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
             - if platform.show_duplicate

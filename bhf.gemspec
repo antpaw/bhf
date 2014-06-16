@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Anton Pawlik"]
-  s.date = "2014-06-13"
+  s.date = "2014-06-16"
   s.description = "Gets you there on time"
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -73,29 +73,6 @@ Gem::Specification.new do |s|
     "app/views/bhf/entries/_form.haml",
     "app/views/bhf/entries/_validation_errors.haml",
     "app/views/bhf/entries/edit.haml",
-    "app/views/bhf/entries/form/belongs_to/_radio.haml",
-    "app/views/bhf/entries/form/belongs_to/_select.haml",
-    "app/views/bhf/entries/form/belongs_to/_static.haml",
-    "app/views/bhf/entries/form/column/_array.haml",
-    "app/views/bhf/entries/form/column/_boolean.haml",
-    "app/views/bhf/entries/form/column/_date.haml",
-    "app/views/bhf/entries/form/column/_hash.haml",
-    "app/views/bhf/entries/form/column/_mappin.haml",
-    "app/views/bhf/entries/form/column/_markdown.haml",
-    "app/views/bhf/entries/form/column/_multiple_fields.haml",
-    "app/views/bhf/entries/form/column/_number.haml",
-    "app/views/bhf/entries/form/column/_paperclip.haml",
-    "app/views/bhf/entries/form/column/_password.haml",
-    "app/views/bhf/entries/form/column/_static.haml",
-    "app/views/bhf/entries/form/column/_string.haml",
-    "app/views/bhf/entries/form/column/_text.haml",
-    "app/views/bhf/entries/form/column/_wysiwyg.haml",
-    "app/views/bhf/entries/form/embeds_many/_static.haml",
-    "app/views/bhf/entries/form/embeds_one/_static.haml",
-    "app/views/bhf/entries/form/has_and_belongs_to_many/_check_box.haml",
-    "app/views/bhf/entries/form/has_and_belongs_to_many/_static.haml",
-    "app/views/bhf/entries/form/has_many/_static.haml",
-    "app/views/bhf/entries/form/has_one/_static.haml",
     "app/views/bhf/entries/new.haml",
     "app/views/bhf/entries/show.haml",
     "app/views/bhf/helper/_definition_item.haml",
@@ -107,24 +84,6 @@ Gem::Specification.new do |s|
     "app/views/bhf/helper/_reflection_node.haml",
     "app/views/bhf/pages/_platform.haml",
     "app/views/bhf/pages/_search.haml",
-    "app/views/bhf/pages/macro/belongs_to/_default.haml",
-    "app/views/bhf/pages/macro/column/_array.haml",
-    "app/views/bhf/pages/macro/column/_boolean.haml",
-    "app/views/bhf/pages/macro/column/_date.haml",
-    "app/views/bhf/pages/macro/column/_extern_link.haml",
-    "app/views/bhf/pages/macro/column/_file.haml",
-    "app/views/bhf/pages/macro/column/_hash.haml",
-    "app/views/bhf/pages/macro/column/_image.haml",
-    "app/views/bhf/pages/macro/column/_number.haml",
-    "app/views/bhf/pages/macro/column/_paperclip.haml",
-    "app/views/bhf/pages/macro/column/_primary_key.haml",
-    "app/views/bhf/pages/macro/column/_string.haml",
-    "app/views/bhf/pages/macro/column/_text.haml",
-    "app/views/bhf/pages/macro/embeds_many/_default.haml",
-    "app/views/bhf/pages/macro/embeds_one/_default.haml",
-    "app/views/bhf/pages/macro/has_and_belongs_to_many/_default.haml",
-    "app/views/bhf/pages/macro/has_many/_default.haml",
-    "app/views/bhf/pages/macro/has_one/_default.haml",
     "app/views/bhf/pages/show.haml",
     "app/views/kaminari/bhf/_gap.html.haml",
     "app/views/kaminari/bhf/_next_page.html.haml",
@@ -139,14 +98,10 @@ Gem::Specification.new do |s|
     "config/routes.rb",
     "lib/bhf.rb",
     "lib/bhf/action_view/form_builder.rb",
+    "lib/bhf/action_view/form_options.rb",
     "lib/bhf/active_record/base.rb",
     "lib/bhf/mongoid/document.rb",
     "lib/bhf/platform/base.rb",
-    "lib/bhf/platform/data/abstract_field.rb",
-    "lib/bhf/platform/data/column.rb",
-    "lib/bhf/platform/data/field.rb",
-    "lib/bhf/platform/data/reflection.rb",
-    "lib/bhf/platform/data/show.rb",
     "lib/bhf/platform/pagination.rb",
     "lib/bhf/settings/base.rb",
     "lib/bhf/settings/platform.rb",
@@ -164,7 +119,7 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["~> 4.0"])
+      s.add_runtime_dependency(%q<rails>, ["~> 4"])
       s.add_runtime_dependency(%q<turbolinks>, ["~> 2.1"])
       s.add_runtime_dependency(%q<kaminari>, ["~> 0.15"])
       s.add_runtime_dependency(%q<haml-rails>, ["~> 0.4"])
@@ -175,7 +130,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 2.0"])
       s.add_development_dependency(%q<simplecov>, ["~> 0.8"])
     else
-      s.add_dependency(%q<rails>, ["~> 4.0"])
+      s.add_dependency(%q<rails>, ["~> 4"])
       s.add_dependency(%q<turbolinks>, ["~> 2.1"])
       s.add_dependency(%q<kaminari>, ["~> 0.15"])
       s.add_dependency(%q<haml-rails>, ["~> 0.4"])
@@ -187,7 +142,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<simplecov>, ["~> 0.8"])
     end
   else
-    s.add_dependency(%q<rails>, ["~> 4.0"])
+    s.add_dependency(%q<rails>, ["~> 4"])
     s.add_dependency(%q<turbolinks>, ["~> 2.1"])
     s.add_dependency(%q<kaminari>, ["~> 0.15"])
     s.add_dependency(%q<haml-rails>, ["~> 0.4"])

@@ -1,4 +1,4 @@
 %p
   %span.dt #{object.class.human_attribute_name(column.name)}:
-  %span.dd{class: [column.field.macro, column.field.show_type ? column.field.show_type : column.field.display_type], data: {column_name: column.name}}
+  %span.dd{class: [column.macro, column.show_type], data: {column_name: column.name}}
     = content
