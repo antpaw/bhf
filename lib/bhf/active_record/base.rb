@@ -41,6 +41,10 @@ module Bhf::ActiveRecord
         where(where_statement.join(' OR '))
       end
       
+      def bhf_attribute_method?(column_name)
+        column_names.include?(column_name)
+      end
+      
       def bhf_primary_key
         primary_key
       end

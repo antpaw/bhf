@@ -73,6 +73,10 @@ module Bhf::Mongoid
         c
       end
       
+      def bhf_attribute_method?(column_name)
+        attribute_method?(column_name)
+      end
+      
       def bhf_primary_key
         '_id'
       end

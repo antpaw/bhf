@@ -109,7 +109,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       
       @platform.columns.each_with_object(extra_data) do |column, hash|
         unless column.macro == :column && @object.send(column.name).blank?
-          p = "bhf/pages/macro/#{column.macro}/#{column.display_type}"
+          p = "bhf/table/#{column.macro}/#{column.display_type}"
           hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}
         end
       end

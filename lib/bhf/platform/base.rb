@@ -231,7 +231,7 @@ module Bhf::Platform
             Bhf::Platform::Attribute::Abstract.new(default_attribute_options(name).merge({
               name: name,
               link: find_platform_settings_for_link(name)
-            }), model)
+            }))
           )
         end
       end
@@ -243,15 +243,18 @@ module Bhf::Platform
 
         model.columns_hash.each_pair do |name, props|
           next if sortable && name == sortable_property
-          all[name] = Bhf::Platform::Attribute::Column.new(props, default_attribute_options(name), model)
+          all[name] = Bhf::Platform::Attribute::Column.new(props, default_attribute_options(name).merge({
+            primary_key: model.bhf_primary_key
+          }))
         end
 
         model.reflections.each_pair do |name, props|
+          fk = props.foreign_key
           all[name.to_s] = Bhf::Platform::Attribute::Reflection.new(props, default_attribute_options(name).merge({
-            link: find_platform_settings_for_link(name)
-          }), model)
+            link: find_platform_settings_for_link(name),
+            reorderble: model.bhf_attribute_method?(fk)
+          }))
 
-          fk = all[name.to_s].reflection.foreign_key
           if all.has_key?(fk) and fk != name.to_s
             all.delete(fk)
           end
@@ -291,6 +294,7 @@ module Bhf::Platform
 
       def default_attribute_options(name)
         {
+          title: model.human_attribute_name(name),
           form_type: form_value(:types, name),
           display_type: table_value(:types, name),
           show_type: show_value(:types, name),

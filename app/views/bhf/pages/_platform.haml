@@ -4,7 +4,7 @@
   - referral_id = (referral_entry[:platform] == platform.name && referral_entry[:id])
 
 - if platform.custom_partial
-  = render partial: "bhf/pages/#{platform.custom_partial}", locals: {platform: platform, referral_id: referral_id}
+  = render partial: "bhf/platform/#{platform.custom_partial}", locals: {platform: platform, referral_id: referral_id}
 - else
   %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
     %caption
@@ -50,6 +50,7 @@
                   - if column.display_type == :string
                     - column_value
                   - else
+                    - # Haml::Engine.new(File.read(File.expand_path File.dirname(__FILE__)+"/../table/#{column.macro}/_#{column.display_type}.haml")).render(OpenStruct.new({column_value: column_value, object: object}))
                     - render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
                 = link_to value, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
 

@@ -3,9 +3,9 @@ module Bhf::Platform::Attribute
     
     attr_reader :name, :title, :info
     
-    def initialize(options, model)
+    def initialize(options)
       @name = options[:name]
-      @title = model.human_attribute_name(name)
+      @title = options[:title]
       @info = options[:info]
       
       @options_form_type = options[:form_type].to_sym if options[:form_type]
@@ -13,7 +13,6 @@ module Bhf::Platform::Attribute
       @options_show_type = options[:show_type].to_sym if options[:show_type]
       
       @link_platform_settings = options[:link] unless options[:link].blank?
-      
     end
     
     def macro

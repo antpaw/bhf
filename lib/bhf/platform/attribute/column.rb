@@ -3,9 +3,9 @@ module Bhf::Platform::Attribute
 
     attr_reader :name, :title, :info, :type
 
-    def initialize(props, options = {}, model)
+    def initialize(props, options = {})
       @name = props.name
-      @title = model.human_attribute_name(name)
+      @title = options[:title]
       @info = options[:info]
       @type = props.type
 
@@ -13,7 +13,7 @@ module Bhf::Platform::Attribute
       @options_display_type = options[:display_type].to_sym if options[:display_type]
       @options_show_type = options[:show_type].to_sym if options[:show_type]
 
-      @pk = model.bhf_primary_key
+      @pk = options[:primary_key]
     end
     
     def macro
