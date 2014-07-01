@@ -63,7 +63,7 @@ module Bhf::Platform
     def model_name
       ActiveModel::Naming.singular(model)
     end
-    
+
     def table_hide?
       table_value(:hide) == true || model.bhf_embedded?
     end
@@ -77,20 +77,20 @@ module Bhf::Platform
     end
 
     def fields
-      @fields ||= remove_excludes(default_attrs(form_value(:display), collection), form_value(:exclude))
+      @fields ||= remove_excludes(default_attrs(form_value(:display), attributes), form_value(:exclude))
     end
 
     def columns
       return @columns if @columns
       
-      tmp = default_attrs(table_columns, collection[0..5], true)
+      tmp = default_attrs(table_columns, attributes[0..5], true)
       @columns = remove_excludes(tmp, table_value(:exclude))
     end
 
     def definitions
       return @definitions if @definitions
       
-      tmp = default_attrs(show_value(:display) || show_value(:definitions), collection)
+      tmp = default_attrs(show_value(:display) || show_value(:definitions), attributes)
       @definitions = remove_excludes(tmp, show_value(:exclude))
     end
 
@@ -227,7 +227,7 @@ module Bhf::Platform
         model_respond_to?(attrs) if warning
         attrs.each_with_object([]) do |name, obj|
           obj << (
-            collection.select{ |field| name == field.name }[0] ||
+            attributes.select{ |field| name == field.name }[0] ||
             Bhf::Platform::Attribute::Abstract.new(default_attribute_options(name).merge({
               name: name,
               link: find_platform_settings_for_link(name)
@@ -236,8 +236,8 @@ module Bhf::Platform
         end
       end
 
-      def collection
-        return @collection if @collection
+      def attributes
+        return @attributes if @attributes
         
         all = {}
 
@@ -260,17 +260,20 @@ module Bhf::Platform
           end
         end
 
-        @collection = default_sort(all)
+        @attributes = default_sort(all)
       end
 
       def default_sort(attrs)
         id = []
+        headlines = []
         static_dates = []
         output = []
 
         attrs.each_pair do |key, value|
           if key == model.bhf_primary_key
             id << value
+          elsif key == 'title' || key == 'name' || key == 'headline'
+            headlines << value
           elsif key == 'created_at' || key == 'updated_at'
             static_dates << value
           else
@@ -278,7 +281,7 @@ module Bhf::Platform
           end
         end
 
-        id + output.sort_by(&:name) + static_dates
+        id + headlines + output.sort_by(&:name) + static_dates
       end
 
       def model_respond_to?(attrs)
