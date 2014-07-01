@@ -16,7 +16,7 @@ module Bhf
         object.bhf_area(options)
       end
 
-      render partial: 'bhf/helper/frontend_edit', locals: { area: area, platform_title: options[:platform_name], object: object, block: (with_output_buffer(&block) if block_given?)}
+      render partial: 'bhf/helper/frontend_edit', locals: { area: area, platform_name: options[:platform_name], object: object, block: (with_output_buffer(&block) if block_given?)}
     end
 
   end
