@@ -27,7 +27,7 @@ module Bhf::Platform
     end
 
     def get_objects(options = {}, paginate_options = nil)
-      if user_scope?
+      if user_scope? and @user
         chain = @user.send(table_value(:user_scope).to_sym)
       else
         chain = model

@@ -102,15 +102,16 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def object_to_bhf_hash
       extra_data = {
-        to_bhf_s:    @object.to_bhf_s, 
-        object_id:   @object.send(@object.class.bhf_primary_key).to_s
+        to_bhf_s:  @object.to_bhf_s, 
+        object_id: @object.send(@object.class.bhf_primary_key).to_s
       }
       extra_data.merge!(@object.to_bhf_hash) if @object.respond_to?(:to_bhf_hash)
       
       @platform.columns.each_with_object(extra_data) do |column, hash|
-        unless column.macro == :column && @object.send(column.name).blank?
+        column_value = @object.send(column.name)
+        unless column.macro == :column && column_value.blank?
           p = "bhf/table/#{column.macro}/#{column.display_type}"
-          hash[column.name] = render_to_string partial: p, locals: {column: column, object: @object}
+          hash[column.name] = render_to_string partial: p, locals: {object: @object, column_value: column_value}
         end
       end
     end
