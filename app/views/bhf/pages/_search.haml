@@ -9,8 +9,8 @@
         = s.hidden_field key, value: value, id: nil, class: (:hidden_search if key == 'text')
 
     - if platform.custom_search
-      = render partial: platform.custom_search, locals: { platform: platform, f: f, s: s, p: p }
+      = render partial: "bhf/platform/#{platform.custom_search}", locals: { platform: platform, f: f, s: s, p: p }
 
-  = f.hidden_field :per_page, value: get_value(:per_page, p)
-  = f.hidden_field :order, value: get_value(:order, p)
+  = f.hidden_field :per_page,  value: get_value(:per_page, p)
+  = f.hidden_field :order,     value: get_value(:order, p)
   = f.hidden_field :direction, value: get_value(:direction, p)

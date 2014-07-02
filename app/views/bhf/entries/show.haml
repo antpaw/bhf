@@ -10,4 +10,4 @@
 - if @platform.show_extra_fields and @platform.show_extra_fields.any?
   .content_box
     - @platform.show_extra_fields.each do |name|
-      = render(partial: "bhf/pages/show/#{name}", locals: {name: name, object: @object})
+      = render(partial: "bhf/table/column/#{name}", locals: {name: name, object: @object})
