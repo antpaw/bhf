@@ -182,6 +182,10 @@ module Bhf::Platform
       table_value 'custom_link'
     end
 
+    def table_quick_edit
+      table_value 'quick_edit'
+    end
+
     def custom_partial
       table_value 'partial'
     end

@@ -32,7 +32,7 @@
     %tbody.quick_edit_block{class: ('js_sortable' if platform.sortable), data: {sort_url: sort_entries_path(platform.name)}}
       - if platform.objects.any?
         - platform.objects.each do |object|
-          - edit_link = edit_entry_path(platform.name, object)
+          - edit_link = platform.hide_edit ? "##{object.id}_#{platform.name}" : edit_entry_path(platform.name, object)
           - custom_link = send(platform.custom_link, platform.name, object) if platform.custom_link
           %tr.quick_edit_entry{id: "#{object.id}_#{platform.name}", class: ('animate live_edit initial_referral' if referral_id == object.id)}
             - if platform.sortable
@@ -52,7 +52,7 @@
                   - else
                     - # Haml::Engine.new(File.read(File.expand_path File.dirname(__FILE__)+"/../table/#{column.macro}/_#{column.display_type}.haml")).render(OpenStruct.new({column_value: column_value, object: object}))
                     - render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
-                = link_to value, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
+                = link_to value, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' if !platform.custom_link && platform.table_quick_edit)
 
             %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
               - if platform.show_duplicate
