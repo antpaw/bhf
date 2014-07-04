@@ -318,7 +318,7 @@ Turbolinks.pagesCached(0);
 			});
 		});
 		
-		var fm = $('flash_massages');
+		var fm = document.id('flash_massages');
 		if (fm) {
 			fm.removeClass.delay(10000, fm, 'show');
 		}

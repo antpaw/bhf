@@ -101,7 +101,7 @@ var QuickEdit = new Class({
 			this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange']);
 		}.bind(this));
 		
-		this.holder.inject($(this.options.holderParent));
+		this.holder.inject(document.id(this.options.holderParent));
 		
 		this.fireEvent('formInjected', [this.holder]);
 	},
