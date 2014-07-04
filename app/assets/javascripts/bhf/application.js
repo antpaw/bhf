@@ -7,16 +7,6 @@
 // Turbolinks bugs out on popState if you add own pushState events, so we cancel it
 Turbolinks.pagesCached(0);
 
-var initHelper = function(callback){
-	var scopedCallback = function(){
-		callback(document.body);
-	};
-	document.addEventListener('page:load', scopedCallback);
-	window.addEvent('domready', scopedCallback);
-	window.addEvent('platformUpdate', callback);
-	window.addEvent('quickEditFormInject', callback);
-};
-
 (function(){
 	var stackIndexCounter = 0;
 	var lang = document.html.get('lang');
@@ -120,7 +110,7 @@ var initHelper = function(callback){
 		}
 	};
 	
-	initHelper(function(mainScope){
+	window.addEvent('bhfDomChunkReady', function(mainScope){
 		
 		var areaSelect = mainScope.getElement('#area_select');
 		if (areaSelect) {
@@ -344,4 +334,16 @@ var initHelper = function(callback){
 		
 		ajaxNote.success();
 	});
+
+
+	var bodyCallback = function(){
+		window.fireEvent('bhfDomChunkReady', [document.body]);
+	};
+	var scopeCallback = function(scope){
+		window.fireEvent('bhfDomChunkReady', [scope]);
+	};
+	document.addEventListener('page:load', bodyCallback);
+	window.addEvent('domready', bodyCallback);
+	window.addEvent('platformUpdate', scopeCallback);
+	window.addEvent('quickEditFormInject', scopeCallback);
 })();
