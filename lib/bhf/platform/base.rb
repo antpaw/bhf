@@ -54,10 +54,10 @@ module Bhf::Platform
 
     def model
       @model ||= if @data['model']
-        @data['model'].constantize 
+        @data['model']
       else
-        @name.singularize.camelize.constantize
-      end
+        @name
+      end.classify.constantize
     end
 
     def model_name

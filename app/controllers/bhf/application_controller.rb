@@ -20,7 +20,7 @@ class Bhf::ApplicationController < ActionController::Base
 
     def setup_current_account
       if session[Bhf.configuration.session_account_id]
-        @current_account = Bhf.configuration.account_model.constantize.send(
+        @current_account = Bhf.configuration.account_model.classify.constantize.send(
           Bhf.configuration.account_model_find_method.to_sym,
           session[Bhf.configuration.session_account_id.to_s]
         )
