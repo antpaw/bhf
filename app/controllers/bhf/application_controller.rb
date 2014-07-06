@@ -36,16 +36,12 @@ class Bhf::ApplicationController < ActionController::Base
       return unless current_account
       
       if area
-        if current_account.respond_to?(:bhf_area_role)
-          return current_account.bhf_area_role(area)
-        elsif current_account.respond_to?(:bhf_area_roles)
+        if current_account.respond_to?(:bhf_area_roles)
           return current_account.bhf_area_roles(area).collect(&:identifier)
         end
       end
 
-      if current_account.respond_to?(:bhf_role)
-        current_account.bhf_role.is_a?(String) ? current_account.bhf_role : current_account.bhf_role.identifier
-      elsif current_account.respond_to?(:bhf_roles)
+      if current_account.respond_to?(:bhf_roles)
         current_account.bhf_roles.collect(&:identifier)
       end
     end

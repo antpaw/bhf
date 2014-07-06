@@ -9,7 +9,7 @@ module Bhf::Settings
 
       if Bhf.configuration.abstract_settings.any?
   
-        tmp_pages = get_settings_array(Bhf.configuration.abstract_settings, '/abstract')['pages']
+        tmp_pages = get_settings_array(Bhf.configuration.abstract_settings)['pages']
         abstract_platform_settings = tmp_pages.each_with_object({}) do |abstract_pages, hash|
           abstract_pages.each do |abstract_page|
             abstract_page[1].each do |abstract_platform|
@@ -39,7 +39,7 @@ module Bhf::Settings
     end
 
 
-    def get_settings_array(array, dir)
+    def get_settings_array(array, dir = nil)
       array.each_with_object({'pages' => []}) do |r, account_roles|
         pages = load_yml("#{dir}/#{r}")['pages']
         account_roles['pages'] += pages if pages
@@ -48,9 +48,7 @@ module Bhf::Settings
 
     def roles_yml(roles = nil, area = nil)
       area_dir = "/#{area}" if area.present?
-      if roles.is_a?(String)
-        load_yml("#{area_dir}/#{roles}")
-      elsif roles.is_a?(Array)
+      if roles.is_a?(Array)
         files = get_settings_array(roles, area_dir)
 
         # find the same pages and merge them
