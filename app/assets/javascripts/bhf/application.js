@@ -333,8 +333,13 @@ Turbolinks.pagesCached(0);
 		});
 		
 		mainScope.getElements('.ninja_file_field').addEvent('change', function(){
-      var text = this.value.split('\\');
-      this.getParent().getElement('.h_text').set('text', text.getLast());
+      var text = (this.value || '').split('\\');
+      var parent = this.getParent();
+      var newText = parent.get('data-empty-field-text');
+      if (this.value) {
+        newText = text.getLast() || this.value;
+      }
+      parent.getElement('.h_text').set('text', newText);
     });
     
 		

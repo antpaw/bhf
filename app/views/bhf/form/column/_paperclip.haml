@@ -3,17 +3,17 @@
   = node f, field do
     - file = f.object.send(field.name)
     - if file.file?
+      
       - if type_is_image?(file.content_type)
         = image_tag find_smallest_size_url_for_file(file), class: 'uploaded_image'
       - else
         = link_to file.original_filename, file.url, class: 'uploaded_file'
-
+      
       - if f.object.respond_to?(:"#{field.name}_destroy")
         .file_delete
           = f.check_box "#{field.name}_destroy"
           = f.label "#{field.name}_destroy", t('bhf.helpers.file.delete')
-
-    - unless @quick_edit
-      %a.qe_button.ninja_file_field_holder.default_form_align
-        %span.h_text= t('bhf.helpers.form.file_field.select')
-        = f.file_field field.name, class: 'ninja_file_field'
+          
+    %a.qe_button.ninja_file_field_holder.default_form_align{data: {empty_field_text: t('bhf.helpers.form.file_field.select')}}
+      %span.h_text= t('bhf.helpers.form.file_field.select')
+      = f.file_field field.name, class: 'ninja_file_field'

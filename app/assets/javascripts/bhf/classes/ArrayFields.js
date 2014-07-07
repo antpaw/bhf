@@ -7,13 +7,14 @@ var ArrayFields = new Class({
 		if ( ! _object) { return; }
 		// this.setOptions(_options);
 		var elem = _object;
-		var template = elem.getElement('input').clone().erase('value');
+		var template = elem.getElement('.array_fields').clone();
 		var currentNr = 0;
 		
 		new Element('span.plus_button.qe_button.default_form_align', {text: '+'})
 			.inject(elem)
 			.addEvent('click', function(e){
-				var newInput = template.clone();
+			  var holder = template.clone();
+				var newInput = (holder.getElement('input') || holder).erase('value');
 				var arrayI = newInput.get('name').match(/.+?\[(\d+)\].+/);
 				if (arrayI && arrayI[1]) {
 					currentNr += 1;
@@ -22,11 +23,13 @@ var ArrayFields = new Class({
 							.replace(/(.+?\[)\d+(\].+)/, '$1'+(parseInt(arrayI[1], 10)+currentNr)+'$2')
 					);
 				}
-				newInput.inject(e.target, 'before');
+				holder.inject(e.target, 'before');
+				window.fireEvent('bhfDomChunkReady', [holder]);
 			});
 		
 		elem.getParent('form').addEvent('submit', function(){
-			elem.getElements('.array_fields').each(function(input){
+			elem.getElements('.array_fields').each(function(fieldElem){
+				var input = (fieldElem.getElement('input') || fieldElem);
 				if (input.value) { return; }
 				input.erase('name');
 			});
