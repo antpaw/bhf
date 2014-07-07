@@ -84,6 +84,10 @@ module Bhf::Platform
       return @columns if @columns
       
       tmp = default_attrs(table_columns, attributes[0..5], true)
+      if sortable and ! table_columns
+        tmp = remove_excludes(tmp, [sortable_property.to_s])
+      end
+        
       @columns = remove_excludes(tmp, table_value(:exclude))
     end
 
