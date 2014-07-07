@@ -67,8 +67,8 @@ de:
 
     footer:
       state: 'Seite wurde in ~%{time} Sekunden erstellt'
-      copy: 'Gemacht von <a href="http://twitter.com/antpaw">@antpaw</a> mit <a href="http://rubyonrails.org">Rails</a> und <a href="http://mootools.net">MooTools</a>'
-      info: 'Mehr Information auf <a href="http://antpaw.github.io/bhf">GitHub</a>'
+      copy: 'Gemacht von <a href="http://twitter.com/antpaw">@antpaw</a>'
+      info: 'Mehr Informationen auf <a href="http://antpaw.github.io/bhf">GitHub</a>'
 
   activerecord:
     notices:
