@@ -1,8 +1,8 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<title>{{ page.title }}</title>
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-theme.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/doc.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -10,18 +10,87 @@
 	<div class="bs-docs-header" id="content">
 		<div class="container">
 			<h1>bhf</h1>
-			<p>Agnostic Ruby on Rails backend. <br>Easy integratable and highly configurable.</p>
+			<p>Agnostic Ruby on Rails admin interface. <br>Easy integratable and highly configurable.</p>
 		</div>
 	</div>
 	
 	<div class="container bs-docs-container">
 	      <div class="row">
-	        <div class="col-md-9" role="main">
-				<div class="bs-docs-section">
-					{{ content }}{{name}}
+	        <div class="col-md-9 main" role="main">
+				{{ content }}
+			</div>
+			<div class="col-md-3">
+				<div id="navbar-example2" class="bs-docs-sidebar hidden-print affix-top" role="complementary">
+					<ul class="nav bs-docs-sidenav">
+						<li class="active">
+							<a href="#overview">Overview</a>
+						</li>
+						<li>
+							<a href="#install">Install</a>
+						</li>
+						<li>
+							<a href="#user_authentication">User authentication</a>
+						</li>
+						<li>
+							<a href="#usage">Usage</a>
+						</li>
+						<li>
+							<a href="#platform_options">Platform options</a>
+						</li>
+						<li>
+						  <a href="#initializer_configuration">Initializer configuration</a>
+						</li>
+						<li>
+						  <a href="#user_roles">User roles</a>
+						</li>
+						<li>
+						  <a href="#abstract_platform_settings">Abstract platform settings</a>
+						</li>
+						<li>
+						  <a href="#overriding_bhf">Overriding bhf</a>
+						</li>
+						<li>
+						  <a href="#internationalization">Internationalization</a>
+						</li>
+						<li>
+						  <a href="#time_zones">Time zones</a>
+						</li>
+						<li>
+						  <a href="#edit_link">Shortcut edit link</a>
+						</li>
+						<li>
+						  <a href="#quick_edit">quick_edit</a>
+						</li>
+						<li>
+						  <a href="#areas">Areas</a>
+						</li>
+					</ul>
+					<ul class="nav bs-docs-sidenav extern_buttons">
+						<li>
+						  <a class="btn btn-sec big_button" href="https://github.com/antpaw/bhf/"><h4>bhf on GitHub</h4></a>
+						</li>
+						<li>
+							<a class="btn btn-sec big_button h_bigger" href="http://bhf-demo.herokuapp.com/"><h4>Live demo</h4></a>
+              <a class="btn btn-sec big_button h_smaller" href="https://github.com/antpaw/bhf-demo/">code</a>
+						</li>
+						<li>
+              <a class="btn btn-sec big_button h_bigger" href="http://bhf-demo-advanced.herokuapp.com/"><h4>Live demo advanced</h4></a>
+						  <a class="btn btn-sec big_button h_smaller" href="https://github.com/antpaw/bhf-demo-advanced/">code</a>
+            </li>
+						<li>
+							<a class="btn btn-sec big_button h_bigger" href="http://bhf-demo-mongoid.herokuapp.com/"><h4>Live demo mongoid</h4></a>
+						  <a class="btn btn-sec big_button h_smaller" href="https://github.com/antpaw/bhf-demo-mongoid/">code</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script>
+		$('body').scrollspy({target: '#navbar-example2'});
+		$('#navbar-example2').affix({offset: {top: 340}});
+	</script>
 </body>
 </html>

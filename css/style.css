@@ -22,6 +22,61 @@ $orange: #ff9900
 
 */
 
-.bs-docs-header p {
-  color: #ADC7F0;
+.bs-docs-masthead, .bs-docs-header {
+  background: #38A5E9;
 }
+
+.bs-docs-header p {
+  color: #BED7FF;
+}
+
+
+.btn-sec {
+  background: #fff;
+  border: 1px solid #eee;
+}
+
+.btn-sec:hover {
+  background: #F5F5F5;
+}
+
+.main {
+  margin-bottom: 200px;
+}
+
+.main h4 {
+  margin-top: 3em;
+}
+.extern_buttons li {
+  margin-bottom: 20px
+}
+.bs-docs-sidebar .nav.extern_buttons .btn-sec {
+  padding-left: 0;
+  padding-right: 0;
+  font-weight: 400;
+}
+.bs-docs-sidebar .nav.extern_buttons .btn-sec h4 {
+  font-weight: 300;
+  color: #2F4D7B;
+}
+.bs-docs-sidebar .nav.extern_buttons .btn-sec:hover {
+  background: #F5F5F5;
+  border: 1px solid #eee;
+}
+.bs-docs-sidebar .nav.extern_buttons .btn-sec.h_smaller {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: 0;
+}
+.bs-docs-sidebar .nav.extern_buttons .btn-sec.h_bigger {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+//code {
+//  color: #428bca;
+//  background-color: #F2F9FF;
+//}
+//
+//a {
+//  color: #c7254e
+//}

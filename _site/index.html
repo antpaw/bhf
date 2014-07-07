@@ -1,8 +1,8 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<title>bhf Hello World</title>
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-theme.css">
+	<title>bhf</title>
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/doc.css">
 	<link rel="stylesheet" href="css/style.css">
 </head>
@@ -10,20 +10,611 @@
 	<div class="bs-docs-header" id="content">
 		<div class="container">
 			<h1>bhf</h1>
-			<p>Agnostic Ruby on Rails backend. <br>Easy integratable and highly configurable.</p>
+			<p>Agnostic Ruby on Rails admin interface. <br>Easy integratable and highly configurable.</p>
 		</div>
 	</div>
 	
 	<div class="container bs-docs-container">
 	      <div class="row">
-	        <div class="col-md-9" role="main">
-				<div class="bs-docs-section">
-					<h1>bhf Hello World</h1>
+	        <div class="col-md-9 main" role="main">
+				<div id="overview" class="bs-docs-section">
+<h1 class="page-header">Overview</h1>
+<p class="lead">A simple to use Rails-Engine-Gem that offers an <strong>admin interface</strong> for trusted user. <br>Easy integratable and highly configurable and agnostic. <br>Works with <code>ActiveRecord</code> and <code>Mongoid</code>.</p>
+</div>
 
-<div class="highlight"><pre><code class="html">asdf</code></pre></div>
+
+
+<div id="install" class="bs-docs-section">
+<hr>
+<h2>Install</h2>
+<ol>
+<li>Make sure you have rails <code>>= 4.0.0</code></li>
+<li>Add this to your <code>Gemfile</code>
+<pre><code class="lang-ruby">gem <span class="string">'bhf'</span></code></pre>
+</li>
+<li>Add a <code>bhf.rb</code> to your <code>config/initializers/</code> dir
+<pre><code class="lang-ruby"><span class="constant">Bhf</span>.configure <span class="keyword">do</span> |config|
+  config.on_login_fail = <span class="symbol">:login_url</span>
+<span class="keyword">end</span></code></pre>
+<p>(<a href="https://github.com/antpaw/bhf-demo/blob/master/config/initializers/bhf.rb">example</a>)</p>
+</li>
+<li>Mount the bhf-engine in your <code>routes.rb</code>
+<pre><code class="lang-ruby">mount <span class="constant">Bhf::Engine</span>, <span class="symbol">at:</span> <span class="string">'bhf'</span></code></pre>
+<p>(<a href="https://github.com/antpaw/bhf-demo/blob/master/config/routes.rb">example</a>)</p>
+</li>
+<li>Add a <code>bhf.yml</code> to your <code>config/</code> dir
+<pre><code class="lang-ruby"><span class="symbol">pages:</span>
+- <span class="symbol">my_page:</span> <span class="comment"># Page name, not really important for now</span>
+  - <span class="symbol">my_model:</span> <span class="comment"># replace this with whatever model name you already have in this project (lowcase)</span></code></pre>
+<p>(<a href="https://github.com/antpaw/bhf-demo/blob/master/config/bhf.yml">example</a>)</p>
+</li>
+</ol>
+<h4><em>That's it!</em></h4>
+</div>
+
+
+
+<div id="user_authentication" class="bs-docs-section">
+<hr>
+<h2>Setup user authentication</h2>
+<p>Now <code>http://localhost:3000/bhf</code> is available, <strong>but</strong> you will be redirected back to the <code>config.on_login_fail</code> url. Because bhf doesn't trust you yet.</p>
+<p>User authentication happens completely outside of bhf, this gives you the maximal flexibility to authentication process. The authlogic, device or the good-old <code>http_basic_authenticate_with</code> or anything else.</p>
+<p>Let's keep it simple and use http authenticate, go to your <code>routes.rb</code> and add this line:</p>
+<pre><code class="lang-ruby">get <span class="string">'admin'</span>, <span class="symbol">to:</span> <span class="string">'admin#login'</span>, <span class="symbol">as:</span> <span class="symbol">:admin</span></code></pre>
+<p>(<a href="https://github.com/antpaw/bhf-demo/blob/master/config/routes.rb">example</a>)</p>
+<p>create a <code>admin_controller.rb</code> and make sure users that are allowed to open bhf get the <code>session[:is_admin] = true</code> before they are redirected to <code>bhf.root_url</code>. </p>
+<pre><code class="lang-ruby"><span class="class"><span class="keyword">class</span> <span class="title">AdminController</span> <span class="inheritance">&lt; <span class="parent">ApplicationController</span></span></span>
+
+  http_basic_authenticate_with <span class="symbol">name:</span> <span class="string">'admin'</span>, <span class="symbol">password:</span> <span class="string">'bhf'</span>
+  <span class="comment"># somebody how doesn't know the login data can't open the login action</span>
+
+  <span class="function"><span class="keyword">def</span> <span class="title">login</span></span>
+    session[<span class="symbol">:is_admin</span>] = <span class="keyword">true</span> <span class="comment"># bhf checks for this session in a before_filter, if it's true user will pass</span>
+    redirect_to bhf.root_url
+  <span class="keyword">end</span>
+
+<span class="keyword">end</span></code></pre>
+<p>(<a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/app/controllers/user_sessions_controller.rb">more advanced example with authlogic</a>)</p>
+<p>You can change the session name in the <code>config/initializers/bhf.rb</code>. Because you are in control of when this session variable is set, you are in control what authentication method you are using.</p>
+<p><strong>Now hit <code>http://localhost:3000/bhf</code> again and login!</strong></p>
+</div>
+
+
+
+<div id="usage" class="bs-docs-section">
+
+<hr>
+<h2>Usage</h2>
+<p>After logging in you see the list of pages form <code>bhf.yml</code>, click one of them and you'll see the list of models (called <em>platforms</em>) this page contains. As you see platforms need only little configuration appear on a page and be ready to use. But of course we often need some basic business logic for example: hiding fields, adding custom fields, removing the delete button or using a curtain scope for the list of entries. All of this and much more can be setup via <code>bhf.yml</code>. This is how a typical <code>bhf.yml</code> looks like:</p>
+<pre><code class="lang-yml">pages:
+
+- statics: # Page Statics
+  - statics: # bhf can work from this point on because there is a model named Static
+
+- posts: # Page Posts
+  - posts:
+      table:
+        # default_scope hides some posts so we need a different scope
+        source: all_posts
+
+        # columns to display
+        display: [id, headline, subheadline, content, category, published, published_at]
+      form:
+        # fields to display
+        display: [id, category, author, headline, subheadline, content, published, published_at]
+        types:
+          # change content field from a textarea to a markdown wysiwyg
+          content: markdown
+
+- settings: # Page Settings
+  - category: # bhf can work from this point on because there is a model named Static
+
+  - authors:
+      table:
+        # allow to sort the entries via drag and drop (make sure the default_scope order by position)
+        sortable: position
+        # hide the delete button
+        hide_delete: true
+      form:
+        # fields to display
+        display: [id, name, job_title, email]</code></pre>
+
+</div>
+
+
+
+<div id="platform_options" class="bs-docs-section">
+<hr>
+<h2>Platform options</h2>
+<p>This are the keys you can add to a platform <code>model</code>, <code>table</code>, <code>form</code>, <code>show</code>, <code>sortable_property</code>, <code>hooks</code>, <code>extend_abstract</code></p>
+<h4>Table</h4>
+<p><code>table:</code> (hash) contains all the logic that you can see in the table view. This are the possible hash options:</p>
+<ul>
+<li><code>scope:</code> (string) name of the scope (<a href="http://guides.rubyonrails.org/active_record_querying.html#scopes">read more about Rails scopes</a>). <em>default:</em> <code>all</code> (<code>source:</code> is an alias)</li>
+<li><code>user_scope:</code> (string) name of the scope that will be applied on the user instance and not directly on the platform's model. <em>default:</em> <code>false</code></li>
+<li><code>display:</code> (array) a list that will define the model instance getter and the order of the table rows. <em>default:</em> <code>id</code> + 5 more random keys. (<code>columns:</code> is an alias)</li>
+<li><code>exclude:</code> (array) a list of model instance getters that will not be shown (the opposite of <code>display:</code>). <em>default:</em> <code>false</code></li>
+<li><code>types:</code> (hash) <strong>key</strong> is the model instance getter or a value defined in the <code>display:</code> array. <strong>value</strong> is the name of the variable type or a custom partial name. <em>default:</em> <code>{}</code> (<a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/config/bhf/admin.yml#L10">example</a>)</li>
+<li><code>show_duplicate</code>: (boolean) shows the duplicate entry button. <em>default:</em> <code>false</code></li>
+<li><code>sortable</code>: (boolean) show the sort icon (drag and drop). <em>default:</em> <code>false</code></li>
+<li><code>hide_delete:</code> (boolean) hides the delete button. <em>default:</em> <code>false</code></li>
+<li><code>hide_edit:</code> (boolean) hides the edit possibilities in the table button. <em>default:</em> <code>false</code></li>
+<li><code>hide_create:</code> (boolean) hides the create button. <em>default:</em> <code>false</code></li>
+<li><code>search:</code> (string/boolean) name of the search method that will be used instead of <code>bhf_default_search</code>, if set to <code>false</code> it will remove the platform search form. <em>default:</em> <code>nil</code></li>
+<li><code>search_field:</code> (boolean) show the search field. <em>default:</em> <code>true</code></li>
+<li><code>custom_search:</code> (string) partial name used inside of the search form. <em>default:</em> <code>false</code></li>
+<li><code>entries_per_page:</code> (int) number of entries per displayed on a page. <em>default:</em> <code>false</code></li>
+<li><code>custom_partial:</code> (string) partial name that will be used instead of the standard table platform partial. <em>default:</em> <code>false</code></li>
+<li><code>quick_edit:</code> (boolean) enables quick edit in the table view. <em>default:</em> <code>false</code></li>
+<li><code>custom_link:</code> (string) changes the link of the entry. <em>default:</em> <code>false</code></li>
+</ul>
+<h4>Form</h4>
+<p><code>form:</code> (hash) contains all the logic that you can see in the form view. This are the possible hash options:</p>
+<ul>
+<li><code>display:</code> (array) a list that will define the model instance getter and the order of the table rows. <em>default:</em>  all model fields.</li>
+<li><code>exclude:</code> (array) same as <code>table.exclude:</code></li>
+<li><code>types:</code> (hash) same as <code>table.types:</code>. See <a href="#form_field_types">form field types</a> for the available types or define your own.</li>
+<li><code>links:</code> (hash) <strong>key</strong> is the model instance getter or a value defined in the <code>display:</code> array. <strong>value</strong> is the name of the reflection platform linked to this key. Having <code>false</code> in the value will hide the link, because sometimes bhf is able to find reflection platform without your configuration. <em>default:</em> <code>{}</code></li>
+<li><code>multipart:</code> (boolean) form is multipart. <em>default:</em> <code>false</code></li>
+</ul>
+<h4>Show</h4>
+<p><code>show:</code> (hash) contains all the logic that you can see in the show view. But first you need to link a entry to the show view.</p>
+<pre><code class="lang-yml">pages:
+- page:
+  - authors:
+      custom_link: entry_path</code></pre>
+<p>This are the possible hash options:</p>
+<ul>
+<li><code>show_extra_fields:</code> (array) appends custom fields at the end of the view. <em>default:</em> <code>false</code></li>
+<li><code>display:</code> (array) a list that will define the model instance getter and the order of the table rows. <em>default:</em>  all model fields. (<code>definitions:</code> is an alias)</li>
+<li><code>exclude:</code> (array) same as <code>table.exclude:</code></li>
+<li><code>types:</code> (hash) same as <code>table.types:</code></li>
+</ul>
+<h4>Model</h4>
+<p><code>model:</code> (string) actual model name (e.g. <code>User</code>) it's often not needed because bhf tries to find the model via the platform name, but sometimes the have to be different.</p>
+<pre><code class="lang-yml">pages:
+- page:
+  - best_authors:
+      model: authors</code></pre>
+<h4>Sortable property</h4>
+<p><code>sortable_property:</code> (string) name of the property that needs to get updated via ajax on entries sort. <em>default:</em> <code>position</code></p>
+<h4>Hooks</h4>
+<p><code>hooks:</code> (hash) contains the hooks that will be used while saving the entry</p>
+<ul>
+<li><code>after_load:</code> (string) method name that is called on a entry instance right after was loaded. <em>default:</em> <code>false</code></li>
+<li><code>before_save:</code> (string) method name that is call before saving entry instance with the Rails <code>params</code> hash. <em>default:</em> <code>false</code></li>
+<li><code>after_save:</code> (string) method name that is call after saving entry instance with the Rails <code>params</code> hash. <em>default:</em> <code>false</code></li>
+</ul>
+<p>There are some <code>ActiveRecord</code> hooks that do the same but hey will not let you access the http <code>params</code>.</p>
+<h4>Abstract extend</h4>
+<p><code>extend_abstract:</code> (string) name of the abstract platform. <a href="#abstract_extend">See abstract_extend</a></p>
+</div>
+
+
+
+<div id="initializer_configuration" class="bs-docs-section">
+
+<hr>
+<h2>Initializer configuration</h2>
+<pre><code class="lang-ruby"><span class="constant">Bhf</span>.configure <span class="keyword">do</span> |config|
+<span class="keyword">end</span></code></pre>
+<p>This are the possible hash options:</p>
+<ul>
+<li><code>config.css</code>: (array) all the css file links. <em>default:</em> <code>['bhf/application']</code></li>
+<li><code>config.js</code>: (array) all the js file links. <em>default:</em> <code>['bhf/application']</code></li>
+<li><code>config.abstract_settings</code>: (array) link to abstract <code>.yml</code> files. <em>default:</em> <code>[]</code></li>
+<li><code>config.on_login_fail</code>: (sym) url bhf redirects to if <code>session[config.session_auth_name]</code> isn't <code>true</code> <em>default:</em> <code>:root_url</code></li>
+<li><code>config.session_auth_name</code>: (sym) session key used to look up in user's session whether it's <code>true</code> or not <em>default:</em> <code>:is_admin</code></li>
+<li><code>config.session_account_id</code>: (sym) session key used to look up in user's <code>id</code> which will be passed to the <code>config.account_model_find_method</code> method <em>default:</em> <code>:admin_account_id</code></li>
+<li><code>config.account_model</code>: (string) user's model name <em>default:</em> <code>'User'</code></li>
+<li><code>config.account_model_find_method</code>: (string) user's model method used to find the current user instance <em>default:</em> <code>'find'</code></li>
+<li><code>config.logout_path</code>: (sym) link used in the footer if the user was found via <code>config.account_model</code> and <code>config.account_model_find_method</code> <em>default:</em> <code>:logout_path</code></li>
+<li><code>config.paperclip_image_types</code>: (array) <em>default:</em> <code>['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif']</code></li>
+</ul>
+<p>(<a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/config/initializers/bhf.rb">example</a>)</p>
+</div>
+
+
+
+<div id="user_roles" class="bs-docs-section">
+<hr>
+<h2>User roles</h2>
+<p>If you wish to display different pages or/and platforms to your users you can do that with roles support that is backed into bhf.</p>
+<p>First of all you will have to provide a <code>session[:admin_account_id] = @user_session.user.id</code>. 
+After finding the user bhf will try to retrieve user's roles. If the getter <code>bhf_roles</code> is defined bhf loops through the roles and collects <code>"bhf/#{role.identifier}.yml"</code> settings. So you no longer have the <code>config/bhf.yml</code>, instead you will have something like this: <code>config/bhf/admin.yml</code>, <code>config/bhf/editor.yml</code>. If you have same page names in each roles settings file defined, bhf will merge them. You can't define same names for platforms. If you need to reuse the settings form a platform consider using <a href="#abstract_settings">abstract settings</a>.</p>
+<p><code>schema.rb</code></p>
+<pre><code class="lang-ruby">create_table <span class="string">"roles"</span>, <span class="symbol">force:</span> <span class="keyword">true</span> <span class="keyword">do</span> |t|
+  t.string   <span class="string">"identifier"</span>
+  t.string   <span class="string">"name"</span>
+  t.datetime <span class="string">"created_at"</span>,             <span class="symbol">null:</span> <span class="keyword">false</span>
+  t.datetime <span class="string">"updated_at"</span>,             <span class="symbol">null:</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+create_table <span class="string">"roles_users"</span>, <span class="symbol">id:</span> <span class="keyword">false</span>, <span class="symbol">force:</span> <span class="keyword">true</span> <span class="keyword">do</span> |t|
+  t.integer <span class="string">"role_id"</span>
+  t.integer <span class="string">"user_id"</span>
+<span class="keyword">end</span></code></pre>
+<p><code>user.rb</code></p>
+<pre><code class="lang-ruby"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="inheritance">&lt; <span class="parent">ActiveRecord::Base</span></span></span>
+  ...
+  has_and_belongs_to_many <span class="symbol">:roles</span>
+  ...
+  <span class="function"><span class="keyword">def</span> <span class="title">bhf_roles</span></span>
+    roles
+  <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+<p><strong>Possible user model instance methods:</strong></p>
+<ul>
+<li><code>bhf_roles</code>: returns: (array) a list of roles objects with at least a <code>identifier</code> key.</li>
+</ul>
+</div>
+
+
+
+<div id="abstract_platform_settings" class="bs-docs-section">
+<hr>
+<h2>Abstract platform settings</h2>
+<p>Reusing platform settings is simple. Add <code>config.abstract_settings = ['abstract']</code> to your bhf initializer and add  <code>config/bhf/abstract.yml</code>. Define the abstract platform settings the way you normal would, all the pages and platforms wont be displayed. Use the <code>extend_abstract:</code> platform's setting to link the platform to an abstract platform.</p>
+<p>Example of a <a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/config/bhf/abstract.yml">abstract settings <code>.yml</code> file</a> and <a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/config/bhf/locations.yml">how it can be used</a>.</p>
+</div>
+
+
+
+<div id="overriding_bhf" class="bs-docs-section">
+<hr>
+<h2>Overriding bhf</h2>
+<h4>Field types</h4>
+<p><strong>Table:</strong></p>
+<p>Available types for model <code>columns</code>:</p>
+<ul>
+<li><code>array</code> (string)</li>
+<li><code>boolean</code> (string)</li>
+<li><code>date</code> (string)</li>
+<li><code>extern_link</code> (link to string)</li>
+<li><code>file</code> (link to file)</li>
+<li><code>hash</code> (string)</li>
+<li><code>image</code> (image_tag)</li>
+<li><code>number</code> (string)</li>
+<li><code>paperclip</code> (file name string or image_tag)</li>
+<li><code>primary_key</code> (strong_tag)</li>
+<li><code>string</code> (string)</li>
+<li><code>text</code> (string)</li>
+</ul>
+<p>Available types for <code>belongs_to</code>, <code>has_many</code>, <code>has_one</code>, <code>embeds_many</code>,<br> <code>embeds_one</code> and <code>has_and_belongs_to_many</code>:</p>
+<ul>
+<li><code>default</code> (string)</li>
+</ul>
+<p><strong>Form:</strong></p>
+<p>Available types for model <code>columns</code>:</p>
+<ul>
+<li><code>array</code> (multiple text_fields)</li>
+<li><code>boolean</code> (check_box)</li>
+<li><code>date</code> (date- and/or time-picker)</li>
+<li><code>hash</code> (string)</li>
+<li><code>mappin</code> (google-maps map with a pin)</li>
+<li><code>markdown</code> (markdown editor)</li>
+<li><code>multiple_fields</code> (multiple text_fields)</li>
+<li><code>number</code> (text_field)</li>
+<li><code>paperclip</code> (file_field)</li>
+<li><code>password</code> (password_field)</li>
+<li><code>static</code> (string)</li>
+<li><code>string</code> (text_field)</li>
+<li><code>text</code> (text_area)</li>
+<li><code>wysiwyg</code> (wysiwyg html editor)</li>
+</ul>
+<p>Available types for reflection <code>belongs_to</code>:</p>
+<ul>
+<li><code>select</code> (select_tag)</li>
+<li><code>radio</code> (radio_button)</li>
+<li><code>static</code> (string)</li>
+</ul>
+<p>Available types for <code>has_and_belongs_to_many</code> and <code>has_many :through =&gt;</code>:</p>
+<ul>
+<li><code>check_box</code> (check_box)</li>
+<li><code>static</code> (string)</li>
+</ul>
+<p>Available types for <code>has_many</code>, <code>has_one</code>, <code>embeds_many</code> and <code>embeds_one</code>:</p>
+<ul>
+<li><code>static</code> (string)</li>
+</ul>
+<p>This a <a href="https://github.com/antpaw/bhf-demo/blob/master/config/bhf.yml#L19">example of how to set up a markdown editor</a>.</p>
+<h4>Replacing the “bhf” logo with your own</h4>
+<p>Add a <code>logo_bhf.png</code> or <code>logo_bhf.svg</code> file to your <code>app/assets/images/</code> directory.</p>
+<h4>Models</h4>
+<p>bhf includes the following methods into <code>ActiveRecord::Base</code> and <code>Mongoid::Document</code></p>
+<p><strong>Instance methods:</strong></p>
+<ul>
+<li><code>to_bhf_s</code> returns: (string) Finds a good looking title for a instance, e.g.: <code>Post.first.to_bhf_s #=&gt; 'Koala bears are happy again' # title attribute found</code> or <code>Roster.first.to_bhf_s # =&gt; 'Roster ID: 33' # title attribute not found</code> override this method in your models when needed.</li>
+</ul>
+<p><strong>Possible instance methods:</strong></p>
+<ul>
+<li><code>before_bhf_duplicate(old_object)</code>: returns: (doesn't matter) Is called right before the duplicated of an entry happens. This method is called on the new instance and sends the old instance as an argument.</li>
+<li><code>after_bhf_duplicate(old_object)</code>: returns: (doesn't matter) Same as <code>before_bhf_duplicate(old_object)</code> only that it's called after <code>save</code> on the new instance.</li>
+<li><code>bhf_can_edit?</code>: returns: (boolean) Finds out whether the <a href="#edit_shortcut_button">shortcut edit link</a> can be displayed for the current user. Called inside the <code>bhf_edit</code> view helper method.</li>
+<li><code>to_bhf_hash</code> returns: (hash) Hash that gets merged with the default hash of the model attributes after a <a href="#quick_edit">quick edit</a> successfully returns a json which will be used to update the html.</li>
+</ul>
+<p><strong>Class methods:</strong></p>
+<ul>
+<li><code>bhf_default_search(search_params)</code> returns: (ActiveRecord::Relation) This method is used to get search results for the search form. Override this method to perform better searches with your business logic.</li>
+<li><code>bhf_attribute_method?(column_name)</code> returns: (boolean) Checks if <code>column_name</code> is a column.</li>
+<li><code>bhf_primary_key</code> returns: (string) Key name of the primary key attribute, relevant for mongoid.</li>
+<li><code>bhf_embedded?</code> returns: (boolean) Is this instance embedded, relevant for mongoid.</li>
+</ul>
+<h4>Views</h4>
+<p>bhf is a Rails-Engine this means you can use hierarchical overrides, simple include a view in your app in the same directory and bhf will render this view instead of it's own. Check out bhf's <a href="https://github.com/antpaw/bhf/tree/master/app/views">views directory</a> and this <a href="https://github.com/antpaw/bhf/tree/master/app/views">example</a> where the footer partial is overridden. You can also override the layout or use it in your own controllers (<a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/app/controllers/user_sessions_controller.rb#L6">e.g. for login</a>).</p>
+<p>It's very easy to add new custom views and assets or to overwrite the existing ones with your own.</p>
+<h4>Adding view files</h4>
+<p>Notice the <code>demo_checkbox</code> string inside the <code>display:</code> array:</p>
+<pre><code class="lang-yml">pages:
+- posts: # Page Posts
+  - posts:
+      form:
+        display: [id, name, demo_checkbox]</code></pre>
+<p>Add a partial to <code>views/bhf/form/column/_demo_checkbox.haml</code> or <code>.erb</code> (not <code>_demo_checkbox.html.haml</code>)</p>
+<p>Use the <code>node</code> view helper to create a label and a div holder for your form elements</p>
+<pre><code class="lang-haml">= node f, field do
+  = f.hidden_field :test
+  = field.name</code></pre>
+<h4>Adding stylesheet files</h4>
+<p>include this line to your <code>config/initializers/bhf.rb</code></p>
+<pre><code class="lang-ruby">config.css &lt;&lt; <span class="string">'my_custom_bhf'</span></code></pre>
+<p>add this file to your asset pipeline directory and add it to your <code>config.assets.precompile</code> array</p>
+<p><strong>That's it</strong>, you can now work on your css to overwrite bhf default styling or add new styling for your custom views.</p>
+<h4>Adding javascript files</h4>
+<p>include this line to your <code>config/initializers/bhf.rb</code></p>
+<pre><code class="lang-ruby">config.js &lt;&lt; <span class="string">'my_custom_bhf'</span></code></pre>
+<p>add this file to your asset pipeline directory and add it to your <code>config.assets.precompile</code> array</p>
+<p>Always use the <code>'bhfDomChunkReady'</code> not just <code>'domready'</code>. Never try to grab DOM elements from the document directly, use <code>scope</code> as your element scope. Often times only small parts of the DOM get updated via ajax. bhf uses the <a href="http://mootools.net">mootools</a> javascript framework, if you need jQuery feel free to require it via <code>//= require jquery</code>. Also bhf uses Turbolinks, be aware of that.</p>
+<pre><code class="lang-ruby">window.addEvent(<span class="string">'bhfDomChunkReady'</span>, function(scope){
+  console.log(scope);
+});</code></pre>
+<h6>Examples</h6>
+<p>Look at this examples to get a better understanding: <a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/app/assets/javascripts/bhf/extras.js">Javascript</a>, <a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/app/views/bhf/entries/form/column/_properties.html.haml">View</a>)</p>
+<h4>Controllers</h4>
+<p>bhf is <strong>not</strong> designed to be flexible when it comes to controller logic. While for saving the data to your model you can use simple, yet powerful <code>hooks:</code> hash settings in the <code>.yml</code> file for some additional logic you will have to do everything on your own. Here is an example of how you could inject your own controller.</p>
+<p>Make sure you have a <code>stadium</code> and a <code>tournaments</code> platform defined in your settings <code>.yml</code>.</p>
+<p>Add this code to the top of your <code>routes.rb</code>:</p>
+<pre><code class="lang-ruby"><span class="constant">Bhf::Engine</span>.routes.draw <span class="keyword">do</span>
+  patch <span class="string">'stadium/entries/:id'</span>, <span class="symbol">to:</span> <span class="string">'tournaments#stadium_update'</span>, <span class="symbol">defaults:</span> {<span class="symbol">platform:</span> <span class="string">'stadium'</span>}
+  get <span class="string">'tournaments/entries/new'</span>, <span class="symbol">to:</span> <span class="string">'tournaments#new'</span>, <span class="symbol">defaults:</span> {<span class="symbol">platform:</span> <span class="string">'tournaments'</span>}
+<span class="keyword">end</span></code></pre>
+<p>Add a <code>app/controllers/bhf/tournament_controller.rb</code> file:</p>
+<pre><code class="lang-ruby"><span class="class"><span class="keyword">class</span> <span class="title">Bhf::TournamentsController</span> <span class="inheritance">&lt; <span class="parent">Bhf::EntriesController</span></span></span>
+  <span class="function"><span class="keyword">def</span> <span class="title">new</span></span>
+    <span class="variable">@object</span>.save
+    redirect_to edit_entry_path(<span class="variable">@platform</span>.name, <span class="variable">@object</span>)
+  <span class="keyword">end</span>
+  <span class="function"><span class="keyword">def</span> <span class="title">stadium_update</span></span>
+    ...
+  <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+<p>Look at the <a href="https://github.com/antpaw/bhf/blob/master/app/controllers/bhf/entries_controller.rb"><code>Bhf::EntriesController</code></a> file and try to reuse as much as possible in your controller.</p>
+</div>
+
+
+
+<div id="internationalization" class="bs-docs-section">
+<hr>
+<h2>Internationalization</h2>
+<p>bhf right now offers I18n support for the <strong>english</strong> and <strong>german</strong> language, you can easily add more languages but translating this <a href="https://github.com/antpaw/bhf/blob/master/config/locales/en.yml">en.yml</a> (please submit it also as a fork if you have added a language). Make sure you have a fallback included in <code>application.rb</code> if you don't use <code>en</code> as your main language. For the translation of the model attributes, bhf heavily relies upon build-in <a href="http://guides.rubyonrails.org/i18n.html#translations-for-active-record-models">Rails I18n model API</a>.</p>
+<pre><code class="lang-ruby">config.i18n.default_locale = <span class="symbol">:de</span>
+config.i18n.fallbacks = [<span class="symbol">:en</span>]</code></pre>
+</div>
+
+
+
+<div id="time_zones" class="bs-docs-section">
+<hr>
+<h2>Time zones</h2>
+<p>Make sure a default <code>time_zone</code> is set in <code>application.rb</code> otherwise you are saving dates in GMT.</p>
+<pre><code class="lang-ruby">config.time_zone = <span class="string">'Berlin'</span></code></pre>
+<p><a href="http://www.elabs.se/blog/36-working-with-time-zones-in-ruby-on-rails">Read about why this is so important</a>.</p>
+</div>
+
+
+
+<div id="edit_link" class="bs-docs-section">
+<hr>
+<h2>Shortcut edit link</h2>
+<p>This a button you can place anywhere in your app to offer the user a shortcut to the bhf's edit entry form.</p>
+<p><code>bhf_edit(model_instance, options = {}, &amp;block)</code> returns: (<code>nil</code> or a rendered partial <code>'bhf/helper/frontend_edit'</code>)</p>
+<ul>
+<li><p><code>model_instance</code> (ActiveRecord instance) required. The model instance you want to link in the shortcut.</p>
+</li>
+<li><p><code>options</code> (hash) can have this options, often times you don't have to set them:</p>
+<ul>
+<li><code>platform_name:</code> (string) optional. Name of the platform you want to link to.</li>
+<li><code>area:</code> (string) Name of the area.</li>
+<li>any other <em>key/value</em> you want to have passed to the <code>bhf_can_edit?</code> method.</li>
+</ul>
+</li>
+<li><p><code>&amp;block</code> (block) optional. Block of html will be rendered inside of the link</p>
+</li>
+</ul>
+<p>View the <a href="https://github.com/antpaw/bhf-demo/blob/master/app/views/application/index.html.haml#L53">code example</a> or the <a href="http://bhf-demo.herokuapp.com/">live demo</a> of the icon on the bottom right (if you can't see it your aren't logged in).</p>
+<p>This this <a href="https://raw.githubusercontent.com/antpaw/bhf-demo/master/app/assets/images/bhf_pen.svg">bhf_pen.svg</a> image and this SASS snippet might be useful.</p>
+<pre><code class="lang-sass">.bhf_edit
+  display: block
+  float: right
+  width: 40px
+  height: 40px
+  text-indent: 100%
+  white-space: nowrap
+  overflow: hidden
+  background: image-url('bhf_pen.svg') no-repeat center center
+  background-size: 80%
+  border: 2px solid transparent
+  border-radius: 5px
+  padding: 5px
+  &amp;:hover
+    border-color: #38A5E9</code></pre>
+</div>
+
+
+
+<div id="quick_edit" class="bs-docs-section">
+<hr>
+<h2>Understanding <code>quick_edit</code></h2>
+<p>quick_edit is a sidebar view that contains a form to create or edit a entry. E.g. if you see a <code>&lt;select&gt;</code> element for a <code>belongs_to</code> relation you are also presented with buttons to edit the current selected entry or to create a new one, without leaving the current form. This happens if bhf manages to link the relations name to a platform.</p>
+<p>Check out the quick_edit features in this <a href="http://bhf-demo-mongoid.herokuapp.com/bhf/posts/entries/new">demo app</a> (username: "admin" password: "bhf").</p>
+<p>If the platform exists and you still don't see the quick_edit features setup a <code>links:</code> hash in your <code>.yml</code> settings.</p>
+<pre><code class="lang-css"><span class="tag">pages</span>:
+- <span class="tag">settings</span>:
+  - <span class="tag">authors</span>:
+      <span class="tag">form</span>:
+        <span class="tag">display</span>: <span class="attr_selector">[_id, name, job_title, email, categories]</span>
+        <span class="tag">links</span>:
+          <span class="tag">categories</span>: <span class="tag">best_categories</span>
+  - <span class="tag">best_categories</span>:
+      <span class="tag">model</span>: <span class="tag">Category</span></code></pre>
+</div>
+
+
+
+<div id="areas" class="bs-docs-section">
+<hr>
+<h2>Areas</h2>
+<p>Areas divide the tabs you can see at the top into different page parts. Having multiple areas is useful if you want to have several totally different navigations and/or platforms in one bhf project. Areas behave a little like roles, if bhf finds a getter <code>bhf_areas</code> on the user it will loop through the areas.</p>
+<p><code>routes.rb:</code></p>
+<pre><code class="lang-ruby">mount <span class="constant">Bhf::Engine</span>, <span class="symbol">at:</span> <span class="string">'bhf/:bhf_area'</span>, <span class="symbol">as:</span> <span class="symbol">:bhf</span>, <span class="symbol">defaults:</span> { <span class="symbol">bhf_area:</span> <span class="string">'main'</span> }
+get <span class="string">'bhf'</span>, <span class="symbol">to:</span> <span class="string">'application#redirect_to_users_bhf_area'</span>, <span class="symbol">as:</span> <span class="symbol">:bhf_help</span></code></pre>
+<p><code>schema.rb:</code></p>
+<pre><code class="lang-ruby">create_table <span class="string">"areas"</span>, <span class="symbol">force:</span> <span class="keyword">true</span> <span class="keyword">do</span> |t|
+  t.string   <span class="string">"identifier"</span>
+  t.string   <span class="string">"name"</span>
+  <span class="comment"># link to your main app e.g.: </span>
+  <span class="comment"># this area is about oranges and your site has a url http://myfruits.com/oranges ,</span>
+  <span class="comment"># a good link would be '/oranges'</span>
+  t.string   <span class="string">"link"</span>
+  t.datetime <span class="string">"created_at"</span>,             <span class="symbol">null:</span> <span class="keyword">false</span>
+  t.datetime <span class="string">"updated_at"</span>,             <span class="symbol">null:</span> <span class="keyword">false</span>
+<span class="keyword">end</span>
+create_table <span class="string">"areas_users"</span>, <span class="symbol">id:</span> <span class="keyword">false</span>, <span class="symbol">force:</span> <span class="keyword">true</span> <span class="keyword">do</span> |t|
+  t.integer <span class="string">"area_id"</span>
+  t.integer <span class="string">"user_id"</span>
+<span class="keyword">end</span></code></pre>
+<p><code>user.rb:</code></p>
+<pre><code class="lang-ruby"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="inheritance">&lt; <span class="parent">ActiveRecord::Base</span></span></span>
+  ...
+  has_and_belongs_to_many <span class="symbol">:areas</span>
+  ...
+  <span class="function"><span class="keyword">def</span> <span class="title">bhf_areas</span></span>
+    areas
+    <span class="comment"># You also can use OpenStruct here if you want to avoid an Area model</span>
+    <span class="comment"># [</span>
+    <span class="comment">#   OpenStruct.new(identifier: 'main'), </span>
+    <span class="comment">#  (OpenStruct.new(identifier: 'admin') if roles.include?(Role.find(1)))</span>
+    <span class="comment"># ]</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+<p><code>application_controller.rb:</code></p>
+<pre><code class="lang-ruby"><span class="class"><span class="keyword">class</span> <span class="title">ApplicationController</span> <span class="inheritance">&lt; <span class="parent">ActionController::Base</span></span></span>
+  <span class="comment"># this simply makes sure you still can use /bhf as an url</span>
+  <span class="function"><span class="keyword">def</span> <span class="title">redirect_to_users_bhf_area</span></span>
+    r = <span class="keyword">if</span> current_user
+      current_user.bhf_areas.first.identifier
+    <span class="keyword">else</span>
+      <span class="string">'main'</span>
+    <span class="keyword">end</span>
+    redirect_to bhf.root_url(<span class="symbol">bhf_area:</span> r)
+  <span class="keyword">end</span>
+<span class="keyword">end</span></code></pre>
+<p><strong>Possible user model instance methods:</strong></p>
+<ul>
+<li><code>bhf_areas</code>: returns: (array) a list of area objects with at least a <code>identifier</code> key.</li>
+<li><code>bhf_area_roles(current_area)</code>: returns: (array) a helper to remove roles for <code>current_area</code>. Return a array of roles objects that you want to use in this area.</li>
+</ul>
+
+</div>
+
+
+
+
+
+<div id="support" class="bs-docs-section">
+<hr>
+<h2>Support</h2>
+<p>My name is Anton Pawlik, <a href="http://twitter.com/antpaw">@antpaw</a>, <a href="mailto:anton.pawlik@gmail.com">anton.pawlik@gmail.com</a>.<br> Feel free to ask questions, contact me for support or donate to the project.</p>
+<p><a href='https://pledgie.com/campaigns/25955'><img alt='Click here to lend your support to: bhf and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/25955.png?skin_name=chrome' border='0' ></a></p>
+</div>
+
+
+
+
+
+
+			</div>
+			<div class="col-md-3">
+				<div id="navbar-example2" class="bs-docs-sidebar hidden-print affix-top" role="complementary">
+					<ul class="nav bs-docs-sidenav">
+						<li class="active">
+							<a href="#overview">Overview</a>
+						</li>
+						<li>
+							<a href="#install">Install</a>
+						</li>
+						<li>
+							<a href="#user_authentication">User authentication</a>
+						</li>
+						<li>
+							<a href="#usage">Usage</a>
+						</li>
+						<li>
+							<a href="#platform_options">Platform options</a>
+						</li>
+						<li>
+						  <a href="#initializer_configuration">Initializer configuration</a>
+						</li>
+						<li>
+						  <a href="#user_roles">User roles</a>
+						</li>
+						<li>
+						  <a href="#abstract_platform_settings">Abstract platform settings</a>
+						</li>
+						<li>
+						  <a href="#overriding_bhf">Overriding bhf</a>
+						</li>
+						<li>
+						  <a href="#internationalization">Internationalization</a>
+						</li>
+						<li>
+						  <a href="#time_zones">Time zones</a>
+						</li>
+						<li>
+						  <a href="#edit_link">Shortcut edit link</a>
+						</li>
+						<li>
+						  <a href="#quick_edit">quick_edit</a>
+						</li>
+						<li>
+						  <a href="#areas">Areas</a>
+						</li>
+					</ul>
+					<ul class="nav bs-docs-sidenav extern_buttons">
+						<li>
+						  <a class="btn btn-sec big_button" href="https://github.com/antpaw/bhf/"><h4>bhf on GitHub</h4></a>
+						</li>
+						<li>
+							<a class="btn btn-sec big_button h_bigger" href="http://bhf-demo.herokuapp.com/"><h4>Live demo</h4></a>
+              <a class="btn btn-sec big_button h_smaller" href="https://github.com/antpaw/bhf-demo/">code</a>
+						</li>
+						<li>
+              <a class="btn btn-sec big_button h_bigger" href="http://bhf-demo-advanced.herokuapp.com/"><h4>Live demo advanced</h4></a>
+						  <a class="btn btn-sec big_button h_smaller" href="https://github.com/antpaw/bhf-demo-advanced/">code</a>
+            </li>
+						<li>
+							<a class="btn btn-sec big_button h_bigger" href="http://bhf-demo-mongoid.herokuapp.com/"><h4>Live demo mongoid</h4></a>
+						  <a class="btn btn-sec big_button h_smaller" href="https://github.com/antpaw/bhf-demo-mongoid/">code</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
 	</div>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script>
+		$('body').scrollspy({target: '#navbar-example2'});
+		$('#navbar-example2').affix({offset: {top: 340}});
+	</script>
 </body>
 </html>
