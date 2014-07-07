@@ -22,6 +22,13 @@ $orange: #ff9900
 
 */
 
+
+.lang-ruby .comment {color: #919191}
+.lang-ruby .keyword {color: #099}
+.lang-ruby .string,.lang-ruby .title {color: #2f6f9f}
+.lang-ruby .symbol {color: #4f9fcf}
+.lang-ruby .class {color: #d44950}
+
 .bs-docs-masthead, .bs-docs-header {
   background: #38A5E9;
 }
@@ -38,6 +45,10 @@ $orange: #ff9900
 
 .btn-sec:hover {
   background: #F5F5F5;
+}
+
+.type {
+  color: #919191;
 }
 
 .main {
@@ -72,6 +83,14 @@ $orange: #ff9900
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
+@media (max-height: 740px) {
+  .navigation-list {
+    display: none
+  }
+}
+
+
 //code {
 //  color: #428bca;
 //  background-color: #F2F9FF;

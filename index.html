@@ -115,66 +115,66 @@ title: bhf
 <h2>Platform options</h2>
 <p>This are the keys you can add to a platform <code>model</code>, <code>table</code>, <code>form</code>, <code>show</code>, <code>sortable_property</code>, <code>hooks</code>, <code>extend_abstract</code></p>
 <h4>Table</h4>
-<p><code>table:</code> (hash) contains all the logic that you can see in the table view. This are the possible hash options:</p>
+<p><code>table:</code> <span class="type">(hash)</span> contains all the logic that you can see in the table view. This are the possible hash options:</p>
 <ul>
-<li><code>scope:</code> (string) name of the scope (<a href="http://guides.rubyonrails.org/active_record_querying.html#scopes">read more about Rails scopes</a>). <em>default:</em> <code>all</code> (<code>source:</code> is an alias)</li>
-<li><code>user_scope:</code> (string) name of the scope that will be applied on the user instance and not directly on the platform's model. <em>default:</em> <code>false</code></li>
-<li><code>display:</code> (array) a list that will define the model instance getter and the order of the table rows. <em>default:</em> <code>id</code> + 5 more random keys. (<code>columns:</code> is an alias)</li>
-<li><code>exclude:</code> (array) a list of model instance getters that will not be shown (the opposite of <code>display:</code>). <em>default:</em> <code>false</code></li>
-<li><code>types:</code> (hash) <strong>key</strong> is the model instance getter or a value defined in the <code>display:</code> array. <strong>value</strong> is the name of the variable type or a custom partial name. <em>default:</em> <code>{}</code> (<a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/config/bhf/admin.yml#L10">example</a>)</li>
-<li><code>show_duplicate</code>: (boolean) shows the duplicate entry button. <em>default:</em> <code>false</code></li>
-<li><code>sortable</code>: (boolean) show the sort icon (drag and drop). <em>default:</em> <code>false</code></li>
-<li><code>hide_delete:</code> (boolean) hides the delete button. <em>default:</em> <code>false</code></li>
-<li><code>hide_edit:</code> (boolean) hides the edit possibilities in the table button. <em>default:</em> <code>false</code></li>
-<li><code>hide_create:</code> (boolean) hides the create button. <em>default:</em> <code>false</code></li>
-<li><code>search:</code> (string/boolean) name of the search method that will be used instead of <code>bhf_default_search</code>, if set to <code>false</code> it will remove the platform search form. <em>default:</em> <code>nil</code></li>
-<li><code>search_field:</code> (boolean) show the search field. <em>default:</em> <code>true</code></li>
-<li><code>custom_search:</code> (string) partial name used inside of the search form. <em>default:</em> <code>false</code></li>
+<li><code>scope:</code> <span class="type">(string)</span> name of the scope (<a href="http://guides.rubyonrails.org/active_record_querying.html#scopes">read more about Rails scopes</a>). <em>default:</em> <code>all</code> (<code>source:</code> is an alias)</li>
+<li><code>user_scope:</code> <span class="type">(string)</span> name of the scope that will be applied on the user instance and not directly on the platform's model. <em>default:</em> <code>false</code></li>
+<li><code>display:</code> <span class="type">(array)</span> a list that will define the model instance getter and the order of the table rows. <em>default:</em> <code>id</code> + 5 more random keys. (<code>columns:</code> is an alias)</li>
+<li><code>exclude:</code> <span class="type">(array)</span> a list of model instance getters that will not be shown (the opposite of <code>display:</code>). <em>default:</em> <code>false</code></li>
+<li><code>types:</code> <span class="type">(hash)</span> <strong>key</strong> is the model instance getter or a value defined in the <code>display:</code> array. <strong>value</strong> is the name of the variable type or a custom partial name. <em>default:</em> <code>{}</code> (<a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/config/bhf/admin.yml#L10">example</a>)</li>
+<li><code>show_duplicate</code>: <span class="type">(boolean)</span> shows the duplicate entry button. <em>default:</em> <code>false</code></li>
+<li><code>sortable</code>: <span class="type">(boolean)</span> show the sort icon (drag and drop). <em>default:</em> <code>false</code></li>
+<li><code>hide_delete:</code> <span class="type">(boolean)</span> hides the delete button. <em>default:</em> <code>false</code></li>
+<li><code>hide_edit:</code> <span class="type">(boolean)</span> hides the edit possibilities in the table button. <em>default:</em> <code>false</code></li>
+<li><code>hide_create:</code> <span class="type">(boolean)</span> hides the create button. <em>default:</em> <code>false</code></li>
+<li><code>search:</code> <span class="type">(string/boolean)</span> name of the search method that will be used instead of <code>bhf_default_search</code>, if set to <code>false</code> it will remove the platform search form. <em>default:</em> <code>nil</code></li>
+<li><code>search_field:</code> <span class="type">(boolean)</span> show the search field. <em>default:</em> <code>true</code></li>
+<li><code>custom_search:</code> <span class="type">(string)</span> partial name used inside of the search form. <em>default:</em> <code>false</code></li>
 <li><code>entries_per_page:</code> (int) number of entries per displayed on a page. <em>default:</em> <code>false</code></li>
-<li><code>custom_partial:</code> (string) partial name that will be used instead of the standard table platform partial. <em>default:</em> <code>false</code></li>
-<li><code>quick_edit:</code> (boolean) enables quick edit in the table view. <em>default:</em> <code>false</code></li>
-<li><code>custom_link:</code> (string) changes the link of the entry. <em>default:</em> <code>false</code></li>
+<li><code>custom_partial:</code> <span class="type">(string)</span> partial name that will be used instead of the standard table platform partial. <em>default:</em> <code>false</code></li>
+<li><code>quick_edit:</code> <span class="type">(boolean)</span> enables quick edit in the table view. <em>default:</em> <code>false</code></li>
+<li><code>custom_link:</code> <span class="type">(string)</span> changes the link of the entry. <em>default:</em> <code>false</code></li>
 </ul>
 <h4>Form</h4>
-<p><code>form:</code> (hash) contains all the logic that you can see in the form view. This are the possible hash options:</p>
+<p><code>form:</code> <span class="type">(hash)</span> contains all the logic that you can see in the form view. This are the possible hash options:</p>
 <ul>
-<li><code>display:</code> (array) a list that will define the model instance getter and the order of the table rows. <em>default:</em>  all model fields.</li>
-<li><code>exclude:</code> (array) same as <code>table.exclude:</code></li>
-<li><code>types:</code> (hash) same as <code>table.types:</code>. See <a href="#form_field_types">form field types</a> for the available types or define your own.</li>
-<li><code>links:</code> (hash) <strong>key</strong> is the model instance getter or a value defined in the <code>display:</code> array. <strong>value</strong> is the name of the reflection platform linked to this key. Having <code>false</code> in the value will hide the link, because sometimes bhf is able to find reflection platform without your configuration. <em>default:</em> <code>{}</code></li>
-<li><code>multipart:</code> (boolean) form is multipart. <em>default:</em> <code>false</code></li>
+<li><code>display:</code> <span class="type">(array)</span> a list that will define the model instance getter and the order of the table rows. <em>default:</em>  all model fields.</li>
+<li><code>exclude:</code> <span class="type">(array)</span> same as <code>table.exclude:</code></li>
+<li><code>types:</code> <span class="type">(hash)</span> same as <code>table.types:</code>. See <a href="#form_field_types">form field types</a> for the available types or define your own.</li>
+<li><code>links:</code> <span class="type">(hash)</span> <strong>key</strong> is the model instance getter or a value defined in the <code>display:</code> array. <strong>value</strong> is the name of the reflection platform linked to this key. Having <code>false</code> in the value will hide the link, because sometimes bhf is able to find reflection platform without your configuration. <em>default:</em> <code>{}</code></li>
+<li><code>multipart:</code> <span class="type">(boolean)</span> form is multipart. <em>default:</em> <code>false</code></li>
 </ul>
 <h4>Show</h4>
-<p><code>show:</code> (hash) contains all the logic that you can see in the show view. But first you need to link a entry to the show view.</p>
+<p><code>show:</code> <span class="type">(hash)</span> contains all the logic that you can see in the show view. But first you need to link a entry to the show view.</p>
 <pre><code class="lang-yml">pages:
 - page:
   - authors:
       custom_link: entry_path</code></pre>
 <p>This are the possible hash options:</p>
 <ul>
-<li><code>show_extra_fields:</code> (array) appends custom fields at the end of the view. <em>default:</em> <code>false</code></li>
-<li><code>display:</code> (array) a list that will define the model instance getter and the order of the table rows. <em>default:</em>  all model fields. (<code>definitions:</code> is an alias)</li>
-<li><code>exclude:</code> (array) same as <code>table.exclude:</code></li>
-<li><code>types:</code> (hash) same as <code>table.types:</code></li>
+<li><code>show_extra_fields:</code> <span class="type">(array)</span> appends custom fields at the end of the view. <em>default:</em> <code>false</code></li>
+<li><code>display:</code> <span class="type">(array)</span> a list that will define the model instance getter and the order of the table rows. <em>default:</em>  all model fields. (<code>definitions:</code> is an alias)</li>
+<li><code>exclude:</code> <span class="type">(array)</span> same as <code>table.exclude:</code></li>
+<li><code>types:</code> <span class="type">(hash)</span> same as <code>table.types:</code></li>
 </ul>
 <h4>Model</h4>
-<p><code>model:</code> (string) actual model name (e.g. <code>User</code>) it's often not needed because bhf tries to find the model via the platform name, but sometimes the have to be different.</p>
+<p><code>model:</code> <span class="type">(string)</span> actual model name (e.g. <code>User</code>) it's often not needed because bhf tries to find the model via the platform name, but sometimes the have to be different.</p>
 <pre><code class="lang-yml">pages:
 - page:
   - best_authors:
       model: authors</code></pre>
 <h4>Sortable property</h4>
-<p><code>sortable_property:</code> (string) name of the property that needs to get updated via ajax on entries sort. <em>default:</em> <code>position</code></p>
+<p><code>sortable_property:</code> <span class="type">(string)</span> name of the property that needs to get updated via ajax on entries sort. <em>default:</em> <code>position</code></p>
 <h4>Hooks</h4>
-<p><code>hooks:</code> (hash) contains the hooks that will be used while saving the entry</p>
+<p><code>hooks:</code> <span class="type">(hash)</span> contains the hooks that will be used while saving the entry</p>
 <ul>
-<li><code>after_load:</code> (string) method name that is called on a entry instance right after was loaded. <em>default:</em> <code>false</code></li>
-<li><code>before_save:</code> (string) method name that is call before saving entry instance with the Rails <code>params</code> hash. <em>default:</em> <code>false</code></li>
-<li><code>after_save:</code> (string) method name that is call after saving entry instance with the Rails <code>params</code> hash. <em>default:</em> <code>false</code></li>
+<li><code>after_load:</code> <span class="type">(string)</span> method name that is called on a entry instance right after was loaded. <em>default:</em> <code>false</code></li>
+<li><code>before_save:</code> <span class="type">(string)</span> method name that is call before saving entry instance with the Rails <code>params</code> hash. <em>default:</em> <code>false</code></li>
+<li><code>after_save:</code> <span class="type">(string)</span> method name that is call after saving entry instance with the Rails <code>params</code> hash. <em>default:</em> <code>false</code></li>
 </ul>
 <p>There are some <code>ActiveRecord</code> hooks that do the same but hey will not let you access the http <code>params</code>.</p>
 <h4>Abstract extend</h4>
-<p><code>extend_abstract:</code> (string) name of the abstract platform. <a href="#abstract_extend">See abstract_extend</a></p>
+<p><code>extend_abstract:</code> <span class="type">(string)</span> name of the abstract platform. <a href="#abstract_extend">See abstract_extend</a></p>
 </div>
 
 
@@ -187,16 +187,16 @@ title: bhf
 <span class="keyword">end</span></code></pre>
 <p>This are the possible hash options:</p>
 <ul>
-<li><code>config.css</code>: (array) all the css file links. <em>default:</em> <code>['bhf/application']</code></li>
-<li><code>config.js</code>: (array) all the js file links. <em>default:</em> <code>['bhf/application']</code></li>
-<li><code>config.abstract_settings</code>: (array) link to abstract <code>.yml</code> files. <em>default:</em> <code>[]</code></li>
-<li><code>config.on_login_fail</code>: (sym) url bhf redirects to if <code>session[config.session_auth_name]</code> isn't <code>true</code> <em>default:</em> <code>:root_url</code></li>
-<li><code>config.session_auth_name</code>: (sym) session key used to look up in user's session whether it's <code>true</code> or not <em>default:</em> <code>:is_admin</code></li>
-<li><code>config.session_account_id</code>: (sym) session key used to look up in user's <code>id</code> which will be passed to the <code>config.account_model_find_method</code> method <em>default:</em> <code>:admin_account_id</code></li>
-<li><code>config.account_model</code>: (string) user's model name <em>default:</em> <code>'User'</code></li>
-<li><code>config.account_model_find_method</code>: (string) user's model method used to find the current user instance <em>default:</em> <code>'find'</code></li>
-<li><code>config.logout_path</code>: (sym) link used in the footer if the user was found via <code>config.account_model</code> and <code>config.account_model_find_method</code> <em>default:</em> <code>:logout_path</code></li>
-<li><code>config.paperclip_image_types</code>: (array) <em>default:</em> <code>['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif']</code></li>
+<li><code>config.css</code>: <span class="type">(array)</span> all the css file links. <em>default:</em> <code>['bhf/application']</code></li>
+<li><code>config.js</code>: <span class="type">(array)</span> all the js file links. <em>default:</em> <code>['bhf/application']</code></li>
+<li><code>config.abstract_settings</code>: <span class="type">(array)</span> link to abstract <code>.yml</code> files. <em>default:</em> <code>[]</code></li>
+<li><code>config.on_login_fail</code>: <span class="type">(symbol)</span> url bhf redirects to if <code>session[config.session_auth_name]</code> isn't <code>true</code> <em>default:</em> <code>:root_url</code></li>
+<li><code>config.session_auth_name</code>: <span class="type">(symbol)</span> session key used to look up in user's session whether it's <code>true</code> or not <em>default:</em> <code>:is_admin</code></li>
+<li><code>config.session_account_id</code>: <span class="type">(symbol)</span> session key used to look up in user's <code>id</code> which will be passed to the <code>config.account_model_find_method</code> method <em>default:</em> <code>:admin_account_id</code></li>
+<li><code>config.account_model</code>: <span class="type">(string)</span> user's model name <em>default:</em> <code>'User'</code></li>
+<li><code>config.account_model_find_method</code>: <span class="type">(string)</span> user's model method used to find the current user instance <em>default:</em> <code>'find'</code></li>
+<li><code>config.logout_path</code>: <span class="type">(symbol)</span> link used in the footer if the user was found via <code>config.account_model</code> and <code>config.account_model_find_method</code> <em>default:</em> <code>:logout_path</code></li>
+<li><code>config.paperclip_image_types</code>: <span class="type">(array)</span> <em>default:</em> <code>['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif']</code></li>
 </ul>
 <p>(<a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/config/initializers/bhf.rb">example</a>)</p>
 </div>
@@ -231,7 +231,7 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
 <span class="keyword">end</span></code></pre>
 <p><strong>Possible user model instance methods:</strong></p>
 <ul>
-<li><code>bhf_roles</code>: returns: (array) a list of roles objects with at least a <code>identifier</code> key.</li>
+<li><code>bhf_roles</code>: returns: <span class="type">(array)</span> a list of roles objects with at least a <code>identifier</code> key.</li>
 </ul>
 </div>
 
@@ -253,22 +253,22 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
 <p><strong>Table:</strong></p>
 <p>Available types for model <code>columns</code>:</p>
 <ul>
-<li><code>array</code> (string)</li>
-<li><code>boolean</code> (string)</li>
-<li><code>date</code> (string)</li>
+<li><code>array</code> <span class="type">(string)</span></li>
+<li><code>boolean</code> <span class="type">(string)</span></li>
+<li><code>date</code> <span class="type">(string)</span></li>
 <li><code>extern_link</code> (link to string)</li>
 <li><code>file</code> (link to file)</li>
-<li><code>hash</code> (string)</li>
+<li><code>hash</code> <span class="type">(string)</span></li>
 <li><code>image</code> (image_tag)</li>
-<li><code>number</code> (string)</li>
+<li><code>number</code> <span class="type">(string)</span></li>
 <li><code>paperclip</code> (file name string or image_tag)</li>
 <li><code>primary_key</code> (strong_tag)</li>
-<li><code>string</code> (string)</li>
-<li><code>text</code> (string)</li>
+<li><code>string</code> <span class="type">(string)</span></li>
+<li><code>text</code> <span class="type">(string)</span></li>
 </ul>
 <p>Available types for <code>belongs_to</code>, <code>has_many</code>, <code>has_one</code>, <code>embeds_many</code>,<br> <code>embeds_one</code> and <code>has_and_belongs_to_many</code>:</p>
 <ul>
-<li><code>default</code> (string)</li>
+<li><code>default</code> <span class="type">(string)</span></li>
 </ul>
 <p><strong>Form:</strong></p>
 <p>Available types for model <code>columns</code>:</p>
@@ -276,14 +276,14 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
 <li><code>array</code> (multiple text_fields)</li>
 <li><code>boolean</code> (check_box)</li>
 <li><code>date</code> (date- and/or time-picker)</li>
-<li><code>hash</code> (string)</li>
+<li><code>hash</code> <span class="type">(string)</span></li>
 <li><code>mappin</code> (google-maps map with a pin)</li>
 <li><code>markdown</code> (markdown editor)</li>
 <li><code>multiple_fields</code> (multiple text_fields)</li>
 <li><code>number</code> (text_field)</li>
 <li><code>paperclip</code> (file_field)</li>
 <li><code>password</code> (password_field)</li>
-<li><code>static</code> (string)</li>
+<li><code>static</code> <span class="type">(string)</span></li>
 <li><code>string</code> (text_field)</li>
 <li><code>text</code> (text_area)</li>
 <li><code>wysiwyg</code> (wysiwyg html editor)</li>
@@ -292,16 +292,16 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
 <ul>
 <li><code>select</code> (select_tag)</li>
 <li><code>radio</code> (radio_button)</li>
-<li><code>static</code> (string)</li>
+<li><code>static</code> <span class="type">(string)</span></li>
 </ul>
 <p>Available types for <code>has_and_belongs_to_many</code> and <code>has_many :through =&gt;</code>:</p>
 <ul>
 <li><code>check_box</code> (check_box)</li>
-<li><code>static</code> (string)</li>
+<li><code>static</code> <span class="type">(string)</span></li>
 </ul>
 <p>Available types for <code>has_many</code>, <code>has_one</code>, <code>embeds_many</code> and <code>embeds_one</code>:</p>
 <ul>
-<li><code>static</code> (string)</li>
+<li><code>static</code> <span class="type">(string)</span></li>
 </ul>
 <p>This a <a href="https://github.com/antpaw/bhf-demo/blob/master/config/bhf.yml#L19">example of how to set up a markdown editor</a>.</p>
 <h4>Replacing the “bhf” logo with your own</h4>
@@ -310,21 +310,21 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
 <p>bhf includes the following methods into <code>ActiveRecord::Base</code> and <code>Mongoid::Document</code></p>
 <p><strong>Instance methods:</strong></p>
 <ul>
-<li><code>to_bhf_s</code> returns: (string) Finds a good looking title for a instance, e.g.: <code>Post.first.to_bhf_s #=&gt; 'Koala bears are happy again' # title attribute found</code> or <code>Roster.first.to_bhf_s # =&gt; 'Roster ID: 33' # title attribute not found</code> override this method in your models when needed.</li>
+<li><code>to_bhf_s</code> returns: <span class="type">(string)</span> Finds a good looking title for a instance, e.g.: <code>Post.first.to_bhf_s #=&gt; 'Koala bears are happy again' # title attribute found</code> or <code>Roster.first.to_bhf_s # =&gt; 'Roster ID: 33' # title attribute not found</code> override this method in your models when needed.</li>
 </ul>
 <p><strong>Possible instance methods:</strong></p>
 <ul>
 <li><code>before_bhf_duplicate(old_object)</code>: returns: (doesn't matter) Is called right before the duplicated of an entry happens. This method is called on the new instance and sends the old instance as an argument.</li>
 <li><code>after_bhf_duplicate(old_object)</code>: returns: (doesn't matter) Same as <code>before_bhf_duplicate(old_object)</code> only that it's called after <code>save</code> on the new instance.</li>
-<li><code>bhf_can_edit?</code>: returns: (boolean) Finds out whether the <a href="#edit_shortcut_button">shortcut edit link</a> can be displayed for the current user. Called inside the <code>bhf_edit</code> view helper method.</li>
-<li><code>to_bhf_hash</code> returns: (hash) Hash that gets merged with the default hash of the model attributes after a <a href="#quick_edit">quick edit</a> successfully returns a json which will be used to update the html.</li>
+<li><code>bhf_can_edit?</code>: returns: <span class="type">(boolean)</span> Finds out whether the <a href="#edit_shortcut_button">shortcut edit link</a> can be displayed for the current user. Called inside the <code>bhf_edit</code> view helper method.</li>
+<li><code>to_bhf_hash</code> returns: <span class="type">(hash)</span> Hash that gets merged with the default hash of the model attributes after a <a href="#quick_edit">quick edit</a> successfully returns a json which will be used to update the html.</li>
 </ul>
 <p><strong>Class methods:</strong></p>
 <ul>
 <li><code>bhf_default_search(search_params)</code> returns: (ActiveRecord::Relation) This method is used to get search results for the search form. Override this method to perform better searches with your business logic.</li>
-<li><code>bhf_attribute_method?(column_name)</code> returns: (boolean) Checks if <code>column_name</code> is a column.</li>
-<li><code>bhf_primary_key</code> returns: (string) Key name of the primary key attribute, relevant for mongoid.</li>
-<li><code>bhf_embedded?</code> returns: (boolean) Is this instance embedded, relevant for mongoid.</li>
+<li><code>bhf_attribute_method?(column_name)</code> returns: <span class="type">(boolean)</span> Checks if <code>column_name</code> is a column.</li>
+<li><code>bhf_primary_key</code> returns: <span class="type">(string)</span> Key name of the primary key attribute, relevant for mongoid.</li>
+<li><code>bhf_embedded?</code> returns: <span class="type">(boolean)</span> Is this instance embedded, relevant for mongoid.</li>
 </ul>
 <h4>Views</h4>
 <p>bhf is a Rails-Engine this means you can use hierarchical overrides, simple include a view in your app in the same directory and bhf will render this view instead of it's own. Check out bhf's <a href="https://github.com/antpaw/bhf/tree/master/app/views">views directory</a> and this <a href="https://github.com/antpaw/bhf/tree/master/app/views">example</a> where the footer partial is overridden. You can also override the layout or use it in your own controllers (<a href="https://github.com/antpaw/bhf-demo-advanced/blob/master/app/controllers/user_sessions_controller.rb#L6">e.g. for login</a>).</p>
@@ -407,14 +407,14 @@ config.i18n.fallbacks = [<span class="symbol">:en</span>]</code></pre>
 <ul>
 <li><p><code>model_instance</code> (ActiveRecord instance) required. The model instance you want to link in the shortcut.</p>
 </li>
-<li><p><code>options</code> (hash) can have this options, often times you don't have to set them:</p>
+<li><p><code>options</code> <span class="type">(hash)</span> can have this options, often times you don't have to set them:</p>
 <ul>
-<li><code>platform_name:</code> (string) optional. Name of the platform you want to link to.</li>
-<li><code>area:</code> (string) Name of the area.</li>
+<li><code>platform_name:</code> <span class="type">(string)</span> optional. Name of the platform you want to link to.</li>
+<li><code>area:</code> <span class="type">(string)</span> Name of the area.</li>
 <li>any other <em>key/value</em> you want to have passed to the <code>bhf_can_edit?</code> method.</li>
 </ul>
 </li>
-<li><p><code>&amp;block</code> (block) optional. Block of html will be rendered inside of the link</p>
+<li><p><code>&amp;block</code> <span class="type">(block)</span> optional. Block of html will be rendered inside of the link</p>
 </li>
 </ul>
 <p>View the <a href="https://github.com/antpaw/bhf-demo/blob/master/app/views/application/index.html.haml#L53">code example</a> or the <a href="http://bhf-demo.herokuapp.com/">live demo</a> of the icon on the bottom right (if you can't see it your aren't logged in).</p>
@@ -507,8 +507,8 @@ create_table <span class="string">"areas_users"</span>, <span class="symbol">id:
 <span class="keyword">end</span></code></pre>
 <p><strong>Possible user model instance methods:</strong></p>
 <ul>
-<li><code>bhf_areas</code>: returns: (array) a list of area objects with at least a <code>identifier</code> key.</li>
-<li><code>bhf_area_roles(current_area)</code>: returns: (array) a helper to remove roles for <code>current_area</code>. Return a array of roles objects that you want to use in this area.</li>
+<li><code>bhf_areas</code>: returns: <span class="type">(array)</span> a list of area objects with at least a <code>identifier</code> key.</li>
+<li><code>bhf_area_roles(current_area)</code>: returns: <span class="type">(array)</span> a helper to remove roles for <code>current_area</code>. Return a array of roles objects that you want to use in this area.</li>
 </ul>
 
 </div>
