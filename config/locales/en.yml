@@ -9,6 +9,8 @@ en:
         'false': 'no'
       link: Link ⬀
       form:
+        file_field:
+          select: Choose file
         buttons:
           save: 'Save %{platform_title}'
           and_edit: and edit

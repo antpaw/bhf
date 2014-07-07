@@ -332,6 +332,12 @@ Turbolinks.pagesCached(0);
 			}, 500);
 		});
 		
+		mainScope.getElements('.ninja_file_field').addEvent('change', function(){
+      var text = this.value.split('\\');
+      this.getParent().getElement('.h_text').set('text', text.getLast());
+    });
+    
+		
 		ajaxNote.success();
 	});
 

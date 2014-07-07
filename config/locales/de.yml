@@ -6,6 +6,9 @@ de:
         'false': 'nein'
       link: 'Link ⬀'
       form:
+        file_field:
+          select: Datei wählen
+      form:
         buttons:
           save: '%{platform_title} speichern'
           and_edit: und editieren

@@ -14,4 +14,6 @@
           = f.label "#{field.name}_destroy", t('bhf.helpers.file.delete')
 
     - unless @quick_edit
-      = f.file_field field.name
+      %a.qe_button.ninja_file_field_holder.default_form_align
+        %span.h_text= t('bhf.helpers.form.file_field.select')
+        = f.file_field field.name, class: 'ninja_file_field'
