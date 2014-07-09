@@ -31,10 +31,10 @@ Turbolinks.pagesCached(0);
 				var linkElem = this.linkElem;
 				var rowElem = this.linkElem.getParent('tr');
 				if (rowElem) {
-  				rowElem.addClass('animate');
-  				setTimeout(function(){
-  					rowElem.removeClass('animate');
-  				}, 600);
+					rowElem.addClass('animate');
+					setTimeout(function(){
+						rowElem.removeClass('animate');
+					}, 600);
 				}
 				setTimeout(function(){
 					linkElem.removeClass('live_edit');
@@ -331,15 +331,14 @@ Turbolinks.pagesCached(0);
 		});
 		
 		mainScope.getElements('.ninja_file_field').addEvent('change', function(){
-      var text = (this.value || '').split('\\');
-      var parent = this.getParent();
-      var newText = parent.get('data-empty-field-text');
-      if (this.value) {
-        newText = text.getLast() || this.value;
-      }
-      parent.getElement('.h_text').set('text', newText);
-    });
-    
+			var text = (this.value || '').split('\\');
+			var parent = this.getParent();
+			var newText = parent.get('data-empty-field-text');
+			if (this.value) {
+				newText = text.getLast() || this.value;
+			}
+			parent.getElement('.h_text').set('text', newText);
+		});
 		
 		ajaxNote.success();
 	});
