@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem 'rails',        '~> 4'
 gem 'turbolinks',   '~> 2.1'
-gem 'kaminari',     '~> 0.15'
+gem 'kaminari',     '~> 0.16'
 gem 'haml-rails',   '~> 0.4'
 gem 'sass-rails',   '~> 4.0'
 
