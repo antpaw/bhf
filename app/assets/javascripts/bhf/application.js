@@ -31,15 +31,14 @@ Turbolinks.pagesCached(0);
 				var linkElem = this.linkElem;
 				var rowElem = this.linkElem.getParent('tr');
 				if (rowElem) {
-					linkElem = rowElem;
+  				rowElem.addClass('animate');
+  				setTimeout(function(){
+  					rowElem.removeClass('animate');
+  				}, 600);
 				}
-				linkElem.addClass('animate');
 				setTimeout(function(){
 					linkElem.removeClass('live_edit');
 				});
-				setTimeout(function(){
-					linkElem.removeClass('animate');
-				}, 600);
 			}
 		}
 	});
