@@ -90,7 +90,7 @@ module Bhf::Mongoid
       end
       
       def bhf_default_search(search_params)
-        return self if (search_term = search_params[:text]).blank?
+        return self if (search_term = search_params['text']).blank?
 
         arr = []
         columns_hash.each_pair do |column, props|

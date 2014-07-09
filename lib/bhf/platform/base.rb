@@ -34,7 +34,7 @@ module Bhf::Platform
         chain = chain.send data_source if data_source
       end
 
-      unless options[:order].blank?
+      if options[:order].present? and options[:direction].present?
         chain = chain.reorder("#{options[:order]} #{options[:direction]}")
       end
 
