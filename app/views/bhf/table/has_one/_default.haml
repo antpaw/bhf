@@ -1,2 +1,5 @@
-- ref_object ||= column_value
-= ref_object.blank? ? t('bhf.helpers.entry.empty', count: 1) : ref_object.to_bhf_s
+= content_tag link ? :a : :span, class: ('quick_edit' if add_quick_link), href: (link if link) do
+  - if column_value.is_a?(String)
+    = column_value
+  - else
+    = column_value.to_bhf_s

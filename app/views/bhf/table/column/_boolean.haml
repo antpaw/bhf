@@ -1,1 +1,2 @@
-= t("bhf.helpers.boolean.#{!!column_value}")
+= content_tag link ? :a : :span, class: ('quick_edit' if add_quick_link), href: (link if link) do
+  = t("bhf.helpers.boolean.#{!!column_value}")

@@ -5,9 +5,9 @@
       - column_value = @object.send(column.name)
       - if ! column_value.blank?
         = definition_item @object, column do
-          = render(partial: "bhf/table/#{column.macro}/#{column.show_type}", locals: {column_value: column_value, object: @object})
+          = render(partial: "bhf/table/#{column.macro}/#{column.show_type}", locals: {column_value: column_value, object: @object, link: false, add_quick_link: false})
 
 - if @platform.show_extra_fields and @platform.show_extra_fields.any?
   .content_box
     - @platform.show_extra_fields.each do |name|
-      = render(partial: "bhf/table/column/#{name}", locals: {name: name, object: @object})
+      = render(partial: "bhf/table/column/#{name}", locals: {name: name, object: @object, link: false, add_quick_link: false})

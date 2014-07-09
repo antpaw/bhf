@@ -1,4 +1,3 @@
-- cached_partials = {}
 - platform.pagination.template = self
 - referral_id = nil
 - if flash[:referral_entry] && referral_entry = flash[:referral_entry].clone.symbolize_keys
@@ -7,6 +6,8 @@
 - if platform.custom_partial
   = render partial: "bhf/platform/#{platform.custom_partial}", locals: {platform: platform, referral_id: referral_id}
 - else
+  - cached_partials = {}
+  - local_names = [:column_value, :object, :link, :add_quick_link]
   %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
     %caption
       %h4= platform.title
@@ -34,7 +35,7 @@
       - if platform.objects.any?
         - platform.objects.each do |object|
           - edit_link = platform.hide_edit ? "##{object.id}_#{platform.name}" : edit_entry_path(platform.name, object)
-          - custom_link = send(platform.custom_link, platform.name, object) if platform.custom_link
+          - custom_link = send(platform.custom_link, platform: platform.name, id: object) if platform.custom_link
           %tr.quick_edit_entry{id: "#{object.id}_#{platform.name}", class: ('animate live_edit initial_referral' if referral_id == object.id)}
             - if platform.sortable
               %td.drag
@@ -45,14 +46,14 @@
               - if column.display_type == :primary_key && column_value.to_s.length > 6
                 - css_classes << :key_long
               %td{class: css_classes}
-                - value = if column.display_type != :boolean && column_value.blank?
-                  - '&nbsp;'.html_safe
+                - partial_name = if column.display_type != :boolean && column_value.blank?
+                  - 'column/empty'
                 - else
-                  -# render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
-                  - partial_name = "#{column.macro}/#{column.display_type}"
-                  - cached_partials[partial_name] ||= lookup_context.find_template(partial_name, ['bhf/table'], true, [:column_value, :object])
-                  - cached_partials[partial_name].render(self, {column_value: column_value, object: object})
-                = link_to value, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' if !platform.custom_link && platform.table_quick_edit)
+                  - "#{column.macro}/#{column.display_type}"
+                - cached_partials[partial_name] ||= lookup_context.find_template(partial_name, ['bhf/table'], true, local_names)
+                - locals = {column_value: column_value, object: object, link: (platform.custom_link ? custom_link : edit_link), add_quick_link: (!platform.custom_link && platform.table_quick_edit)}
+                = cached_partials[partial_name].render(self, locals)
+                -# render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
 
             %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
               - if platform.show_duplicate
@@ -76,9 +77,9 @@
               %span.handle.icon &nbsp;
           - platform.columns.each do |column|
             - css_classes = [column.macro, column.display_type]
-            - custom_link = send(platform.custom_link, platform.name, '{object_id}') if platform.custom_link
+            - custom_link = send(platform.custom_link, platform: platform.name, id: '{object_id}') if platform.custom_link
             %td{class: css_classes}
-              = link_to "{#{column.name}}", (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' unless platform.custom_link)
+              = render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: "{#{column.name}}", object: platform.model.new, link: (platform.custom_link ? custom_link : edit_link), add_quick_link: (!platform.custom_link && platform.table_quick_edit)})
 
           %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
             - if platform.show_duplicate

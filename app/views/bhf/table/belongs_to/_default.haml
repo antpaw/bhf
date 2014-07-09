@@ -1,2 +1,1 @@
-- ref_object = column_value
-= ref_object.blank? ? t('bhf.helpers.entry.empty', count: 1) : ref_object.to_bhf_s
+= render partial: 'bhf/table/has_one/default', locals: {column_value: column_value, object: object, link: link, add_quick_link: add_quick_link}
