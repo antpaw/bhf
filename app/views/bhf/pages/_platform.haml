@@ -1,3 +1,4 @@
+- cached_partials = {}
 - platform.pagination.template = self
 - referral_id = nil
 - if flash[:referral_entry] && referral_entry = flash[:referral_entry].clone.symbolize_keys
@@ -50,8 +51,10 @@
                   - if column.display_type == :string
                     - column_value
                   - else
-                    - # Haml::Engine.new(File.read(File.expand_path File.dirname(__FILE__)+"/../table/#{column.macro}/_#{column.display_type}.haml")).render(OpenStruct.new({column_value: column_value, object: object}))
-                    - render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
+                    - partial_name = "#{column.macro}/#{column.display_type}"
+                    - cached_partials[partial_name] ||= lookup_context.find_template(partial_name, ['bhf/table'], true, [:column_value, :object])
+                    - cached_partials[partial_name].render(self, {column_value: column_value, object: object})
+                    -# render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
                 = link_to value, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' if !platform.custom_link && platform.table_quick_edit)
 
             %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
@@ -68,7 +71,6 @@
           - unless platform.hide_create
             = link_to new_t(platform), new_entry_path(platform.name)
 
-    
       %template.quick_edit_template{type: 'text/template'}
         %tr.quick_edit_entry{id: "{object_id}_#{platform.name}"}
           - edit_link = edit_entry_path(platform.name, '{object_id}')
