@@ -23,7 +23,7 @@ var PlatformHelper = new Class({
 			if (hidden_search) {
 				hidden_search.destroy();
 			}
-			var request = new Request.HTML({
+			var request = new Request.bhf({
 				method: 'get',
 				url: e.target.get('action'),
 				onFailure: function(){

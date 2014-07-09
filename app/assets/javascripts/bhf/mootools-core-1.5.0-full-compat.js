@@ -6029,7 +6029,6 @@ var Request = this.Request = new Class({
 		}, this);
 
 		this.fireEvent('request');
-		this.url = url;
 		xhr.send(data);
 		if (!this.options.async) this.onStateChange();
 		else if (this.options.timeout) this.timer = this.timeout.delay(this.options.timeout, this);

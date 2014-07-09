@@ -242,7 +242,6 @@ Turbolinks.pagesCached(0);
 					},
 					onSearchSuccess: function(request){
 						window.fireEvent('platformUpdate', [p.getParent()]);
-						// TODO: remove the mootools hack for request.url don't 
 						window.history.pushState({ turbolinks: true, url: request.url }, '', request.url);
 					}
 				});
