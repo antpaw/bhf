@@ -48,13 +48,10 @@
                 - value = if column.display_type != :boolean && column_value.blank?
                   - '&nbsp;'.html_safe
                 - else
-                  - if column.display_type == :string
-                    - column_value
-                  - else
-                    - partial_name = "#{column.macro}/#{column.display_type}"
-                    - cached_partials[partial_name] ||= lookup_context.find_template(partial_name, ['bhf/table'], true, [:column_value, :object])
-                    - cached_partials[partial_name].render(self, {column_value: column_value, object: object})
-                    -# render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
+                  -# render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
+                  - partial_name = "#{column.macro}/#{column.display_type}"
+                  - cached_partials[partial_name] ||= lookup_context.find_template(partial_name, ['bhf/table'], true, [:column_value, :object])
+                  - cached_partials[partial_name].render(self, {column_value: column_value, object: object})
                 = link_to value, (platform.custom_link ? custom_link : edit_link), class: ('quick_edit' if !platform.custom_link && platform.table_quick_edit)
 
             %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
