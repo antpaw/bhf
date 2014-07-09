@@ -17,25 +17,25 @@ provides:
 ...
 */
 
-(function($){
-  var domReadyCallback = function(){
-    rails.csrf = {
-      token: rails.getCsrf('token'),
-      param: rails.getCsrf('param')
-    };
+window.addEvent('domready', function(){
   
-    rails.applyEvents();
+  rails.csrf = {
+    token: rails.getCsrf('token'),
+    param: rails.getCsrf('param')
   };
-  window.addEvent('domready', domReadyCallback);
-  document.addEventListener('page:load', domReadyCallback);
+  
+  rails.applyEvents();
+});
 
+(function($){
+  
   window.rails = {
     /**
      * If el is passed as argument, events will only be applied to
      * elements within el. Otherwise applied to document body.
      */
     applyEvents: function(el){
-      el = $(el || document.body);
+      el = $(el || document);
       var apply = function(selector, action, callback){
         el.addEvent(action + ':relay(' + selector + ')', callback);
       };
