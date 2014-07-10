@@ -16,8 +16,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = 'bhf'
   gem.homepage = 'http://antpaw.github.io/bhf'
   gem.licenses = 'MIT'
-  gem.summary = 'Agnostic Rails backend'
-  gem.description = 'Gets you there on time'
+  gem.summary = 'A simple to use Rails-Engine-Gem that offers an admin interface for trusted user.'
+  gem.description = 'A simple to use Rails-Engine-Gem that offers an admin interface for trusted user. Easy integratable and highly configurable and agnostic. Works with ActiveRecord and Mongoid.'
   gem.email = 'anton.pawlik@gmail.com'
   gem.authors = ['Anton Pawlik']
 end
