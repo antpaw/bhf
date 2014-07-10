@@ -395,7 +395,7 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
 <div id="internationalization" class="bs-docs-section">
 <hr>
 <h2>Internationalization</h2>
-<p>bhf right now offers I18n support for the <strong>english</strong> and <strong>german</strong> language, you can easily add more languages but translating this <a href="https://github.com/antpaw/bhf/blob/master/config/locales/en.yml">en.yml</a> (please submit it also as a fork if you have added a language). Make sure you have a fallback included in <code>application.rb</code> if you don't use <code>en</code> as your main language. For the translation of the model attributes, bhf heavily relies upon build-in <a href="http://guides.rubyonrails.org/i18n.html#translations-for-active-record-models">Rails I18n model API</a>.</p>
+<p>bhf right now offers I18n support for <a href="https://github.com/antpaw/bhf/blob/master/config/locales/">those languages</a>, you can easily add more languages translating this <a href="https://github.com/antpaw/bhf/blob/master/config/locales/en.yml">yaml file</a> and this <a href="https://github.com/antpaw/bhf/blob/master/app/assets/javascripts/bhf/classes/Locale.en-US.js">javascript file</a> (please submit it also as a fork if you have added a language). Make sure you have a fallback included in <code>application.rb</code> if you don't use <code>en</code> as your main language. For the translation of the model attributes, bhf heavily relies upon build-in <a href="http://guides.rubyonrails.org/i18n.html#translations-for-active-record-models">Rails I18n model API</a>.</p>
 <pre><code class="lang-ruby">config.i18n.default_locale = <span class="symbol">:de</span>
 config.i18n.fallbacks = [<span class="symbol">:en</span>]</code></pre>
 </div>
