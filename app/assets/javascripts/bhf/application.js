@@ -2,6 +2,7 @@
 //= require ./mootools-core-1.5.0-full-compat.js
 //= require ./mootools-more-1.5.0.js
 //= require ./mootools_ujs
+//= require_tree ./locales/
 //= require_tree ./classes/
 
 // Turbolinks bugs out on popState if you add own pushState events, so we cancel it
@@ -9,8 +10,9 @@ Turbolinks.pagesCached(0);
 
 (function(){
 	var stackIndexCounter = 0;
-	var lang = document.html.get('lang');
-	Locale.use(lang = (lang === 'en') ? 'en-US' : lang = lang+'-'+lang.toUpperCase());
+	var lang = document.html.get('lang').split('-')[0];
+	lang = (lang === 'en') ? 'en-US' : lang.toLowerCase()+'-'+lang.toUpperCase()
+	Locale.use(lang);
 
 	var ajaxNote = new Ajaxify();
 	document.addEventListener('page:fetch', function(){
