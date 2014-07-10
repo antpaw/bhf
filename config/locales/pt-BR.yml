@@ -1,0 +1,97 @@
+pt-BR:
+  bhf:
+    page_title: "%{title} &ndash; Admin"
+    areas:
+      page_title: "%{area} &ndash; %{title} &ndash; Admin"
+    helpers:
+      boolean:
+        'true': 'sim'
+        'false': 'não'
+      link: Link ⬀
+      form:
+        file_field:
+          select: Escolher arquivo
+        buttons:
+          save: 'Salvar %{platform_title}'
+          and_edit: e editar
+          and_add: e adicionar outro
+      searchform:
+        placeholder: Buscar
+      promts:
+        confirm: 'Você quer deletar o registro: %{platform_title}?'
+      entry:
+        new: "Criar %{platform_title}"
+        show: "Exibir %{platform_title}"
+        duplicate: "Duplicar %{platform_title}"
+        edit: "Editar %{platform_title}"
+        delete: "Deletar %{platform_title}"
+        empty: Esvaziar
+        cancel: Cancelar
+      user:
+        login:
+          success: Login efetuado com sucesso
+          error: "Login não pode ser feito"
+          as: 'Você está logado como <strong>%{user}</strong>'
+        logout:
+          link: Sair
+      activated:
+        success: "%{model} foi ativado com sucesso"
+        error: "Erro ao ativar %{model}"
+      validation:
+        header: '%{error} impediu esse "%{name}" de ser salvo:'
+        error: erro
+      file:
+        delete: Deletar arquivo
+        reselect: "Por favor, selecione novamente o arquivo"
+      image:
+        delete: Deletar imagem
+      input:
+        date_format:
+          timestamp: '%d-%m-%Y %H:%M'
+          datetime: '%d-%m-%Y %H:%M'
+          date: '%d-%m-%Y'
+          time: '%H:%M'
+    quick_edit:
+      buttons:
+        cancel: Cancelar
+        open: Abrir
+        save: Salvar
+        create: Criar
+        save_and_next: Salvar e ir para o próximo registro
+    
+    pagination:
+      previous_label: « Anterior
+      next_label: Próximo »
+      truncate: …
+      load_more: Exibir mais registros
+      load_less: Exibir menos registros
+      entries: registros
+      info:
+        default: "Exibindo <strong>%{offset_start} - %{offset_end}</strong> de <strong>%{count}</strong> %{name} no total"
+        other: "Exibindo <strong>todos %{count}</strong> %{name_plural}"
+        one: "Exibindo <strong>1</strong> %{name_singular}"
+        zero: "Nenhum(a) %{name_zero} encontrado"
+
+    footer:
+      state: 'Página renderizada em ~%{time} segundos'
+      copy: 'Feito por <a href="http://twitter.com/antpaw">@antpaw</a>'
+      info: 'Mais informações no <a href="http://antpaw.github.io/bhf">GitHub</a>'
+
+  attributes:
+    _id: 'id'
+
+  activerecord:
+    notices:
+      messages:
+        duplicate:
+          success: "%{model} duplicado com sucesso"
+          error: "Erro ao duplicar %{model}"
+        create:
+          success: "%{model} criado com sucesso"
+          error: "Erro ao criar %{model}"
+        update:
+          success: "%{model} atualizado com sucesso"
+          error: "Erro ao atualizar %{model}"
+        destory:
+          success: "%{model} deletado com sucesso"
+          error: "Erro ao deletar %{model}"
