@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Anton Pawlik"]
-  s.date = "2014-07-10"
+  s.date = "2014-07-11"
   s.description = "A simple to use Rails-Engine-Gem that offers an admin interface for trusted user. Easy integratable and highly configurable and agnostic. Works with ActiveRecord and Mongoid."
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
@@ -38,8 +38,6 @@ Gem::Specification.new do |s|
     "app/assets/javascripts/bhf/classes/Ajaxify.js",
     "app/assets/javascripts/bhf/classes/ArrayFields.js",
     "app/assets/javascripts/bhf/classes/FormHelper.js",
-    "app/assets/javascripts/bhf/classes/Locale.de-DE.js",
-    "app/assets/javascripts/bhf/classes/Locale.en-US.js",
     "app/assets/javascripts/bhf/classes/MooEditable.js",
     "app/assets/javascripts/bhf/classes/MultipleFields.js",
     "app/assets/javascripts/bhf/classes/Picker.js",
@@ -52,6 +50,9 @@ Gem::Specification.new do |s|
     "app/assets/javascripts/bhf/classes/Setlatlng.js",
     "app/assets/javascripts/bhf/classes/showdown.js",
     "app/assets/javascripts/bhf/classes/wmd.js",
+    "app/assets/javascripts/bhf/locales/Locale.de-DE.js",
+    "app/assets/javascripts/bhf/locales/Locale.en-US.js",
+    "app/assets/javascripts/bhf/locales/Locale.pt-PT.js",
     "app/assets/javascripts/bhf/mootools-core-1.5.0-full-compat.js",
     "app/assets/javascripts/bhf/mootools-more-1.5.0.js",
     "app/assets/javascripts/bhf/mootools_ujs.js",
