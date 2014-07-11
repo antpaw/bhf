@@ -342,6 +342,10 @@ Turbolinks.pagesCached(0);
 			parent.getElement('.h_text').set('text', newText);
 		});
 		
+		mainScope.getElements('.js_submit_form_on_change').addEvent('change', function(e){
+			e.target.getParent('form').submit();
+		});
+		
 		ajaxNote.success();
 	});
 

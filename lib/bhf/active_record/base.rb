@@ -24,7 +24,7 @@ module Bhf::ActiveRecord
 
     module ClassMethods
       def bhf_default_search(search_params)
-        return self if (search_term = search_params['text']).blank?
+        return where([]) if (search_term = search_params['text']).blank?
         where_statement = []
         columns_hash.each_pair do |name, props|
           is_number = search_term.to_i.to_s == search_term || search_term.to_f.to_s == search_term

@@ -31,7 +31,11 @@ module Bhf::Platform
         chain = @user.send(table_value(:user_scope).to_sym)
       else
         chain = model
-        chain = chain.send data_source if data_source
+        if options[:scope].present?
+          chain = chain.send options[:scope]
+        elsif data_source
+          chain = chain.send data_source
+        end
       end
 
       if options[:order].present? and options[:direction].present?
@@ -42,13 +46,12 @@ module Bhf::Platform
         chain = do_search(chain, options[:search])
       end
 
-
       if paginate_options && !sortable
         chain = chain.page(paginate_options[:page]).per(paginate_options[:per_page])
       elsif chain == model
         chain = chain.all
       end
-      
+
       @objects = chain
     end
 
@@ -83,7 +86,7 @@ module Bhf::Platform
     def columns
       return @columns if @columns
       
-      tmp = default_attrs(table_columns, attributes[0..5], true)
+      tmp = default_attrs(table_columns, attributes[0..5])
       if sortable and ! table_columns
         tmp = remove_excludes(tmp, [sortable_property.to_s])
       end
@@ -193,9 +196,27 @@ module Bhf::Platform
     def custom_partial
       table_value 'partial'
     end
+    
+    def read_data_source
+      table_value(:source) || table_value(:scope)
+    end
 
     def data_source
-      table_value(:source) || table_value(:scope)
+      temp_scope = read_data_source
+      return unless temp_scope
+      return temp_scope[0] if temp_scope.is_a?(Array)
+      temp_scope
+    end
+    
+    def scopes
+      temp_scope = read_data_source
+      return unless temp_scope.is_a?(Array) and temp_scope.count > 1
+      temp_scope.each_with_object([]) do |s, array|
+        array << OpenStruct.new(
+          name: I18n.t("bhf.platforms.#{@name}.scopes.#{s}", default: s),
+          value: s
+        )
+      end
     end
 
     def show_extra_fields
@@ -229,10 +250,9 @@ module Bhf::Platform
         end
       end
 
-      def default_attrs(attrs, d_attrs, warning = false)
+      def default_attrs(attrs, d_attrs)
         return d_attrs unless attrs
 
-        model_respond_to?(attrs) if warning
         attrs.each_with_object([]) do |name, obj|
           obj << (
             attributes.select{ |field| name == field.name }[0] ||
@@ -290,17 +310,6 @@ module Bhf::Platform
         end
 
         id + headlines + output.sort_by(&:name) + static_dates
-      end
-
-      def model_respond_to?(attrs)
-        new_obj = model.new
-        attrs.each do |attribute|
-          unless new_obj.respond_to?(attribute)
-            raise Exception.new("Model '#{model}' does not respond to '#{attribute}'")
-            return false
-          end
-        end
-        true
       end
 
       def default_attribute_options(name)

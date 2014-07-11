@@ -42,11 +42,12 @@
                 %span.handle.icon &nbsp;
             - platform.columns.each do |column|
               - css_classes = [column.macro, column.display_type]
-              - column_value = object.send(column.name)
+              - respond_to_column = object.respond_to?(column.name)
+              - column_value = object.send(column.name) if respond_to_column
               - if column.display_type == :primary_key && column_value.to_s.length > 6
                 - css_classes << :key_long
               %td{class: css_classes}
-                - partial_name = if column.display_type != :boolean && column_value.blank?
+                - partial_name = if respond_to_column && column.display_type != :boolean && column_value.blank?
                   - 'column/empty'
                 - else
                   - "#{column.macro}/#{column.display_type}"
