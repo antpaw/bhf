@@ -111,7 +111,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
         column_value = @object.send(column.name)
         unless column.macro == :column && column_value.blank?
           p = "bhf/table/#{column.macro}/#{column.display_type}"
-          hash[column.name] = render_to_string partial: p, locals: {object: @object, column_value: column_value}
+          hash[column.name] = render_to_string partial: p, locals: {object: @object, column_value: column_value, link: false, add_quick_link: false}
         end
       end
     end

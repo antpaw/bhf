@@ -6,8 +6,6 @@
     
   - @platform.fields.each do |field|
     - unless field.form_type == :hidden
-      - if !field.form_type
-        = d field
       = render partial: "bhf/form/#{field.macro}/#{field.form_type}", locals: {f: f, field: field}
 
   - unless @quick_edit
