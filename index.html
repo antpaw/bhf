@@ -117,7 +117,7 @@ title: bhf
 <h4>Table</h4>
 <p><code>table:</code> <span class="type">(hash)</span> contains all the logic that you can see in the table view. This are the possible hash options:</p>
 <ul>
-<li><code>scope:</code> <span class="type">(string)</span> name of the scope (<a href="http://guides.rubyonrails.org/active_record_querying.html#scopes">read more about Rails scopes</a>). <em>default:</em> <code>all</code> (<code>source:</code> is an alias)</li>
+<li><code>scope:</code> <span class="type">(string/array)</span> name of the scope (<a href="http://guides.rubyonrails.org/active_record_querying.html#scopes">read more about Rails scopes</a>). <em>default:</em> <code>all</code> (<code>source:</code> is an alias)</li>
 <li><code>user_scope:</code> <span class="type">(string)</span> name of the scope that will be applied on the user instance and not directly on the platform's model. <em>default:</em> <code>false</code></li>
 <li><code>display:</code> <span class="type">(array)</span> a list that will define the model instance getter and the order of the table rows. <em>default:</em> <code>id</code> + 5 more random keys. (<code>columns:</code> is an alias)</li>
 <li><code>exclude:</code> <span class="type">(array)</span> a list of model instance getters that will not be shown (the opposite of <code>display:</code>). <em>default:</em> <code>false</code></li>
