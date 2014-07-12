@@ -80,7 +80,14 @@ module Bhf::Platform
     end
 
     def fields
-      @fields ||= remove_excludes(default_attrs(form_value(:display), attributes), form_value(:exclude))
+      return @fields if @fields
+      
+      tmp = default_attrs(form_value(:display), attributes)
+      if sortable and ! form_value(:display)
+        tmp = remove_excludes(tmp, [sortable_property.to_s])
+      end
+      
+      @fields = remove_excludes(tmp, form_value(:exclude))
     end
 
     def columns
@@ -125,6 +132,10 @@ module Bhf::Platform
 
     def custom_search
       table_value(:custom_search)
+    end
+
+    def custom_footer
+      table_value(:custom_footer)
     end
 
     def table_columns
