@@ -120,7 +120,6 @@ Turbolinks.pagesCached(0);
 			});
 		}
 		
-		var quickEditArray = [];
 		var quickEditOptions;
 		
 		ajaxNote.setup();
@@ -289,9 +288,8 @@ Turbolinks.pagesCached(0);
 			});
 		}
 		
-		
 		var scrollContent = function(){
-			quickEditArray.each(function(quickEdit){
+			editStack.bricksArray.each(function(quickEdit){
 				var innerForm = quickEdit.holder.getElement('form');
 				if ( ! innerForm) { return; }
 				var scroll = document.body.scrollTop - 83;
@@ -299,8 +297,6 @@ Turbolinks.pagesCached(0);
 				quickEdit.holder.setStyle('padding-top', scroll);
 			});
 		};
-		// window.onscroll = scrollContent;
-		
 		
 		mainScope.getElements('.js_sortable').each(function(sortableElems){
 			new Sortables(sortableElems, {
