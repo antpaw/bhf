@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Anton Pawlik"]
-  s.date = "2014-07-11"
+  s.date = "2014-07-12"
   s.description = "A simple to use Rails-Engine-Gem that offers an admin interface for trusted user. Easy integratable and highly configurable and agnostic. Works with ActiveRecord and Mongoid."
   s.email = "anton.pawlik@gmail.com"
   s.extra_rdoc_files = [
