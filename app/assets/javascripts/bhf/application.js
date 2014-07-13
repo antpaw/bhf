@@ -9,9 +9,8 @@
 Turbolinks.pagesCached(0);
 
 (function(){
-	var stackIndexCounter = 0;
 	var lang = document.html.get('lang').split('-')[0];
-	lang = (lang === 'en') ? 'en-US' : lang.toLowerCase()+'-'+lang.toUpperCase()
+	lang = (lang === 'en') ? 'en-US' : lang.toLowerCase()+'-'+lang.toUpperCase();
 	Locale.use(lang);
 
 	var ajaxNote = new Ajaxify();
@@ -70,12 +69,13 @@ Turbolinks.pagesCached(0);
 		var newEntryInjectArea = parent.getElement('.quick_edit_inject');
 		var relation = parent.getElement('.relation');
 		var entry = linkElem.getParent('.quick_edit_entry');
+		var parsedTemplate;
 		if ( ! entry) {
 			entry = parent.getElement('.quick_edit_active');
 		}
 		
 		if (json) {
-			var parsedTemplate = entryTemplate.innerHTML.replace(new RegExp('%7Bobject_id%7D', 'g'), '{object_id}').substitute(json)
+			parsedTemplate = entryTemplate.innerHTML.replace(new RegExp('%7Bobject_id%7D', 'g'), '{object_id}').substitute(json);
 		}
 		
 		if (eventNames.contains('successAndAdd')) {
@@ -110,6 +110,17 @@ Turbolinks.pagesCached(0);
 			
 		}
 	};
+		
+	var scrollContent = function(){
+		editStack.bricksArray.each(function(quickEdit){
+			var innerForm = quickEdit.holder.getElement('form');
+			if ( ! innerForm) { return; }
+			var scroll = document.body.scrollTop - 83;
+			if (scroll + innerForm.getSize().y > document.body.clientHeight) { return; }
+			quickEdit.holder.setStyle('padding-top', scroll);
+		});
+	};
+	
 	
 	window.addEvent('bhfDomChunkReady', function(mainScope){
 		
@@ -133,10 +144,10 @@ Turbolinks.pagesCached(0);
 			onFailure: function(){
 				ajaxNote.failure();
 			},
-			onStartRequest: function(form){
+			onStartRequest: function(){
 				ajaxNote.loading();
 			},
-			onFormInjected: function(form){
+			onFormInjected: function(){
 				scrollContent();
 				ajaxNote.success();
 			},
@@ -155,7 +166,7 @@ Turbolinks.pagesCached(0);
 		var platforms = mainScope.getElements('.platform');
 		var mainForm = mainScope.getElementById('main_form');
 		
-		mainScope.getElements('.quick_edit_select').addEvent('change', function(e){
+		mainScope.getElements('.quick_edit_select').addEvent('change', function(){
 			var parent = this.getParent('.quick_edit_block');
 			var optionElem = this.options[this.selectedIndex];
 			var editElem = parent.getElement('.js_edit_field');
@@ -178,10 +189,10 @@ Turbolinks.pagesCached(0);
 		
 		mainScope.addEvent('click:relay(.js_delete)', function(e){
 			e.target.addEvents({
-				'ajax:success': function(html){
+				'ajax:success': function(){
 					updateElementsAfterQuickEditSuccess(['successAndRemove'], e.target);
 				},
-				'ajax:failure': function(html){
+				'ajax:failure': function(){
 					alert(Locale.get('Notifications.failure'));
 				}
 			});
@@ -190,9 +201,8 @@ Turbolinks.pagesCached(0);
 
 		if (platforms.length) {
 			quickEditOptions = Object.merge({
-				onSuccessAndNext: function(json){
+				onSuccessAndNext: function(){
 					var tr = this.linkElem;
-					var qe;
 					var nextTr = tr.getNext('tr');
 
 					if (nextTr) {
@@ -200,6 +210,7 @@ Turbolinks.pagesCached(0);
 						editStack.addEditBrick(quickEditOptions, nextTr.getElement('a'), nextTr);
 					}
 					else {
+						var trIndex;
 						var platform = tr.getParent('.platform');
 						var loadMore = platform.getElement('.load_more');
 						if (loadMore) {
@@ -250,7 +261,7 @@ Turbolinks.pagesCached(0);
 		}
 		else if (mainForm) {
 			quickEditOptions = Object.merge({
-				onSuccessAndNext: function(json){
+				onSuccessAndNext: function(){
 					var a = this.linkElem;
 					var li = a.getParent('li');
 					if ( ! li) { 
@@ -288,20 +299,10 @@ Turbolinks.pagesCached(0);
 			});
 		}
 		
-		var scrollContent = function(){
-			editStack.bricksArray.each(function(quickEdit){
-				var innerForm = quickEdit.holder.getElement('form');
-				if ( ! innerForm) { return; }
-				var scroll = document.body.scrollTop - 83;
-				if (scroll + innerForm.getSize().y > document.body.clientHeight) { return; }
-				quickEdit.holder.setStyle('padding-top', scroll);
-			});
-		};
-		
 		mainScope.getElements('.js_sortable').each(function(sortableElems){
 			new Sortables(sortableElems, {
 				handle: '.handle',
-				onStart: function(element, clone){
+				onStart: function(element){
 					element.addClass('dragged');
 				},
 				onComplete: function(element){
@@ -356,4 +357,4 @@ Turbolinks.pagesCached(0);
 	window.addEvent('domready', bodyCallback);
 	window.addEvent('platformUpdate', scopeCallback);
 	window.addEvent('quickEditFormInject', scopeCallback);
-})();
+}());
