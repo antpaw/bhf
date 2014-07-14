@@ -34,7 +34,7 @@ class Bhf::ApplicationController < ActionController::Base
 
     def get_account_roles(area = nil)
       return unless current_account
-      
+
       if area
         if current_account.respond_to?(:bhf_area_roles)
           return current_account.bhf_area_roles(area).collect(&:identifier)
@@ -53,7 +53,7 @@ class Bhf::ApplicationController < ActionController::Base
 
     def set_title
       @app_title = Rails.application.class.to_s.split('::').first
-      
+
       @title = if params[:bhf_area]
         t("bhf.areas.page_title.#{params[:bhf_area]}", 
           area: params[:bhf_area],
@@ -85,14 +85,13 @@ class Bhf::ApplicationController < ActionController::Base
 
     def set_message(type, model = nil)
       key = model && ActiveModel::Naming.singular(model)
-      
       I18n.t("bhf.activerecord.notices.models.#{key}.#{type}", model: model.model_name.human, default: I18n.t("activerecord.notices.messages.#{type}"))
     end
 
     def init_time
       @start_time = Time.now
     end
-    
+
     def find_platform(platform_name)
       Bhf::Platform::Base.new(@settings.find_platform_settings(platform_name))
     end
