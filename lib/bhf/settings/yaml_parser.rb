@@ -20,14 +20,15 @@ module Bhf::Settings
         roles_settings['pages'].each_with_index do |pages, i_1|
           pages.each_pair do |key_1, page|
             page.each_with_index do |platform, i_2|
-              platform.each_pair do |key_2, value|
-                abstract_platform_key = if value.to_h['extend_abstract']
-                  value.to_h['extend_abstract']
+              platform.each_pair do |key_2, v|
+                value = v.is_a?(Hash) ? v : {}
+                abstract_platform_key = if value['extend_abstract']
+                  value['extend_abstract']
                 elsif abstract_platform_settings[key_2]
                   key_2
                 end
                 next unless abstract_platform_key
-                roles_settings['pages'][i_1][key_1][i_2][key_2] = abstract_platform_settings[abstract_platform_key].deep_merge(value.to_h)
+                roles_settings['pages'][i_1][key_1][i_2][key_2] = abstract_platform_settings[abstract_platform_key].deep_merge(value)
               end
             end
           end
