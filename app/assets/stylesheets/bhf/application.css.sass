@@ -474,7 +474,9 @@ table.data_table
 
 .quick_edit_holder
   .error_explanation
-    margin-left: 0
+    margin-top: -10px
+    margin-left: -20px
+    margin-right: -20px
 
 form
   .node
@@ -607,13 +609,25 @@ form
       text-decoration: underline
   
   .error_explanation
-    margin-left: 20px
+    h5
+      padding: 10px 20px
+      background: $r1
+      color: $w1
+      font-weight: normal
+    ul
+      padding: 5px 20px
+      background: $w1
+      list-style: square
+      li
+        margin: 0 20px
+        padding: 5px 0
+        color: $r1
     label
-      color: $r1
+      color: $k1
       cursor: pointer
       display: block
       &:hover
-        color: $orange
+        color: $r1
 
 .qe_button
   text-decoration: none

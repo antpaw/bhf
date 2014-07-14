@@ -5,7 +5,7 @@
     - if file.file?
       
       - if type_is_image?(file.content_type)
-        = image_tag find_smallest_size_url_for_file(file), class: 'uploaded_image'
+        = link_to image_tag(find_smallest_size_url_for_file(file), class: 'uploaded_image'), file.url
       - else
         = link_to file.original_filename, file.url, class: 'uploaded_file'
       

@@ -334,7 +334,7 @@ Turbolinks.pagesCached(0);
 			var parent = this.getParent();
 			var newText = parent.get('data-empty-field-text');
 			if (this.value) {
-				newText = text.getLast() || this.value;
+				newText = text.getLast() || this.value;
 			}
 			parent.getElement('.h_text').set('text', newText);
 		});
