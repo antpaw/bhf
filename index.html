@@ -73,38 +73,38 @@ title: bhf
 <hr>
 <h2>Usage</h2>
 <p>After logging in you see the list of pages form <code>bhf.yml</code>, click one of them and you'll see the list of models (called <em>platforms</em>) this page contains. As you see platforms need only little configuration appear on a page and be ready to use. But of course we often need some basic business logic for example: hiding fields, adding custom fields, removing the delete button or using a curtain scope for the list of entries. All of this and much more can be setup via <code>bhf.yml</code>. This is how a typical <code>bhf.yml</code> looks like:</p>
-<pre><code class="lang-yml">pages:
+<pre><code class="lang-ruby"><span class="function">pages:
 
-- statics: # Page Statics
-  - statics: # bhf can work from this point on because there is a model named Static
+- statics: <span class="comment"># Page Statics</span>
+  - statics: <span class="comment"># bhf can work from this point on because there is a model named Static</span>
 
-- posts: # Page Posts
+- posts: <span class="comment"># Page Posts</span>
   - posts:
       table:
-        # default_scope hides some posts so we need a different scope
-        source: all_posts
+        <span class="comment"># default_scope hides some posts so we need a different scope</span>
+        source: <span class="keyword">all_posts</span>
 
-        # columns to display
-        display: [id, headline, subheadline, content, category, published, published_at]
+        <span class="comment"># columns to display</span>
+        display: <span class="keyword">[id, headline, subheadline, content, category, published, published_at]</span>
       form:
-        # fields to display
-        display: [id, category, author, headline, subheadline, content, published, published_at]
+        <span class="comment"># fields to display</span>
+        display: <span class="keyword">[id, category, author, headline, subheadline, content, published, published_at]</span>
         types:
-          # change content field from a textarea to a markdown wysiwyg
-          content: markdown
+          <span class="comment"># change content field from a textarea to a markdown wysiwyg</span>
+          content: <span class="keyword">markdown</span>
 
-- settings: # Page Settings
-  - category: # bhf can work from this point on because there is a model named Category
+- settings: <span class="comment"># Page Settings</span>
+  - category: <span class="comment"># bhf can work from this point on because there is a model named Category</span>
 
   - authors:
       table:
-        # allow to sort the entries via drag and drop (make sure the default_scope order by position)
-        sortable: position
-        # hide the delete button
-        hide_delete: true
+        <span class="comment"># allow to sort the entries via drag and drop (make sure the default_scope order by position)</span>
+        sortable: <span class="keyword">position</span>
+        <span class="comment"># hide the delete button</span>
+        hide_delete: <span class="keyword">true</span>
       form:
-        # fields to display
-        display: [id, name, job_title, email]</code></pre>
+        <span class="comment"># fields to display</span>
+        display: <span class="keyword">[id, name, job_title, email]</span></span></code></pre>
 
 </div>
 
