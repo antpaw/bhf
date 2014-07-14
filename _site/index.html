@@ -107,7 +107,7 @@
           content: markdown
 
 - settings: # Page Settings
-  - category: # bhf can work from this point on because there is a model named Static
+  - category: # bhf can work from this point on because there is a model named Category
 
   - authors:
       table:
@@ -130,7 +130,7 @@
 <h4>Table</h4>
 <p><code>table:</code> <span class="type">(hash)</span> contains all the logic that you can see in the table view. This are the possible hash options:</p>
 <ul>
-<li><code>scope:</code> <span class="type">(string)</span> name of the scope (<a href="http://guides.rubyonrails.org/active_record_querying.html#scopes">read more about Rails scopes</a>). <em>default:</em> <code>all</code> (<code>source:</code> is an alias)</li>
+<li><code>scope:</code> <span class="type">(string/array)</span> name of the scope (<a href="http://guides.rubyonrails.org/active_record_querying.html#scopes">read more about Rails scopes</a>). <em>default:</em> <code>all</code> (<code>source:</code> is an alias)</li>
 <li><code>user_scope:</code> <span class="type">(string)</span> name of the scope that will be applied on the user instance and not directly on the platform's model. <em>default:</em> <code>false</code></li>
 <li><code>display:</code> <span class="type">(array)</span> a list that will define the model instance getter and the order of the table rows. <em>default:</em> <code>id</code> + 5 more random keys. (<code>columns:</code> is an alias)</li>
 <li><code>exclude:</code> <span class="type">(array)</span> a list of model instance getters that will not be shown (the opposite of <code>display:</code>). <em>default:</em> <code>false</code></li>
@@ -142,11 +142,13 @@
 <li><code>hide_create:</code> <span class="type">(boolean)</span> hides the create button. <em>default:</em> <code>false</code></li>
 <li><code>search:</code> <span class="type">(string/boolean)</span> name of the search method that will be used instead of <code>bhf_default_search</code>, if set to <code>false</code> it will remove the platform search form. <em>default:</em> <code>nil</code></li>
 <li><code>search_field:</code> <span class="type">(boolean)</span> show the search field. <em>default:</em> <code>true</code></li>
-<li><code>custom_search:</code> <span class="type">(string)</span> partial name used inside of the search form. <em>default:</em> <code>false</code></li>
+<li><code>custom_search:</code> <span class="type">(string)</span> partial name/path used inside of the search form. <em>default:</em> <code>false</code></li>
+<li><code>custom_footer:</code> <span class="type">(string)</span> partial name/path used in the platform footer, this will not remove the pagination. <em>default:</em> <code>false</code></li>
 <li><code>entries_per_page:</code> (int) number of entries per displayed on a page. <em>default:</em> <code>false</code></li>
 <li><code>custom_partial:</code> <span class="type">(string)</span> partial name that will be used instead of the standard table platform partial. <em>default:</em> <code>false</code></li>
 <li><code>quick_edit:</code> <span class="type">(boolean)</span> enables quick edit in the table view. <em>default:</em> <code>false</code></li>
 <li><code>custom_link:</code> <span class="type">(string)</span> changes the link of the entry. <em>default:</em> <code>false</code></li>
+<li><code>hide:</code> <span class="type">(boolean)</span> hides the platform. <em>default:</em> <code>false</code></li>
 </ul>
 <h4>Form</h4>
 <p><code>form:</code> <span class="type">(hash)</span> contains all the logic that you can see in the form view. This are the possible hash options:</p>
@@ -187,7 +189,7 @@
 </ul>
 <p>There are some <code>ActiveRecord</code> hooks that do the same but hey will not let you access the http <code>params</code>.</p>
 <h4>Abstract extend</h4>
-<p><code>extend_abstract:</code> <span class="type">(string)</span> name of the abstract platform. <a href="#abstract_extend">See abstract_extend</a></p>
+<p><code>extend_abstract:</code> <span class="type">(string)</span> name of the abstract platform. <a href="#abstract_platform_settings">Read more about abstract platform settings</a>.</p>
 </div>
 
 
@@ -395,7 +397,7 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
 <div id="internationalization" class="bs-docs-section">
 <hr>
 <h2>Internationalization</h2>
-<p>bhf right now offers I18n support for <a href="https://github.com/antpaw/bhf/blob/master/config/locales/">those languages</a>, you can easily add more languages translating this <a href="https://github.com/antpaw/bhf/blob/master/config/locales/en.yml">yaml file</a> and this <a href="https://github.com/antpaw/bhf/blob/master/app/assets/javascripts/bhf/classes/Locale.en-US.js">javascript file</a> (please submit it also as a fork if you have added a language). Make sure you have a fallback included in <code>application.rb</code> if you don't use <code>en</code> as your main language. For the translation of the model attributes, bhf heavily relies upon build-in <a href="http://guides.rubyonrails.org/i18n.html#translations-for-active-record-models">Rails I18n model API</a>.</p>
+<p>bhf right now offers I18n support for <a href="https://github.com/antpaw/bhf/blob/master/config/locales/">those languages</a>, you can easily add more languages translating this <a href="https://github.com/antpaw/bhf/blob/master/config/locales/en.yml">yaml file</a> and this <a href="https://github.com/antpaw/bhf/blob/master/app/assets/javascripts/bhf/locales/Locale.en-US.js">javascript file</a> (please submit it also as a fork if you have added a language). Make sure you have a fallback included in <code>application.rb</code> if you don't use <code>en</code> as your main language. For the translation of the model attributes, bhf heavily relies upon build-in <a href="http://guides.rubyonrails.org/i18n.html#translations-for-active-record-models">Rails I18n model API</a>.</p>
 <pre><code class="lang-ruby">config.i18n.default_locale = <span class="symbol">:de</span>
 config.i18n.fallbacks = [<span class="symbol">:en</span>]</code></pre>
 </div>
@@ -529,6 +531,19 @@ create_table <span class="string">"areas_users"</span>, <span class="symbol">id:
 
 
 
+<div id="plugins" class="bs-docs-section">
+<hr>
+<h2>Plugins</h2>
+<p>It's possible to write your own plugins for bhf. <a href="https://github.com/antpaw/ksk">Here is an example of how to do it</a>. If you have multiple projects running with bhf, writing a plugin to keep your code DRY makes great sens. Also please let me know about your plugin, so I can list it here.</p>
+<p>List of available bhf plugins:</p>
+<ul>
+  <li><a href="https://github.com/antpaw/ksk"><strong>ksk</strong></a> used for blog/website management</li>
+</ul>
+</div>
+
+
+
+
 
 <div id="support" class="bs-docs-section">
 <hr>
@@ -588,6 +603,9 @@ create_table <span class="string">"areas_users"</span>, <span class="symbol">id:
 						<li>
 						  <a href="#areas">Areas</a>
 						</li>
+						<li>
+						  <a href="#plugins">Plugins &ndash; ksk</a>
+						</li>
 					</ul>
 					<ul class="nav bs-docs-sidenav extern_buttons">
 						<li>
@@ -614,7 +632,7 @@ create_table <span class="string">"areas_users"</span>, <span class="symbol">id:
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	<script>
 		$('body').scrollspy({target: '#navbar-example2'});
-		$('#navbar-example2').affix({offset: {top: 340}});
+		$('#navbar-example2').affix({offset: {top: 270}});
 	</script>
 </body>
 </html>
