@@ -4,7 +4,7 @@
   .label= f.label fk, reflection_title(f, field, 1)
   .input.select_input.quick_edit_block
     - if field.link
-      %template.quick_edit_template{type: 'text/template'}
+      .quick_edit_template{type: 'text/template'}
         = options_for_select([['{to_bhf_s}', '{object_id}', {data: {edit: edit_entry_path(field.link.name, '{object_id}'), delete: entry_path(field.link.name, '{object_id}')}}]])
       - select_options ||= options_from_collection_for_select_with_html_attrs(data_source, :id, :to_bhf_s, f.object.send(fk), Proc.new {|obj| {data: {edit: edit_entry_path(field.link.name, obj), delete: entry_path(field.link.name, obj)}}})
     - else

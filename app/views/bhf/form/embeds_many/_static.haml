@@ -13,7 +13,7 @@
           - if field.link && ! field.link.hide_delete
             = link_to '&times;'.html_safe, entry_embed_path(field.link.name, f.object, ref_object), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm', platform_title: field.link.title_singular)}
     
-    %template.quick_edit_template{type: 'text/template'}
+    .quick_edit_template{type: 'text/template'}
       %li.quick_edit_entry
         - if field.link && ! field.link.hide_edit
           = link_to '{to_bhf_s}', edit_entry_embed_path(field.link.name, f.object, '{object_id}'), class: 'js_edit_field qe_button quick_edit'

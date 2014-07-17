@@ -1,5 +1,6 @@
 = content_tag link ? :a : :span, class: ('quick_edit' if add_quick_link), href: (link if link) do
-  - if column_value.is_a?(String)
-    = column_value
-  - else
-    = column_value.to_bhf_s
+  - if column_value
+    - if column_value.is_a?(String)
+      = column_value
+    - else
+      = column_value.to_bhf_s

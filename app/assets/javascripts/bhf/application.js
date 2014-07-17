@@ -65,7 +65,10 @@ Turbolinks.pagesCached(0);
 
 	var updateElementsAfterQuickEditSuccess = function(eventNames, linkElem, json){
 		var parent = linkElem.getParent('.quick_edit_block');
-		var entryTemplate = parent.getElement('.quick_edit_template');
+		var entryTemplate = parent.getElement('.quick_edit_template').clone();
+		entryTemplate.getElements('.js_remove_disabled').each(function(elem){
+			elem.removeProperty('disabled')
+		});
 		var newEntryInjectArea = parent.getElement('.quick_edit_inject');
 		var relation = parent.getElement('.relation');
 		var entry = linkElem.getParent('.quick_edit_entry');
