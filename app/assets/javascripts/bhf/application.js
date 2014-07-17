@@ -65,11 +65,13 @@ Turbolinks.pagesCached(0);
 
 	var updateElementsAfterQuickEditSuccess = function(eventNames, linkElem, json){
 		var parent = linkElem.getParent('.quick_edit_block');
-		var entryTemplate = parent.getElement('.quick_edit_template');
-		var newEntryInjectArea = parent.getElement('.quick_edit_inject');
-		var relation = parent.getElement('.relation');
 		var entry = linkElem.getParent('.quick_edit_entry');
-		var parsedTemplate;
+		var entryTemplate, newEntryInjectArea, relation, parsedTemplate;
+		if (parent) {
+			entryTemplate = parent.getElement('.quick_edit_template');
+			newEntryInjectArea = parent.getElement('.quick_edit_inject');
+			relation = parent.getElement('.relation');
+		}
 		if ( ! entry) {
 			entry = parent.getElement('.quick_edit_active');
 		}
@@ -113,7 +115,6 @@ Turbolinks.pagesCached(0);
 			if (newEntryInjectArea) {
 				newEntryInjectArea.fireEvent('quickEditEntryRemoved');
 			}
-			
 		}
 	};
 		
