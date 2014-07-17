@@ -65,10 +65,7 @@ Turbolinks.pagesCached(0);
 
 	var updateElementsAfterQuickEditSuccess = function(eventNames, linkElem, json){
 		var parent = linkElem.getParent('.quick_edit_block');
-		var entryTemplate = parent.getElement('.quick_edit_template').clone();
-		entryTemplate.getElements('.js_remove_disabled').each(function(elem){
-			elem.removeProperty('disabled')
-		});
+		var entryTemplate = parent.getElement('.quick_edit_template');
 		var newEntryInjectArea = parent.getElement('.quick_edit_inject');
 		var relation = parent.getElement('.relation');
 		var entry = linkElem.getParent('.quick_edit_entry');
@@ -77,8 +74,14 @@ Turbolinks.pagesCached(0);
 			entry = parent.getElement('.quick_edit_active');
 		}
 		
-		if (json) {
-			parsedTemplate = entryTemplate.innerHTML.replace(new RegExp('%7Bobject_id%7D', 'g'), '{object_id}').substitute(json);
+		if (entryTemplate) {
+			entryTemplate = entryTemplate.clone();
+			entryTemplate.getElements('.js_remove_disabled').each(function(elem){
+				elem.removeProperty('disabled');
+			});
+			if (json) {
+				parsedTemplate = entryTemplate.innerHTML.replace(new RegExp('%7Bobject_id%7D', 'g'), '{object_id}').substitute(json);
+			}
 		}
 		
 		if (eventNames.contains('successAndAdd')) {
