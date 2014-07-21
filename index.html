@@ -148,10 +148,10 @@ title: bhf
 </ul>
 <h4>Show</h4>
 <p><code>show:</code> <span class="type">(hash)</span> contains all the logic that you can see in the show view. But first you need to link a entry to the show view.</p>
-<pre><code class="lang-yml">pages:
+<pre><code class="lang-ruby"><span class="function">pages:
 - page:
   - authors:
-      custom_link: entry_path</code></pre>
+      custom_link: <span class="keyword">entry_path</span></span></code></pre>
 <p>This are the possible hash options:</p>
 <ul>
 <li><code>show_extra_fields:</code> <span class="type">(array)</span> appends custom fields at the end of the view. <em>default:</em> <code>false</code></li>
@@ -161,10 +161,10 @@ title: bhf
 </ul>
 <h4>Model</h4>
 <p><code>model:</code> <span class="type">(string)</span> actual model name (e.g. <code>User</code>) it's often not needed because bhf tries to find the model via the platform name, but sometimes the have to be different.</p>
-<pre><code class="lang-yml">pages:
+<pre><code class="lang-ruby"><span class="function">pages:
 - page:
   - best_authors:
-      model: authors</code></pre>
+      model: <span class="keyword">authors</span></span></code></pre>
 <h4>Sortable property</h4>
 <p><code>sortable_property:</code> <span class="type">(string)</span> name of the property that needs to get updated via ajax on entries sort. <em>default:</em> <code>position</code></p>
 <h4>Hooks</h4>
@@ -333,11 +333,11 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
 <p>It's very easy to add new custom views and assets or to overwrite the existing ones with your own.</p>
 <h4>Adding view files</h4>
 <p>Notice the <code>demo_checkbox</code> string inside the <code>display:</code> array:</p>
-<pre><code class="lang-yml">pages:
-- posts: # Page Posts
+<pre><code class="lang-ruby"><span class="function">pages:
+- posts: <span class="comment"># Page Posts</span>
   - posts:
       form:
-        display: [id, name, demo_checkbox]</code></pre>
+        display: <span class="keyword">[id, name, demo_checkbox]</span></span></code></pre>
 <p>Add a partial to <code>views/bhf/form/column/_demo_checkbox.haml</code> or <code>.erb</code> (not <code>_demo_checkbox.html.haml</code>)</p>
 <p>Use the <code>node</code> view helper to create a label and a div holder for your form elements</p>
 <pre><code class="lang-haml">= node f, field do
