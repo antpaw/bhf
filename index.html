@@ -446,15 +446,15 @@ config.i18n.fallbacks = [<span class="symbol">:en</span>]</code></pre>
 <p>quick_edit is a sidebar view that contains a form to create or edit a entry. E.g. if you see a <code>&lt;select&gt;</code> element for a <code>belongs_to</code> relation you are also presented with buttons to edit the current selected entry or to create a new one, without leaving the current form. This happens if bhf manages to link the relations name to a platform.</p>
 <p>Check out the quick_edit features in this <a href="http://bhf-demo-mongoid.herokuapp.com/bhf/posts/entries/new">demo app</a> (username: "admin" password: "bhf").</p>
 <p>If the platform exists and you still don't see the quick_edit features setup a <code>links:</code> hash in your <code>.yml</code> settings.</p>
-<pre><code class="lang-css"><span class="tag">pages</span>:
-- <span class="tag">settings</span>:
-  - <span class="tag">authors</span>:
-      <span class="tag">form</span>:
-        <span class="tag">display</span>: <span class="attr_selector">[_id, name, job_title, email, categories]</span>
-        <span class="tag">links</span>:
-          <span class="tag">categories</span>: <span class="tag">best_categories</span>
-  - <span class="tag">best_categories</span>:
-      <span class="tag">model</span>: <span class="tag">Category</span></code></pre>
+<pre><code class="lang-ruby"><span class="function">pages:
+- settings:
+  - authors:
+      form:
+        display: <span class="keyword">[id, name, job_title, email, categories]</span>
+        links:
+          categories: <span class="keyword">best_categories</span>
+  - best_categories:
+      model: <span class="keyword">Category</span></span></code></pre>
 </div>
 
 
