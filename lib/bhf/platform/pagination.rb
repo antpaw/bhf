@@ -74,12 +74,15 @@ module Bhf::Platform
       platform_params[:per_page] = load_offset
       
       direction = plus ? 'more' : 'less'
+      
+      parsed_paramas = {
+        bhf_area: template.params[:bhf_area],
+        page: template.params[:page]
+      }.merge(platform.name.to_sym => platform_params)
       template.link_to(
         I18n.t("bhf.pagination.load_#{direction}"),
-        template.page_path(
-          platform.page_name,
-          template.params.merge(platform.name => platform_params)
-        ), attributes.merge(class: "load_#{direction}")
+        template.page_path(platform.page_name, parsed_paramas),
+        attributes.merge(class: "load_#{direction}")
       )
     end
 

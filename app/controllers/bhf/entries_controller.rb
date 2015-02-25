@@ -140,7 +140,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     def manage_many_to_many
       return unless params[:has_and_belongs_to_many]
       params[:has_and_belongs_to_many].each_pair do |relation, ids|
-        reflection = @model.reflections[relation.to_sym]
+        reflection = @model.reflections[relation]
 
         next unless ids.any?
         relation_array = @object.send(relation)

@@ -68,7 +68,7 @@ module Bhf::Mongoid
         c = {}
         relations.each do |key, meta|
           next if meta.macro == :embedded_in
-          c[key.to_sym] = Reflection.new(meta)
+          c[key] = Reflection.new(meta)
         end
         c
       end
