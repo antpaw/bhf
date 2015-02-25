@@ -1,16 +1,16 @@
 source 'http://rubygems.org'
 
-gem 'rails',        '~> 4'
-gem 'turbolinks',   '~> 2.1'
-gem 'kaminari',     '~> 0.16'
-gem 'haml-rails',   '~> 0.4'
-gem 'sass-rails',   '~> 4.0'
+gem 'rails',        '> 4'
+gem 'turbolinks',   '~> 2'
+gem 'kaminari',     '~> 0'
+gem 'haml-rails',   '~> 0'
+gem 'sass-rails',   '~> 5'
 
 
 group :development do
-  gem 'shoulda',    '~> 3.5'
-  gem 'rdoc',       '~> 3.12'
-  gem 'bundler',    '~> 1.0'
-  gem 'jeweler',    '~> 2.0'
-  gem 'simplecov',  '~> 0.8'
+  gem 'shoulda',    '~> 3'
+  gem 'rdoc',       '~> 3'
+  gem 'bundler',    '~> 1'
+  gem 'jeweler',    '~> 2'
+  gem 'simplecov',  '~> 0'
 end
