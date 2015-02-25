@@ -15,7 +15,7 @@ title: bhf
 <hr>
 <h2>Install</h2>
 <ol>
-<li>Make sure you have rails <code>>= 4.0.0</code></li>
+<li>Make sure you have rails <code>&gt;= 4.2.0</code> (or <code>gem 'bhf', '&lt; 0.9.9'</code> for older rails versions)</li>
 <li>Add this to your <code>Gemfile</code>
 <pre><code class="lang-ruby">gem <span class="string">'bhf'</span></code></pre>
 </li>
@@ -338,7 +338,7 @@ create_table <span class="string">"roles_users"</span>, <span class="symbol">id:
   - posts:
       form:
         display: <span class="keyword">[id, name, demo_checkbox]</span></span></code></pre>
-<p>Add a partial to <code>views/bhf/form/column/_demo_checkbox.haml</code> or <code>.erb</code> (not <code>_demo_checkbox.html.haml</code>)</p>
+<p>Add a partial to <code>views/bhf/form/column/_demo_checkbox.html.haml</code> or <code>.erb</code></p>
 <p>Use the <code>node</code> view helper to create a label and a div holder for your form elements</p>
 <pre><code class="lang-haml">= node f, field do
   = f.hidden_field :test
