@@ -289,7 +289,7 @@ module Bhf::Platform
 
         model.reflections.each_pair do |name, props|
           fk = props.foreign_key
-          all[name.to_s] = Bhf::Platform::Attribute::Reflection.new(props, default_attribute_options(name).merge({
+          all[name] = Bhf::Platform::Attribute::Reflection.new(props, default_attribute_options(name).merge({
             link: find_platform_settings_for_link(name),
             reorderble: model.bhf_attribute_method?(fk)
           }))

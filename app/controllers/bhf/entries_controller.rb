@@ -41,7 +41,10 @@ class Bhf::EntriesController < Bhf::ApplicationController
       @form_url = entries_path(@platform.name)
 
       r_settings = {status: :unprocessable_entity}
-      r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
+      if @quick_edit
+        r_settings[:layout] = 'bhf/quick_edit'
+        r_settings[:formats] = [:html]
+      end
       render :new, r_settings
     end
   end
@@ -63,7 +66,10 @@ class Bhf::EntriesController < Bhf::ApplicationController
       @form_url = entry_path(@platform.name, @object)
 
       r_settings = {status: :unprocessable_entity}
-      r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
+      if @quick_edit
+        r_settings[:layout] = 'bhf/quick_edit'
+        r_settings[:formats] = [:html]
+      end
       render :edit, r_settings
     end
   end
@@ -110,10 +116,8 @@ class Bhf::EntriesController < Bhf::ApplicationController
       @platform.columns.each_with_object(extra_data) do |column, hash|
         column_value = @object.send(column.name)
         unless column.macro == :column && column_value.blank?
-          with_format :html do
-            p = "bhf/table/#{column.macro}/#{column.display_type}"
-            hash[column.name] = render_to_string partial: p, locals: {object: @object, column_value: column_value, link: false, add_quick_link: false}
-          end
+          p = "bhf/table/#{column.macro}/#{column.display_type}"
+          hash[column.name] = render_to_string partial: p, formats: [:html], locals: {object: @object, column_value: column_value, link: false, add_quick_link: false}
         end
       end
     end
@@ -129,6 +133,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def load_object
       @object = @model.unscoped.find(params[:id]) rescue nil
+      @object.assign_attributes(@permited_params) if @object and @permited_params
       after_load
     end
 

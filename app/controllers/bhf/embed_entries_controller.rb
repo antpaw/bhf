@@ -27,7 +27,10 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       @form_url = entry_embed_index_path(@platform.name, @model.get_embedded_parent(params[:entry_id]))
 
       r_settings = {status: :unprocessable_entity}
-      r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
+      if @quick_edit
+        r_settings[:layout] = 'bhf/quick_edit'
+        r_settings[:formats] = [:html]
+      end
       render 'bhf/entries/new', r_settings
     end
   end
@@ -47,7 +50,10 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       @form_url = entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id]), @object)
 
       r_settings = {status: :unprocessable_entity}
-      r_settings[:layout] = 'bhf/quick_edit' if @quick_edit
+      if @quick_edit
+        r_settings[:layout] = 'bhf/quick_edit'
+        r_settings[:formats] = [:html]
+      end
       render 'bhf/entries/edit', r_settings
     end
   end
@@ -56,6 +62,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
 
     def load_object
       @object = @model.bhf_find_embed(params[:entry_id], params[:id])
+      @object.assign_attributes(@permited_params) if @object and @permited_params
       after_load
     end
 
