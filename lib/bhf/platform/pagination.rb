@@ -48,7 +48,7 @@ module Bhf::Platform
           name: platform.title,
           count: collection.total_count,
           offset_start: collection.offset_value + 1,
-          offset_end: collection.offset_value + collection.length
+          offset_end: collection.offset_value + collection.limit_value
         })
       else
         I18n.t('bhf.pagination.info', {
