@@ -43,7 +43,9 @@ var FormHelper = new Class({
 			}
 
 			var hiddenInput = input.clone();
-			input.value = new Date().parse(input.value).format(options.format);
+			if (input.value) {
+				input.value = new Date().parse(input.value).format(options.format);
+			}
 			input.erase('name');
 			hiddenInput.set('type', 'hidden').inject(input, 'after');
 
