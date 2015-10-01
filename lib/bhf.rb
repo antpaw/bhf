@@ -44,8 +44,10 @@ module Bhf
     config_accessor(:js)                        { ['bhf/application'] }
     config_accessor(:abstract_settings)         { []                  }
     config_accessor(:paperclip_image_types)     {
-      ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png', 'image/tif', 'image/gif']
+      ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png',
+       'image/tif', 'image/gif']
     }
+    config_accessor(:auth_engine)               { nil }
   end
 end
 
@@ -61,3 +63,4 @@ require 'bhf/active_record/base'
 require 'bhf/mongoid/document'
 require 'bhf/action_view/form_options'
 require 'bhf/action_view/form_builder'
+require 'bhf/controller/extension'

@@ -2,6 +2,8 @@
 
 ## [Guide and Documentation](http://antpaw.github.io/bhf/)
 
+Also see [Getting Started](Getting_Started.md) document for additional info.
+
 ## Contributing to bhf
 
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
