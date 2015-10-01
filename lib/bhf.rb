@@ -41,7 +41,10 @@ module Bhf
     config_accessor(:account_model)             { 'User'              }
     config_accessor(:account_model_find_method) { 'find'              }
     config_accessor(:css)                       { ['bhf/application'] }
-    config_accessor(:js)                        { ['bhf/application'] }
+    config_accessor(:js)                        { [
+       'http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js',
+       'bhf/application'
+    ] }
     config_accessor(:abstract_settings)         { []                  }
     config_accessor(:paperclip_image_types)     {
       ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png',
