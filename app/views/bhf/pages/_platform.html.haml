@@ -22,7 +22,7 @@
           %th.drag
         - platform.columns.each do |column|
           %th{class: "#{column.macro} #{column.display_type} #{order_class(column.db_name, platform.name)}"}
-            = link_to_if column.reorderble, column.title, current_order_path(column.db_name, platform.name)
+            = link_to_if column.reorderble, column.title.titleize, current_order_path(column.db_name, platform.name)
         %th.action
 
     %tfoot
