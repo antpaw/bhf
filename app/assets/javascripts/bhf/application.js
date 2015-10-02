@@ -36,6 +36,7 @@ Turbolinks.pagesCached(0);
 					setTimeout(function(){
 						rowElem.removeClass('animate');
 					}, 600);
+					linkElem = rowElem;
 				}
 				setTimeout(function(){
 					linkElem.removeClass('live_edit');

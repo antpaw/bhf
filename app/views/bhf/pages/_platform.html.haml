@@ -77,7 +77,7 @@
             = link_to new_t(platform), new_entry_path(platform.name)
 
       - if platform.table_quick_edit
-        .quick_edit_template{type: 'text/template'}
+        %template.quick_edit_template{type: 'text/template'}
           %tr.quick_edit_entry{id: "{object_id}_#{platform.name}"}
             - edit_link = edit_entry_path(platform.name, '{object_id}')
             - if platform.sortable
