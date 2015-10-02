@@ -25,6 +25,8 @@ module Bhf::Platform::Attribute
 
       if name == @pk || name == 'updated_at' || name == 'created_at'
         :static
+      elsif name == 'type'
+        :type
       else
         supported_types(@type)
       end
@@ -35,6 +37,8 @@ module Bhf::Platform::Attribute
       
       if name == @pk
         :primary_key
+      elsif name == 'type'
+        :type
       else
         supported_types(@type)
       end

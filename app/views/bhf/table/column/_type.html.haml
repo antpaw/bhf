@@ -1,0 +1,2 @@
+= content_tag link ? :a : :span, class: ('quick_edit' if add_quick_link), href: (link if link) do
+  = column_value.sub(object.class.base_class.to_s,'').titleize
