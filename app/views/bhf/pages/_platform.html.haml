@@ -10,7 +10,7 @@
   - local_names = [:column_value, :object, :link, :add_quick_link]
   %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
     %caption
-      %h4= platform.title
+      %h4= platform.title.titleize
       - unless platform.hide_create
         %p.create= link_to new_t(platform), new_entry_path(platform.name), class: :alt_button
       - unless platform.custom_partial
@@ -22,7 +22,7 @@
           %th.drag
         - platform.columns.each do |column|
           %th{class: "#{column.macro} #{column.display_type} #{order_class(column.db_name, platform.name)}"}
-            = link_to_if column.reorderble, column.title, current_order_path(column.db_name, platform.name)
+            = link_to_if column.reorderble, column.title.titleize, current_order_path(column.db_name, platform.name)
         %th.action
 
     %tfoot
@@ -69,10 +69,10 @@
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'icon edit'
               - unless platform.hide_delete
-                = link_to delete_t(platform), entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete js_delete', data: {confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular)}
+                = link_to delete_t(platform), entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete js_delete', data: {confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular.titleize)}
       - else
         %td.no_entries{colspan: platform.columns_count}
-          = t 'bhf.pagination.info', name_zero: platform.title, count: 0
+          = t 'bhf.pagination.info', name_zero: platform.title.titleize, count: 0
           - unless platform.hide_create
             = link_to new_t(platform), new_entry_path(platform.name)
 
@@ -96,4 +96,4 @@
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'icon edit'
               - unless platform.hide_delete
-                = link_to delete_t(platform), entry_path(platform.name, '{object_id}'), method: :delete, remote: true, class: 'icon delete js_delete', data: {confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular)}
+                = link_to delete_t(platform), entry_path(platform.name, '{object_id}'), method: :delete, remote: true, class: 'icon delete js_delete', data: {confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular.titleize)}

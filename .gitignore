@@ -2,3 +2,9 @@
 pkg/
 doc/
 .yardoc/
+.bundle/
+**/*.sw*
+**/*~
+.ruby-version
+.ruby-gemset
+.rvmrc

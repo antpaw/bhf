@@ -1,0 +1,4 @@
+= node f, field do
+  - list = f.object.class.base_class.descendants.map do |x|
+    - [x.to_s.sub(f.object.class.base_class.to_s,'').titleize, x.to_s]
+  = f.select :type, list
