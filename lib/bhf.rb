@@ -47,7 +47,6 @@ module Bhf
       ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png',
        'image/tif', 'image/gif']
     }
-    config_accessor(:auth_engine)               { nil }
   end
 end
 

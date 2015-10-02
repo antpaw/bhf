@@ -7,8 +7,6 @@ module Bhf
         include Instance
 
         before_filter :init_time
-        before_filter :authenticate_user!,
-          if: ->{ Bhf.configuration.auth_engine == :device }
         before_filter :check_admin_account, :setup_current_account,
           :load_settings, :set_title, :set_areas
 
