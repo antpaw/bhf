@@ -14,3 +14,19 @@ method, to give to `Bhf` the knowledge about weither current user is admin or no
       end
     end
 
+
+### Addtional field types
+
+Additional two fields `file`, and `type` was added for form view. `File` field can be applied,
+when user have to select, and attach a file, which should be sent to server. The file can be
+image, etc. If the file is an image, a preview image appeared, when user select input image
+for `file` field, or when user edits a record with `file` field and the file is an image.
+`Type` field can be applied, when user the `type` named field should be shewn, and selected in
+the form. The descendants of the base class is begin enumerated in the select.
+
+Additional two fields `image`, and `type` was added for table view. `Image` field can be applied,
+when the record has image properties, like thumb/midem. Those properties are provided by, for
+example, `Carriwewave` image uploaders. PDF files also can be shewn up as a thumbnail. When user
+moves a cursor over an image or PDF thumbnail, a preview image is begin pop up in table view.
+`Type` field defines that the spcific records class descendant type name should be shewn for
+the column. The name is reduced by the base class name itself.

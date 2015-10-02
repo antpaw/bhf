@@ -1,0 +1,3 @@
+= node f, field do
+  = f.file_field field.name, placeholder: t('bhf.helpers.form.file_field.select'), class: 'file-input'
+  %img#file-preview{width: '400', src: f.object.try(field.name).to_s}
