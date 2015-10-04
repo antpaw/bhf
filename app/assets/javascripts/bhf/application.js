@@ -2,7 +2,6 @@
 //= require ./mootools-core-1.5.0-full-compat.js
 //= require ./mootools-more-1.5.0.js
 //= require ./mootools_ujs
-//= require ./jquery-application
 //= require_tree ./locales/
 //= require_tree ./classes/
 
@@ -351,7 +350,30 @@ Turbolinks.pagesCached(0);
 		mainScope.getElements('.js_submit_form_on_change').addEvent('change', function(e){
 			e.target.getParent('form').submit();
 		});
-		
+
+                // picture preview handler on input
+                $$('.file-input').addEvent('change',function(event) {
+                        var output = document.getElementById('file-preview');
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                });
+
+                // picture preview handler on hover
+                $$('.preview_image').addEvents({
+                        mousemove: function(e) {
+                                this.getNext('img').setStyles({
+                                        top: e.page.y - 260,
+                                        left: e.page.x + 10
+                                });
+                        },
+                        mouseenter: function() {
+                                var popup = new Element('img', {'class': 'popped_image', src: this.src});
+                                popup.inject(this, 'after');
+                        },
+                        mouseleave: function() {
+                                $$('.popped_image').destroy();
+                        }
+                });
+
 		ajaxNote.success();
 	});
 
