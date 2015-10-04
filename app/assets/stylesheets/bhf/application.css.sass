@@ -457,13 +457,21 @@ table.data_table
     -moz-box-shadow: 0 1px 12px $b2
     border-color: $b2
 
+.file_with_preview,
 .preview_image
   @extend .default_input
   vertical-align: middle
   padding: 2px
   width: auto
+  max-width: 400px
+  max-height: 200px
+.file_with_preview
   max-width: 32px
   max-height: 32px
+
+.popped_image
+  height: 250px
+  position: absolute
 
 .search
   input[type="text"]
@@ -1218,6 +1226,3 @@ input[type="submit"].alt_button,
     background-size: 440px 260px
 
 
-.popped_image
-  height: 250px
-  position: absolute

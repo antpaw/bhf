@@ -351,28 +351,30 @@ Turbolinks.pagesCached(0);
 			e.target.getParent('form').submit();
 		});
 
-                // picture preview handler on input
-                $$('.file-input').addEvent('change',function(event) {
-                        var output = document.getElementById('file-preview');
-                        output.src = URL.createObjectURL(event.target.files[0]);
-                });
+		// picture preview handler on input
+		mainScope.getElements('.file_with_preview_input').addEvent('change', function(e) {
+			var img = this.getNext('img');
+			if (img) {
+				img.src = URL.createObjectURL(e.target.files[0]);
+			}
+		});
 
-                // picture preview handler on hover
-                $$('.preview_image').addEvents({
-                        mousemove: function(e) {
-                                this.getNext('img').setStyles({
-                                        top: e.page.y - 260,
-                                        left: e.page.x + 10
-                                });
-                        },
-                        mouseenter: function() {
-                                var popup = new Element('img', {'class': 'popped_image', src: this.src});
-                                popup.inject(this, 'after');
-                        },
-                        mouseleave: function() {
-                                $$('.popped_image').destroy();
-                        }
-                });
+		// picture preview handler on hover
+		mainScope.getElements('.preview_image').addEvents({
+			mousemove: function(e) {
+				this.getNext('img').setStyles({
+					top: e.page.y - 260,
+					left: e.page.x + 10
+				});
+			},
+			mouseenter: function() {
+				var popup = new Element('img', {'class': 'popped_image', src: this.src});
+				popup.inject(this, 'after');
+			},
+			mouseleave: function() {
+				mainScope.getElements('.popped_image').destroy();
+			}
+		});
 
 		ajaxNote.success();
 	});
