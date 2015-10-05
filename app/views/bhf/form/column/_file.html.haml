@@ -1,0 +1,3 @@
+= node f, field do
+  = f.file_field field.name, placeholder: t('bhf.helpers.form.file_field.select'), class: 'preview_input'
+  = image_tag(f.object.send(field.name), width: 400)
