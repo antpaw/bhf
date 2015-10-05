@@ -352,7 +352,7 @@ Turbolinks.pagesCached(0);
 		});
 
 		// picture preview handler on input
-		mainScope.getElements('.file_with_preview_input').addEvent('change', function(e) {
+		mainScope.getElements('.preview_input').addEvent('change', function(e) {
 			var img = this.getNext('img');
 			if (img) {
 				img.src = URL.createObjectURL(e.target.files[0]);
@@ -360,7 +360,7 @@ Turbolinks.pagesCached(0);
 		});
 
 		// picture preview handler on hover
-		mainScope.getElements('.preview_image').addEvents({
+		mainScope.getElements('.thumbnail_image').addEvents({
 			mousemove: function(e) {
 				this.getNext('img').setStyles({
 					top: e.page.y - 260,

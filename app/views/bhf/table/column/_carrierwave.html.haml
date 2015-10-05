@@ -1,0 +1,3 @@
+= content_tag link ? :a : :span, class: ('quick_edit' if add_quick_link), href: (link if link) do
+  - value = column_value.respond_to?(:midem) && column_value.midem || column_value
+  = image_tag value, alt: column_value, class: 'thumbnail_image'

@@ -457,7 +457,6 @@ table.data_table
     -moz-box-shadow: 0 1px 12px $b2
     border-color: $b2
 
-.file_with_preview,
 .preview_image
   @extend .default_input
   vertical-align: middle
@@ -465,7 +464,9 @@ table.data_table
   width: auto
   max-width: 400px
   max-height: 200px
-.file_with_preview
+
+.thumbnail_image
+  &.preview_image
   max-width: 32px
   max-height: 32px
 

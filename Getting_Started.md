@@ -24,9 +24,9 @@ for `file` field, or when user edits a record with `file` field and the file is 
 `Type` field can be applied, when user the `type` named field should be shewn, and selected in
 the form. The descendants of the base class is begin enumerated in the select.
 
-Additional two fields `image`, and `type` was added for table view. `Image` field can be applied,
-when the record has image properties, like thumb/midem. Those properties are provided by, for
-example, `Carriwewave` image uploaders. PDF files also can be shewn up as a thumbnail. When user
-moves a cursor over an image or PDF thumbnail, a preview image is begin pop up in table view.
-`Type` field defines that the spcific records class descendant type name should be shewn for
-the column. The name is reduced by the base class name itself.
+Additional three fields `image`, `carrierwave`, and `type` was added for table view. `Image`
+field can be applied, when the record has image properties. `Carrierwave` is the same as the `image`
+but gets the image from `#midem` action for carrierwave uploader. PDF files also can be shewn
+up as a thumbnail. When user moves a cursor over an image or PDF thumbnail, a preview image
+is being pop up in table view. `Type` field defines that the spcific records class descendant
+type name should be shewn for the column. The name is reduced by the base class name itself.
