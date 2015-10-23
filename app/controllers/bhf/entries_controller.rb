@@ -1,5 +1,8 @@
 class Bhf::EntriesController < Bhf::ApplicationController
-  before_filter :load_platform, :load_model, :params_permit, :set_page, :set_quick_edit
+  before_filter :load_platform, :load_model, :set_page, :set_quick_edit
+  before_filter :crop_readonly, only: [:update]
+  before_filter :params_permit_default, except: [:update, :create]
+  before_filter :params_permit, only: [:update, :create]
   before_filter :load_object, except: [:create, :new, :sort]
   before_filter :load_new_object, only: [:create, :new]
 
@@ -130,6 +133,11 @@ class Bhf::EntriesController < Bhf::ApplicationController
       @model = @platform.model
     end
 
+    def params_permit_default
+      parms = params[@platform.model_name.to_sym]
+      @permited_params = ActionController::Parameters.new(parms).permit!
+    end
+
     def params_permit
       skip_blank = @settings.find_platform_settings(params['platform']).
         hash['form']['skip_blank']
@@ -142,6 +150,12 @@ class Bhf::EntriesController < Bhf::ApplicationController
         params[@platform.model_name.to_sym]
       end
       @permited_params = ActionController::Parameters.new(parms).permit!
+    end
+
+    def crop_readonly
+      ro = @settings.find_platform_settings(params['platform']).
+        hash['form']['readonly']
+      params[@platform.model_name.to_sym].delete_if { |key| ro.include?(key) }
     end
 
     def load_object

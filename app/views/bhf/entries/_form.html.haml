@@ -16,7 +16,7 @@
       .label
       .input
         - unless (f.object.new_record? && @platform.hide_create) || (!f.object.new_record? && @platform.hide_edit)
-          = f.submit t('bhf.helpers.form.buttons.save', platform_title: @platform.title_singular)
+          = f.submit t('bhf.helpers.form.buttons.save', platform_title: @platform.title_singular.titleize)
           - unless @platform.hide_edit
             = f.submit t('bhf.helpers.form.buttons.and_edit'), name: :return_to_edit, class: 'alt_button'
           - unless @platform.hide_create
