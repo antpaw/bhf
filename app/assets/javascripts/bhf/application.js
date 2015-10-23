@@ -1,6 +1,6 @@
 //= require turbolinks
-//= require ./mootools-core-1.5.2-full.js
-//= require ./mootools-more-1.5.2.js
+//= require ./mootools-core-1.5.0-full-compat.js
+//= require ./mootools-more-1.5.0.js
 //= require ./mootools_ujs
 //= require_tree ./locales/
 //= require_tree ./classes/
