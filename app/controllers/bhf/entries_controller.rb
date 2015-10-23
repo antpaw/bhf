@@ -1,5 +1,5 @@
 class Bhf::EntriesController < Bhf::ApplicationController
-  before_filter :load_platform, :load_model, :set_page, :set_quick_edit
+  before_filter :load_platform, :load_model, :params_permit, :set_page, :set_quick_edit
   before_filter :load_object, except: [:create, :new, :sort]
   before_filter :load_new_object, only: [:create, :new]
 
@@ -128,7 +128,20 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def load_model
       @model = @platform.model
-      @permited_params = ActionController::Parameters.new(params[@platform.model_name.to_sym]).permit!
+    end
+
+    def params_permit
+      skip_blank = @settings.find_platform_settings(params['platform']).
+        hash['form']['skip_blank']
+      parms =
+      if skip_blank
+        params[@platform.model_name.to_sym].select do |key, value|
+          !skip_blank.include?(key) || !value.blank?
+        end
+      else
+        params[@platform.model_name.to_sym]
+      end
+      @permited_params = ActionController::Parameters.new(parms).permit!
     end
 
     def load_object
