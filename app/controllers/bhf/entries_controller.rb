@@ -117,6 +117,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       extra_data.merge!(@object.to_bhf_hash) if @object.respond_to?(:to_bhf_hash)
       
       @platform.columns.each_with_object(extra_data) do |column, hash|
+        next if column.is_a?(Bhf::Platform::Attribute::Abstract)
         column_value = @object.send(column.name)
         unless column.macro == :column && column_value.blank?
           p = "bhf/table/#{column.macro}/#{column.display_type}"
