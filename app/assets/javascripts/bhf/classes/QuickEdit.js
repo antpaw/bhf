@@ -1,22 +1,22 @@
 var QuickEdit = new Class({
 	version: 0.2,
-	
+
 	options: {
 		holderParent: 'content',
 		hideNext: false
 	},
-	
+
 	Implements: [Options, Events],
-	
+
 	initialize: function(_options){
 		this.setOptions(_options);
 		this.holder = new Element('div.quick_edit_holder');
 	},
-	
+
 	startEdit: function(element){
 		this.linkElem = element;
 		this.newEntry = this.linkElem.hasClass('js_add_field');
-		
+
 		this.fireEvent('startRequest');
 		this.currentRequest = new Request.HTML({
 			method: 'get',
@@ -27,21 +27,21 @@ var QuickEdit = new Class({
 			}.bind(this),
 			onSuccess: function(responseTree, responseElements, responseHTML, responseJavaScript){
 				this.injectForm(responseHTML);
-				
+
 				var nextElem = this.holder.getElement('.save_and_next');
 				if (this.options.hideNext && nextElem) {
 					nextElem.addClass('hide');
 				}
-				
+
 				window.fireEvent('quickEditFormInject', [this.holder]);
 			}.bind(this)
 		}).send();
 	},
-	
+
 	submit: function(eventNames){
 		var form = this.holder.getElement('form');
 		this.fireEvent('beforeSubmit');
-		
+
 		new Request.JSON({
 			method: form.get('method'),
 			url: form.get('action'),
@@ -64,11 +64,11 @@ var QuickEdit = new Class({
 			}.bind(this)
 		}).send({data: form});
 	},
-		
+
 	disableButtons: function(){
 		this.holder.getElements('.open, .cancel, .save_and_next, .save').set('disabled', 'disabled');
 	},
-	
+
 	close: function(){
 		if (this.currentRequest) {
 			this.currentRequest.cancel();
@@ -76,10 +76,10 @@ var QuickEdit = new Class({
 		this.holder.dispose();
 		this.fireEvent('closed');
 	},
-	
+
 	injectForm: function(form){
 		this.holder.innerHTML = form;
-		
+
 		this.holder.getElements('.open').addEvent('click', function(e){
 			e.preventDefault();
 			Turbolinks.visit((this.linkElem.getElement('a') || this.linkElem).get('href'));
@@ -100,16 +100,16 @@ var QuickEdit = new Class({
 			e.preventDefault();
 			this.submit(this.newEntry ? ['successAndAdd'] : ['successAndChange']);
 		}.bind(this));
-		
+
 		this.holder.inject(document.id(this.options.holderParent));
-		
+
 		this.fireEvent('formInjected', [this.holder]);
 	},
-	
+
 	hide: function(){
 		this.holder.addClass('collapsed');
 	},
-	
+
 	show: function(){
 		this.holder.removeClass('collapsed');
 	}

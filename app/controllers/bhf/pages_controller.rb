@@ -15,7 +15,7 @@ class Bhf::PagesController < Bhf::ApplicationController
 
     @platforms = platform_options.each_with_object([]) do |opts, obj|
       platform = find_platform(opts.keys[0])
-      
+
       next if platform.table_hide?
       paginate_platform_objects(platform)
       obj << platform
@@ -42,7 +42,7 @@ class Bhf::PagesController < Bhf::ApplicationController
       unless p[:page].blank?
         page = p[:page].to_i
       end
-      
+
       per_page = platform.pagination.offset_per_page
       unless p[:per_page].blank?
         per_page = p[:per_page].to_i

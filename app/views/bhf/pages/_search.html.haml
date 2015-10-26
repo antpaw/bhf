@@ -1,10 +1,10 @@
 = form_for platform.name, html: {method: :get, class: :search} do |f|
   - p = params[platform.name]
   = f.fields_for :search do |s|
-    
+
     - if platform.scopes
       = f.select :scope, options_from_collection_for_select(platform.scopes, :value, :name, (p && p[:scope])), {}, class: 'js_submit_form_on_change'
-    
+
     %p.info= platform.pagination.info platform
 
     - if platform.search_field?
@@ -20,5 +20,3 @@
   = f.hidden_field :per_page,  value: get_value(:per_page, p)
   = f.hidden_field :order,     value: get_value(:order, p)
   = f.hidden_field :direction, value: get_value(:direction, p)
-  
-  

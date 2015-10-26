@@ -1,10 +1,10 @@
 var Setlatlng = new Class({
 	Implements: [Options, Events],
-	
+
 	options: {
-		
+
 	},
-	
+
 	initialize: function(elem){
 		if (window.google) {
 			this.setup(elem);
@@ -16,7 +16,7 @@ var Setlatlng = new Class({
 			Asset.javascript('http://maps.googleapis.com/maps/api/js?sensor=false&callback=Setlatlng.GMapsCallback');
 		}
 	},
-	
+
 	setup: function(elem){
 		var latElem = elem;
 		var lngElem = elem.getNext('.map_data_lng');
@@ -28,7 +28,7 @@ var Setlatlng = new Class({
 			latElem.value ? latElem.value : latElem.get('data-default-lat'),
 			lngElem.value ? lngElem.value : latElem.get('data-default-lng')
 		);
-		
+
 		var map = new google.maps.Map(new Element('div.map_canvas').inject(latElem, 'before'), {
 			zoom: 14,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -43,12 +43,12 @@ var Setlatlng = new Class({
 			scaleControl: false,
 			overviewMapControl: false
 		});
-		
+
 		var marker = new google.maps.Marker({
 			title: 'Location',
 			draggable: true
 		});
-		
+
 		if (latElem.value && lngElem.value) {
 			marker.setPosition(new google.maps.LatLng(latElem.value, lngElem.value));
 			marker.setMap(map);
@@ -66,7 +66,7 @@ var Setlatlng = new Class({
 				google.maps.event.clearListeners(map, 'click');
 			});
 		}
-		
+
 		google.maps.event.addListener(marker, 'dragend', function(){
 			var mPos = marker.getPosition();
 			map.panTo(mPos);
@@ -74,4 +74,3 @@ var Setlatlng = new Class({
 		});
 	}
 });
-

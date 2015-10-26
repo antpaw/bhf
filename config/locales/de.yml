@@ -50,7 +50,7 @@ de:
         save: Speichern
         create: Erstellen
         save_and_next: Speichern und weiter zum nächsten Eintrag gehen
-    
+
     pagination:
       previous_label: « Vorheriges
       next_label: Nächstes »

@@ -1,8 +1,8 @@
 var FormHelper = new Class({
 	version: 0.1,
-	
+
 	wysiwyg: [],
-	
+
 	options: {
 	},
 
@@ -12,7 +12,7 @@ var FormHelper = new Class({
 		if ( ! _object) { return; }
 		// this.setOptions(_options);
 		var scope = _object;
-		
+
 		scope.getElements('.wysiwyg').each(function(elem){
 			this.wysiwyg.push(elem.mooEditable());
 		}.bind(this));

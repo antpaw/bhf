@@ -12,7 +12,7 @@
             = ref_object.to_bhf_s
           - if field.link && ! field.link.hide_delete
             = link_to '&times;'.html_safe, entry_embed_path(field.link.name, f.object, ref_object), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm', platform_title: field.link.title_singular)}
-    
+
     .quick_edit_template{type: 'text/template'}
       %li.quick_edit_entry
         - if field.link && ! field.link.hide_edit
@@ -21,6 +21,6 @@
           = '{to_bhf_s}'
         - if field.link && ! field.link.hide_delete
           = link_to '&times;'.html_safe, entry_embed_path(field.link.name, f.object, '{object_id}'), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm', platform_title: field.link.title_singular)}
-    
+
     - if ! is_one && field.link && ! field.link.hide_create
       = link_to '+', new_entry_embed_path(field.link.name, f.object), class: 'js_add_field plus_button qe_button quick_edit default_form_align'

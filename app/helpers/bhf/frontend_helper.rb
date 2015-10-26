@@ -5,11 +5,11 @@ module Bhf
       return unless session[Bhf.configuration.session_auth_name.to_s] == true
 
       options[:platform_name] ||= object.class.to_s.pluralize.downcase
-      
+
       if object.respond_to?(:'bhf_can_edit?', true)
         return unless object.bhf_can_edit?(options)
       end
-      
+
       area = if options[:area]
         options[:area]
       elsif object.respond_to?(:bhf_area, true)

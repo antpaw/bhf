@@ -7,7 +7,7 @@
     - Bhf.configuration.css.each do |css|
       = stylesheet_link_tag css
   %body
-    
+
     = render partial: 'bhf/helper/flash', locals: {flash: flash}
     %header
       %h1
@@ -15,12 +15,12 @@
           - "logo_#{params[:bhf_area]}_bhf.svg"
         - else
           - Rails.application.assets.find_asset('logo_bhf.png') ? 'logo_bhf.png' : 'logo_bhf.svg'
-        
+
         = link_to image_tag(logo), @root_link ? @root_link : main_app.root_url, data: {no_turbolink: true}
 
       - if @areas && @areas.length > 1
         = select_tag :area_select, options_from_collection_for_select(@areas, 'path', 'name', main_app.bhf_path(params[:bhf_area])), class: 'icon'
-        
+
       - if @settings && @settings.pages.any?
         %nav
           %ul{class: ('shrink_space' if @settings.pages.count > 7)}
@@ -38,5 +38,3 @@
 
     - Bhf.configuration.js.each do |js|
       = javascript_include_tag js, data: {turbolinks_eval: false}
-
-

@@ -58,7 +58,7 @@ pt:
         save: Salvar
         create: Criar
         save_and_next: Salvar e ir para o próximo registro
-    
+
     pagination:
       previous_label: « Anterior
       next_label: Próximo »

@@ -72,9 +72,9 @@ module Bhf::Platform
 
       platform_params.delete(:page)
       platform_params[:per_page] = load_offset
-      
+
       direction = plus ? 'more' : 'less'
-      
+
       parsed_paramas = {
         bhf_area: template.params[:bhf_area],
         page: template.params[:page]
@@ -89,6 +89,6 @@ module Bhf::Platform
     def load_less(platform, attributes = {})
       load_more(platform, attributes, false)
     end
-    
+
   end
 end

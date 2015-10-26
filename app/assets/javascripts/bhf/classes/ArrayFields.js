@@ -9,7 +9,7 @@ var ArrayFields = new Class({
 		var elem = _object;
 		var template = elem.getElement('.array_fields').clone();
 		var currentNr = 0;
-		
+
 		new Element('span.plus_button.qe_button.default_form_align', {text: '+'})
 			.inject(elem)
 			.addEvent('click', function(e){
@@ -26,7 +26,7 @@ var ArrayFields = new Class({
 				holder.inject(e.target, 'before');
 				window.fireEvent('bhfDomChunkReady', [holder]);
 			});
-		
+
 		elem.getParent('form').addEvent('submit', function(){
 			elem.getElements('.array_fields').each(function(fieldElem){
 				var input = (fieldElem.getElement('input') || fieldElem);

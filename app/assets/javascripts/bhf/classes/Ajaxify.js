@@ -25,17 +25,17 @@ var Ajaxify = new Class({
 		};
 		this.setOptions(_options);
 	},
-	
+
 	setup: function(){
 		this.holder = this.options.holder.inject(document.body);
 	},
-	
+
 	applyEvents: function(el){
 		el = document.id(el || document.body);
 		var apply = function(action, callback) {
 			el.getElements('[data-remote="true"]').addEvent(action, callback);
 		};
-		
+
 		apply(this.options.events.loading.name, this.loading.bind(this));
 		apply(this.options.events.success.name, this.success.bind(this));
 		apply(this.options.events.failure.name, this.failure.bind(this));

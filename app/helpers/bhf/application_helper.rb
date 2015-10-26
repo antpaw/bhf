@@ -20,7 +20,7 @@ module Bhf
     def delete_t(platform)
       t("bhf.helpers.entry.models.#{platform.model_name}.delete", platform_title: platform.title_singular.titleize, default: t('bhf.helpers.entry.delete')).html_safe
     end
-    
+
     def find_smallest_size_url_for_file(file)
       if file.exists?(:thumb)
         file.url(:thumb)
@@ -34,6 +34,6 @@ module Bhf
     def type_is_image?(type)
       Bhf.configuration.paperclip_image_types.include?(type)
     end
-    
+
   end
 end

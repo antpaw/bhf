@@ -18,7 +18,7 @@ var QuickEditStack = new Class({
 			qe = new QuickEdit(editOptions);
 			this.bricksArray.push(qe);
 		}
-		
+
 		this.bricksArray.each(function(b, i){
 			if (i === qi) {
 				b.show();
@@ -27,7 +27,7 @@ var QuickEditStack = new Class({
 				b.close();
 			}
 		});
-		
+
 		qe.addEvents(this.options.permanentQuickEditEvents);
 		qe.startEdit(link);
 	},

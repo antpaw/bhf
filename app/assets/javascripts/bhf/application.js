@@ -44,7 +44,7 @@ Turbolinks.pagesCached(0);
 			}
 		}
 	});
-			
+
 	var triggerPlatformPagination = function(href, platform, callback){
 		window.history.pushState({ turbolinks: true, url: href }, '', href);
 		ajaxNote.loading();
@@ -76,7 +76,7 @@ Turbolinks.pagesCached(0);
 		if ( ! entry) {
 			entry = parent.getElement('.quick_edit_active');
 		}
-		
+
 		if (entryTemplate) {
 			entryTemplate = entryTemplate.clone();
 			entryTemplate.getElements('.js_remove_disabled').each(function(elem){
@@ -86,7 +86,7 @@ Turbolinks.pagesCached(0);
 				parsedTemplate = entryTemplate.innerHTML.replace(new RegExp('%7Bobject_id%7D', 'g'), '{object_id}').substitute(json);
 			}
 		}
-		
+
 		if (eventNames.contains('successAndAdd')) {
 			if (newEntryInjectArea && entryTemplate) {
 				newEntryInjectArea.appendHTML(parsedTemplate);
@@ -94,7 +94,7 @@ Turbolinks.pagesCached(0);
 					newEntryInjectArea.fireEvent('quickEditEntryAdded');
 				}
 			}
-			
+
 			if (relation) {
 				if (relation.getPrevious('.empty')) {
 					relation.getPrevious('.empty').addClass('hide');
@@ -118,7 +118,7 @@ Turbolinks.pagesCached(0);
 			}
 		}
 	};
-		
+
 	var scrollContent = function(){
 		editStack.bricksArray.each(function(quickEdit){
 			var innerForm = quickEdit.holder.getElement('form');
@@ -128,26 +128,26 @@ Turbolinks.pagesCached(0);
 			quickEdit.holder.setStyle('padding-top', scroll);
 		});
 	};
-	
-	
+
+
 	window.addEvent('bhfDomChunkReady', function(mainScope){
-		
+
 		var areaSelect = mainScope.getElement('#area_select');
 		if (areaSelect) {
 			areaSelect.addEvent('change', function(){
 				location.href = this.value;
 			});
 		}
-		
+
 		var quickEditOptions;
-		
+
 		ajaxNote.setup();
 
 		var jsForm = new FormHelper();
 		mainScope.getElements('.js_bhf_form').each(function(form){
 			jsForm.setup(form);
 		});
-		
+
 		var sharedQuickEditOptions = {
 			onFailure: function(){
 				ajaxNote.failure();
@@ -173,7 +173,7 @@ Turbolinks.pagesCached(0);
 
 		var platforms = mainScope.getElements('.platform');
 		var mainForm = mainScope.getElementById('main_form');
-		
+
 		mainScope.getElements('.quick_edit_select').addEvent('change', function(){
 			var parent = this.getParent('.quick_edit_block');
 			var optionElem = this.options[this.selectedIndex];
@@ -194,7 +194,7 @@ Turbolinks.pagesCached(0);
 			this.selectedIndex = 0;
 			this.fireEvent('change');
 		}).fireEvent('change');
-		
+
 		mainScope.addEvent('click:relay(.js_delete)', function(e){
 			e.target.addEvents({
 				'ajax:success': function(){
@@ -205,7 +205,7 @@ Turbolinks.pagesCached(0);
 				}
 			});
 		});
-		
+
 
 		if (platforms.length) {
 			quickEditOptions = Object.merge({
@@ -227,7 +227,7 @@ Turbolinks.pagesCached(0);
 								platform.getElements('tbody tr').each(function(newTr, index){
 									if (trIndex === index) {
 										nextTr = newTr.getNext('tr');
-										
+
 										editStack.removeAllStacks();
 										editStack.addEditBrick(quickEditOptions, nextTr.getElement('a'), nextTr);
 									}
@@ -236,14 +236,14 @@ Turbolinks.pagesCached(0);
 						}
 						else {
 							nextTr = platform.getElements('tbody tr')[0];
-							
+
 							editStack.removeAllStacks();
 							editStack.addEditBrick(quickEditOptions, nextTr.getElement('a'), nextTr);
 						}
 					}
 				}
 			}, sharedQuickEditOptions);
-			
+
 
 			platforms.each(function(p){
 				new PlatformHelper(p, {
@@ -272,7 +272,7 @@ Turbolinks.pagesCached(0);
 				onSuccessAndNext: function(){
 					var a = this.linkElem;
 					var li = a.getParent('li');
-					if ( ! li) { 
+					if ( ! li) {
 						this.close();
 						return;
 					}
@@ -280,12 +280,12 @@ Turbolinks.pagesCached(0);
 					if ( ! holder) {
 						holder = li.getParent('ul');
 					}
-					
+
 					editStack.removeAllStacks();
 					editStack.addEditBrick(quickEditOptions, holder.getElement('a'));
 				}
 			}, sharedQuickEditOptions);
-			
+
 			mainForm.addEvent('click:relay(.quick_edit)', function(e){
 				e.preventDefault();
 				editStack.removeAllStacks();
@@ -299,14 +299,14 @@ Turbolinks.pagesCached(0);
 				},
 				hideNext: true
 			}, sharedQuickEditOptions);
-			
+
 			mainScope.addEvent('click:relay(.quick_edit)', function(e){
 				e.preventDefault();
 				editStack.addStack();
 				editStack.addEditBrick(quickEditOptions, this);
 			});
 		}
-		
+
 		mainScope.getElements('.js_sortable').each(function(sortableElems){
 			new Sortables(sortableElems, {
 				handle: '.handle',
@@ -322,12 +322,12 @@ Turbolinks.pagesCached(0);
 				}
 			});
 		});
-		
+
 		var fm = document.id('flash_massages');
 		if (fm) {
 			fm.removeClass.delay(10000, fm, 'show');
 		}
-		
+
 		mainScope.getElements('.initial_referral').each(function(elem){
 			setTimeout(function(){
 				elem.removeClass('live_edit');
@@ -336,7 +336,7 @@ Turbolinks.pagesCached(0);
 				}, 600);
 			}, 500);
 		});
-		
+
 		mainScope.getElements('.ninja_file_field').addEvent('change', function(){
 			var text = (this.value || '').split('\\');
 			var parent = this.getParent();
@@ -346,7 +346,7 @@ Turbolinks.pagesCached(0);
 			}
 			parent.getElement('.h_text').set('text', newText);
 		});
-		
+
 		mainScope.getElements('.js_submit_form_on_change').addEvent('change', function(e){
 			e.target.getParent('form').submit();
 		});

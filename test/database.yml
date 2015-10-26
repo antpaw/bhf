@@ -3,7 +3,7 @@ mysql:
   host: 127.0.0.1
   database: bhf_test
   username: root
-  password: 
+  password:
   encoding: utf8
   pool: 5
   timeout: 5000

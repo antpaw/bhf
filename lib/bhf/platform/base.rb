@@ -4,7 +4,7 @@ module Bhf::Platform
 
     def initialize(options)
       @objects = []
-      
+
       @name = options.name
       @data = options.hash
       @settings = options.settings_base
@@ -20,8 +20,8 @@ module Bhf::Platform
 
       @page_name = options.page_name
     end
-    
-    
+
+
     def pagination
       @pagination ||= Bhf::Platform::Pagination.new(entries_per_page)
     end
@@ -81,36 +81,36 @@ module Bhf::Platform
 
     def fields
       return @fields if @fields
-      
+
       tmp = default_attrs(form_value(:display), attributes)
       if sortable and ! form_value(:display)
         tmp = remove_excludes(tmp, [sortable_property.to_s])
       end
-      
+
       @fields = remove_excludes(tmp, form_value(:exclude))
     end
 
     def columns
       return @columns if @columns
-      
+
       tmp = default_attrs(table_columns, attributes[0..5])
       if sortable and ! table_columns
         tmp = remove_excludes(tmp, [sortable_property.to_s])
       end
-        
+
       @columns = remove_excludes(tmp, table_value(:exclude))
     end
 
     def definitions
       return @definitions if @definitions
-      
+
       tmp = default_attrs(show_value(:display) || show_value(:definitions), attributes)
       @definitions = remove_excludes(tmp, show_value(:exclude))
     end
 
     def has_file_upload?
       return true if form_value(:multipart) == true
-      
+
       fields.each do |field|
         return true if field.form_type == :file
       end
@@ -207,7 +207,7 @@ module Bhf::Platform
     def custom_partial
       table_value 'partial'
     end
-    
+
     def read_data_source
       table_value(:source) || table_value(:scope)
     end
@@ -218,7 +218,7 @@ module Bhf::Platform
       return temp_scope[0] if temp_scope.is_a?(Array)
       temp_scope
     end
-    
+
     def scopes
       temp_scope = read_data_source
       return unless temp_scope.is_a?(Array) and temp_scope.count > 1
@@ -250,7 +250,7 @@ module Bhf::Platform
           chain.bhf_default_search(search_params)
         end
       end
-      
+
       def find_platform_settings_for_link(link_name)
         if form_value(:links, link_name) != false
           if form_value(:links, link_name)
@@ -277,7 +277,7 @@ module Bhf::Platform
 
       def attributes
         return @attributes if @attributes
-        
+
         all = {}
 
         model.columns_hash.each_pair do |name, props|

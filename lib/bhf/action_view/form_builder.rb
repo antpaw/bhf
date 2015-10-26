@@ -24,13 +24,13 @@ module Bhf::ActionView
           object.send(ref_name).include?(obj)
         end
       end
-      
+
       html = hidden_field_tag("#{mm}[#{ref_name}][#{bhf_primary_key}]", '', extra_html_attrs.merge(id: "hidden_#{mm}_#{ref_name}_#{bhf_primary_key}"))
       html = html+' '+check_box_tag("#{mm}[#{ref_name}][#{bhf_primary_key}]", bhf_primary_key, checked, extra_html_attrs)
       html = html+' '+label_tag("#{mm}_#{ref_name}_#{bhf_primary_key}", obj.to_bhf_s) unless hide_label
-      
+
       html
     end
 
   end
-end  
+end

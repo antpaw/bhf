@@ -1,6 +1,6 @@
 module Bhf::Mongoid
   module Document
-    
+
     extend ActiveSupport::Concern
 
     class Field
@@ -63,7 +63,7 @@ module Bhf::Mongoid
         end
         c
       end
-      
+
       def reflections
         c = {}
         relations.each do |key, meta|
@@ -72,23 +72,23 @@ module Bhf::Mongoid
         end
         c
       end
-      
+
       def bhf_attribute_method?(column_name)
         attribute_method?(column_name)
       end
-      
+
       def bhf_primary_key
         '_id'
       end
-      
+
       def order(a)
         order_by(a)
       end
-      
+
       def reorder(a)
         order_by(a)
       end
-      
+
       def bhf_default_search(search_params)
         return self if (search_term = search_params['text']).blank?
 
@@ -115,7 +115,7 @@ module Bhf::Mongoid
           next unless meta.macro == :embedded_in
           parent = meta.class_name.constantize
           parent = parent.find(parent_id) rescue nil
-          
+
           if parent
             return block.call(parent, meta) if block_given?
             return parent

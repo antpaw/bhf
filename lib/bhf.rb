@@ -5,15 +5,15 @@ require 'kaminari'
 
 module Bhf
   class Engine < Rails::Engine
-    
+
     isolate_namespace Bhf
-    
+
     initializer 'bhf.helper' do
       ActiveSupport.on_load :action_controller do
         helper Bhf::FrontendHelper
       end
     end
-    
+
     initializer 'bhf.model_hooks' do
       ActiveSupport.on_load :active_record do
         include Bhf::ActiveRecord::Base
@@ -23,8 +23,8 @@ module Bhf
       end
     end
   end
-  
-  
+
+
   def self.configuration
     @configuration ||= Bhf::Configuration.new
   end

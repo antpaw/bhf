@@ -1,7 +1,7 @@
 ### Setup user authentication
 
 Along with the standard approach in authentication, instead of defining the `#login` action in the
-`Admin` controller, you are able to redefine `Bhf::ApplicationController`, and its `#check_admin_account` 
+`Admin` controller, you are able to redefine `Bhf::ApplicationController`, and its `#check_admin_account`
 method, to give to `Bhf` the knowledge about weither current user is admin or not. Do it like follows:
 
     class Bhf::ApplicationController < ActionController::Base

@@ -1,9 +1,9 @@
 Request.bhf = new Class({
 	Extends: Request.HTML,
-	
+
 	send: function(options){
 	  var progressSupport = ('onprogress' in new Browser.Request);
-    
+
 		if (!this.check(options)) return this;
 
 		this.options.isSuccess = this.options.isSuccess || this.isSuccess;
@@ -77,4 +77,3 @@ Request.bhf = new Class({
 		return this;
 	}
 });
-

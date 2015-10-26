@@ -1,4 +1,4 @@
-- data_source ||= field.link ? field.link.get_objects : field.reflection.klass.all 
+- data_source ||= field.link ? field.link.get_objects : field.reflection.klass.all
 - fk = field.db_name
 .node
   .label= f.label fk, reflection_title(f, field, 1)
@@ -9,10 +9,10 @@
       - select_options ||= options_from_collection_for_select_with_html_attrs(data_source, :id, :to_bhf_s, f.object.send(fk), Proc.new {|obj| {data: {edit: edit_entry_path(field.link.name, obj), delete: entry_path(field.link.name, obj)}}})
     - else
       - select_options ||= options_from_collection_for_select(data_source, :id, :to_bhf_s, f.object.send(fk))
-    
+
     = f.select fk, select_options, {include_blank: true}, {class: ('quick_edit_inject quick_edit_select' if field.link)}
     = render partial: 'bhf/helper/field_errors', locals: {f: f, field: fk}
-    
+
     - if field.link && ! field.link.hide_edit
       = link_to edit_t(field.link), '', class: 'js_edit_field icon edit quick_edit'
     - if field.link && ! field.link.hide_delete

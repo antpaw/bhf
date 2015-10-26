@@ -10,4 +10,3 @@ Locale.define('de-DE', 'DatePicker', {
 Locale.define('de-DE', 'Notifications', {
 	failure: 'Etwas ist schief gelaufen!'
 });
-

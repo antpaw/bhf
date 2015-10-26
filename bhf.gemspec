@@ -210,4 +210,3 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<simplecov>, ["~> 0"])
   end
 end
-

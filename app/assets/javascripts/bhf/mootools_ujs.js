@@ -18,17 +18,17 @@ provides:
 */
 
 window.addEvent('domready', function(){
-  
+
   rails.csrf = {
     token: rails.getCsrf('token'),
     param: rails.getCsrf('param')
   };
-  
+
   rails.applyEvents();
 });
 
 (function($){
-  
+
   window.rails = {
     /**
      * If el is passed as argument, events will only be applied to
@@ -39,7 +39,7 @@ window.addEvent('domready', function(){
       var apply = function(selector, action, callback){
         el.addEvent(action + ':relay(' + selector + ')', callback);
       };
-      
+
       apply('form[data-remote="true"]', 'submit', rails.handleRemote);
       apply('a[data-remote="true"], input[data-remote="true"]', 'click', rails.handleRemote);
       apply('a[data-method][data-remote!=true]', 'click', function(event){
@@ -52,19 +52,19 @@ window.addEvent('domready', function(){
               display: 'none'
             }
           }).inject(this, 'after');
-          
+
           var methodInput = Element('input', {
             type: 'hidden',
             name: '_method',
             value: this.get('data-method')
           });
-          
+
           var csrfInput = Element('input', {
             type: 'hidden',
             name: rails.csrf.param,
             value: rails.csrf.token
           });
-          
+
           form.adopt(methodInput, csrfInput).submit();
         }
       });
@@ -73,12 +73,12 @@ window.addEvent('domready', function(){
         return rails.confirmed(this);
       });
     },
-    
+
     getCsrf: function(name){
       var meta = document.getElement('meta[name=csrf-' + name + ']');
       return (meta ? meta.get('content') : null);
     },
-    
+
     confirmed: function(el){
       var confirmMessage = el.get('data-confirm');
       if(confirmMessage && !confirm(confirmMessage)){
@@ -86,7 +86,7 @@ window.addEvent('domready', function(){
       }
       return true;
     },
-    
+
     disable: function(el){
       var button = el.get('data-disable-with') ? el : el.getElement('[data-disable-with]');
       if (button){
@@ -103,7 +103,7 @@ window.addEvent('domready', function(){
         });
       }
     },
-    
+
     handleRemote: function(event){
       event.preventDefault();
       if(rails.confirmed(this)){
@@ -113,11 +113,11 @@ window.addEvent('domready', function(){
       }
     }
   };
-  
+
   Request.Rails = new Class({
-  
+
     Extends: Request,
-    
+
     initialize: function(element, options){
       this.el = element;
       this.parent(Object.merge({
@@ -126,7 +126,7 @@ window.addEvent('domready', function(){
       }, options));
       this.addRailsEvents();
     },
-    
+
     send: function(options) {
       this.el.fireEvent('ajax:before');
       if (this.el.get('tag') === 'form'){
@@ -135,26 +135,26 @@ window.addEvent('domready', function(){
       this.parent(options);
       this.el.fireEvent('ajax:after', this.xhr);
     },
-    
+
     addRailsEvents: function(){
       this.addEvent('request', function(){
         this.el.fireEvent('ajax:loading', this.xhr);
       });
-      
+
       this.addEvent('success', function(){
         this.el.fireEvent('ajax:success', this.xhr);
       });
-      
+
       this.addEvent('complete', function(){
         this.el.fireEvent('ajax:complete', this.xhr);
         this.el.fireEvent('ajax:loaded', this.xhr);
       });
-      
+
       this.addEvent('failure', function(){
         this.el.fireEvent('ajax:failure', this.xhr);
       });
     }
-    
+
   });
-  
+
 })(document.id);

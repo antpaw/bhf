@@ -1,13 +1,13 @@
 module Bhf::Settings
 
   class Base
-    
+
     attr_accessor :user
 
     def initialize(settings_hash, user = nil)
       @settings_hash = settings_hash
       @user = user
-      
+
       t = pages.each_with_object([]) do |page, obj|
         content_for_page(page).each do |platform|
           obj << platform.keys.flatten
@@ -33,7 +33,7 @@ module Bhf::Settings
     def content_for_page(selected_page)
       @settings_hash['pages'].each do |page|
         page = {page => nil} if page.is_a?(String)
-        
+
         if selected_page == page.keys[0]
           return page.values.flatten
         end

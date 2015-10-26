@@ -19,14 +19,14 @@ def load_schema
   # Manually initialize the database
   conn = Mysql.real_connect( config['mysql']['host'], config['mysql']['username'], config['mysql']['password'] )
   conn.query( "CREATE DATABASE IF NOT EXISTS #{config['mysql']['database']}" )
-  
+
   ActiveRecord::Base.establish_connection( config['mysql'] )
   ActiveRecord::Base.connection()
-  
+
   load(File.dirname(__FILE__) + "/../lib/rails/generators/bhf/templates/schema.rb")
 
   @@fixtures = {}
-  
+
   load_fixture( 'bhf_widget' )
 end
 
@@ -47,7 +47,7 @@ def load_fixture( table )
         end
       end
     end
-      
+
     r = klass.create( record )
     @@fixtures[ table ][ record_name ][ 'id' ] = r.id
   end

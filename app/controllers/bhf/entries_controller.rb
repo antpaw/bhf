@@ -5,21 +5,21 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
   def new
     @form_url = entries_path(@platform.name)
-    
+
     render layout: 'bhf/quick_edit' if @quick_edit
   end
 
   def edit
     render file: 'public/404.html', layout: false and return unless @object
-    
+
     @form_url = entry_path(@platform.name, @object)
-    
+
     render layout: 'bhf/quick_edit' if @quick_edit
   end
-  
+
   def show
     render file: 'public/404.html', layout: false and return unless @object
-    
+
     respond_to do |format|
       format.html
       format.json  { render json: @object }
@@ -51,7 +51,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
   def update
     render file: 'public/404.html', layout: false and return unless @object
-    
+
     before_save
     if @object.update_attributes(@permited_params)
       manage_many_to_many
@@ -73,7 +73,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       render :edit, r_settings
     end
   end
-  
+
   def duplicate
     new_record = @object.dup
     new_record.before_bhf_duplicate(@object) if new_record.respond_to?(:before_bhf_duplicate)
@@ -84,14 +84,14 @@ class Bhf::EntriesController < Bhf::ApplicationController
       redirect_to(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('duplicate.error', @model))
     end
   end
-  
+
   def sort
     params[:order].each do |order|
       @model.
         find(order[1].gsub("_#{@platform.name}", '')).
         update_attribute(@platform.sortable_property, order[0].to_i)
     end
-    
+
     head :ok
   end
 
@@ -108,11 +108,11 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def object_to_bhf_hash
       extra_data = {
-        to_bhf_s:  @object.to_bhf_s, 
+        to_bhf_s:  @object.to_bhf_s,
         object_id: @object.send(@object.class.bhf_primary_key).to_s
       }
       extra_data.merge!(@object.to_bhf_hash) if @object.respond_to?(:to_bhf_hash)
-      
+
       @platform.columns.each_with_object(extra_data) do |column, hash|
         column_value = @object.send(column.name)
         unless column.macro == :column && column_value.blank?
@@ -151,7 +151,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
         relation_array = @object.send(relation)
         reflection.klass.unscoped.find(ids.keys).each do |relation_obj|
           has_relation = relation_array.include?(relation_obj)
-          
+
           if ids[relation_obj.send(relation_obj.class.bhf_primary_key).to_s].blank?
             if has_relation
               relation_array.delete(relation_obj)
@@ -184,7 +184,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     def set_quick_edit
       @quick_edit = request.xhr?
     end
-    
+
     def redirect_after_save(flash)
       if params[:return_to_edit]
         redirect_to edit_entry_path(@platform.name, @object), flash

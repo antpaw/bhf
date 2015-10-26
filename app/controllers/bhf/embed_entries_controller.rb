@@ -17,7 +17,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
     if @object.save
       manage_many_to_many
       after_save
-      
+
       if @quick_edit
         render json: object_to_bhf_hash, status: :ok
       else
@@ -70,7 +70,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
       @object = @model.bhf_new_embed(params[:entry_id], @permited_params)
       after_load
     end
-    
+
     def redirect_after_save(flash)
       if params[:return_to_new]
         redirect_to new_entry_embed_path(@platform.name, @model.get_embedded_parent(params[:entry_id])), flash

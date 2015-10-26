@@ -15,7 +15,7 @@ module Bhf::Platform::Attribute
 
       @pk = options[:primary_key]
     end
-    
+
     def macro
       :column
     end
@@ -31,10 +31,10 @@ module Bhf::Platform::Attribute
         supported_types(@type)
       end
     end
-    
+
     def display_type
       return @options_display_type if @options_display_type
-      
+
       if name == @pk
         :primary_key
       elsif name == 'type'

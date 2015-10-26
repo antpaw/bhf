@@ -2,7 +2,7 @@ module Bhf::ActiveRecord
   module Base
 
     extend ActiveSupport::Concern
-    
+
     def to_bhf_s
       return title if self.respond_to? :title
       return name if self.respond_to? :name
@@ -40,19 +40,19 @@ module Bhf::ActiveRecord
 
         where(where_statement.join(' OR '))
       end
-      
+
       def bhf_attribute_method?(column_name)
         column_names.include?(column_name)
       end
-      
+
       def bhf_primary_key
         primary_key
       end
-      
+
       def bhf_embedded?
         false
       end
     end
-    
+
   end
 end

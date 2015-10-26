@@ -1,6 +1,6 @@
 var PlatformHelper = new Class({
 	version: 0.1,
-	
+
 	options: {
 	},
 

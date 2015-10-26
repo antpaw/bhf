@@ -23,4 +23,3 @@ Also see [Getting Started](Getting_Started.md) document for additional info.
 
 Copyright (c) 2014 Anton Pawlik. See LICENSE.txt for
 further details.
-

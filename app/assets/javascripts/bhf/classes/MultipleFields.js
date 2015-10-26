@@ -31,7 +31,7 @@ var MultipleFields = new Class({
 			this.addField(elem, template, data);
 		}.bind(this));
 	},
-	
+
 	addField: function(elem, template, data){
 		template
 			.clone()
