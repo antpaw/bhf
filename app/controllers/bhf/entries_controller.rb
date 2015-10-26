@@ -123,7 +123,9 @@ class Bhf::EntriesController < Bhf::ApplicationController
         column_value = @object.send(column.name)
         unless column.macro == :column && column_value.blank?
           p = "bhf/table/#{column.macro}/#{column.display_type}"
-          hash[column.name] = render_to_string partial: p, formats: [:html], locals: {object: @object, column_value: column_value, link: false, add_quick_link: false}
+          hash[column.name] = render_to_string partial: p, formats: [:html],
+            locals: { object: @object, column_value: column_value, link: false,
+              add_quick_link: false, column_name: column.name }
         end
       end
     end
@@ -151,14 +153,25 @@ class Bhf::EntriesController < Bhf::ApplicationController
         end
       else
         params[@platform.model_name.to_sym]
-      end
+      end.map do |param, value|
+        if /(?<model_name>.*)_ids?$/ =~ param && value.is_a?(Array)
+          value.delete_if { |id| id !~ /^\d+$/ }
+          if !@model.instance_methods.include?("#{param}=".to_sym)
+            next [ model_name,
+                   model_name.camelize.constantize.find_by_id(value.pop) ]
+          end
+        end
+        [ param, value ]
+      end.to_h
       @permited_params = ActionController::Parameters.new(parms).permit!
     end
 
     def crop_readonly
       ro = @settings.find_platform_settings(params['platform']).
         hash['form']['readonly']
-      params[@platform.model_name.to_sym].delete_if { |key| ro.include?(key) }
+      if ro
+        params[@platform.model_name.to_sym].delete_if { |key| ro.include?(key) }
+      end
     end
 
     def load_object

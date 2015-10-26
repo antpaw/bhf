@@ -103,4 +103,4 @@
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'icon edit'
               - unless platform.hide_delete
-                = link_to delete_t(platform), 'javascript:void(0);', method: :delete, class: 'icon delete js_delete', 'data-href': entry_path(platform.name, "{object.id})
+                = link_to delete_t(platform), 'javascript:void(0);', method: :delete, class: 'icon delete js_delete', 'data-href': entry_path(platform.name, "{object.id}")

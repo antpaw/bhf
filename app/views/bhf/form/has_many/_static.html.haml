@@ -5,17 +5,22 @@
   .quick_edit_block
     %p.empty{class: (!(ref_objects.empty? && is_belong) && 'hide' || nil)}= t 'bhf.helpers.entry.empty', count: (is_belong ? 1 : 2)
     %ul.relation.quick_edit_inject{class: field.macro}
-      - ref_objects.each do |ref_object|
+      = f.collection_check_boxes("#{field.reflection.name.to_s.singularize}_ids",
+        ref_objects, :id, :to_bhf_s) do |b|
         %li.quick_edit_entry
+          = b.check_box checked: true, style: "display: none;"
           - if field.link && ! field.link.hide_edit
-            = link_to ref_object.to_bhf_s, edit_entry_path(field.link.name, ref_object), class: 'js_edit_field qe_button quick_edit'
+            = link_to b.object.to_bhf_s, edit_entry_path(field.link.name, b.object), class: 'js_edit_field qe_button quick_edit'
           - else
-            = ref_object.to_bhf_s
+            = b.object.to_bhf_s
           - if field.link && ! field.link.hide_delete
-            = link_to '&times;'.html_safe, entry_path(field.link.name, ref_object), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm', platform_title: field.link.title_singular)}
+            = link_to '&times;'.html_safe, entry_path(field.link.name, b.object), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm', platform_title: field.link.title_singular)}
 
     .quick_edit_template{type: 'text/template'}
       %li.quick_edit_entry
+        - name = "#{f.object.class.to_s.underscore}[#{field.reflection.name.to_s.singularize}_ids][]"
+        = check_box_tag name, "{object_id}", true, style: "display: none;",
+          id: "#{name.gsub(/\[/,'_').gsub(/\]/,'')}{object_id}"
         - if field.link && ! field.link.hide_edit
           = link_to '{to_bhf_s}', edit_entry_path(field.link.name, '{object_id}'), class: 'js_edit_field qe_button quick_edit'
         - else
