@@ -2,6 +2,7 @@
 %html{lang: I18n.locale}
   %head
     %meta{charset: 'utf-8'}
+    = csrf_meta_tags
     %title= @title
     %link{href: "/favicon.ico?#{@app_title.to_s.downcase}", rel: 'icon', type: 'image/x-icon'}
     - Bhf.configuration.css.each do |css|
