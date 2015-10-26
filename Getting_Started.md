@@ -30,3 +30,12 @@ but gets the image from `#midem` action for carrierwave uploader. PDF files also
 up as a thumbnail. When user moves a cursor over an image or PDF thumbnail, a preview image
 is being pop up in table view. `Type` field defines that the spcific records class descendant
 type name should be shewn for the column. The name is reduced by the base class name itself.
+
+### Skip blank fields on create/update
+
+You are able to skip blank fields (like password, and password_confirmation) for form settings on update or create action:
+
+    form:
+      display: [name, password, password_confirmation]
+      skip_blank: [password, password_confirmation]
+

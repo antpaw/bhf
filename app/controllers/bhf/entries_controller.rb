@@ -1,5 +1,8 @@
 class Bhf::EntriesController < Bhf::ApplicationController
   before_filter :load_platform, :load_model, :set_page, :set_quick_edit
+  before_filter :crop_readonly, only: [:update]
+  before_filter :params_permit_default, except: [:update, :create]
+  before_filter :params_permit, only: [:update, :create]
   before_filter :load_object, except: [:create, :new, :sort]
   before_filter :load_new_object, only: [:create, :new]
 
@@ -96,9 +99,11 @@ class Bhf::EntriesController < Bhf::ApplicationController
   end
 
   def destroy
-    @object.destroy
+    object = @object.destroy
     if @quick_edit
-      head :ok
+      respond_to do |f|
+        f.json { render status: :ok, json: object }
+      end
     else
       redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('destory.success', @model))
     end
@@ -114,10 +119,13 @@ class Bhf::EntriesController < Bhf::ApplicationController
       extra_data.merge!(@object.to_bhf_hash) if @object.respond_to?(:to_bhf_hash)
       
       @platform.columns.each_with_object(extra_data) do |column, hash|
+        next if column.is_a?(Bhf::Platform::Attribute::Abstract)
         column_value = @object.send(column.name)
         unless column.macro == :column && column_value.blank?
           p = "bhf/table/#{column.macro}/#{column.display_type}"
-          hash[column.name] = render_to_string partial: p, formats: [:html], locals: {object: @object, column_value: column_value, link: false, add_quick_link: false}
+          hash[column.name] = render_to_string partial: p, formats: [:html],
+            locals: { object: @object, column_value: column_value, link: false,
+              add_quick_link: false, column_name: column.name }
         end
       end
     end
@@ -128,7 +136,42 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def load_model
       @model = @platform.model
-      @permited_params = ActionController::Parameters.new(params[@platform.model_name.to_sym]).permit!
+    end
+
+    def params_permit_default
+      parms = params[@platform.model_name.to_sym]
+      @permited_params = ActionController::Parameters.new(parms).permit!
+    end
+
+    def params_permit
+      skip_blank = @settings.find_platform_settings(params['platform']).
+        hash['form']['skip_blank']
+      parms =
+      if skip_blank
+        params[@platform.model_name.to_sym].select do |key, value|
+          !skip_blank.include?(key) || !value.blank?
+        end
+      else
+        params[@platform.model_name.to_sym]
+      end.map do |param, value|
+        if /(?<model_name>.*)_ids?$/ =~ param && value.is_a?(Array)
+          value.delete_if { |id| id !~ /^\d+$/ }
+          if !@model.instance_methods.include?("#{param}=".to_sym)
+            next [ model_name,
+                   model_name.camelize.constantize.find_by_id(value.pop) ]
+          end
+        end
+        [ param, value ]
+      end.to_h
+      @permited_params = ActionController::Parameters.new(parms).permit!
+    end
+
+    def crop_readonly
+      ro = @settings.find_platform_settings(params['platform']).
+        hash['form']['readonly']
+      if ro
+        params[@platform.model_name.to_sym].delete_if { |key| ro.include?(key) }
+      end
     end
 
     def load_object
