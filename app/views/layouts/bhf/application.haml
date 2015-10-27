@@ -3,6 +3,7 @@
   %head
     %meta{charset: 'utf-8'}
     %title= @title
+    = csrf_meta_tags
     %link{href: "/favicon.ico?#{@app_title.to_s.downcase}", rel: 'icon', type: 'image/x-icon'}
     - Bhf.configuration.css.each do |css|
       = stylesheet_link_tag css
