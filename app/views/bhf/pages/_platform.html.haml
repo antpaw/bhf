@@ -69,7 +69,7 @@
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'icon edit'
               - unless platform.hide_delete
-                = link_to delete_t(platform), entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete js_delete', data: {confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular.titleize)}
+                = link_to delete_t(platform), 'javascript:void(0);', method: :delete, class: 'icon delete js_delete', 'data-href': entry_path(platform.name, object)
       - else
         %td.no_entries{colspan: platform.columns_count}
           = t 'bhf.pagination.info', name_zero: platform.title.titleize, count: 0
@@ -96,4 +96,4 @@
               - unless platform.hide_edit
                 = link_to edit_t(platform), edit_link, class: 'icon edit'
               - unless platform.hide_delete
-                = link_to delete_t(platform), entry_path(platform.name, '{object_id}'), method: :delete, remote: true, class: 'icon delete js_delete', data: {confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular.titleize)}
+                = link_to delete_t(platform), 'javascript:void(0);', method: :delete, class: 'icon delete js_delete', 'data-href': entry_path(platform.name, "{object.id}")

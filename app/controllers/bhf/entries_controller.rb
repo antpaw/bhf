@@ -96,9 +96,11 @@ class Bhf::EntriesController < Bhf::ApplicationController
   end
 
   def destroy
-    @object.destroy
+    object = @object.destroy
     if @quick_edit
-      head :ok
+      respond_to do |f|
+        f.json { render status: :ok, json: object }
+      end
     else
       redirect_back_or_default(page_url(@platform.page_name, anchor: "#{@platform.name}_platform"), notice: set_message('destory.success', @model))
     end

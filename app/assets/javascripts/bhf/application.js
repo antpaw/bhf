@@ -196,16 +196,28 @@ Turbolinks.pagesCached(0);
 		}).fireEvent('change');
 		
 		mainScope.addEvent('click:relay(.js_delete)', function(e){
-			e.target.addEvents({
-				'ajax:success': function(){
-					updateElementsAfterQuickEditSuccess(['successAndRemove'], e.target);
-				},
-				'ajax:failure': function(){
-					alert(Locale.get('Notifications.failure'));
-				}
-			});
+                        if (!confirm('Are you sure you want to remove the record?')) return this;
+
+                        var token = $$('meta[name="csrf-token"]').get('content')[0];
+
+                        var params = '';
+                        if (token) {
+                                params = 'authenticity_token='+encodeURIComponent(token);
+                        }
+
+                        new Request.JSON({
+                                method: 'delete',
+                                url: e.target.get('data-href'),
+                                emulation: false,
+                                onSuccess: function(responseText, responseXML){
+                                       e.target.getParent('.quick_edit_entry').destroy();
+                                       updateElementsAfterQuickEditSuccess(['successAndRemove'], e.target);
+                                },
+                                onFailure: function(){
+                                       alert(Locale.get('Notifications.failure'));
+                                }
+                        }).send(params);
 		});
-		
 
 		if (platforms.length) {
 			quickEditOptions = Object.merge({
