@@ -351,6 +351,11 @@ Turbolinks.pagesCached(0);
 			e.target.getParent('form').submit();
 		});
 
+                mainScope.addEvent('change:relay(.active-checkbox)', function(){
+                        var form = this.getParents('form')[0];
+                        $(form).send();
+                });
+
 		// picture preview handler on input
 		mainScope.getElements('.preview_input').addEvent('change', function(e) {
 			var img = this.getNext('img');

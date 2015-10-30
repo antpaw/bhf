@@ -3,9 +3,12 @@
   .dl.content_box
     - @platform.definitions.each do |column|
       - column_value = @object.send(column.name)
-      - if ! column_value.blank?
+      - if ! column_value.nil? && ! column_value.try(:empty?)
         = definition_item @object, column do
-          = render(partial: "bhf/table/#{column.macro}/#{column.show_type}", locals: {column_value: column_value, object: @object, link: false, add_quick_link: false})
+          = render(partial: "bhf/table/#{column.macro}/#{column.show_type}",
+            locals: {column_value: column_value,
+              object: @object, link: false, add_quick_link: false,
+              column_name: column.name, platform: @platform})
 
 - if @platform.show_extra_fields and @platform.show_extra_fields.any?
   .content_box

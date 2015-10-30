@@ -7,7 +7,7 @@
   = render partial: "bhf/platform/#{platform.custom_partial}", locals: {platform: platform, referral_id: referral_id}
 - else
   - cached_partials = {}
-  - local_names = [:column_value, :object, :link, :add_quick_link]
+  - local_names = [:column_value, :object, :link, :add_quick_link, :column_name, :platform]
   %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
     %caption
       %h4= platform.title.titleize
@@ -53,12 +53,15 @@
               - if column.display_type == :primary_key && column_value.to_s.length > 6
                 - css_classes << :key_long
               %td{class: css_classes}
-                - partial_name = if respond_to_column && column.display_type != :boolean && column_value.blank?
+                - partial_name = if respond_to_column && column.display_type != :boolean && (column_value.nil? || column_value.try(:empty?))
                   - 'column/empty'
                 - else
                   - "#{column.macro}/#{column.display_type}"
                 - cached_partials[partial_name] ||= lookup_context.find_template(partial_name, ['bhf/table'], true, local_names)
-                - locals = {column_value: column_value, object: object, link: (platform.custom_link ? custom_link : edit_link), add_quick_link: (!platform.custom_link && platform.table_quick_edit)}
+                - locals = { column_value: column_value, object: object,
+                     link: (platform.custom_link ? custom_link : edit_link),
+                     add_quick_link: (!platform.custom_link && platform.table_quick_edit),
+                     column_name: column.name, platform: platform }
                 = cached_partials[partial_name].render(self, locals)
                 -# render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
 
@@ -87,7 +90,11 @@
               - css_classes = [column.macro, column.display_type]
               - custom_link = send(platform.custom_link, platform: platform.name, id: '{object_id}') if platform.custom_link
               %td{class: css_classes}
-                = render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: "{#{column.name}}", object: platform.model.new, link: (platform.custom_link ? custom_link : edit_link), add_quick_link: (!platform.custom_link && platform.table_quick_edit)})
+                = render(partial: "bhf/table/#{column.macro}/#{column.display_type}",
+                    locals: {column_value: "{#{column.name}}", object: platform.model.new,
+                      link: (platform.custom_link ? custom_link : edit_link),
+                      add_quick_link: (!platform.custom_link && platform.table_quick_edit),
+                      column_name: column.name, platform: platform })
 
             %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
               - if platform.show_duplicate

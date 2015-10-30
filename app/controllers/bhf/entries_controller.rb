@@ -106,6 +106,12 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
   end
 
+  def enable
+    @object.update_attributes!(@permited_params)
+
+    render json: true, status: :ok
+  end
+
   private
 
     def object_to_bhf_hash
@@ -119,7 +125,10 @@ class Bhf::EntriesController < Bhf::ApplicationController
         column_value = @object.send(column.name)
         unless column.macro == :column && column_value.blank?
           p = "bhf/table/#{column.macro}/#{column.display_type}"
-          hash[column.name] = render_to_string partial: p, formats: [:html], locals: {object: @object, column_value: column_value, link: false, add_quick_link: false}
+          hash[column.name] = render_to_string partial: p, formats: [:html],
+            locals: { object: @object, column_value: column_value, link: false,
+              add_quick_link: false, column_name: column.name,
+              platform: @platform }
         end
       end
     end
