@@ -11,7 +11,7 @@ module Bhf
     end
 
     def reflection_node(f, field, &block)
-      return if !f.object.respond_to?(field.reflection.name) || (field.form_type == :static && f.object.new_record? && f.object.send(field.reflection.name).blank?)
+      return if !f.object.respond_to?(field.reflection.name)
       render partial: 'bhf/helper/reflection_node', locals: {
         f: f, field: field, input: with_output_buffer(&block)
       }

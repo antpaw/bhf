@@ -1,5 +1,7 @@
 class Bhf::EntriesController < Bhf::ApplicationController
   before_filter :load_platform, :load_model, :set_page, :set_quick_edit
+  before_filter :params_permit_default, except: [:create, :update]
+  before_filter :params_permit, only: [:create, :update]
   before_filter :load_object, except: [:create, :new, :sort]
   before_filter :load_new_object, only: [:create, :new]
 
@@ -116,6 +118,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       extra_data.merge!(@object.to_bhf_hash) if @object.respond_to?(:to_bhf_hash)
 
       @platform.columns.each_with_object(extra_data) do |column, hash|
+        next if column.is_a?(Bhf::Platform::Attribute::Abstract)
         column_value = @object.send(column.name)
         unless column.macro == :column && column_value.blank?
           p = "bhf/table/#{column.macro}/#{column.display_type}"
@@ -130,7 +133,26 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def load_model
       @model = @platform.model
-      @permited_params = ActionController::Parameters.new(params[@platform.model_name.to_sym]).permit!
+    end
+
+    def params_permit_default
+      parms = params[@platform.model_name.to_sym]
+      @permited_params = ActionController::Parameters.new(parms).permit!
+    end
+
+    def params_permit
+      parms =
+      params[@platform.model_name.to_sym].map do |param, value|
+        if /(?<model_name>.*)_ids?$/ =~ param && value.is_a?(Array)
+          value.delete_if { |id| id !~ /^\d+$/ }
+          if !@model.instance_methods.include?("#{param}=".to_sym)
+            next [ model_name,
+                   model_name.camelize.constantize.find_by_id(value.pop) ]
+          end
+        end
+        [ param, value ]
+      end.to_h
+      @permited_params = ActionController::Parameters.new(parms).permit!
     end
 
     def load_object
