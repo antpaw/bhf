@@ -78,7 +78,7 @@ Turbolinks.pagesCached(0);
 		}
 
 		if (entryTemplate) {
-			entryTemplate = entryTemplate.clone();
+			entryTemplate = entryTemplate.clone(true, true);
 			entryTemplate.getElements('.js_remove_disabled').each(function(elem){
 				elem.removeProperty('disabled');
 			});
