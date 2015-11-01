@@ -7,7 +7,7 @@
   = render partial: "bhf/platform/#{platform.custom_partial}", locals: {platform: platform, referral_id: referral_id}
 - else
   - cached_partials = {}
-  - local_names = [:column_value, :object, :link, :add_quick_link, :column_name, :platform]
+  - local_names = [:column_value, :object, :link, :add_quick_link]
   %table.data_table{id: "#{platform.name}_platform", class: (platform.custom_columns? ? :custom_columns : :default_columns)}
     %caption
       %h4= platform.title.titleize
@@ -47,21 +47,25 @@
               %td.drag
                 %span.handle.icon &nbsp;
             - platform.columns.each do |column|
-              - css_classes = [column.macro, column.display_type]
               - respond_to_column = object.respond_to?(column.name)
               - column_value = object.send(column.name) if respond_to_column
+              - if column.display_type == :toggle
+                - query = {}
+                - query[platform.model_name] = {}
+                - query[platform.model_name][column.name] = !column_value
+                - custom_link = entry_path(platform.name, object, query)
+              - css_classes = [column.macro, column.display_type]
               - if column.display_type == :primary_key && column_value.to_s.length > 6
                 - css_classes << :key_long
               %td{class: css_classes}
-                - partial_name = if respond_to_column && column.display_type != :boolean && (column_value.nil? || column_value.try(:empty?))
+                - partial_name = if respond_to_column && ! column.type_ignore_emtpy? && column_value.blank?
                   - 'column/empty'
                 - else
                   - "#{column.macro}/#{column.display_type}"
                 - cached_partials[partial_name] ||= lookup_context.find_template(partial_name, ['bhf/table'], true, local_names)
                 - locals = { column_value: column_value, object: object,
-                     link: (platform.custom_link ? custom_link : edit_link),
-                     add_quick_link: (!platform.custom_link && platform.table_quick_edit),
-                     column_name: column.name, platform: platform }
+                    link: (custom_link ? custom_link : edit_link),
+                    add_quick_link: (!custom_link && platform.table_quick_edit) }
                 = cached_partials[partial_name].render(self, locals)
                 -# render(partial: "bhf/table/#{column.macro}/#{column.display_type}", locals: {column_value: column_value, object: object})
 
@@ -79,28 +83,22 @@
           - unless platform.hide_create
             = link_to new_t(platform), new_entry_path(platform.name)
 
-      - if platform.table_quick_edit
-        %template.quick_edit_template{type: 'text/template'}
-          %tr.quick_edit_entry{id: "{object_id}_#{platform.name}"}
-            - edit_link = edit_entry_path(platform.name, '{object_id}')
-            - if platform.sortable
-              %td.drag
-                %span.handle.icon &nbsp;
-            - platform.columns.each do |column|
-              - css_classes = [column.macro, column.display_type]
-              - custom_link = send(platform.custom_link, platform: platform.name, id: '{object_id}') if platform.custom_link
-              %td{class: css_classes}
-                = render(partial: "bhf/table/#{column.macro}/#{column.display_type}",
-                    locals: {column_value: "{#{column.name}}", object: platform.model.new,
-                      link: (platform.custom_link ? custom_link : edit_link),
-                      add_quick_link: (!platform.custom_link && platform.table_quick_edit),
-                      column_name: column.name, platform: platform })
+      %template.quick_edit_template{type: 'text/template'}
+        %tr.quick_edit_entry{id: "{object_id}_#{platform.name}"}
+          - edit_link = edit_entry_path(platform.name, '{object_id}')
+          - if platform.sortable
+            %td.drag
+              %span.handle.icon &nbsp;
+          - platform.columns.each do |column|
+            - css_classes = [column.macro, column.display_type]
+            %td{class: css_classes}
+              = "{#{column.name}}"
 
-            %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
-              - if platform.show_duplicate
-                - dt = duplicate_t(platform)
-                = link_to dt, duplicate_entry_path(platform.name, '{object_id}'), class: 'icon duplicate', method: :post, title: dt
-              - unless platform.hide_edit
-                = link_to edit_t(platform), edit_link, class: 'icon edit'
-              - unless platform.hide_delete
-                = link_to delete_t(platform), entry_path(platform.name, '{object_id}'), method: :delete, remote: true, class: 'icon delete js_delete', data: {type: :json, confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular.titleize)}
+          %td.action{class: ('wider' if platform.show_duplicate && !platform.hide_edit && !platform.hide_delete)}
+            - if platform.show_duplicate
+              - dt = duplicate_t(platform)
+              = link_to dt, duplicate_entry_path(platform.name, '{object_id}'), class: 'icon duplicate', method: :post, title: dt
+            - unless platform.hide_edit
+              = link_to edit_t(platform), edit_link, class: 'icon edit'
+            - unless platform.hide_delete
+              = link_to delete_t(platform), entry_path(platform.name, '{object_id}'), method: :delete, remote: true, class: 'icon delete js_delete', data: {type: :json, confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular.titleize)}

@@ -20,6 +20,7 @@ de:
         show: "%{platform_title} anzeigen"
         new: "%{platform_title} anlegen"
         duplicate: "%{platform_title} duplizieren"
+        toggle: "umschalten"
         edit: "%{platform_title} editieren"
         delete: "%{platform_title} löschen"
         empty: Leer

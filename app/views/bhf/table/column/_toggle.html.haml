@@ -1,0 +1,4 @@
+- if link
+  = link_to t('bhf.helpers.entry.toggle'), link, method: :patch, remote: true, class: ['icon toggle js_toggle', ('h_true' if column_value)], data: {type: :json}
+- else
+  = t("bhf.helpers.boolean.#{!!column_value}")

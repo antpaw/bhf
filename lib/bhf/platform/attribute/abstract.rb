@@ -27,6 +27,10 @@ module Bhf::Platform::Attribute
       @options_display_type || @name
     end
 
+    def type_ignore_emtpy?
+      false
+    end
+
     def show_type
       @options_show_type || display_type || @name
     end

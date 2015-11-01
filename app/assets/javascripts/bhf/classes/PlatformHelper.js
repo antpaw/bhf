@@ -35,11 +35,11 @@ var PlatformHelper = new Class({
 				}
 			}).send({data: e.target});
 		});
-		scope.getElements('.quick_edit').addEvent('click', function(e){
+		scope.addEvent('click:relay(.quick_edit)', function(e){
 			e.preventDefault();
 			_this.fireEvent('quickEditStart', [this]);
 		});
-		scope.getElements('.action a').addEvent('click', function(e){
+		scope.addEvent('click:relay(.action a, .js_toggle)', function(e){
 			this.addClass('clicked');
 			setTimeout(function(){
 				this.removeClass('clicked');

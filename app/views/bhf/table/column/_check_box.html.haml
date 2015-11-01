@@ -1,4 +1,0 @@
-= simple_form_for object, url: enable_entry_path(platform.name, object), html: { method: :patch } do |f|
-   %input{type: :hidden, name: :model, value: object.class.to_s}
-   = f.input_field :id, as: :hidden
-   = f.input_field column_name, as: :boolean, label: false, class: 'active-checkbox'

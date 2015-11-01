@@ -44,6 +44,10 @@ module Bhf::Platform::Attribute
       end
     end
 
+    def type_ignore_emtpy?
+      display_type == :boolean || display_type == :toggle
+    end
+
     def show_type
       @options_show_type || display_type
     end
@@ -63,7 +67,7 @@ module Bhf::Platform::Attribute
     private
 
       def supported_types(check_type)
-        if [:boolean, :text, :array, :hash].include?(check_type)
+        if [:boolean, :toggle, :text, :array, :hash].include?(check_type)
           check_type
         elsif type_sym = group_types(check_type)
           type_sym

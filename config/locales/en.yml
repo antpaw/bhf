@@ -23,6 +23,7 @@ en:
         new: "New %{platform_title}"
         show: "Show %{platform_title}"
         duplicate: "Duplicate %{platform_title}"
+        toggle: "Toggle"
         edit: "Edit %{platform_title}"
         delete: "Delete %{platform_title}"
         empty: Empty

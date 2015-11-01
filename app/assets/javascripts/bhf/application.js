@@ -105,7 +105,7 @@ Turbolinks.pagesCached(0);
 			}
 		}
 		if (eventNames.contains('successAndChange')) {
-			if (entry) {
+			if (entry && parsedTemplate) {
 				entry.innerHTML = parsedTemplate;
 			}
 		}
@@ -206,11 +206,21 @@ Turbolinks.pagesCached(0);
 			});
 		});
 
+		mainScope.addEvent('click:relay(.js_toggle)', function(e){
+			e.target.addEvents({
+				'ajax:success': function(xhr, responseJSON){
+					updateElementsAfterQuickEditSuccess(['successAndChange'], e.target, responseJSON);
+				},
+				'ajax:failure': function(){
+					alert(Locale.get('Notifications.failure'));
+				}
+			});
+		});
 
 		if (platforms.length) {
 			quickEditOptions = Object.merge({
 				onSuccessAndNext: function(){
-					var tr = this.linkElem;
+					var tr = this.linkElem.getParent('tr');
 					var nextTr = tr.getNext('tr');
 
 					if (nextTr) {
@@ -350,11 +360,6 @@ Turbolinks.pagesCached(0);
 		mainScope.getElements('.js_submit_form_on_change').addEvent('change', function(e){
 			e.target.getParent('form').submit();
 		});
-
-                mainScope.addEvent('change:relay(.active-checkbox)', function(){
-                        var form = this.getParents('form')[0];
-                        $(form).send();
-                });
 
 		// picture preview handler on input
 		mainScope.getElements('.preview_input').addEvent('change', function(e) {

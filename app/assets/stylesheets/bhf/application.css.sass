@@ -40,7 +40,7 @@ body
 
 a
   text-decoration: none
-  color: inherit 
+  color: inherit
   &:focus,
   &:active
     outline: 0
@@ -93,7 +93,7 @@ header
           +box-shadow(0, 1, 4)
         &:active
           background: $b2
-            
+
 .content_box
   margin: 10px 20px 20px 20px
 .dl
@@ -129,7 +129,7 @@ header
 
 .font_size_bigger
   font-size: 1.2em
-    
+
 
 .quick_edit_holder,
 #main
@@ -143,7 +143,7 @@ header
   > h3
     padding: 9px 20px
     background: $g3
-    
+
 
 #area_select
   -webkit-appearance: none
@@ -163,7 +163,7 @@ header
   cursor: pointer
   background-color: transparent
   background-position: -393px 0
-  
+
 
 
 #content
@@ -202,11 +202,11 @@ header
     .input
       padding-top: 0
       min-height: 31px
-    
+
     textarea
       width: 300px
       height: 100px
-    
+
     .group
       margin-top: 0
       margin-bottom: 10px
@@ -232,7 +232,7 @@ header
           &:focus,
           &:hover
             background-position: -140px -90px
-        
+
 
     .quick_edit_helper > a
       &.cancel,
@@ -280,7 +280,7 @@ table.data_table
     padding-left: 17px
   th:first-child
     padding-left: 20px
-  
+
   thead
     th
       padding: 4px 0
@@ -290,7 +290,7 @@ table.data_table
       color: $g5
       &.primary_key
         text-transform: uppercase
-      &.sorted 
+      &.sorted
         & a:after,
         &.desc:hover a:after
           content: ' ▲'
@@ -345,7 +345,7 @@ table.data_table
 
     .handle
       display: block
-    
+
 
     tr
       &.animate td
@@ -365,6 +365,14 @@ table.data_table
             background-position: 0 -50px
             &:hover
               background-position: 0 -100px
+          .toggle
+            background-position: -448px -50px
+            &:hover
+              background-position: -448px -100px
+            &.h_true
+              background-position: -448px -200px
+              &:hover
+                background-position: -448px -250px
           .delete
             background-position: -50px -50px
             &:hover
@@ -375,6 +383,8 @@ table.data_table
               background-position: -98px -100px
           .duplicate,
           .edit,
+          .toggle,
+          .toggle.h_true,
           .delete
             &.clicked
               background: image-url('bhf/small_ajax_loader_h.gif') no-repeat center center
@@ -425,6 +435,7 @@ table.data_table
   width: 20px
   height: 20px
   background: image-url('bhf/pictos.png') no-repeat
+  &.toggle,
   &.duplicate,
   &.edit,
   &.delete
@@ -435,6 +446,11 @@ table.data_table
     background-position: -348px 0
   &.delete
     background-position: -50px 0
+  &.toggle
+    width: 24px
+    background-position: -448px 0
+    &.h_true
+      background-position: -448px -150px
   &.handle
     background-position: -98px 0
     cursor: move
@@ -522,7 +538,7 @@ form
       &.live_edit,
       &:hover
         background-position: 0 -200px
-      
+
   .input
     input[type="file"]
       display: block
@@ -542,7 +558,7 @@ form
       .quick_edit_holder &
         width: 320px
         margin-top: 0px
-    
+
     textarea
       width: 500px
       height: 200px
@@ -595,7 +611,7 @@ form
         color: $b1
     .warning
       font-weight: bold
-  
+
   input[type="submit"]
     margin-right: 20px
   input[type="submit"].alt_button
@@ -616,7 +632,7 @@ form
     color: $g6
     a
       text-decoration: underline
-  
+
   .error_explanation
     h5
       padding: 10px 20px
@@ -789,7 +805,7 @@ input[type="submit"].alt_button,
     padding: 0 8px
   a, span, em
     @extend .alt_button
-  
+
   span
     color: $g4
     cursor: default
@@ -802,7 +818,7 @@ input[type="submit"].alt_button,
     border-color: $g4
     &:hover
       color: $w1
-      
+
   em
     font-style: normal
     font-weight: bold
@@ -869,8 +885,8 @@ input[type="submit"].alt_button,
     padding: 2px 4px 4px 4px !important
     &:hover
       background: $g4 !important
-      
-      
+
+
 .datepicker
   position: absolute
   width: 172px
@@ -920,7 +936,7 @@ input[type="submit"].alt_button,
     > div
       margin-top: 2px
       margin-left: 2px
-    
+
   .time
     position: relative
     width: 100%
@@ -969,7 +985,7 @@ input[type="submit"].alt_button,
         background-color: $w1
         color: $b2
         +border-radius(2)
-        
+
     .otherMonth
       color: $g5
     .selected
@@ -1042,7 +1058,7 @@ input[type="submit"].alt_button,
   clear: both
 .animate
   +transition-duration
-  
+
 #ajax_holder
   text-indent: -9999px
   height: 60px
@@ -1066,18 +1082,18 @@ input[type="submit"].alt_button,
     width: auto
     opacity: 1
     top: 0
-    text-indent: 0px    
+    text-indent: 0px
     +transition-duration(0)
     height: auto
     color: white
     padding: 20px
     marign-left: -120px
     font-weight: bold
-    
+
 
 
 .wmd-preview,
-.wmd-output 
+.wmd-output
   @extend .default_input
   width: 700px
   margin: 0 -6px 0 -6px
@@ -1104,7 +1120,7 @@ input[type="submit"].alt_button,
     text-decoration: underline
     color: $b2
     font-weight: bold
-    
+
 .preview_switch
   padding-right: 6px
   span
@@ -1114,7 +1130,7 @@ input[type="submit"].alt_button,
     &.active
       color: $b2
 
-.wmd-output 
+.wmd-output
   font-size: 12px
   line-height: 16px
   background: $g6
@@ -1123,7 +1139,7 @@ input[type="submit"].alt_button,
     font-family: Monaco,Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Courier New",Courier,monospace
     white-space: pre-wrap
 
-.wmd-button-row 
+.wmd-button-row
   width: 700px
   background: $w1
   padding: 6px 5px 1px 5px
@@ -1135,17 +1151,17 @@ input[type="submit"].alt_button,
 
 
 .wmd-spacer
-  width: 1px 
-  height: 20px 
+  width: 1px
+  height: 20px
   margin-left: 14px
   position: absolute
   background-color: Silver
-  display: inline-block 
+  display: inline-block
   list-style: none
 
 .wmd-button
-  width: 20px 
-  height: 20px 
+  width: 20px
+  height: 20px
   margin-left: 5px
   margin-right: 5px
   position: relative
@@ -1203,11 +1219,11 @@ input[type="submit"].alt_button,
 .wmd-prompt-dialog
   border: 1px solid $g5
   background-color: $g1
-  > div 
+  > div
     font-size: 0.8em
     font-family: arial, helvetica, sans-serif
   > form
-    input[type="text"] 
+    input[type="text"]
       border: 0
       color: black
     input[type="button"]
@@ -1219,11 +1235,9 @@ input[type="submit"].alt_button,
 
 .translation_missing
   color: $r1 !important
-  
+
 
 @media screen and (-webkit-min-device-pixel-ratio: 1.5), screen and (min--moz-device-pixel-ratio: 1.5), screen and (min-device-pixel-ratio: 1.5)
   .icon
     background-image: image-url('bhf/pictos_2x.png')
-    background-size: 440px 260px
-
-
+    background-size: 510px 280px

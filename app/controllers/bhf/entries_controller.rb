@@ -106,12 +106,6 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
   end
 
-  def enable
-    @object.update_attributes!(@permited_params)
-
-    render json: true, status: :ok
-  end
-
   private
 
     def object_to_bhf_hash
@@ -122,14 +116,30 @@ class Bhf::EntriesController < Bhf::ApplicationController
       extra_data.merge!(@object.to_bhf_hash) if @object.respond_to?(:to_bhf_hash)
 
       @platform.columns.each_with_object(extra_data) do |column, hash|
-        column_value = @object.send(column.name)
-        unless column.macro == :column && column_value.blank?
-          p = "bhf/table/#{column.macro}/#{column.display_type}"
-          hash[column.name] = render_to_string partial: p, formats: [:html],
-            locals: { object: @object, column_value: column_value, link: false,
-              add_quick_link: false, column_name: column.name,
-              platform: @platform }
+        respond_to_column = @object.respond_to?(column.name)
+        column_value = @object.send(column.name) if respond_to_column
+        custom_link = send(@platform.custom_link, platform: @platform.name, id: @object) if @platform.custom_link
+        if column.display_type == :toggle
+          query = {}
+          query[@platform.model_name] = {}
+          query[@platform.model_name][column.name] = !column_value
+          custom_link = entry_path(@platform.name, @object, query)
         end
+        edit_link = @platform.hide_edit ? "##{@object.id}_#{@platform.name}" : edit_entry_path(@platform.name, @object)
+        partial_name = if respond_to_column && ! column.type_ignore_emtpy? && column_value.blank?
+          'column/empty'
+        else
+          "#{column.macro}/#{column.display_type}"
+        end
+        hash[column.name] = render_to_string(
+          partial: "bhf/table/#{column.macro}/#{column.display_type}",
+          formats: [:html],
+          locals: {
+            object: @object, column_value: column_value,
+            link: (custom_link ? custom_link : edit_link),
+            add_quick_link: (!custom_link && @platform.table_quick_edit)
+          }
+        )
       end
     end
 

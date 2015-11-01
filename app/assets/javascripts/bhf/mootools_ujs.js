@@ -126,45 +126,6 @@ window.addEvent('domready', function(){
         method: this.el.get('method') || this.el.get('data-method') || 'get',
         url: this.el.get('action') || this.el.get('href')
       }, options));
-      this.addRailsEvents();
-    },
-
-    send: function(options) {
-      this.el.fireEvent('ajax:before');
-      if (this.el.get('tag') === 'form'){
-        this.options.data = this.el;
-      }
-      this.parent(options);
-      this.el.fireEvent('ajax:after', this.xhr);
-    },
-
-    addRailsEvents: function(){
-      this.addEvent('request', function(){
-        this.el.fireEvent('ajax:loading', this.xhr);
-      });
-
-      this.addEvent('success', function(){
-        this.el.fireEvent('ajax:success', this.xhr);
-      });
-
-      this.addEvent('complete', function(){
-        this.el.fireEvent('ajax:complete', this.xhr);
-        this.el.fireEvent('ajax:loaded', this.xhr);
-      });
-
-      this.addEvent('failure', function(){
-        this.el.fireEvent('ajax:failure', this.xhr);
-      });
-    }
-  };
-
-  var _reqestClassMethods = {
-    initialize: function(element, options){
-      this.el = element;
-      this.parent(Object.merge({
-        method: this.el.get('method') || this.el.get('data-method') || 'get',
-        url: this.el.get('action') || this.el.get('href')
-      }, options));
 
       if (rails.csrf.token) {
         Object.append(this.headers, {
@@ -189,8 +150,8 @@ window.addEvent('domready', function(){
         this.el.fireEvent('ajax:loading', this.xhr);
       });
 
-      this.addEvent('success', function(){
-        this.el.fireEvent('ajax:success', this.xhr);
+      this.addEvent('success', function(responseJSON){
+        this.el.fireEvent('ajax:success', [this.xhr, responseJSON]);
       });
 
       this.addEvent('complete', function(){
