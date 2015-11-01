@@ -14,6 +14,11 @@ Also see [Getting Started](Getting_Started.md) document for additional info.
 * Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
 
+## Roadmap
+
+* Adding unit tests and integration tests
+* Adding bulk edit for the table view (aka platform)
+
 ## Support
 
 <p><a href='https://pledgie.com/campaigns/25956'><img alt='Click here to lend your support to: bhf and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/25956.png?skin_name=chrome' border='0' ></a></p>
