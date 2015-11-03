@@ -29,7 +29,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
   def create
     before_save
     if @object.save
-      manage_many_to_many
+      manage_relations
       after_save
 
       if @quick_edit
@@ -54,7 +54,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     before_save
     if @object.update_attributes(@permited_params)
-      manage_many_to_many
+      manage_relations
       after_save
 
       if @quick_edit
@@ -166,9 +166,8 @@ class Bhf::EntriesController < Bhf::ApplicationController
     def manage_many_to_many
       return unless params[:has_and_belongs_to_many]
       params[:has_and_belongs_to_many].each_pair do |relation, ids|
-        reflection = @model.reflections[relation]
-
         next unless ids.any?
+        reflection = @model.reflections[relation]
         relation_array = @object.send(relation)
         reflection.klass.unscoped.find(ids.keys).each do |relation_obj|
           has_relation = relation_array.include?(relation_obj)
@@ -184,6 +183,55 @@ class Bhf::EntriesController < Bhf::ApplicationController
           end
         end
       end
+    end
+
+    def manage_has_one
+      return unless params[:has_one]
+      object_id = @object.send(@model.bhf_primary_key)
+      params[:has_one].each_pair do |relation, id|
+        reflection = @model.reflections[relation]
+        reflection.klass.where(reflection.foreign_key, object_id).each do |ref_object|
+          next if ref_object.send(reflection.klass.bhf_primary_key) == id
+          ref_object.update_attribute(reflection.foreign_key, nil)
+        end
+        unless id.blank?
+          ref_object = reflection.klass.find(id)
+          next if ref_object.send(reflection.foreign_key) == object_id
+          ref_object.update_attribute(reflection.foreign_key, object_id)
+        end
+      end
+    end
+
+    def manage_has_many
+      return unless params[:has_many]
+      object_id = @object.send(@model.bhf_primary_key)
+      params[:has_many].each_pair do |relation, ids|
+        next unless ids.any?
+        reflection = @model.reflections[relation]
+        preset_ids = @object.send(relation).collect do |object|
+          object.send(object.class.bhf_primary_key).to_s
+        end
+        @object.send(relation).klass.find(ids.keys).each do |relation_obj|
+          fk = relation_obj.class.reflections[reflection.inverse_of.name.to_s].foreign_key
+          relation_obj_id_as_string = relation_obj.send(relation_obj.class.bhf_primary_key).to_s
+
+          if ids[relation_obj_id_as_string].blank?
+            if preset_ids.include?(relation_obj_id_as_string)
+              relation_obj.update_attribute(fk, nil)
+            end
+          else
+            if ! preset_ids.include?(relation_obj_id_as_string)
+              relation_obj.update_attribute(fk, object_id)
+            end
+          end
+        end
+      end
+    end
+
+    def manage_relations
+      manage_many_to_many
+      manage_has_many
+      manage_has_one
     end
 
     def after_load

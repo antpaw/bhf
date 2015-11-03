@@ -1,10 +1,11 @@
 - data_source ||= field.link ? field.link.get_objects : field.reflection.klass.all
+- check_box_type ||= :many_to_many_check_box
 = reflection_node f, field do
   .quick_edit_block
     %ul.relation.quick_edit_inject
       - data_source.each do |ref_object|
         %li.quick_edit_entry
-          = f.many_to_many_check_box(ref_object, field.reflection.name, params, field.link && ! field.link.hide_edit)
+          = f.send(check_box_type, ref_object, field.reflection.name, params, field.link && ! field.link.hide_edit)
           - if field.link && ! field.link.hide_edit
             = link_to ref_object.to_bhf_s, edit_entry_path(field.link.name, ref_object), class: 'js_edit_field qe_button quick_edit'
           - if field.link && ! field.link.hide_delete
@@ -12,7 +13,7 @@
 
     .quick_edit_template{type: 'text/template'}
       %li.quick_edit_entry
-        = f.many_to_many_check_box(OpenStruct.new(to_bhf_s: '{to_bhf_s}'), field.reflection.name, params, field.link && ! field.link.hide_edit, true, "{object_id}", {class: 'js_remove_disabled', disabled: true}).gsub('_object_id_', '{object_id}').html_safe # fix for id attr
+        = f.send(check_box_type, OpenStruct.new(to_bhf_s: '{to_bhf_s}'), field.reflection.name, params, field.link && ! field.link.hide_edit, true, "{object_id}", {class: 'js_remove_disabled', disabled: true}).gsub('_object_id_', '{object_id}').html_safe # fix for id attr
         - if field.link && ! field.link.hide_edit
           = link_to '{to_bhf_s}', edit_entry_path(field.link.name, '{object_id}'), class: 'js_edit_field qe_button quick_edit'
         - if field.link && ! field.link.hide_delete

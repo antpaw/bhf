@@ -42,9 +42,9 @@ module Bhf::Platform::Attribute
     def type
       return @options_form_type if @options_form_type
 
-      if macro == :has_and_belongs_to_many
+      if macro == :has_and_belongs_to_many or macro == :has_many
         :check_box
-      elsif macro == :belongs_to
+      elsif macro == :belongs_to or macro == :has_one
         :select
       else
         :static
