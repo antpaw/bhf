@@ -327,6 +327,9 @@ Turbolinks.pagesCached(0);
 					element.removeClass('dragged');
 					new Request({
 						method: 'put',
+						headers: {
+							'X-CSRF-Token': rails && rails.csrf && rails.csrf.token
+						},
 						url: sortableElems.get('data-sort-url')
 					}).send({data: {order: this.serialize()}});
 				}

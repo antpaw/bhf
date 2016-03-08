@@ -18,6 +18,8 @@ Also see [Getting Started](Getting_Started.md) document for additional info.
 
 * Adding unit tests and integration tests
 * Adding bulk edit for the table view (aka platform)
+* Manage relations with help of autocomplete inputs
+* Move from MooTools to jQuery
 
 ## Support
 
