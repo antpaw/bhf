@@ -12,10 +12,10 @@
     = render partial: 'bhf/helper/flash', locals: {flash: flash}
     %header
       %h1
-        - logo = if params[:bhf_area] && Rails.application.assets.find_asset("logo_#{params[:bhf_area]}_bhf.svg")
+        - logo = if params[:bhf_area] && asset_exist?("logo_#{params[:bhf_area]}_bhf.svg")
           - "logo_#{params[:bhf_area]}_bhf.svg"
         - else
-          - Rails.application.assets.find_asset('logo_bhf.png') ? 'logo_bhf.png' : 'logo_bhf.svg'
+          - asset_exist?('logo_bhf.png') ? 'logo_bhf.png' : 'logo_bhf.svg'
 
         = link_to image_tag(logo), @root_link ? @root_link : main_app.root_url, data: {no_turbolink: true}
 
