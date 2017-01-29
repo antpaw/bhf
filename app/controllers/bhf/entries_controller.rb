@@ -54,6 +54,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     before_save
     if @object.update_attributes(@permited_params)
+      puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
       manage_relations
       after_save
 
@@ -149,7 +150,9 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     def load_model
       @model = @platform.model
-      @permited_params = ActionController::Parameters.new(params[@platform.model_name.to_sym]).permit!
+      if params[@platform.model_name.to_sym]
+        @permited_params = params.require(@platform.model_name.to_sym).permit!
+      end
     end
 
     def load_object
