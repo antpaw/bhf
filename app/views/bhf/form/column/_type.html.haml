@@ -1,4 +1,5 @@
 = node f, field do
-  - list = f.object.class.base_class.descendants.map do |x|
-    - [x.to_s.sub(f.object.class.base_class.to_s,'').titleize, x.to_s]
+  - base = f.object.class.respond_to?(:base_class) ? f.object.class.base_class : f.object.class
+  - list = base.descendants.map do |x|
+    - [x.to_s.sub(base.to_s,'').titleize, x.to_s]
   = f.select :type, list
