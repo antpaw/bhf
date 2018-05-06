@@ -6,8 +6,8 @@ module Bhf
       included do
         include Instance
 
-        before_filter :init_time
-        before_filter :check_admin_account, :setup_current_account,
+        before_action :init_time
+        before_action :check_admin_account, :setup_current_account,
           :load_settings, :set_title, :set_areas
 
         helper_method :current_account

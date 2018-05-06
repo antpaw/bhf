@@ -1,5 +1,5 @@
 class Bhf::PagesController < Bhf::ApplicationController
-  before_filter :set_page
+  before_action :set_page
 
   def show
     @edit_params = {}

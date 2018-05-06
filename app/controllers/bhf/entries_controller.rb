@@ -1,7 +1,7 @@
 class Bhf::EntriesController < Bhf::ApplicationController
-  before_filter :load_platform, :load_model, :set_page, :set_quick_edit
-  before_filter :load_object, except: [:create, :new, :sort]
-  before_filter :load_new_object, only: [:create, :new]
+  before_action :load_platform, :load_model, :set_page, :set_quick_edit
+  before_action :load_object, except: [:create, :new, :sort]
+  before_action :load_new_object, only: [:create, :new]
 
   def new
     @form_url = entries_path(@platform.name)
