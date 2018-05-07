@@ -5,9 +5,6 @@
 //= require_tree ./locales/
 //= require_tree ./classes/
 
-// Turbolinks bugs out on popState if you add own pushState events, so we cancel it
-Turbolinks.pagesCached(0);
-
 (function(){
 	var lang = document.html.get('lang').split('-')[0];
 	lang = (lang === 'en') ? 'en-US' : lang.toLowerCase()+'-'+lang.toUpperCase();
@@ -399,7 +396,7 @@ Turbolinks.pagesCached(0);
 	var scopeCallback = function(scope){
 		window.fireEvent('bhfDomChunkReady', [scope]);
 	};
-	document.addEventListener('page:load', bodyCallback);
+	document.addEventListener('turbolinks:load', bodyCallback);
 	window.addEvent('domready', bodyCallback);
 	window.addEvent('platformUpdate', scopeCallback);
 	window.addEvent('quickEditFormInject', scopeCallback);

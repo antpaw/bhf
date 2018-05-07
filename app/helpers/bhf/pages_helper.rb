@@ -10,7 +10,8 @@ module Bhf
     end
 
     def current_order_path(order_by, platform_name)
-      params_platfrom = params[platform_name] ? params[platform_name].clone : {}
+      params_platfrom = params[platform_name] ? params[platform_name].clone : ActionController::Parameters.new({})
+      params_platfrom.permit! 
 
       if params_platfrom['order'] == order_by && params_platfrom['direction'] != 'desc'
         params_platfrom['direction'] = 'desc'
