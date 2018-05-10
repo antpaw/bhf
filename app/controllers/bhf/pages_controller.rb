@@ -9,7 +9,7 @@ class Bhf::PagesController < Bhf::ApplicationController
 
     if request.xhr?
       params.each do |key, value|
-        return render_platform(key) if value.is_a?(Hash)
+        return render_platform(key) if value.is_a?(ActionController::Parameters) && value[:page] != nil
       end
     end
 

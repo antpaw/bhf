@@ -11,9 +11,6 @@
 	Locale.use(lang);
 
 	var ajaxNote = new Ajaxify();
-	document.addEventListener('page:fetch', function(){
-		ajaxNote.loading();
-	});
 
 	var editStack = new QuickEditStack({
 		permanentQuickEditEvents: {
@@ -51,7 +48,7 @@
 			onFailure: function(){
 				ajaxNote.failure();
 			},
-			onSuccess: function(a, b, html){
+			onSuccess: function (a, b, html) {
 				platform.innerHTML = html;
 				if (callback) {
 					callback.call();
@@ -390,12 +387,15 @@
 	});
 
 
-	var bodyCallback = function(){
+	var bodyCallback = function () {
 		window.fireEvent('bhfDomChunkReady', [document.body]);
 	};
 	var scopeCallback = function(scope){
 		window.fireEvent('bhfDomChunkReady', [scope]);
 	};
+	document.addEventListener('turbolinks:request-start', function () {
+		ajaxNote.loading();
+	});
 	document.addEventListener('turbolinks:load', bodyCallback);
 	window.addEvent('domready', bodyCallback);
 	window.addEvent('platformUpdate', scopeCallback);
