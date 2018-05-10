@@ -3,6 +3,7 @@ Bhf.configure do |config|
   # config.js << 'bhf'
   # config.abstract_settings << 'abstract'
 
+  # config.logo = lambda { |area| 'my_logo.svg' }
   # config.on_login_fail = :root_url
   # config.logout_path = :logout_path
 

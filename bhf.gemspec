@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Anton Pawlik".freeze]
-  s.date = "2018-05-07"
+  s.date = "2018-05-10"
   s.description = "A simple to use Rails-Engine-Gem that offers an admin interface for trusted user. Easy integratable and highly configurable and agnostic. Works with ActiveRecord and Mongoid.".freeze
   s.email = "anton.pawlik@gmail.com".freeze
   s.extra_rdoc_files = [
@@ -33,7 +33,6 @@ Gem::Specification.new do |s|
     "app/assets/images/bhf/small_ajax_loader.gif",
     "app/assets/images/bhf/small_ajax_loader_h.gif",
     "app/assets/images/bhf/wmd-buttons.png",
-    "app/assets/images/logo_bhf.svg",
     "app/assets/javascripts/bhf/application.js",
     "app/assets/javascripts/bhf/classes/Ajaxify.js",
     "app/assets/javascripts/bhf/classes/ArrayFields.js",
@@ -56,11 +55,6 @@ Gem::Specification.new do |s|
     "app/assets/javascripts/bhf/mootools-core-1.5.0-full-compat.js",
     "app/assets/javascripts/bhf/mootools-more-1.5.0.js",
     "app/assets/javascripts/bhf/mootools_ujs.js",
-    "app/assets/stylesheets/bhf/MooEditable.css.scss",
-    "app/assets/stylesheets/bhf/application.css.sass",
-    "app/assets/stylesheets/bhf/functions.css.sass",
-    "app/assets/stylesheets/bhf/reset.css.sass",
-    "app/assets/stylesheets/bhf/typo.css.scss",
     "app/controllers/bhf/application_controller.rb",
     "app/controllers/bhf/embed_entries_controller.rb",
     "app/controllers/bhf/entries_controller.rb",

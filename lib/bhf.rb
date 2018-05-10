@@ -22,6 +22,10 @@ module Bhf
         include Bhf::Mongoid::Document
       end
     end
+
+    initializer 'bhf.assets.precompile' do |app|
+      app.config.assets.precompile += %w( bhf/logo_bhf.svg )
+    end
   end
 
 
@@ -34,6 +38,7 @@ module Bhf
   class Configuration
     include ActiveSupport::Configurable
 
+    config_accessor(:logo)                      { lambda { |area| 'bhf/logo_bhf.svg' }}
     config_accessor(:on_login_fail)             { :root_url           }
     config_accessor(:logout_path)               { :logout_path        }
     config_accessor(:session_auth_name)         { :is_admin           }

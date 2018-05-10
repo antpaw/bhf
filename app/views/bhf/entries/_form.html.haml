@@ -22,4 +22,4 @@
           - unless @platform.hide_create
             = f.submit t('bhf.helpers.form.buttons.and_add'), name: :return_to_new, class: 'alt_button'
 
-        = link_to t('bhf.helpers.entry.cancel'), params[:return_to] ? params[:return_to] : page_path(@platform.page_name), class: 'cancel', data: ( {no_turbolink: true} if params[:return_to])
+        = link_to t('bhf.helpers.entry.cancel'), (params[:return_to] ? params[:return_to] : page_path(@platform.page_name)), class: 'cancel', data: ({turbolinks: false} if params[:return_to])
