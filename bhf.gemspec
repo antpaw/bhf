@@ -170,7 +170,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = "http://antpaw.github.io/bhf".freeze
   s.licenses = ["MIT".freeze]
-  s.rubygems_version = "2.6.13".freeze
+  s.rubygems_version = "2.7.6".freeze
   s.summary = "A simple to use Rails-Engine-Gem that offers an admin interface for trusted user.".freeze
 
   if s.respond_to? :specification_version then
