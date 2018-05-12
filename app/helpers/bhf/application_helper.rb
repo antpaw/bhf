@@ -35,7 +35,7 @@ module Bhf
       Bhf.configuration.paperclip_image_types.include?(type)
     end
 
-    def main_logo(area)
+    def bhf_main_logo(area)
       Bhf.configuration.logo.call(area)
     end
 

@@ -19,5 +19,9 @@ module Bhf
       render partial: 'bhf/helper/frontend_edit', locals: { area: area, platform_name: options[:platform_name], object: object, block: (with_output_buffer(&block) if block_given?)}
     end
 
+    def bhf_main_logo(area)
+      Bhf.configuration.logo.call(area)
+    end
+
   end
 end
