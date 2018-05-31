@@ -1,0 +1,15 @@
+= node f, field do
+  - file = f.object.send(field.name)
+  - if file.present? && file.attachment.present?
+    - file_blob_url = main_app.route_for(:rails_service_blob, file.blob.signed_id, file.blob.filename)
+    - if file.blob.image?
+      = link_to image_tag(main_app.route_for(:rails_representation, file.variant(resize: "200>")), class: 'uploaded_image'), file_blob_url
+    - else
+      = link_to file.blob.filename.to_s, file_blob_url, class: 'uploaded_file'
+
+    - if f.object.respond_to?(:"#{field.name}_destroy")
+      .file_delete
+        = f.check_box "#{field.name}_destroy"
+        = f.label "#{field.name}_destroy", t('bhf.helpers.file.delete')
+
+  = f.file_field field.name, direct_upload: true, data: {:'direct-upload-url' => main_app.rails_direct_uploads_url}
