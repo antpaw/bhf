@@ -54,7 +54,6 @@ class Bhf::EntriesController < Bhf::ApplicationController
 
     before_save
     if @object.update_attributes(@permited_params)
-      puts 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
       manage_relations
       after_save
 

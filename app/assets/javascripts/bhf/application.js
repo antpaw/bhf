@@ -390,14 +390,13 @@
 	var bodyCallback = function () {
 		window.fireEvent('bhfDomChunkReady', [document.body]);
 	};
-	var scopeCallback = function(scope){
+	var scopeCallback = function (scope) {
 		window.fireEvent('bhfDomChunkReady', [scope]);
 	};
 	document.addEventListener('turbolinks:request-start', function () {
 		ajaxNote.loading();
 	});
 	document.addEventListener('turbolinks:load', bodyCallback);
-	window.addEvent('domready', bodyCallback);
 	window.addEvent('platformUpdate', scopeCallback);
 	window.addEvent('quickEditFormInject', scopeCallback);
 }());
