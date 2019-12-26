@@ -3,6 +3,17 @@ require 'turbolinks'
 require 'kaminari'
 
 module Bhf
+  ROOT_PATH = Pathname.new(File.join(__dir__, ".."))
+
+  class << self
+    def webpacker
+      @webpacker ||= ::Webpacker::Instance.new(
+        root_path: ROOT_PATH,
+        config_path: ROOT_PATH.join("config/webpacker.yml")
+      )
+    end
+  end
+
   class Engine < Rails::Engine
 
     isolate_namespace Bhf
@@ -25,6 +36,11 @@ module Bhf
     initializer 'bhf.assets.precompile' do |app|
       app.config.assets.precompile += %w( bhf/application.css bhf/application.js bhf/logo_bhf.svg )
     end
+
+    initializer "bhf.static.dir" do |app|
+      app.middleware.insert_before(::ActionDispatch::Static, ::ActionDispatch::Static, "#{root}/public")
+    end
+
   end
 
 
@@ -46,8 +62,9 @@ module Bhf
     config_accessor(:account_model_find_method) { 'find'              }
     config_accessor(:css)                       { ['bhf/application'] }
     config_accessor(:js)                        { ['bhf/application'] }
+    config_accessor(:js_packs)                  { ['bhf/application'] }
     config_accessor(:abstract_settings)         { []                  }
-    config_accessor(:paperclip_image_types)     {
+    config_accessor(:image_types)     {
       ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png',
        'image/tif', 'image/gif']
     }

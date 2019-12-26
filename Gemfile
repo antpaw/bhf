@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails',        '>= 4.2'
+gem 'webpacker',    '>= 4.0'
 gem 'sass-rails',   '>= 6'
 gem 'turbolinks',   '>= 2'
 gem 'kaminari',     '>= 0'

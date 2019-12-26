@@ -8,3 +8,9 @@ doc/
 .ruby-version
 .ruby-gemset
 .rvmrc
+node_modules
+/public/packs
+/public/packs-test
+/public/bhf-packs
+/public/bhf-packs-test
+/tmp/*

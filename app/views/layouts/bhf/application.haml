@@ -10,6 +10,8 @@
       = stylesheet_link_tag css
     - Bhf.configuration.js.each do |js|
       = javascript_include_tag js
+    - Bhf.configuration.js_packs.each do |js|
+      = javascript_pack_tag js
   %body
 
     = render partial: 'bhf/helper/flash', locals: {flash: flash}
