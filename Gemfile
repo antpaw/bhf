@@ -1,10 +1,10 @@
 source 'http://rubygems.org'
 
 gem 'rails',        '>= 4.2'
+gem 'sass-rails',   '>= 6'
 gem 'turbolinks',   '>= 2'
 gem 'kaminari',     '>= 0'
 gem 'haml-rails',   '>= 0'
-gem 'sass-rails',   '>= 5'
 
 
 group :development do

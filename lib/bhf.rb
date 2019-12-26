@@ -1,5 +1,4 @@
 require 'haml'
-require 'sass'
 require 'turbolinks'
 require 'kaminari'
 
@@ -24,7 +23,7 @@ module Bhf
     end
 
     initializer 'bhf.assets.precompile' do |app|
-      app.config.assets.precompile += %w( bhf/logo_bhf.svg )
+      app.config.assets.precompile += %w( bhf/application.css bhf/application.js bhf/logo_bhf.svg )
     end
   end
 
