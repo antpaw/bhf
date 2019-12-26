@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails',        '>= 4.2'
+gem 'rails',        '>= 5.2.2.1'
 gem 'sass-rails',   '>= 6'
 gem 'turbolinks',   '>= 2'
 gem 'kaminari',     '>= 0'
