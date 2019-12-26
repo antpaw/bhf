@@ -1,6 +1,0 @@
-= content_tag link ? :a : :span, class: ('quick_edit' if add_quick_link), href: (link if link) do
-  - file = column_value
-  - if type_is_image?(file.content_type)
-    = image_tag find_smallest_size_url_for_file(file), alt: column_value, class: 'preview_image'
-  - else
-    = file.original_filename

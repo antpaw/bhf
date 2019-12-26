@@ -1,3 +1,5 @@
+@import "trix/dist/trix"
+
 @import "./reset.sass"
 @import "./typo.scss"
 @import "./functions.sass"
@@ -1277,3 +1279,39 @@ input[type="submit"].alt_button,
 
 input[type=file][data-direct-upload-url][disabled]
   display: none
+
+trix-toolbar .trix-button
+  background: white
+
+trix-editor.default_input
+  width: auto
+  min-width: 600px
+  a
+    color: $b1
+    text-decoration: underline
+
+form .input .attachment--content figcaption
+  text-align: center
+  textarea
+    width: 100%
+
+
+.trix-content
+  .attachment-gallery
+    > action-text-attachment,
+    > .attachment
+      flex: 1 0 33%
+      padding: 0 0.5em
+      max-width: 33%
+
+    &.attachment-gallery--2
+    &.attachment-gallery--4
+      > action-text-attachment
+      > .attachment
+        flex-basis: 50%
+        max-width: 50%
+
+  action-text-attachment
+    .attachment
+      padding: 0 !important
+      max-width: 100% !important

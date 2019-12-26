@@ -32,7 +32,7 @@ module Bhf
     end
 
     def type_is_image?(type)
-      Bhf.configuration.paperclip_image_types.include?(type)
+      Bhf.configuration.image_types.include?(type)
     end
 
     def bhf_main_logo(area)

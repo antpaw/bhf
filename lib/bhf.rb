@@ -25,6 +25,7 @@ module Bhf
     initializer 'bhf.assets.precompile' do |app|
       app.config.assets.precompile += %w( bhf/application.css bhf/application.js bhf/logo_bhf.svg )
     end
+
   end
 
 
@@ -47,7 +48,7 @@ module Bhf
     config_accessor(:css)                       { ['bhf/application'] }
     config_accessor(:js)                        { ['bhf/application'] }
     config_accessor(:abstract_settings)         { []                  }
-    config_accessor(:paperclip_image_types)     {
+    config_accessor(:image_types)     {
       ['image/jpeg', 'image/pjpeg', 'image/jpg', 'image/png',
        'image/tif', 'image/gif']
     }
