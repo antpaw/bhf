@@ -86,7 +86,7 @@ this.DatePicker = Picker.Date = new Class({
 			return (options.startView == what) && (options.startView = newViews[i]);
 		});
 
-		options.canAlwaysGoUp = options.canAlwaysGoUp ? Array.from(options.canAlwaysGoUp) : [];
+		options.canAlwaysGoUp = options.canAlwaysGoUp ? Array.convert(options.canAlwaysGoUp) : [];
 
 		// Set the min and max dates as Date objects
 		if (options.minDate){
@@ -195,7 +195,7 @@ this.DatePicker = Picker.Date = new Class({
 
 		// start neatly at interval (eg. 1980 instead of 1987)
 		date = date.clone().decrement('year', date.get('year') % perPage);
-	
+
 		var iterateDate = date.clone().decrement('year', Math.floor((pages - 1) / 2) * perPage);
 
 		for (var i = pages; i--;){

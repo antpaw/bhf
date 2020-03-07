@@ -1,7 +1,6 @@
 //= require turbolinks
 //= require activestorage
-//= require ./mootools-core-1.5.0-full-compat.js
-//= require ./mootools-more-1.5.0.js
+//= require ./MooTools-More-1.6.0.js
 //= require ./mootools_ujs
 //= require ./trix
 //= require_tree ./locales/

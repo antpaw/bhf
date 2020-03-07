@@ -325,7 +325,7 @@ var Picker = new Class({
 	setTitle: function(content, fn){
 		if (!fn) fn = Function.from;
 		this.titleText.empty().adopt(
-			Array.from(content).map(function(item, i){
+			Array.convert(content).map(function(item, i){
 				return typeOf(item) == 'element'
 					? item
 					: new Element('div.column', {text: fn(item, this.options)}).addClass('column_' + (i + 1));

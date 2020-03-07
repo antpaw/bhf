@@ -53,8 +53,8 @@ Picker.Attach = new Class({
 		if (typeOf(attachTo) == 'string') attachTo = document.id(attachTo);
 		if (typeOf(toggle) == 'string') toggle = document.id(toggle);
 
-		var elements = Array.from(attachTo),
-			toggles = Array.from(toggle),
+		var elements = Array.convert(attachTo),
+			toggles = Array.convert(toggle),
 			allElements = [].append(elements).combine(toggles),
 			self = this;
 
@@ -128,8 +128,8 @@ Picker.Attach = new Class({
 		if (typeOf(attachTo) == 'string') attachTo = document.id(attachTo);
 		if (typeOf(toggle) == 'string') toggle = document.id(toggle);
 
-		var elements = Array.from(attachTo),
-			toggles = Array.from(toggle),
+		var elements = Array.convert(attachTo),
+			toggles = Array.convert(toggle),
 			allElements = [].append(elements).combine(toggles),
 			self = this;
 
