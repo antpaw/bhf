@@ -1,0 +1,6 @@
+- if attachment.present?
+  - file_blob_url = main_app.route_for(:rails_service_blob, attachment.blob.signed_id, attachment.blob.filename)
+  - if attachment.blob.image?
+    = link_to image_tag(main_app.route_for(:rails_representation, attachment.variant(resize: "200>")), class: 'uploaded_image'), file_blob_url
+  - else
+    = link_to attachment.blob.filename.to_s, file_blob_url, class: 'uploaded_file'

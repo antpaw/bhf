@@ -1,11 +1,7 @@
 = node f, field do
   - file = f.object.send(field.name)
-  - if file.present? && file.attachment.present?
-    - file_blob_url = main_app.route_for(:rails_service_blob, file.blob.signed_id, file.blob.filename)
-    - if file.blob.image?
-      = link_to image_tag(main_app.route_for(:rails_representation, file.variant(resize: "200>")), class: 'uploaded_image'), file_blob_url
-    - else
-      = link_to file.blob.filename.to_s, file_blob_url, class: 'uploaded_file'
+  - if file.present?
+    = render partial: 'bhf/form/column/attachment_presenter', locals: {attachment: file.attachment}
 
     - if f.object.respond_to?(:"#{field.name}_destroy")
       .file_delete

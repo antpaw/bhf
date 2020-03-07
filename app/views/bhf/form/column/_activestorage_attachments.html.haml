@@ -1,0 +1,10 @@
+= node f, field do
+  - f.object.send(field.name).attachments.each do |attachment|
+    - if attachment.present?
+      = render partial: 'bhf/form/column/attachment_presenter', locals: {attachment: attachment}
+      - if f.object.respond_to?(:"#{field.name}_destroy")
+        .file_delete
+          = f.check_box "#{field.name}_destroy"
+          = f.label "#{field.name}_destroy", t('bhf.helpers.file.delete')
+
+  =# f.file_field field.name, direct_upload: true, data: {:'direct-upload-url' => main_app.rails_direct_uploads_url}
