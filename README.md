@@ -28,3 +28,12 @@
 
 Copyright (c) 2014 Anton Pawlik. See LICENSE.txt for
 further details.
+
+
+### Build
+
+    gem install juwelier
+    rake gemspec:generate
+    git commit -m 'Regenerate gemspec for version 1.0.0.beta11' -a
+    gem build bhf.gemspec
+    gem push bhf-1.0.0.beta11.gem
