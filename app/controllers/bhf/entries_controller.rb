@@ -168,7 +168,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     def manage_many_to_many
       return unless params[:has_and_belongs_to_many]
       params[:has_and_belongs_to_many].each_pair do |relation, ids|
-        next unless ids.empty?
+        next if ids.nil? || ids.empty?
         reflection = @model.reflections[relation]
         relation_array = @object.send(relation)
         reflection.klass.unscoped.find(ids.keys).each do |relation_obj|
@@ -208,7 +208,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
       return unless params[:has_many]
       object_id = @object.send(@model.bhf_primary_key)
       params[:has_many].each_pair do |relation, ids|
-        next unless ids.empty?
+        next if ids.nil? || ids.empty?
         reflection = @model.reflections[relation]
         preset_ids = @object.send(relation).collect do |object|
           object.send(object.class.bhf_primary_key).to_s
