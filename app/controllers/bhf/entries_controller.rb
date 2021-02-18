@@ -53,7 +53,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     render file: 'public/404.html', layout: false and return unless @object
 
     before_save
-    if @object.update_attributes(@permited_params)
+    if @object.update(@permited_params)
       manage_relations
       after_save
 

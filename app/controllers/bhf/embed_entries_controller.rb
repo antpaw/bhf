@@ -37,7 +37,7 @@ class Bhf::EmbedEntriesController < Bhf::EntriesController
 
   def update
     before_save
-    if @object.update_attributes(@permited_params)
+    if @object.update(@permited_params)
       manage_many_to_many
       after_save
 
