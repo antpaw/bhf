@@ -20,18 +20,19 @@ module Bhf::Mongoid
         @name = mongoid_field.name
         @klass = mongoid_field.class_name.constantize
         @foreign_key = mongoid_field.key
-        @macro = case mongoid_field.macro
-          when :references_and_referenced_in_many
-            :has_and_belongs_to_many
-          when :references_many
-            :has_many
-          when :references_one
-            :has_one
-          when :referenced_in
-            :belongs_to
-          else
-            mongoid_field.macro
-        end
+        @macro = mongoid_field.class.name.demodulize.underscore.to_sym
+        # @macro = case mongoid_field.macro
+        #   when :references_and_referenced_in_many
+        #     :has_and_belongs_to_many
+        #   when :references_many
+        #     :has_many
+        #   when :references_one
+        #     :has_one
+        #   when :referenced_in
+        #     :belongs_to
+        #   else
+        #     mongoid_field.macro
+        # end
       end
     end
 
@@ -67,7 +68,7 @@ module Bhf::Mongoid
       def reflections
         c = {}
         relations.each do |key, meta|
-          next if meta.macro == :embedded_in
+          next if meta.is_a?(Mongoid::Association::Embedded::EmbeddedIn)
           c[key] = Reflection.new(meta)
         end
         c
@@ -112,7 +113,7 @@ module Bhf::Mongoid
 
       def get_embedded_parent(parent_id, &block)
         relations.each do |key, meta|
-          next unless meta.macro == :embedded_in
+          next unless meta.is_a?(Mongoid::Association::Embedded::EmbeddedIn)
           parent = meta.class_name.constantize
           parent = parent.find(parent_id) rescue nil
 
@@ -130,7 +131,7 @@ module Bhf::Mongoid
           else
             meta.inverse_foreign_key.pluralize
           end.to_s
-          if parent.relations[key_name] and parent.relations[key_name].macro == :embeds_one
+          if parent.relations[key_name] and parent.relations[key_name].is_a?(Mongoid::Association::Embedded::EmbedsOne)
             parent.send("build_#{key_name}", params)
           else
             parent.send(key_name).build(params)
@@ -146,7 +147,7 @@ module Bhf::Mongoid
             meta.inverse_foreign_key.pluralize
           end.to_s
           relation = parent.send(key_name)
-          if parent.relations[key_name].macro == :embeds_one
+          if parent.relations[key_name].is_a?(Mongoid::Association::Embedded::EmbedsOne)
             relation
           else
             relation.find(ref_id)
