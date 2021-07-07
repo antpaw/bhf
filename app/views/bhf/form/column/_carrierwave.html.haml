@@ -1,0 +1,5 @@
+= node f, field do
+  = f.file_field field.name, placeholder: t('bhf.helpers.form.file_field.select'), class: 'preview_input'
+  - value = f.object.send(field.name)
+  - image = value.respond_to?(:midem) && value.midem || value
+  = image_tag(image, width: 400)

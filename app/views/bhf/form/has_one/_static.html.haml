@@ -1,3 +1,2 @@
 - ref_object ||= f.object.send(field.reflection.name)
-- if ref_object
-  = render partial: 'bhf/form/has_many/static', locals: {ref_objects: [ref_object], field: field, f: f}
+= render partial: 'bhf/form/has_many/static', locals: {ref_objects: [ref_object].compact, field: field, f: f}

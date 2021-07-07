@@ -2,7 +2,7 @@
   - ref_objects ||= f.object.send(field.reflection.name)
   - is_one = (field.macro == :has_one || field.macro == :belongs_to)
   .quick_edit_block
-    %p.empty{class: ('hide' unless ref_objects.blank?)}= t 'bhf.helpers.entry.empty', count: (is_one ? 1 : 2)
+    %p.empty{class: ('hide' unless ref_objects.blank? && field.link.try(:hide_create))}= t 'bhf.helpers.entry.empty', count: (is_one ? 1 : 2)
     %ul.relation.quick_edit_inject{class: field.macro}
       - ref_objects.each do |ref_object|
         %li.quick_edit_entry
@@ -22,5 +22,5 @@
         - if field.link && ! field.link.hide_delete
           = link_to '&times;'.html_safe, entry_path(field.link.name, '{object_id}'), method: :delete, class: 'qe_delete js_delete', remote: true, data: {confirm: t('bhf.helpers.promts.confirm', platform_title: field.link.title_singular)}
 
-    - if ! is_one && field.link && ! field.link.hide_create
+    - if ! field.link.try(:hide_create)
       = link_to '+', new_entry_path(field.link.name), class: 'js_add_field plus_button qe_button quick_edit default_form_align'
