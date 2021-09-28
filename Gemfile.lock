@@ -181,7 +181,7 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.20.3, < 2.0)
     rake (13.0.1)
-    rdoc (6.2.1)
+    rdoc (6.3.1)
     ruby_parser (3.14.1)
       sexp_processor (~> 4.9)
     sass-rails (6.0.0)
