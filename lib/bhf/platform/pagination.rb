@@ -25,11 +25,11 @@ module Bhf::Platform
     def create(platform)
       platform_params = template.params[platform.name] || {}
 
-      links = if !(page_links = template.paginate(platform.objects, {
+      links = if !(page_links = template.paginate(platform.objects,
         theme: 'bhf',
         param_name: [platform.name, :page],
         params: template.params.permit!
-      })).blank?
+      )).blank?
         "#{load_more(platform)} #{page_links}"
       elsif platform.objects.total_pages == 1 && platform.objects.size > @offset_to_add
         load_less(platform)
