@@ -68,9 +68,9 @@ pt:
       entries: registros
       info:
         default: "Exibindo <strong>%{offset_start} - %{offset_end}</strong> de <strong>%{count}</strong> %{name} no total"
-        other: "Exibindo <strong>todos %{count}</strong> %{name_plural}"
-        one: "Exibindo <strong>1</strong> %{name_singular}"
-        zero: "Nenhum(a) %{name_zero} encontrado"
+        other: "Exibindo <strong>todos %{count}</strong> %{name}"
+        one: "Exibindo <strong>1</strong> %{name}"
+        zero: "Nenhum(a) %{name} encontrado"
 
     footer:
       state: 'Página renderizada em ~%{time} segundos'

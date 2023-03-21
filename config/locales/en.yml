@@ -69,9 +69,9 @@ en:
       entries: entries
       info:
         default: "Displaying <strong>%{offset_start} - %{offset_end}</strong> of <strong>%{count}</strong> %{name} in total"
-        other: "Displaying <strong>all %{count}</strong> %{name_plural}"
-        one: "Displaying <strong>1</strong> %{name_singular}"
-        zero: "No %{name_zero} found"
+        other: "Displaying <strong>all %{count}</strong> %{name}"
+        one: "Displaying <strong>1</strong> %{name}"
+        zero: "No %{name} found"
 
     footer:
       state: 'Page rendered in ~%{time} seconds'

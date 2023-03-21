@@ -64,8 +64,8 @@ de:
       entries: Einträge
       info:
         default: "Es werden <strong>%{offset_start} - %{offset_end}</strong> von <strong>%{count}</strong> %{name} angezeigt"
-        other: "Es werden <strong>alle %{count}</strong> %{name_plural} angezeigt"
-        one: "Es wird <strong>1</strong> %{name_singular} angezeigt"
+        other: "Es werden <strong>alle %{count}</strong> %{name} angezeigt"
+        one: "Es wird <strong>1</strong> %{name} angezeigt"
         zero: "Es wurde nichts gefunden"
 
     footer:

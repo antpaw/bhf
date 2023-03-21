@@ -51,12 +51,20 @@ module Bhf::Platform
           offset_end: collection.offset_value + collection.limit_value
         })
       else
-        I18n.t('bhf.pagination.info', {
-          name_zero: platform.title,
-          name_singular: platform.title_singular,
-          name_plural: platform.title,
-          count: collection.size
-        })
+        count = collection.size
+        platform_title = case count
+        when 0
+          platform.title
+        when 1
+          platform.title_singular
+        else
+          platform.title
+        end
+
+        I18n.t('bhf.pagination.info',
+          count: count,
+          name: platform_title
+        )
       end.html_safe
     end
 
