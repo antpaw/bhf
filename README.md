@@ -1,6 +1,6 @@
 # bhf
 
-## [Guide and Documentation](http://antpaw.github.io/bhf/)
+## [Guide and Documentation](https://antpaw.github.io/bhf/)
 
 ## Contributing to bhf
 
