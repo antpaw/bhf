@@ -14,3 +14,4 @@ node_modules
 /public/bhf-packs
 /public/bhf-packs-test
 /tmp/*
+bhf-*.gem
