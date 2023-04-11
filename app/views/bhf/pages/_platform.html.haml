@@ -79,7 +79,7 @@
                 = link_to delete_t(platform), entry_path(platform.name, object), method: :delete, remote: true, class: 'icon delete js_delete', data: {type: :json, confirm: t('bhf.helpers.promts.confirm', platform_title: platform.title_singular.titleize)}
       - else
         %td.no_entries{colspan: platform.columns_count}
-          = t 'bhf.pagination.info', name_zero: platform.title.titleize, count: 0
+          = t 'bhf.pagination.info', name: platform.title.titleize, count: 0
           - unless platform.hide_create
             = link_to new_t(platform), new_entry_path(platform.name)
 
