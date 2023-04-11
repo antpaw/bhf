@@ -74,8 +74,8 @@ pt:
 
     footer:
       state: 'Página renderizada em ~%{time} segundos'
-      copy: 'Feito por <a href="http://twitter.com/antpaw">@antpaw</a>'
-      info: 'Mais informações no <a href="http://antpaw.github.io/bhf">GitHub</a>'
+      copy: 'Feito por <a href="https://twitter.com/antpaw">@antpaw</a>'
+      info: 'Mais informações no <a href="https://antpaw.github.io/bhf">GitHub</a>'
 
   attributes:
     _id: 'id'

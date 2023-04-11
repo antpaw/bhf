@@ -14,7 +14,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   gem.name = 'bhf'
-  gem.homepage = 'http://antpaw.github.io/bhf'
+  gem.homepage = 'https://antpaw.github.io/bhf'
   gem.licenses = 'MIT'
   gem.summary = 'A simple to use Rails-Engine-Gem that offers an admin interface for trusted user.'
   gem.description = 'A simple to use Rails-Engine-Gem that offers an admin interface for trusted user. Easy integratable and highly configurable and agnostic. Works with ActiveRecord and Mongoid.'
