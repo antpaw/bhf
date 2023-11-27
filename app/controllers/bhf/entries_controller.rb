@@ -190,16 +190,11 @@ class Bhf::EntriesController < Bhf::ApplicationController
     def manage_has_one
       return unless params[:has_one]
       object_id = @object.send(@model.bhf_primary_key)
-      params[:has_one].each_pair do |relation, id|
-        reflection = @model.reflections[relation]
-        reflection.klass.where(reflection.foreign_key, object_id).each do |ref_object|
-          next if ref_object.send(reflection.klass.bhf_primary_key) == id
-          ref_object.update_attribute(reflection.foreign_key, nil)
-        end
-        unless id.blank?
-          ref_object = reflection.klass.find(id)
-          next if ref_object.send(reflection.foreign_key) == object_id
-          ref_object.update_attribute(reflection.foreign_key, object_id)
+      params[:has_one].each_pair do |relation_name, id|
+        if @object.send(relation_name).try(:id) != id.to_i
+          reflection = @model.reflections[relation_name]
+          assign = reflection.klass.where(id: id).first
+          @object.send("#{relation_name}=", assign)
         end
       end
     end
