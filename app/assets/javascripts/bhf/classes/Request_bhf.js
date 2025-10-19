@@ -37,6 +37,9 @@ Request.bhf = new Class({
 			this.headers['Content-type'] = 'application/x-www-form-urlencoded' + encoding;
 		}
 
+		// Set X-Requested-With header to identify AJAX requests
+		this.headers['X-Requested-With'] = 'XMLHttpRequest';
+
 		if (!url) url = document.location.pathname;
 
 		var trimPosition = url.lastIndexOf('/');

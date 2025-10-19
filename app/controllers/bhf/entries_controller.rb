@@ -253,7 +253,7 @@ class Bhf::EntriesController < Bhf::ApplicationController
     end
 
     def set_quick_edit
-      @quick_edit = request.xhr?
+      @quick_edit = request.headers['X-Requested-With'] == 'XMLHttpRequest'
     end
 
     def redirect_after_save(flash)

@@ -18,7 +18,7 @@ var QuickEdit = new Class({
 		this.newEntry = this.linkElem.hasClass('js_add_field');
 
 		this.fireEvent('startRequest');
-		this.currentRequest = new Request.HTML({
+		this.currentRequest = new Request.bhf({
 			method: 'get',
 			evalScripts: false,
 			url: element.get('href'),

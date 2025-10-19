@@ -1,15 +1,3 @@
-Kaminari::Helpers::Tag.class_eval do
-  def page_url_for(page)
-    if @param_name.is_a?(Array)
-      @params[@param_name[0]] = (@params[@param_name[0]] || {}).merge(@param_name[1] => (page <= 1 ? 1 : page))
-      return @template.url_for @params
-    end
-
-    @template.url_for @params.merge(@param_name => (page <= 1 ? 1 : page))
-  end
-end
-# TODO: monitor https://github.com/amatsuda/kaminari/issues/542#issuecomment-40294388
-
 module Bhf::Platform
 
   class Pagination
@@ -27,8 +15,7 @@ module Bhf::Platform
 
       links = if !(page_links = template.paginate(platform.objects,
         theme: 'bhf',
-        param_name: [platform.name, :page],
-        params: template.params.permit!
+        param_name: "#{platform.name}[page]",
       )).blank?
         "#{load_more(platform)} #{page_links}"
       elsif platform.objects.total_pages == 1 && platform.objects.size > @offset_to_add
@@ -69,7 +56,7 @@ module Bhf::Platform
     end
 
     def load_more(platform, attributes = {}, plus = true)
-      platform_params = template.params[platform.name] || {}
+      platform_params = (template.params[platform.name] || ActionController::Parameters.new).dup
       load_offset = @offset_per_page
       load_offset = platform_params[:per_page].to_i if platform_params[:per_page]
       if plus
@@ -80,6 +67,7 @@ module Bhf::Platform
 
       platform_params.delete(:page)
       platform_params[:per_page] = load_offset
+      platform_params.permit!
 
       direction = plus ? 'more' : 'less'
 

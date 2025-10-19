@@ -2,12 +2,11 @@ class Bhf::PagesController < Bhf::ApplicationController
   before_action :set_page
 
   def show
-    @edit_params = {}
     unless platform_options = @settings.content_for_page(@page)
       raise Exception.new("Page '#{@page}' could not be found")
     end
 
-    if request.xhr?
+    if request.headers['X-Requested-With'] == 'XMLHttpRequest'
       params.each do |key, value|
         return render_platform(key) if value.is_a?(ActionController::Parameters) && value[:page] != nil
       end
@@ -49,8 +48,6 @@ class Bhf::PagesController < Bhf::ApplicationController
       end
 
       page_params = { page: page, per_page: per_page }
-
-      @edit_params[platform.name] = page_params
 
       platform.get_objects(p, page_params)
     end

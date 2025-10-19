@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails',        '>= 5.2.2.1'
+gem 'rails',        '>= 8.0.3'
 gem 'sass-rails',   '>= 6'
 gem 'turbolinks',   '>= 2'
-gem 'kaminari',     '>= 0'
+gem 'kaminari',     '>= 1.2.2'
 gem 'haml-rails',   '>= 0'
 
 

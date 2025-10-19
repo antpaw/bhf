@@ -43,7 +43,7 @@
 	var triggerPlatformPagination = function(href, platform, callback){
 		window.history.pushState({ turbolinks: true, url: href }, '', href);
 		ajaxNote.loading();
-		new Request.HTML({
+		new Request.bhf({
 			method: 'get',
 			url: href,
 			onFailure: function(){
