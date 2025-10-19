@@ -8,7 +8,7 @@ class Bhf::PagesController < Bhf::ApplicationController
 
     if request.headers['X-Requested-With'] == 'XMLHttpRequest'
       params.each do |key, value|
-        return render_platform(key) if value.is_a?(ActionController::Parameters) && value[:page] != nil
+        return render_platform(key) if value.is_a?(ActionController::Parameters)
       end
     end
 

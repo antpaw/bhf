@@ -10,7 +10,7 @@
     - if platform.search_field?
       = s.text_field :text, value: get_value([:search, :text], p), placeholder: t('bhf.helpers.searchform.placeholder')
 
-    - if p && p[:search].is_a?(Hash)
+    - if p && p[:search].is_a?(ActionController::Parameters)
       - p[:search].each do |key, value|
         = s.hidden_field key, value: value, id: nil, class: (:hidden_search if key == 'text')
 

@@ -73,7 +73,8 @@ module Bhf::Platform
 
       parsed_paramas = {
         bhf_area: template.params[:bhf_area],
-        page: template.params[:page]
+        page: template.params[:page],
+        format: nil
       }.merge(platform.name.to_sym => platform_params)
       template.link_to(
         I18n.t("bhf.pagination.load_#{direction}"),
